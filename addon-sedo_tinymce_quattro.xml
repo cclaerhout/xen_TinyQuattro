@@ -1,0 +1,3361 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.0.1" version_id="1" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+  <admin_navigation/>
+  <admin_permissions/>
+  <admin_style_properties/>
+  <admin_templates/>
+  <code_events/>
+  <code_event_listeners>
+    <listener event_id="load_class_controller" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_ControllerPublic" callback_method="listen" active="1" description="Controller Public Listener"/>
+  </code_event_listeners>
+  <cron/>
+  <email_templates/>
+  <optiongroups>
+    <group group_id="tiny_quattro" display_order="11111" debug_only="0"/>
+    <option option_id="quattro_autoresize_max_height" edit_format="spinbox" data_type="integer" can_backup="1">
+      <default_value>380</default_value>
+      <edit_format_params>min=100
+step=50</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="220"/>
+    </option>
+    <option option_id="quattro_autoresize_min_height" edit_format="spinbox" data_type="integer" can_backup="1">
+      <default_value>260</default_value>
+      <edit_format_params>min=50
+step=50</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="210"/>
+    </option>
+    <option option_id="quattro_autosave_ask_before_unload" edit_format="radio" data_type="string" can_backup="1">
+      <default_value>true</default_value>
+      <edit_format_params>false={xen:phrase no}
+true={xen:phrase yes}</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="130"/>
+    </option>
+    <option option_id="quattro_autosave_interval" edit_format="spinbox" data_type="positive_integer" can_backup="1">
+      <default_value>30</default_value>
+      <edit_format_params>min=10
+step=5</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="100"/>
+    </option>
+    <option option_id="quattro_autosave_retention" edit_format="spinbox" data_type="integer" can_backup="1">
+      <default_value>20</default_value>
+      <edit_format_params>min=5
+step=5</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="110"/>
+    </option>
+    <option option_id="quattro_extracolors" edit_format="radio" data_type="boolean" can_backup="1">
+      <default_value>1</default_value>
+      <edit_format_params>0={xen:phrase no}
+1={xen:phrase yes}</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="35"/>
+    </option>
+    <option option_id="quattro_extralists" edit_format="radio" data_type="boolean" can_backup="1">
+      <default_value></default_value>
+      <edit_format_params>0={xen:phrase no}
+1={xen:phrase yes}</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="40"/>
+    </option>
+    <option option_id="quattro_fastunlink" edit_format="radio" data_type="boolean" can_backup="1">
+      <default_value>1</default_value>
+      <edit_format_params>0={xen:phrase no}
+1={xen:phrase yes}</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="25"/>
+    </option>
+    <option option_id="quattro_frightmode" edit_format="radio" data_type="boolean" can_backup="1">
+      <default_value>1</default_value>
+      <edit_format_params>0={xen:phrase no}
+1={xen:phrase yes}</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="20"/>
+    </option>
+    <option option_id="quattro_geckofullfix" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="9900"/>
+    </option>
+    <option option_id="quattro_hidepath" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>1</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="430"/>
+    </option>
+    <option option_id="quattro_iconsize" edit_format="select" data_type="string" can_backup="1">
+      <default_value>normal</default_value>
+      <edit_format_params>normal={xen:phrase sedo_quattro_normal}
+small={xen:phrase sedo_quattro_small}</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="1"/>
+    </option>
+    <option option_id="quattro_statusbar" edit_format="radio" data_type="string" can_backup="1">
+      <default_value>true</default_value>
+      <edit_format_params>false={xen:phrase no}
+true={xen:phrase yes}</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="400"/>
+    </option>
+    <option option_id="quattro_wordcount" edit_format="select" data_type="string" can_backup="1">
+      <default_value>words</default_value>
+      <edit_format_params>no={xen:phrase no}
+words={xen:phrase sedo_quattro_wordcount_words}
+char={xen:phrase sedo_quattro_wordcount_characters}
+charwp={xen:phrase sedo_quattro_wordcount_characterswithwhitespaces}</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="420"/>
+    </option>
+    <option option_id="quattro_xsmilies" edit_format="spinbox" data_type="integer" can_backup="1">
+      <default_value>12</default_value>
+      <edit_format_params>min=0
+step=1</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="5"/>
+    </option>
+  </optiongroups>
+  <permissions>
+    <permission_groups/>
+    <permissions/>
+    <interface_groups/>
+  </permissions>
+  <phrases>
+    <phrase title="option_group_tiny_quattro" version_id="0" version_string="1.0"><![CDATA[TinyQuattro]]></phrase>
+    <phrase title="option_group_tiny_quattro_description" version_id="0" version_string="1.0"><![CDATA[Options to customise TinyMCE 4]]></phrase>
+    <phrase title="option_quattro_autoresize_max_height" version_id="0" version_string="1.0"><![CDATA[Editor autoresize maximum height]]></phrase>
+    <phrase title="option_quattro_autoresize_max_height_explain" version_id="0" version_string="1.0"><![CDATA[Once the maximum height is reached, an overflow will be applied.]]></phrase>
+    <phrase title="option_quattro_autoresize_min_height" version_id="0" version_string="1.0"><![CDATA[Editor autoresize minimum height]]></phrase>
+    <phrase title="option_quattro_autoresize_min_height_explain" version_id="0" version_string="1.0"><![CDATA[This minimum height will be activated when the editor is focused.]]></phrase>
+    <phrase title="option_quattro_autosave_ask_before_unload" version_id="0" version_string="1.0"><![CDATA[Ask before unload?]]></phrase>
+    <phrase title="option_quattro_autosave_ask_before_unload_explain" version_id="0" version_string="1.0"><![CDATA[Once activated, this option will display a popup asking the user if he really wants to leave the page whereas the editor is not empty.]]></phrase>
+    <phrase title="option_quattro_autosave_interval" version_id="0" version_string="1.0"><![CDATA[Autosave Interval]]></phrase>
+    <phrase title="option_quattro_autosave_interval_explain" version_id="0" version_string="1.0"><![CDATA[Select here the interval to auto save your draft (unit: seconds)]]></phrase>
+    <phrase title="option_quattro_autosave_retention" version_id="0" version_string="1.0"><![CDATA[Autosave Retention]]></phrase>
+    <phrase title="option_quattro_autosave_retention_explain" version_id="0" version_string="1.0"><![CDATA[Select here how long your draft will be kept in memory (unit: minutes)]]></phrase>
+    <phrase title="option_quattro_extracolors" version_id="0" version_string="1.0"><![CDATA[Enable extra colors?]]></phrase>
+    <phrase title="option_quattro_extracolors_explain" version_id="0" version_string="1.0"><![CDATA[This option will add a menu to the colors buttons (frontcolor/backcolor) to load a color picker.]]></phrase>
+    <phrase title="option_quattro_extralists" version_id="0" version_string="1.0"><![CDATA[Enable extra lists?]]></phrase>
+    <phrase title="option_quattro_extralists_explain" version_id="0" version_string="1.0"><![CDATA[The TinyMCE default list buttons have several options incompatible with the XenForo parser (it would need to be extendable to try to integrate them). This option must be set to "no" until XenForo becomes more open.]]></phrase>
+    <phrase title="option_quattro_fastunlink" version_id="0" version_string="1.0"><![CDATA[Enable fast unlink menu?]]></phrase>
+    <phrase title="option_quattro_fastunlink_explain" version_id="0" version_string="1.0"><![CDATA[This option will add a fast menu with an unlink option to the link button]]></phrase>
+    <phrase title="option_quattro_frightmode" version_id="0" version_string="1.0"><![CDATA[Enable "Fright" mode?]]></phrase>
+    <phrase title="option_quattro_frightmode_explain" version_id="0" version_string="1.0"><![CDATA[The fright mode will make some buttons float on the right of the editor]]></phrase>
+    <phrase title="option_quattro_geckofullfix" version_id="0" version_string="1.0"><![CDATA[[DEBUG] Firefox full overlay fix]]></phrase>
+    <phrase title="option_quattro_geckofullfix_explain" version_id="0" version_string="1.0"><![CDATA[If you see any problems with TinyMCE  once loaded in an overlay, enable this option. This will modify the XenForo Overlay (provided by jQueryTools) configuration.]]></phrase>
+    <phrase title="option_quattro_hidepath" version_id="0" version_string="1.0"><![CDATA[Hide path?]]></phrase>
+    <phrase title="option_quattro_hidepath_explain" version_id="0" version_string="1.0"><![CDATA[This will hide the html path inside the status bar.]]></phrase>
+    <phrase title="option_quattro_iconsize" version_id="0" version_string="1.0"><![CDATA[Buttons size:]]></phrase>
+    <phrase title="option_quattro_iconsize_explain" version_id="0" version_string="1.0"><![CDATA[Select here if the size of your buttons]]></phrase>
+    <phrase title="option_quattro_statusbar" version_id="0" version_string="1.0"><![CDATA[Display the status bar?]]></phrase>
+    <phrase title="option_quattro_statusbar_explain" version_id="0" version_string="1.0"><![CDATA[This option will display a status bar below the editor]]></phrase>
+    <phrase title="option_quattro_wordcount" version_id="0" version_string="1.0"><![CDATA[Enable word count?]]></phrase>
+    <phrase title="option_quattro_wordcount_explain" version_id="0" version_string="1.0"><![CDATA[This option will activate the TinyMCE word count plugin.]]></phrase>
+    <phrase title="option_quattro_xsmilies" version_id="0" version_string="1.0"><![CDATA[Number of smilies?]]></phrase>
+    <phrase title="option_quattro_xsmilies_explain" version_id="0" version_string="1.0"><![CDATA[Select here the number of smilies you would like to display in the button menu. Set 0 if you want to display all of them.]]></phrase>
+    <phrase title="quattro_align_justify" version_id="0" version_string="1.0"><![CDATA[Justify align]]></phrase>
+    <phrase title="sedo_quattro_characters" version_id="0" version_string="1.0"><![CDATA[Characters: {0}]]></phrase>
+    <phrase title="sedo_quattro_color" version_id="0" version_string="1.0"><![CDATA[Selected color]]></phrase>
+    <phrase title="sedo_quattro_colorname" version_id="0" version_string="1.0"><![CDATA[Color name]]></phrase>
+    <phrase title="sedo_quattro_colors_picker" version_id="0" version_string="1.0"><![CDATA[Colors picker]]></phrase>
+    <phrase title="sedo_quattro_font_family" version_id="0" version_string="1.0"><![CDATA[Font family]]></phrase>
+    <phrase title="sedo_quattro_font_size" version_id="0" version_string="1.0"><![CDATA[Font size]]></phrase>
+    <phrase title="sedo_quattro_fullscreen" version_id="0" version_string="1.0"><![CDATA[Fullscreen]]></phrase>
+    <phrase title="sedo_quattro_full_picker" version_id="0" version_string="1.0"><![CDATA[Full picker]]></phrase>
+    <phrase title="sedo_quattro_html" version_id="0" version_string="1.0"><![CDATA[HTML]]></phrase>
+    <phrase title="sedo_quattro_link" version_id="0" version_string="1.0"><![CDATA[Link options]]></phrase>
+    <phrase title="sedo_quattro_link_or_mail_edit" version_id="0" version_string="1.0"><![CDATA[Edit your link or email]]></phrase>
+    <phrase title="sedo_quattro_link_or_mail_new" version_id="0" version_string="1.0"><![CDATA[Insert a new link or email]]></phrase>
+    <phrase title="sedo_quattro_link_text" version_id="0" version_string="1.0"><![CDATA[Text of your link]]></phrase>
+    <phrase title="sedo_quattro_link_url" version_id="0" version_string="1.0"><![CDATA[Url of your link]]></phrase>
+    <phrase title="sedo_quattro_mail" version_id="0" version_string="1.0"><![CDATA[Email options]]></phrase>
+    <phrase title="sedo_quattro_mail_text" version_id="0" version_string="1.0"><![CDATA[Text of your Email]]></phrase>
+    <phrase title="sedo_quattro_mail_url" version_id="0" version_string="1.0"><![CDATA[Email address]]></phrase>
+    <phrase title="sedo_quattro_more_colors" version_id="0" version_string="1.0"><![CDATA[More colors]]></phrase>
+    <phrase title="sedo_quattro_named_picker" version_id="0" version_string="1.0"><![CDATA[Color name picker]]></phrase>
+    <phrase title="sedo_quattro_nonbreaking" version_id="0" version_string="1.0"><![CDATA[Insert nonbreaking space]]></phrase>
+    <phrase title="sedo_quattro_normal" version_id="0" version_string="1.0"><![CDATA[Normal]]></phrase>
+    <phrase title="sedo_quattro_palette" version_id="0" version_string="1.0"><![CDATA[Color palette]]></phrase>
+    <phrase title="sedo_quattro_php" version_id="0" version_string="1.0"><![CDATA[PHP]]></phrase>
+    <phrase title="sedo_quattro_restoredraft" version_id="0" version_string="1.0"><![CDATA[Restore last draft]]></phrase>
+    <phrase title="sedo_quattro_rgb_picker" version_id="0" version_string="1.0"><![CDATA[RGB picker]]></phrase>
+    <phrase title="sedo_quattro_small" version_id="0" version_string="1.0"><![CDATA[Small]]></phrase>
+    <phrase title="sedo_quattro_specialcharacters" version_id="0" version_string="1.0"><![CDATA[Special characters]]></phrase>
+    <phrase title="sedo_quattro_wordcount_characters" version_id="0" version_string="1.0"><![CDATA[Yes - count characters]]></phrase>
+    <phrase title="sedo_quattro_wordcount_characterswithwhitespaces" version_id="0" version_string="1.0"><![CDATA[Yes - count characters & white space]]></phrase>
+    <phrase title="sedo_quattro_wordcount_words" version_id="0" version_string="1.0"><![CDATA[Yes - count words (default)]]></phrase>
+    <phrase title="sedo_quattro_words" version_id="0" version_string="1.0"><![CDATA[Words: {0}]]></phrase>
+    <phrase title="style_property_group_sedo_tinyquattro_master" version_id="0" version_string="1.0"><![CDATA[TinyMCE Quattro]]></phrase>
+    <phrase title="style_property_group_sedo_tinyquattro_master_desc" version_id="0" version_string="1.0"><![CDATA[Configure the layout of TinyMCE 4]]></phrase>
+    <phrase title="style_property_tinyquattro_btngrp_active_bckg_color_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btngrp_active_bckg_color_master" version_id="0" version_string="1.0"><![CDATA[Button group active background color]]></phrase>
+    <phrase title="style_property_tinyquattro_btngrp_active_border_color_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btngrp_active_border_color_master" version_id="0" version_string="1.0"><![CDATA[Button group active border & color]]></phrase>
+    <phrase title="style_property_tinyquattro_btngrp_active_grdt_from_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btngrp_active_grdt_from_ie_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btngrp_active_grdt_from_ie_master" version_id="0" version_string="1.0"><![CDATA[[IE] Button group active gradient from:]]></phrase>
+    <phrase title="style_property_tinyquattro_btngrp_active_grdt_from_master" version_id="0" version_string="1.0"><![CDATA[Button group active gradient from:]]></phrase>
+    <phrase title="style_property_tinyquattro_btngrp_active_grdt_to_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btngrp_active_grdt_to_ie_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btngrp_active_grdt_to_ie_master" version_id="0" version_string="1.0"><![CDATA[[IE] Button group active gradient to:]]></phrase>
+    <phrase title="style_property_tinyquattro_btngrp_active_grdt_to_master" version_id="0" version_string="1.0"><![CDATA[Button group active gradient to:]]></phrase>
+    <phrase title="style_property_tinyquattro_btngrp_disable_border_color_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btngrp_disable_border_color_master" version_id="0" version_string="1.0"><![CDATA[Button group disable border & color]]></phrase>
+    <phrase title="style_property_tinyquattro_btngrp_hov_bckg_color_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btngrp_hov_bckg_color_master" version_id="0" version_string="1.0"><![CDATA[Button group hover background color]]></phrase>
+    <phrase title="style_property_tinyquattro_btngrp_hov_border_color_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btngrp_hov_border_color_master" version_id="0" version_string="1.0"><![CDATA[Button group hover border & color]]></phrase>
+    <phrase title="style_property_tinyquattro_btngrp_hov_gradient_from_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btngrp_hov_gradient_from_ie_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btngrp_hov_gradient_from_ie_master" version_id="0" version_string="1.0"><![CDATA[[IE] Button group hover gradient from:]]></phrase>
+    <phrase title="style_property_tinyquattro_btngrp_hov_gradient_from_master" version_id="0" version_string="1.0"><![CDATA[Button group hover gradient from:]]></phrase>
+    <phrase title="style_property_tinyquattro_btngrp_hov_gradient_to_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btngrp_hov_gradient_to_ie_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btngrp_hov_gradient_to_ie_master" version_id="0" version_string="1.0"><![CDATA[[IE] Button group hover gradient to:]]></phrase>
+    <phrase title="style_property_tinyquattro_btngrp_hov_gradient_to_master" version_id="0" version_string="1.0"><![CDATA[Button group hover gradient to:]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_active_bckg_color_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_active_bckg_color_master" version_id="0" version_string="1.0"><![CDATA[Button active background color]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_active_border_color_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_active_border_color_master" version_id="0" version_string="1.0"><![CDATA[Button active border & color]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_active_gradient_from_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_active_gradient_from_ie_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_active_gradient_from_ie_master" version_id="0" version_string="1.0"><![CDATA[[IE] Button active gradient from:]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_active_gradient_from_master" version_id="0" version_string="1.0"><![CDATA[Button active gradient from:]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_active_gradient_to_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_active_gradient_to_ie_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_active_gradient_to_ie_master" version_id="0" version_string="1.0"><![CDATA[[IE] Button active gradient to:]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_active_gradient_to_master" version_id="0" version_string="1.0"><![CDATA[Button active gradient to:]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_bckg_color_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_bckg_color_master" version_id="0" version_string="1.0"><![CDATA[Button background color]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_border_color_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_border_color_master" version_id="0" version_string="1.0"><![CDATA[Button border & color]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_gradient_from_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_gradient_from_ie_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_gradient_from_ie_master" version_id="0" version_string="1.0"><![CDATA[[IE] Button gradient from:]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_gradient_from_master" version_id="0" version_string="1.0"><![CDATA[Button gradient from:]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_gradient_to_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_gradient_to_ie_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_gradient_to_ie_master" version_id="0" version_string="1.0"><![CDATA[[IE] Button gradient to:]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_gradient_to_master" version_id="0" version_string="1.0"><![CDATA[Button gradient to:]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_hov_bckg_color_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_hov_bckg_color_master" version_id="0" version_string="1.0"><![CDATA[Button hover background color]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_hov_border_color_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_hov_border_color_master" version_id="0" version_string="1.0"><![CDATA[Button hover border & color]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_hov_gradient_from_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_hov_gradient_from_ie_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_hov_gradient_from_ie_master" version_id="0" version_string="1.0"><![CDATA[[IE] Button hover gradient from:]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_hov_gradient_from_master" version_id="0" version_string="1.0"><![CDATA[Button hover gradient from:]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_hov_gradient_to_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_hov_gradient_to_ie_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_hov_gradient_to_ie_master" version_id="0" version_string="1.0"><![CDATA[[IE] Button hover gradient to:]]></phrase>
+    <phrase title="style_property_tinyquattro_btn_hov_gradient_to_master" version_id="0" version_string="1.0"><![CDATA[Button hover gradient to:]]></phrase>
+    <phrase title="style_property_tinyquattro_button_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_button_master" version_id="0" version_string="1.0"><![CDATA[Button]]></phrase>
+    <phrase title="style_property_tinyquattro_focus_boder_description_master" version_id="0" version_string="1.0"><![CDATA[The color will be used in many other properties]]></phrase>
+    <phrase title="style_property_tinyquattro_focus_boder_master" version_id="0" version_string="1.0"><![CDATA[Border focus]]></phrase>
+    <phrase title="style_property_tinyquattro_menuitem_font_disable_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_menuitem_font_disable_master" version_id="0" version_string="1.0"><![CDATA[Menu item font (disable)]]></phrase>
+    <phrase title="style_property_tinyquattro_menuitem_font_hover_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_menuitem_font_hover_master" version_id="0" version_string="1.0"><![CDATA[Menu item font (hover)]]></phrase>
+    <phrase title="style_property_tinyquattro_menuitem_font_normal_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_menuitem_font_normal_master" version_id="0" version_string="1.0"><![CDATA[Menu item font (normal)]]></phrase>
+    <phrase title="style_property_tinyquattro_panel_background_color_description_master" version_id="0" version_string="1.0"><![CDATA[This color will be also use in different areas of the editor.]]></phrase>
+    <phrase title="style_property_tinyquattro_panel_background_color_master" version_id="0" version_string="1.0"><![CDATA[Panel background color]]></phrase>
+    <phrase title="style_property_tinyquattro_panel_border_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_panel_border_master" version_id="0" version_string="1.0"><![CDATA[Panel border]]></phrase>
+    <phrase title="style_property_tinyquattro_panel_gradient_from_description_master" version_id="0" version_string="1.0"><![CDATA[This color will be also use in different areas of the editor.]]></phrase>
+    <phrase title="style_property_tinyquattro_panel_gradient_from_ie_description_master" version_id="0" version_string="1.0"><![CDATA[Type here the hexa color you choose above with the prefix "#ff". Example for the color "#fdfdfd", type: #fffdfdfd (#ff+fdfdfd). The ff prefix only means the color will be opaque.]]></phrase>
+    <phrase title="style_property_tinyquattro_panel_gradient_from_ie_master" version_id="0" version_string="1.0"><![CDATA[[Old IE] Panel gradient from:]]></phrase>
+    <phrase title="style_property_tinyquattro_panel_gradient_from_master" version_id="0" version_string="1.0"><![CDATA[Panel gradient from:]]></phrase>
+    <phrase title="style_property_tinyquattro_panel_gradient_to_description_master" version_id="0" version_string="1.0"><![CDATA[This color will be also use in different areas of the editor.]]></phrase>
+    <phrase title="style_property_tinyquattro_panel_gradient_to_ie_description_master" version_id="0" version_string="1.0"><![CDATA[Same rules than above.]]></phrase>
+    <phrase title="style_property_tinyquattro_panel_gradient_to_ie_master" version_id="0" version_string="1.0"><![CDATA[[Old IE] Panel gradient to:]]></phrase>
+    <phrase title="style_property_tinyquattro_panel_gradient_to_master" version_id="0" version_string="1.0"><![CDATA[Panel gradient to:]]></phrase>
+    <phrase title="style_property_tinyquattro_primary_background_color_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_primary_background_color_master" version_id="0" version_string="1.0"><![CDATA[Primary background color]]></phrase>
+    <phrase title="style_property_tinyquattro_primary_border_color_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_primary_border_color_master" version_id="0" version_string="1.0"><![CDATA[Primary border & color]]></phrase>
+    <phrase title="style_property_tinyquattro_primary_gradient_from_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_primary_gradient_from_ie_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_primary_gradient_from_ie_master" version_id="0" version_string="1.0"><![CDATA[[Old IE] Primary gradient from:]]></phrase>
+    <phrase title="style_property_tinyquattro_primary_gradient_from_master" version_id="0" version_string="1.0"><![CDATA[Primary grandient from:]]></phrase>
+    <phrase title="style_property_tinyquattro_primary_gradient_to_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_primary_gradient_to_ie_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_primary_gradient_to_ie_master" version_id="0" version_string="1.0"><![CDATA[[Old IE] Primary gradient to:]]></phrase>
+    <phrase title="style_property_tinyquattro_primary_gradient_to_master" version_id="0" version_string="1.0"><![CDATA[Primary grandient to:]]></phrase>
+    <phrase title="style_property_tinyquattro_primary_hover_bck_color_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_primary_hover_bck_color_master" version_id="0" version_string="1.0"><![CDATA[Primary hover background color]]></phrase>
+    <phrase title="style_property_tinyquattro_primary_hover_grdt_from_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_primary_hover_grdt_from_master" version_id="0" version_string="1.0"><![CDATA[Primary hover grandient from:]]></phrase>
+    <phrase title="style_property_tinyquattro_primary_hover_grdt_to_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_primary_hover_grdt_to_master" version_id="0" version_string="1.0"><![CDATA[Primary hover grandient to:]]></phrase>
+    <phrase title="style_property_tinyquattro_primary_hov_border_color_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_primary_hov_border_color_master" version_id="0" version_string="1.0"><![CDATA[Primary hover border & color]]></phrase>
+    <phrase title="style_property_tinyquattro_primary_hov_grdt_from_ie_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_primary_hov_grdt_from_ie_master" version_id="0" version_string="1.0"><![CDATA[[IE] Primary hover gradient from:]]></phrase>
+    <phrase title="style_property_tinyquattro_primary_hov_grdt_to_ie_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_primary_hov_grdt_to_ie_master" version_id="0" version_string="1.0"><![CDATA[[IE] Primary hover gradient to:]]></phrase>
+    <phrase title="style_property_tinyquattro_standard_boder_description_master" version_id="0" version_string="1.0"><![CDATA[This border is used in several elements.]]></phrase>
+    <phrase title="style_property_tinyquattro_standard_boder_master" version_id="0" version_string="1.0"><![CDATA[Border standard]]></phrase>
+    <phrase title="style_property_tinyquattro_win_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_win_foot_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_win_foot_master" version_id="0" version_string="1.0"><![CDATA[Window (modal) foot]]></phrase>
+    <phrase title="style_property_tinyquattro_win_head_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_win_head_master" version_id="0" version_string="1.0"><![CDATA[Window (modal) head]]></phrase>
+    <phrase title="style_property_tinyquattro_win_master" version_id="0" version_string="1.0"><![CDATA[Window (modal)]]></phrase>
+  </phrases>
+  <route_prefixes/>
+  <style_properties>
+    <property property_name="tinyquattro_panel_border" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Panel border" description="" css_components="border" scalar_type="" scalar_parameters="" display_order="10000" sub_group=""><![CDATA[{"border-color":"rgb(158, 158, 158)","border-style":"solid","border-width":"0"}]]></property>
+    <property property_name="tinyquattro_panel_background_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Panel background color" description="This color will be also use in different areas of the editor." css_components="" scalar_type="color" scalar_parameters="" display_order="100" sub_group="panel"><![CDATA[#f0f0f0]]></property>
+    <property property_name="tinyquattro_panel_gradient_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Panel gradient from:" description="This color will be also use in different areas of the editor." css_components="" scalar_type="color" scalar_parameters="" display_order="110" sub_group="panel"><![CDATA[#fdfdfd]]></property>
+    <property property_name="tinyquattro_panel_gradient_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Panel gradient to:" description="This color will be also use in different areas of the editor." css_components="" scalar_type="color" scalar_parameters="" display_order="120" sub_group="panel"><![CDATA[#ddd]]></property>
+    <property property_name="tinyquattro_panel_gradient_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[Old IE] Panel gradient from:" description="Type here the hexa color you choose above with the prefix &quot;#ff&quot;. Example for the color &quot;#fdfdfd&quot;, type: #fffdfdfd (#ff+fdfdfd). The ff prefix only means the color will be opaque." css_components="" scalar_type="" scalar_parameters="" display_order="130" sub_group="panel"><![CDATA[#fffdfdfd]]></property>
+    <property property_name="tinyquattro_panel_gradient_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[Old IE] Panel gradient to:" description="Same rules than above." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="140" sub_group="panel"><![CDATA[#ffdddddd]]></property>
+    <property property_name="tinyquattro_primary_background_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Primary background color" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="1000" sub_group="primary"><![CDATA[#006dcc]]></property>
+    <property property_name="tinyquattro_primary_gradient_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Primary grandient from:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="1010" sub_group="primary"><![CDATA[#08c]]></property>
+    <property property_name="tinyquattro_primary_gradient_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Primary grandient to:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="1020" sub_group="primary"><![CDATA[#04c]]></property>
+    <property property_name="tinyquattro_primary_gradient_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[Old IE] Primary gradient from:" description="" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="1030" sub_group="primary"><![CDATA[#ff0088cc]]></property>
+    <property property_name="tinyquattro_primary_gradient_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[Old IE] Primary gradient to:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="1040" sub_group="primary"><![CDATA[#ff0044cc]]></property>
+    <property property_name="tinyquattro_primary_border_color" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Primary border &amp; color" description="" css_components="text,border,extra" scalar_type="" scalar_parameters="" display_order="10200" sub_group=""><![CDATA[{"border-color":"#c5c5c5","color":"rgb(255, 255, 255)","extra":"text-shadow: 0 1px 1px rgba(255,255,255,0.75);"}]]></property>
+    <property property_name="tinyquattro_primary_hover_bck_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Primary hover background color" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="1100" sub_group="primary_hover"><![CDATA[#005fb3]]></property>
+    <property property_name="tinyquattro_primary_hover_grdt_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Primary hover grandient from:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="1110" sub_group="primary_hover"><![CDATA[#0077b3]]></property>
+    <property property_name="tinyquattro_primary_hover_grdt_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Primary hover grandient to:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="1120" sub_group="primary_hover"><![CDATA[#003cb3]]></property>
+    <property property_name="tinyquattro_primary_hov_grdt_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Primary hover gradient from:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="1130" sub_group="primary_hover"><![CDATA[#ff0077b3]]></property>
+    <property property_name="tinyquattro_primary_hov_grdt_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Primary hover gradient to:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="1140" sub_group="primary_hover"><![CDATA[#ff003cb3]]></property>
+    <property property_name="tinyquattro_primary_hov_border_color" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Primary hover border &amp; color" description="" css_components="text,border,extra" scalar_type="" scalar_parameters="" display_order="10210" sub_group=""><![CDATA[{"border-color":"#c5c5c5","color":"rgb(255, 255, 255)","extra":"text-shadow: 0 1px 1px rgba(255,255,255,0.75);"}]]></property>
+    <property property_name="tinyquattro_btn_bckg_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button background color" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="200" sub_group="button"><![CDATA[#f0f0f0]]></property>
+    <property property_name="tinyquattro_btn_gradient_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button gradient from:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="210" sub_group="button"><![CDATA[#fff]]></property>
+    <property property_name="tinyquattro_btn_gradient_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button gradient to:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="220" sub_group="button"><![CDATA[#d9d9d9]]></property>
+    <property property_name="tinyquattro_btn_gradient_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button gradient from:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="230" sub_group="button"><![CDATA[#ffffffff]]></property>
+    <property property_name="tinyquattro_btn_gradient_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button gradient to:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="240" sub_group="button"><![CDATA[#ffd9d9d9]]></property>
+    <property property_name="tinyquattro_btn_border_color" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Button border &amp; color" description="" css_components="text,border,extra" scalar_type="" scalar_parameters="" display_order="10040" sub_group=""><![CDATA[{"border-color":"#c5c5c5","border-radius":"3px","border-style":"solid","border-width":"1px","color":"rgb(51, 51, 51)","extra":"text-shadow: 0 1px 1px rgba(255,255,255,0.75);\n-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);\n-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);\nbox-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);"}]]></property>
+    <property property_name="tinyquattro_btn_hov_bckg_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button hover background color" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="400" sub_group="button_hover"><![CDATA[#e3e3e3]]></property>
+    <property property_name="tinyquattro_btn_hov_gradient_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button hover gradient from:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="410" sub_group="button_hover"><![CDATA[#f2f2f2]]></property>
+    <property property_name="tinyquattro_btn_hov_gradient_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button hover gradient to:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="420" sub_group="button_hover"><![CDATA[#ccc]]></property>
+    <property property_name="tinyquattro_btn_hov_gradient_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button hover gradient from:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="430" sub_group="button_hover"><![CDATA[#fff2f2f2]]></property>
+    <property property_name="tinyquattro_btn_hov_gradient_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button hover gradient to:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="440" sub_group="button_hover"><![CDATA[#ffcccccc]]></property>
+    <property property_name="tinyquattro_btn_hov_border_color" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Button hover border &amp; color" description="" css_components="text,border,extra" scalar_type="" scalar_parameters="" display_order="10050" sub_group=""><![CDATA[{"border-color":"#c5c5c5","color":"rgb(51, 51, 51)","extra":"text-shadow: 0 1px 1px rgba(255,255,255,0.75);","text-decoration":{"none":"none"}}]]></property>
+    <property property_name="tinyquattro_btn_active_bckg_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button active background color" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="500" sub_group="button_active"><![CDATA[#d6d6d6]]></property>
+    <property property_name="tinyquattro_btn_active_gradient_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button active gradient from:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="510" sub_group="button_active"><![CDATA[#e6e6e6]]></property>
+    <property property_name="tinyquattro_btn_active_gradient_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button active gradient to:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="520" sub_group="button_active"><![CDATA[#bfbfbf]]></property>
+    <property property_name="tinyquattro_btn_active_gradient_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button active gradient from:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="530" sub_group="button_active"><![CDATA[#ffe6e6e6]]></property>
+    <property property_name="tinyquattro_btn_active_gradient_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button active gradient to:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="540" sub_group="button_active"><![CDATA[#ffbfbfbf]]></property>
+    <property property_name="tinyquattro_btn_active_border_color" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Button active border &amp; color" description="" css_components="text,border,extra" scalar_type="" scalar_parameters="" display_order="10060" sub_group=""><![CDATA[{"border-color":"#c5c5c5","color":"rgb(51, 51, 51)","extra":"text-shadow: 0 1px 1px rgba(255,255,255,0.75);\n-webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);\n-moz-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);\nbox-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);"}]]></property>
+    <property property_name="tinyquattro_btngrp_hov_bckg_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button group hover background color" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="600" sub_group="button_group_hover"><![CDATA[#e3e3e3]]></property>
+    <property property_name="tinyquattro_btngrp_hov_gradient_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button group hover gradient from:" description="" css_components="text,background,border,layout,extra" scalar_type="color" scalar_parameters="" display_order="610" sub_group="button_group_hover"><![CDATA[#f2f2f2]]></property>
+    <property property_name="tinyquattro_btngrp_hov_gradient_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button group hover gradient to:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="620" sub_group="button_group_hover"><![CDATA[#ccc]]></property>
+    <property property_name="tinyquattro_btngrp_hov_gradient_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button group hover gradient from:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="630" sub_group="button_group_hover"><![CDATA[#fff2f2f2]]></property>
+    <property property_name="tinyquattro_btngrp_hov_gradient_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button group hover gradient to:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="640" sub_group="button_group_hover"><![CDATA[#ffcccccc]]></property>
+    <property property_name="tinyquattro_btngrp_hov_border_color" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Button group hover border &amp; color" description="" css_components="text,border,extra" scalar_type="" scalar_parameters="" display_order="10010" sub_group=""><![CDATA[{"border-color":"#c5c5c5","color":"rgb(51, 51, 51)","extra":"text-shadow: 0 1px 1px rgba(255,255,255,0.75);"}]]></property>
+    <property property_name="tinyquattro_btngrp_active_bckg_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button group active background color" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="700" sub_group="button_group_active"><![CDATA[#d6d6d6]]></property>
+    <property property_name="tinyquattro_btngrp_active_grdt_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button group active gradient from:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="710" sub_group="button_group_active"><![CDATA[#e6e6e6]]></property>
+    <property property_name="tinyquattro_btngrp_active_grdt_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button group active gradient to:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="720" sub_group="button_group_active"><![CDATA[#bfbfbf]]></property>
+    <property property_name="tinyquattro_btngrp_active_grdt_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button group active gradient from:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="730" sub_group="button_group_active"><![CDATA[#ffe6e6e6]]></property>
+    <property property_name="tinyquattro_btngrp_active_grdt_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button group active gradient to:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="740" sub_group="button_group_active"><![CDATA[#ffbfbfbf]]></property>
+    <property property_name="tinyquattro_btngrp_active_border_color" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Button group active border &amp; color" description="" css_components="text,border,extra" scalar_type="" scalar_parameters="" display_order="10020" sub_group=""><![CDATA[{"border-color":"#c5c5c5","color":"rgb(51, 51, 51)","extra":"text-shadow: 0 1px 1px rgba(255,255,255,0.75);\n-webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);\n-moz-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);\nbox-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);"}]]></property>
+    <property property_name="tinyquattro_btngrp_disable_border_color" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Button group disable border &amp; color" description="" css_components="text,border,extra" scalar_type="" scalar_parameters="" display_order="10030" sub_group=""><![CDATA[{"border-color":"#c5c5c5","color":"rgb(51, 51, 51)","extra":"text-shadow: 0 1px 1px rgba(255,255,255,0.75);\n-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);\n-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);\nbox-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);"}]]></property>
+    <property property_name="tinyquattro_standard_boder" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Border standard" description="This border is used in several elements." css_components="border" scalar_type="" scalar_parameters="" display_order="11000" sub_group=""><![CDATA[{"border-color":"rgb(197, 197, 197)","border-style":"solid","border-width":"1px"}]]></property>
+    <property property_name="tinyquattro_focus_boder" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Border focus" description="The color will be used in many other properties" css_components="border" scalar_type="" scalar_parameters="" display_order="11010" sub_group=""><![CDATA[{"border-color":"rgba(82, 168, 236, 0.38)","border-style":"solid","border-width":"1px"}]]></property>
+    <property property_name="tinyquattro_win_head" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Window (modal) head" description="" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="20010" sub_group=""><![CDATA[{"background-color":"rgb(252, 250, 250)","border-bottom-color":"#EEE","border-bottom-style":"solid","border-bottom-width":"1px","extra":"position: relative;","padding-bottom":"9px","padding-left":"15px","padding-right":"15px","padding-top":"9px"}]]></property>
+    <property property_name="tinyquattro_win_foot" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Window (modal) foot" description="" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="20020" sub_group=""><![CDATA[{"background-color":"rgb(245, 245, 245)","border-top-color":"#DDD","border-top-style":"solid","border-top-width":"1px","extra":"display: block;\n-webkit-box-shadow: inset 0 1px 0 #fff;\n-moz-box-shadow: inset 0 1px 0 #fff;\nbox-shadow: inset 0 1px 0 #fff;"}]]></property>
+    <property property_name="tinyquattro_button" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Button" description="" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="20030" sub_group=""><![CDATA[{"color":"#333","extra":"line-height: 20px;\n*line-height: 16px;\ncursor: pointer;\noverflow: visible;\n-webkit-appearance: none;","font-size":"14px","padding-bottom":"4px","padding-left":"10px","padding-right":"10px","padding-top":"4px"}]]></property>
+    <property property_name="tinyquattro_menuitem_font_normal" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Menu item font (normal)" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="50" sub_group="menuitem"><![CDATA[#333]]></property>
+    <property property_name="tinyquattro_menuitem_font_hover" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Menu item font (hover)" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="51" sub_group="menuitem"><![CDATA[#fff]]></property>
+    <property property_name="tinyquattro_menuitem_font_disable" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Menu item font (disable)" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="52" sub_group="menuitem"><![CDATA[#999]]></property>
+    <property property_name="tinyquattro_win" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Window (modal)" description="" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="20000" sub_group=""><![CDATA[{"background-color":"#FFF","border-radius":"6px","extra":"-webkit-box-shadow: 0 3px 7px rgba(0,0,0,0.3);\n-moz-box-shadow: 0 3px 7px rgba(0,0,0,0.3);\nbox-shadow: 0 3px 7px rgba(0,0,0,0.3);\nfilter: progid:DXImageTransform.Microsoft.gradient(enabled = false);\nposition: fixed;\ntop: 0;\nleft: 0;\nopacity: 0;\n-webkit-transition: opacity 150ms ease-in;\ntransition: opacity 150ms ease-in;"}]]></property>
+    <group group_name="sedo_tinyquattro" display_order="13209">
+      <title>TinyMCE Quattro</title>
+      <description>Configure the layout of TinyMCE 4</description>
+    </group>
+  </style_properties>
+  <templates>
+    <template title="quattro_dialog.css" version_id="0" version_string=""><![CDATA[.mce-xen-body{
+	width:100%;
+	height:100%;
+	{xen:property tinyquattro_panel_border}
+	background-color: {xen:property tinyquattro_panel_background_color};
+	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
+	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+	background-image: -o-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+	background-image: linear-gradient(to bottom,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_panel_gradient_from_ie}',endColorstr='{xen:property tinyquattro_panel_gradient_to_ie}',GradientType=0);
+	zoom: 1;
+}
+
+.mce-xen-body a {
+	cursor:pointer;
+}
+
+.mce-xen-body .mcePanes,
+.mce-xen-body .mce-xen-content{
+	padding:10px;
+}
+
+.mce-xen-content *{
+	white-space: normal;
+}
+
+.mce-xen-body dl{
+	padding:5px;
+}
+
+.mce-xen-body dl > dt{
+	padding-bottom:2px;
+}
+
+.mce-xen-body dl.xenmce_inline{
+	padding:8px;
+}
+
+.mce-xen-body dl.xenmce_inline > dt{
+	display:inline-block;
+	padding-bottom:4px;
+	line-height: 28px;
+	margin-right: 20px;
+	padding-bottom: 4px;
+	vertical-align: middle;
+	zoom: 1;
+	*display: inline;
+}
+
+.mce-xen-body dl.xenmce_inline > dd{
+	display:inline-block;
+	zoom: 1;
+	*display: inline;
+}
+
+
+.mce-xen-body select {
+	padding: 4px;
+	margin:0;
+}
+
+.mce-xen-body select option {
+	padding: 8px;
+}
+
+.mce-xen-body textarea {
+	padding: 5px;
+}]]></template>
+    <template title="quattro_dialog_code" version_id="0" version_string="1.0"><![CDATA[<xen:require css="quattro_dialog.css" />
+<xen:require css="quattro_dialog_code.css" />
+<xen:require js="js/sedo/tinyquattro/templates/code.js" />
+
+<div class="mceTitle">{xen:phrase insert_code}</div>
+
+<div id="quattro_code" class="mce-xen-content">
+	<dl class="xenmce_inline">
+		<dt>{xen:phrase language}:</dt>
+		<dd>
+			<select name="type" class="mce-textbox">
+				<option value="code">{xen:phrase general_code}</option>
+				<option value="php">{xen:phrase sedo_quattro_php}</option>
+				<option value="html">{xen:phrase  sedo_quattro_html}</option>
+			</select>
+		</dd>
+	</dl>
+	<dl>
+		<dt>{xen:phrase code}:</dt>
+		<dd>
+			<textarea id="quattro_code_input" name="code" class="mce-textbox mceFocus">{$selection.text}</textarea>
+		</dd>
+	</dl>
+</div>]]></template>
+    <template title="quattro_dialog_code.css" version_id="0" version_string="1.0"><![CDATA[#quattro_code_input {
+	display: block;
+	width: 98%;
+	height: 185px;
+}]]></template>
+    <template title="quattro_dialog_colors" version_id="0" version_string="1.0"><![CDATA[<xen:require js="js/sedo/tinyquattro/templates/color_picker.js" />
+<xen:require css="quattro_dialog.css" />
+<xen:require css="quattro_dialog_colors.css" />
+
+<div class="mceTitle">{xen:phrase sedo_quattro_colors_picker}</div>
+	
+<div class="mceTabs">
+	<a id="picker_colors_tab">{xen:phrase sedo_quattro_full_picker}</a>
+	<a id="picker_rgb_tab">{xen:phrase sedo_quattro_rgb_picker}</a>
+	<a id="picker_named_tab">{xen:phrase sedo_quattro_named_picker}</a>
+</div>
+
+<div class="mcePanes">
+	<div id="picker_colors_pane">
+		<fieldset>
+			<legend class="palette">{xen:phrase sedo_quattro_palette}</legend>
+			<div id="color_picker">
+				<img id="picker_colors" src="styles/sedo/tinyquattro/img/colorpicker.jpg" alt="" />
+	
+				<div id="picker_light">
+					<!-- Will be filled with divs -->
+				</div>
+	
+				<br style="clear: both" />
+			</div>
+		</fieldset>
+	</div>
+	<div id="picker_rgb_pane">
+		<fieldset>
+			<legend class="palette">{xen:phrase sedo_quattro_palette}</legend>
+			<div id="picker_webcolors">
+				<xen:comment>Gets filled with web safe colors</xen:comment>
+			</div>
+			<br style="clear: both" />
+		</fieldset>
+	</div>
+	<div id="picker_named_pane">
+		<fieldset>
+			<legend class="palette">{xen:phrase sedo_quattro_palette}</legend>
+			<div id="picker_namedcolors">
+				<xen:comment>Gets filled with named colors</xen:comment>
+			</div>
+
+			<br style="clear: both" />
+	
+			<div id="picker_colornamecontainer">
+				{xen:phrase sedo_quattro_colorname}: <span id="picker_colorname"></span>
+			</div>
+		</fieldset>
+	</div>
+</div>
+
+<div id="picker_preview"></div>
+
+<div id="picker_previewblock">
+	<span>{xen:phrase sedo_quattro_color}:</span> <input id="picker_color" name="pickerColor" type="text" />
+</div>
+
+<input type="hidden" name="colorMode" value="" />]]></template>
+    <template title="quattro_dialog_colors.css" version_id="0" version_string="1.0"><![CDATA[.mce-xen-body .mcePanes {
+	height: 180px;
+}
+
+.mce-xen-body #picker_namedcolors a {
+	display: block;
+	float: left;
+	height: 20px;
+	margin: 1px 1px 0 0;
+	overflow: hidden;
+	width: 20px;
+}
+
+.mce-xen-body #picker_previewblock {
+	float: left;
+	line-height: 27px;
+	padding-left: 10px;
+}
+
+.mce-xen-body #picker_previewblock * {
+	vertical-align:bottom;
+}
+
+.mce-xen-body #picker_preview {
+	border: 1px solid #464646;
+	border-radius: 1px 1px 1px 1px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) inset;
+	color: #333333;
+	height: 23px;
+	line-height: 1px;
+	padding: 1px 2px;
+	transition: border 0.3s ease-in 0s;
+	float: left;
+	margin-left: 5px;
+	width: 50px;
+}
+
+.mce-xen-body .picker_webcolors_unit {
+	display:block;
+	width:12px;
+	height:12px;
+	overflow:hidden;
+}
+
+.mce-xen-body #picker_colors {
+	border: 1px solid gray;
+	cursor: crosshair;
+	float: left;
+}
+
+.mce-xen-body #picker_light {
+	border: 1px solid gray;
+	cursor: crosshair;
+	float: left;
+	height: 150px;
+	margin-left: 5px;
+	width: 15px;
+}
+
+.mce-xen-body .palette {
+	padding-bottom:4px;
+}
+
+.mce-xen-body #picker_colornamecontainer {
+	font-size:10pt;
+	padding-top:2px;
+}
+
+.mce-xen-body #picker_colorname {
+	font-size:10pt;
+	font-style:italic;
+}]]></template>
+    <template title="quattro_dialog_image" version_id="0" version_string="1.0"><![CDATA[<xen:require css="quattro_dialog.css" />
+<xen:require css="quattro_dialog_image.css" />
+<xen:require js="js/sedo/tinyquattro/templates/image.js" />
+
+<div class="mceTitle">{xen:phrase insert_image}</div>
+
+<div id="quattro_image" class="mce-xen-content">
+	<dl>
+		<dt>{xen:phrase enter_image_url}</dt>
+		<dd><input 	id="ctrl_url"
+				name="url"
+				type="text"
+				size="65"
+				class="mce-textbox mceFocus"
+				value="{$urlDatas.href}" 
+			/>
+		</dd>
+	</dl>
+</div>]]></template>
+    <template title="quattro_dialog_image.css" version_id="0" version_string="1.0"><![CDATA[<xen:comment>No modification at the moment</xen:comment>]]></template>
+    <template title="quattro_dialog_link" version_id="0" version_string="1.0"><![CDATA[<xen:require css="quattro_dialog.css" />
+<xen:require css="quattro_dialog_link.css" />
+<xen:require js="js/sedo/tinyquattro/templates/link.js" />
+
+<div class="mceTitle">{xen:if '{$isLink}', '{xen:phrase sedo_quattro_link_or_mail_edit}', '{xen:phrase sedo_quattro_link_or_mail_new}' }</div>
+
+<div class="mceTabs">
+	<div id="xentabs_url">{xen:phrase sedo_quattro_link}</div>
+	<div id="xentabs_email" class="{xen:if '{$isEmail}', 'mceActive'}">{xen:phrase sedo_quattro_mail}</div>
+</div>
+
+<div class="mcePanes">
+	<div id="xenpane_url">
+		<dl class="xenmce_inline">
+			<dt>{xen:phrase sedo_quattro_link_url}</dt>
+			<dd><input 	id="ctrl_url_link"
+					name="ctrlUrlLink"
+					type="text"
+					size="35"
+					class="mce-textbox {xen:if '{$isLink} OR !{$isUrl}', 'mceFocus'}"
+					{xen:if '{$isLink} && {$urlDatas.href}', 'value="{$urlDatas.href}"'} 
+				/>
+			</dd>
+		</dl>
+		<dl class="xenmce_inline">
+			<dt>{xen:phrase sedo_quattro_link_text}</dt>
+			<dd><input	id="ctrl_url_text"
+					name="ctrlUrlText"
+					type="text"
+					size="35"
+					class="mce-textbox"
+					{xen:if '{$isLink} && {$urlDatas.text}', 'value="{$urlDatas.text}"'}
+					{xen:if '!{$isUrl} && {$selection.text}', 'value="{$selection.text}"'}
+				/>
+			</dd>
+		</dl>
+	</div>
+
+	<div id="xenpane_email">
+		<dl class="xenmce_inline">
+			<dt>{xen:phrase sedo_quattro_mail_url}</dt>
+			<dd><input 	id="ctrl_mail_link"
+					name="ctrlMailLink"
+					type="text"
+					size="35"
+					class="mce-textbox {xen:if '{$isEmail}', 'mceFocus'}"
+					{xen:if '{$isEmail} && {$urlDatas.href}', 'value="{$urlDatas.href}"'}
+				/>
+			</dd>
+		</dl>
+		<dl class="xenmce_inline">
+			<dt class="mce-label">{xen:phrase sedo_quattro_mail_text}</dt>
+			<dd><input 	id="ctrl_mail_text"
+					name="ctrlMailText"
+					type="text"
+					size="35"
+					class="mce-textbox" {xen:if '{$isEmail} && {$urlDatas.text}', 'value="{$urlDatas.text}"'}
+				/>
+			</dd>
+		</dl>
+	</div>
+</div>]]></template>
+    <template title="quattro_dialog_link.css" version_id="0" version_string="1.0"><![CDATA[.mce-xen-body .mcePanes dt{
+	width:150px;
+}]]></template>
+    <template title="quattro_dialog_media" version_id="0" version_string="1.0"><![CDATA[<xen:require css="quattro_dialog.css" />
+<xen:require css="quattro_dialog_media.css" />
+<xen:require js="js/sedo/tinyquattro/templates/media.js" />
+
+<div class="mceTitle">{xen:phrase embed_media}</div>
+
+<div id="quattro_media" class="mce-xen-content">
+	<dl class="xenmce_inline">
+		<dt>{xen:phrase enter_media_url}</dt>
+		<dd><input 	id="ctrl_url"
+				name="url"
+				type="text"
+				size="35"
+				class="mce-textbox mceFocus"
+				{xen:if '{$isLink}', 'value="{$urlDatas.href}"'} 
+			/>
+		</dd>
+	</dl>
+	<div class="supported_sites">
+		<p>{xen:phrase you_may_embed_media_from_following_sites}:</p>
+		<span>
+			<xen:foreach loop="$sites" value="$site" count="$totalSites" i="$i">
+				<xen:if is="{$site.supported}">
+					<a href="{$site.site_url}" target="_blank" rel="nofollow">{$site.site_title}</a>;
+				</xen:if>
+			</xen:foreach>
+		</span>
+	</div>
+</div>]]></template>
+    <template title="quattro_dialog_media.css" version_id="0" version_string="1.0"><![CDATA[.mce-xen-body .supported_sites {
+	height: 95px;
+	overflow-y: auto;
+	margin-left:8px;
+}]]></template>
+    <template title="tiny_quattro_buttons.css" version_id="0" version_string="1.0"><![CDATA[<xen:comment>
+	TINYMCE BUTTONS FOR ALL BROWSERS EXCEPT IE7
+</xen:comment>
+
+@font-face
+{
+	font-family:'tinymce';
+	src:url('styles/sedo/tinyquattro/fonts/icomoon.eot');
+	src:	url('styles/sedo/tinyquattro/fonts/icomoon.eot?#iefix') format('embedded-opentype'),
+		url('styles/sedo/tinyquattro/fonts/icomoon.svg#icomoon') format('svg'),
+		url('styles/sedo/tinyquattro/fonts/icomoon.woff') format('woff'),
+		url('styles/sedo/tinyquattro/fonts/icomoon.ttf') format('truetype');
+	font-weight:normal;
+	font-style:normal;
+}
+
+@font-face
+{
+	font-family:'tinymce-small';
+	src:url('styles/sedo/tinyquattro/fonts/icomoon-small.eot');
+	src:	url('styles/sedo/tinyquattro/fonts/icomoon-small.eot?#iefix') format('embedded-opentype'),
+		url('styles/sedo/tinyquattro/fonts/icomoon-small.svg#icomoon') format('svg'),
+		url('styles/sedo/tinyquattro/fonts/icomoon-small.woff') format('woff'),
+		url('styles/sedo/tinyquattro/fonts/icomoon-small.ttf') format('truetype');
+	font-weight:normal;
+	font-style:normal;
+}
+
+.mce-ico
+{
+	font-family: 'tinymce',Arial;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 16px;
+	vertical-align: text-top;
+	-webkit-font-smoothing: antialiased;
+	display: inline-block;
+	background: transparent center center;
+	width: 16px;
+	height: 16px;
+	color: #333;
+}
+
+.mce-btn-small .mce-ico
+{
+	font-family: 'tinymce-small',Arial;
+}
+
+.mce-i-save:before
+{
+	content: "\e000";
+}
+
+.mce-i-newdocument:before
+{
+	content: "\e001";
+}
+
+.mce-i-fullpage:before
+{
+	content: "\e002";
+}
+
+.mce-i-alignleft:before
+{
+	content: "\e003";
+}
+
+.mce-i-aligncenter:before
+{
+	content: "\e004";
+}
+
+.mce-i-alignright:before
+{
+	content: "\e005";
+}
+
+.mce-i-alignjustify:before
+{
+	content: "\e006";
+}
+
+.mce-i-cut:before
+{
+	content: "\e007";
+}
+
+.mce-i-paste:before
+{
+	content: "\e008";
+}
+
+.mce-i-searchreplace:before
+{
+	content: "\e009";
+}
+
+.mce-i-bullist:before
+{
+	content: "\e00a";
+}
+
+.mce-i-numlist:before
+{
+	content: "\e00b";
+}
+
+.mce-i-indent:before
+{
+	content: "\e00c";
+}
+
+.mce-i-outdent:before
+{
+	content: "\e00d";
+}
+
+.mce-i-blockquote:before
+{
+	content: "\e00e";
+}
+
+.mce-i-undo:before
+{
+	content: "\e00f";
+}
+
+.mce-i-redo:before
+{
+	content: "\e010";
+}
+
+.mce-i-link:before
+{
+	content: "\e011";
+}
+
+.mce-i-unlink:before
+{
+	content: "\e012";
+}
+
+.mce-i-anchor:before
+{
+	content: "\e013";
+}
+
+.mce-i-image:before
+{
+	content: "\e014";
+}
+
+.mce-i-media:before
+{
+	content: "\e015";
+}
+
+.mce-i-help:before
+{
+	content: "\e016";
+}
+
+.mce-i-code:before
+{
+	content: "\e017";
+}
+
+.mce-i-inserttime:before
+{
+	content: "\e018";
+}
+
+.mce-i-preview:before
+{
+	content: "\e019";
+}
+
+.mce-i-forecolor:before
+{
+	content: "\e01a";
+}
+
+.mce-i-backcolor:before
+{
+	content: "\e01a";
+}
+
+.mce-i-table:before
+{
+	content: "\e01b";
+}
+
+.mce-i-hr:before
+{
+	content: "\e01c";
+}
+
+.mce-i-removeformat:before
+{
+	content: "\e01d";
+}
+
+.mce-i-subscript:before
+{
+	content: "\e01e";
+}
+
+.mce-i-superscript:before
+{
+	content: "\e01f";
+}
+
+.mce-i-charmap:before
+{
+	content: "\e020";
+}
+
+.mce-i-emoticons:before
+{
+	content: "\e021";
+}
+
+.mce-i-print:before
+{
+	content: "\e022";
+}
+
+.mce-i-fullscreen:before
+{
+	content: "\e023";
+}
+
+.mce-i-spellchecker:before
+{
+	content: "\e024";
+}
+
+.mce-i-nonbreaking:before
+{
+	content: "\e025";
+}
+
+.mce-i-template:before
+{
+	content: "\e026";
+}
+
+.mce-i-pagebreak:before
+{
+	content: "\e027";
+}
+
+.mce-i-restoredraft:before
+{
+	content: "\e028";
+}
+
+.mce-i-untitled:before
+{
+	content: "\e029";
+}
+
+.mce-i-bold:before
+{
+	content: "\e02a";
+}
+
+.mce-i-italic:before
+{
+	content: "\e02b";
+}
+
+.mce-i-underline:before
+{
+	content: "\e02c";
+}
+
+.mce-i-strikethrough:before
+{
+	content: "\e02d";
+}
+
+.mce-i-visualchars:before
+{
+	content: "\e02e";
+}
+
+.mce-i-visualblocks:before
+{
+	content: "\e02e";
+}
+
+.mce-i-ltr:before
+{
+	content: "\e02f";
+}
+
+.mce-i-rtl:before
+{
+	content: "\e030";
+}
+
+.mce-i-copy:before
+{
+	content: "\e031";
+}
+
+.mce-i-resize:before
+{
+	content: "\e032";
+}
+
+.mce-i-browse:before
+{
+	content: "\e034";
+}
+
+.mce-i-checkbox:before,.mce-i-selected:before
+{
+	content: "\e033";
+}
+
+.mce-i-selected
+{
+	visibility: hidden;
+}
+
+i.mce-i-backcolor
+{
+	text-shadow: none;
+	background: #BBB;
+}
+
+<xen:comment>
+	Buttons - XenForo config
+</xen:comment>
+
+@font-face
+{
+	font-family:'xenforo-small';
+	src:url('styles/sedo/tinyquattro/fonts/xenforo-small.eot');
+	src:	url('styles/sedo/tinyquattro/fonts/xenforo-small.eot?#iefix') format('embedded-opentype'),
+		url('styles/sedo/tinyquattro/fonts/xenforo-small.svg#icomoon') format('svg'),
+		url('styles/sedo/tinyquattro/fonts/xenforo-small.woff') format('woff'),
+		url('styles/sedo/tinyquattro/fonts/xenforo-small.ttf') format('truetype');
+	font-weight:normal;
+	font-style:normal;
+}
+
+
+@font-face
+{
+	font-family:'xenforo';
+	src:url('styles/sedo/tinyquattro/fonts/xenforo.eot');
+	src:	url('styles/sedo/tinyquattro/fonts/xenforo.eot?#iefix') format('embedded-opentype'),
+		url('styles/sedo/tinyquattro/fonts/xenforo.svg#icomoon') format('svg'),
+		url('styles/sedo/tinyquattro/fonts/xenforo.woff') format('woff'),
+		url('styles/sedo/tinyquattro/fonts/xenforo.ttf') format('truetype');
+	font-weight:normal;
+	font-style:normal;
+}
+
+.mce-xenforo-icons
+{
+	font-family: 'xenforo',Arial;
+}
+
+.mce-btn-small .mce-xenforo-icons
+{
+	font-family: 'xenforo-small',Arial;
+}
+
+.mce-i-xen_switch:before       { content: "\e01a"; }
+.mce-i-xen_code:before         { content: "\e000"; }
+.mce-i-xen_quote:before        { content: "\e009"; }
+.mce-i-xen_nonbreaking:before  { content: "\e025"; } <xen:comment>Original icon set</xen:comment>
+]]></template>
+    <template title="tiny_quattro_buttons_ie7.css" version_id="0" version_string="1.0"><![CDATA[<xen:comment>
+	TINYMCE BUTTONS FOR IE7
+</xen:comment>
+
+@font-face
+{
+	font-family:'tinymce';
+	src:url('styles/sedo/tinyquattro/fonts/icomoon.eot');
+	src:	url('styles/sedo/tinyquattro/fonts/icomoon.eot?#iefix') format('embedded-opentype'),
+		url('styles/sedo/tinyquattro/fonts/icomoon.svg#icomoon') format('svg'),
+		url('styles/sedo/tinyquattro/fonts/icomoon.woff') format('woff'),
+		url('styles/sedo/tinyquattro/fonts/icomoon.ttf') format('truetype');
+	font-weight:normal;
+	font-style:normal
+}
+
+@font-face
+{
+	font-family:'tinymce-small';
+	src:url('styles/sedo/tinyquattro/fonts/icomoon-small.eot');
+	src:	url('styles/sedo/tinyquattro/fonts/icomoon-small.eot?#iefix') format('embedded-opentype'),
+		url('styles/sedo/tinyquattro/fonts/icomoon-small.svg#icomoon') format('svg'),
+		url('styles/sedo/tinyquattro/fonts/icomoon-small.woff') format('woff'),
+		url('styles/sedo/tinyquattro/fonts/icomoon-small.ttf') format('truetype');
+	font-weight:normal;
+	font-style:normal
+}
+
+.mce-ico
+{
+	font-family:'tinymce';
+	font-style:normal;
+	font-weight:normal;
+	font-size:16px;
+	line-height:16px;
+	vertical-align:text-top;
+	-webkit-font-smoothing:antialiased;
+	display:inline-block;
+	background:transparent center center;
+	width:16px;
+	height:16px;
+	color:#333;
+	-ie7-icon:' '
+}
+
+.mce-btn-small .mce-ico
+{
+	font-family:'tinymce-small'
+}
+.mce-ico,i.mce-i-checkbox {
+	zoom:expression(this.runtimeStyle['zoom'] = '1',this.innerHTML = this.currentStyle['-ie7-icon'].substr(1,1)+'&nbsp;')
+}
+.mce-i-save {
+	-ie7-icon:"\e000"
+}
+.mce-i-newdocument {
+	-ie7-icon:"\e001"
+}
+.mce-i-fullpage {
+	-ie7-icon:"\e002"
+}
+.mce-i-alignleft {
+	-ie7-icon:"\e003"
+}
+.mce-i-aligncenter {
+	-ie7-icon:"\e004"
+}
+.mce-i-alignright {
+	-ie7-icon:"\e005"
+}
+.mce-i-alignjustify {
+	-ie7-icon:"\e006"
+}
+.mce-i-cut {
+	-ie7-icon:"\e007"
+}
+.mce-i-paste {
+	-ie7-icon:"\e008"
+}
+.mce-i-searchreplace {
+	-ie7-icon:"\e009"
+}
+.mce-i-bullist {
+	-ie7-icon:"\e00a"
+}
+.mce-i-numlist {
+	-ie7-icon:"\e00b"
+}
+.mce-i-indent {
+	-ie7-icon:"\e00c"
+}
+.mce-i-outdent {
+	-ie7-icon:"\e00d"
+}
+.mce-i-blockquote {
+	-ie7-icon:"\e00e"
+}
+.mce-i-undo {
+	-ie7-icon:"\e00f"
+}
+.mce-i-redo {
+	-ie7-icon:"\e010"
+}
+.mce-i-link {
+	-ie7-icon:"\e011"
+}
+.mce-i-unlink {
+	-ie7-icon:"\e012"
+}
+.mce-i-anchor {
+	-ie7-icon:"\e013"
+}
+.mce-i-image {
+	-ie7-icon:"\e014"
+}
+.mce-i-media {
+	-ie7-icon:"\e015"
+}
+.mce-i-help {
+	-ie7-icon:"\e016"
+}
+.mce-i-code {
+	-ie7-icon:"\e017"
+}
+.mce-i-inserttime {
+	-ie7-icon:"\e018"
+}
+.mce-i-preview {
+	-ie7-icon:"\e019"
+}
+.mce-i-forecolor {
+	-ie7-icon:"\e01a"
+}
+.mce-i-backcolor {
+	-ie7-icon:"\e01a"
+}
+.mce-i-table {
+	-ie7-icon:"\e01b"
+}
+.mce-i-hr {
+	-ie7-icon:"\e01c"
+}
+.mce-i-removeformat {
+	-ie7-icon:"\e01d"
+}
+.mce-i-subscript {
+	-ie7-icon:"\e01e"
+}
+.mce-i-superscript {
+	-ie7-icon:"\e01f"
+}
+.mce-i-charmap {
+	-ie7-icon:"\e020"
+}
+.mce-i-emoticons {
+	-ie7-icon:"\e021"
+}
+.mce-i-print {
+	-ie7-icon:"\e022"
+}
+.mce-i-fullscreen {
+	-ie7-icon:"\e023"
+}
+.mce-i-spellchecker {
+	-ie7-icon:"\e024"
+}
+.mce-i-nonbreaking {
+	-ie7-icon:"\e025"
+}
+.mce-i-template {
+	-ie7-icon:"\e026"
+}
+.mce-i-pagebreak {
+	-ie7-icon:"\e027"
+}
+.mce-i-restoredraft {
+	-ie7-icon:"\e028"
+}
+.mce-i-untitled {
+	-ie7-icon:"\e029"
+}
+.mce-i-bold {
+	-ie7-icon:"\e02a"
+}
+.mce-i-italic {
+	-ie7-icon:"\e02b"
+}
+.mce-i-underline {
+	-ie7-icon:"\e02c"
+}
+.mce-i-strikethrough {
+	-ie7-icon:"\e02d"
+}
+.mce-i-visualchars {
+	-ie7-icon:"\e02e"
+}
+.mce-i-ltr {
+	-ie7-icon:"\e02f"
+}
+.mce-i-rtl {
+	-ie7-icon:"\e030"
+}
+.mce-i-copy {
+	-ie7-icon:"\e031"
+}
+.mce-i-resize {
+	-ie7-icon:"\e032"
+}
+.mce-i-browse {
+	-ie7-icon:"\e034"
+}
+.mce-i-checkbox,.mce-i-selected {
+	-ie7-icon:"\e033"
+}
+.mce-i-selected {
+	visibility:hidden
+}
+.mce-i-backcolor {
+	background: #BBB
+}
+
+<xen:comment>
+	Buttons - XenForo config
+</xen:comment>
+
+@font-face
+{
+	font-family:'xenforo-small';
+	src:url('styles/sedo/tinyquattro/fonts/xenforo-small.eot');
+	src:	url('styles/sedo/tinyquattro/fonts/xenforo-small.eot?#iefix') format('embedded-opentype'),
+		url('styles/sedo/tinyquattro/fonts/xenforo-small.svg#icomoon') format('svg'),
+		url('styles/sedo/tinyquattro/fonts/xenforo-small.woff') format('woff'),
+		url('styles/sedo/tinyquattro/fonts/xenforo-small.ttf') format('truetype');
+	font-weight:normal;
+	font-style:normal
+}
+
+
+@font-face
+{
+	font-family:'xenforo';
+	src:url('styles/sedo/tinyquattro/fonts/xenforo.eot');
+	src:	url('styles/sedo/tinyquattro/fonts/xenforo.eot?#iefix') format('embedded-opentype'),
+		url('styles/sedo/tinyquattro/fonts/xenforo.svg#icomoon') format('svg'),
+		url('styles/sedo/tinyquattro/fonts/xenforo.woff') format('woff'),
+		url('styles/sedo/tinyquattro/fonts/xenforo.ttf') format('truetype');
+	font-weight:normal;
+	font-style:normal
+}
+
+.mce-xenforo-icons
+{
+	font-family: 'xenforo'
+}
+
+.mce-btn-small .mce-xenforo-icons
+{
+	font-family: 'xenforo-small'
+}
+
+.mce-i-xen_switch:before       { -ie7-icon: "\e01a"; }
+.mce-i-xen_code:before         { -ie7-icon: "\e000"; }
+.mce-i-xen_quote:before        { -ie7-icon: "\e009"; }
+.mce-i-xen_nonbreaking:before  { -ie7-icon: "\e025"; } <xen:comment>Original icon set</xen:comment>
+]]></template>
+    <template title="tiny_quattro_editor.css" version_id="0" version_string="1.0"><![CDATA[<xen:comment>
+	ALL EDITOR CSS (EXCEPT IFRAME CONTENT)
+	> IE7 have the same CSS except for buttons.
+	> These main css can be copied to the tiny_quattro_editor_ie7.css, just change the require template (see the last line)
+	> Why this?  
+		1) conditionals don't work here
+		2) buttons css must be included in the main css (using another css template with <xen:require> will create problems (can be solved with !important, but let's avoid this)
+		3) modifications should be easier to make like this
+</xen:comment>
+
+<xen:comment>
+	 GLOBAL CSS
+</xen:comment>
+
+.mce-container,.mce-container *,.mce-widget,.mce-widget *
+{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	vertical-align: top;
+	background: transparent;
+	text-decoration: none;
+	color: #000;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 14px;
+	text-shadow: none;
+	float: none;
+	position: static;
+	width: auto;
+	height: auto;
+	white-space: nowrap;
+	cursor: inherit;
+	-webkit-tap-highlight-color: transparent;
+	line-height: normal;
+}
+
+.mce-container *[unselectable]
+{
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+.mce-container ::-webkit-scrollbar
+{
+	width: 8px;
+	height: 8px;
+	-webkit-border-radius: 4px;
+}
+
+.mce-container ::-webkit-scrollbar-track,.mce-container ::-webkit-scrollbar-track-piece
+{
+	background-color: transparent;
+}
+
+.mce-container ::-webkit-scrollbar-thumb
+{
+	background-color: rgba(53,57,71,0.3);
+	width: 6px;
+	height: 6px;
+	-webkit-border-radius: 4px;
+}
+
+.mce-fade
+{
+	opacity: 0;
+	-webkit-transition: opacity .15s linear;
+	transition: opacity .15s linear;
+}
+
+.mce-fade.mce-in
+{
+	opacity: 1;
+}
+
+.mce-tinymce
+{
+	visibility: visible!important;
+	position: relative;
+}
+
+.mce-fullscreen
+{
+	border: 0;
+	padding: 0;
+	margin: 0;
+	overflow: hidden !important;
+	background: #FFF;
+	height: 100%;
+	z-index: 100;
+}
+
+div.mce-fullscreen
+{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: auto;
+}
+
+.mce-tinymce
+{
+	display: block;
+	border-radius: 2px;
+}
+
+.mce-wordcount
+{
+	float: right;
+	padding: 8px 20px 8px 8px;
+}
+
+.mce-edit-area
+{
+	background: #FFF;
+	filter: none;
+}
+
+.mce-statusbar
+{
+	position: relative;
+}
+
+.mce-statusbar .mce-container-body
+{
+	position: relative;
+}
+
+.mce-fullscreen .mce-resizehandle
+{
+	display: none;
+}
+
+.mce-charmap
+{
+	border-collapse: collapse;
+}
+
+.mce-charmap td
+{
+	{xen:property tinyquattro_standard_boder}
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+	vertical-align: center;
+	padding: 2px;
+	cursor: default;
+}
+
+.mce-charmap td:hover
+{
+	background: {xen:property tinyquattro_btn_gradient_to};
+}
+
+.mce-grid
+{
+	border-spacing: 2px;
+	border-collapse: separate;
+}
+
+.mce-grid a
+{
+	display: block;
+	border: 1px solid transparent;
+}
+
+.mce-grid a:hover
+{
+	border-color:{xen:property tinyquattro_standard_boder.border-color};
+}
+
+.mce-grid-border
+{
+	margin: 0 4px 0 4px;
+}
+
+.mce-grid-border a
+{
+	border-color: #e8e8e8;
+	width: 13px;
+	height: 13px;
+}
+
+.mce-grid-border a:hover,.mce-grid-border a.mce-active
+{
+	border-color: #c4daff;
+	background: #deeafa;
+}
+
+.mce-text-center
+{
+	text-align: center;
+}
+
+div.mce-tinymce-inline
+{
+	width: 100%;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+
+.mce-container,.mce-container-body
+{
+	display: block;
+}
+
+.mce-autoscroll
+{
+	overflow: hidden;
+}
+
+.mce-scrollbar
+{
+	position: absolute;
+	width: 7px;
+	height: 100%;
+	top: 2px;
+	right: 2px;
+	opacity: .4;
+	filter: alpha(opacity=40);
+	zoom: 1;
+}
+
+.mce-scrollbar-h
+{
+	top: auto;
+	right: auto;
+	left: 2px;
+	bottom: 2px;
+	width: 100%;
+	height: 7px;
+}
+
+.mce-scrollbar-thumb
+{
+	position: absolute;
+	background-color: #000;
+	border: 1px solid #888;
+	border-color: rgba(85,85,85,0.6);
+	width: 5px;
+	height: 100%;
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+}
+
+.mce-scrollbar-h .mce-scrollbar-thumb
+{
+	width: 100%;
+	height: 5px;
+}
+
+.mce-scrollbar:hover,.mce-scrollbar.mce-active
+{
+	background-color: #AAA;
+	opacity: .6;
+	filter: alpha(opacity=60);
+	zoom: 1;
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+}
+
+.mce-scroll
+{
+	position: relative;
+}
+
+.mce-panel
+{
+	{xen:property tinyquattro_panel_border}
+	background-color: {xen:property tinyquattro_panel_background_color};
+	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
+	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+	background-image: -o-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+	background-image: linear-gradient(to bottom,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_panel_gradient_from_ie}',endColorstr='{xen:property tinyquattro_panel_gradient_to_ie}',GradientType=0);
+	zoom: 1;
+}
+
+.mce-floatpanel
+{
+	position: absolute;
+	-webkit-box-shadow: #ccc 5px 5px 5px;
+	-moz-box-shadow: #ccc 5px 5px 5px;
+	box-shadow: #ccc 5px 5px 5px;
+}
+
+.mce-floatpanel .mce-arrow,.mce-floatpanel .mce-arrow:after
+{
+	position: absolute;
+	display: block;
+	width: 0;
+	height: 0;
+	border-color: transparent;
+	border-style: solid;
+}
+
+.mce-floatpanel .mce-arrow
+{
+	border-width: 11px;
+}
+
+.mce-floatpanel .mce-arrow:after
+{
+	border-width: 10px;
+	content: "";
+}
+
+.mce-floatpanel.mce-popover
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: #fff;
+	-webkit-background-clip: padding-box;
+	-moz-background-clip: padding;
+	background-clip: padding-box;
+	border: 1px solid #ccc;
+	border: 1px solid rgba(0,0,0,0.2);
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	-webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+	-moz-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+	box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+
+.mce-floatpanel.mce-popover.mce-bottom
+{
+	margin-top: 10px;
+}
+
+.mce-floatpanel.mce-popover.mce-bottom>.mce-arrow
+{
+	left: 50%;
+	margin-left: -11px;
+	border-top-width: 0;
+	border-bottom-color: #999;
+	border-bottom-color: rgba(0,0,0,0.25);
+	top: -11px;
+}
+
+.mce-floatpanel.mce-popover.mce-bottom>.mce-arrow:after
+{
+	top: 1px;
+	margin-left: -10px;
+	border-top-width: 0;
+	border-bottom-color: #fff;
+}
+
+.mce-floatpanel.mce-popover.mce-bottom.mce-start
+{
+	margin-left: -22px;
+}
+
+.mce-floatpanel.mce-popover.mce-bottom.mce-start>.mce-arrow
+{
+	left: 20px;
+}
+
+.mce-floatpanel.mce-popover.mce-bottom.mce-end
+{
+	margin-left: 22px;
+}
+
+.mce-floatpanel.mce-popover.mce-bottom.mce-end>.mce-arrow
+{
+	right: 10px;
+	left: auto;
+}
+
+.mce-fullscreen
+{
+	border: 0;
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+	background: #FFF;
+	height: 100%;
+}
+
+div.mce-fullscreen
+{
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+
+#mce-modal-block
+{
+	opacity: 0;
+	filter: alpha(opacity=0);
+	zoom: 1;
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: #000;
+}
+
+#mce-modal-block.mce-in
+{
+	opacity: .3;
+	filter: alpha(opacity=30);
+	zoom: 1;
+}
+
+.mce-window-move
+{
+	cursor: move;
+}
+
+.mce-window
+{
+	{xen:property tinyquattro_win}
+}
+
+.mce-window.mce-in
+{
+	opacity: 1;
+}
+
+.mce-window-head
+{
+	{xen:property tinyquattro_win_head}
+}
+
+.mce-window-head .mce-close
+{
+	position: absolute;
+	right: 15px;
+	top: 9px;
+	font-size: 20px;
+	font-weight: bold;
+	line-height: 20px;
+	color: #CCC;
+	text-shadow: 0 1px 0 white;
+	cursor: pointer;
+	height: 20px;
+	overflow: hidden;
+}
+
+.mce-close:hover
+{
+	color: #AAA;
+}
+
+.mce-window-head .mce-title
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	line-height: 20px;
+	font-size: 20px;
+	font-weight: bold;
+	text-rendering: optimizelegibility;
+	padding-right: 10px;
+}
+
+.mce-window .mce-container-body
+{
+	display: block;
+}
+
+.mce-foot
+{
+	{xen:property tinyquattro_win_foot}
+}
+
+.mce-window-head .mce-dragh
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	cursor: move;
+	width: 90%;
+	height: 100%;
+}
+
+.mce-window iframe
+{
+	width: 100%;
+	height: 100%;
+}
+
+.mce-window.mce-fullscreen,.mce-window.mce-fullscreen .mce-foot
+{
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+}
+
+.mce-abs-layout
+{
+	position: relative;
+}
+
+body .mce-abs-layout-item,.mce-abs-end
+{
+	position: absolute;
+}
+
+.mce-abs-end
+{
+	width: 1px;
+	height: 1px;
+}
+
+.mce-container-body.mce-abs-layout
+{
+	overflow: hidden;
+}
+
+.mce-tooltip
+{
+	position: absolute;
+	padding: 5px;
+	opacity: .8;
+	filter: alpha(opacity=80);
+	zoom: 1;
+}
+
+.mce-tooltip-inner
+{
+	font-size: 11px;
+	background-color: #000;
+	color: #fff;
+	max-width: 200px;
+	padding: 5px 8px 4px 8px;
+	text-align: center;
+	white-space: normal;
+}
+
+.mce-tooltip-inner
+{
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.mce-tooltip-inner
+{
+	-webkit-box-shadow: 0 0 5px #000;
+	-moz-box-shadow: 0 0 5px #000;
+	box-shadow: 0 0 5px #000;
+}
+
+.mce-tooltip-arrow
+{
+	position: absolute;
+	width: 0;
+	height: 0;
+	line-height: 0;
+	border: 5px dashed #000;
+}
+
+.mce-tooltip-arrow-n
+{
+	border-bottom-color: #000;
+}
+
+.mce-tooltip-arrow-s
+{
+	border-top-color: #000;
+}
+
+.mce-tooltip-arrow-e
+{
+	border-left-color: #000;
+}
+
+.mce-tooltip-arrow-w
+{
+	border-right-color: #000;
+}
+
+.mce-tooltip-n .mce-tooltip-arrow
+{
+	top: 0;
+	left: 50%;
+	margin-left: -5px;
+	border-bottom-style: solid;
+	border-top: 0;
+	border-left-color: transparent;
+	border-right-color: transparent;
+}
+
+.mce-tooltip-nw .mce-tooltip-arrow
+{
+	top: 0;
+	left: 10px;
+	border-bottom-style: solid;
+	border-top: 0;
+	border-left-color: transparent;
+	border-right-color: transparent;
+}
+
+.mce-tooltip-ne .mce-tooltip-arrow
+{
+	top: 0;
+	right: 10px;
+	border-bottom-style: solid;
+	border-top: 0;
+	border-left-color: transparent;
+	border-right-color: transparent;
+}
+
+.mce-tooltip-s .mce-tooltip-arrow
+{
+	bottom: 0;
+	left: 50%;
+	margin-left: -5px;
+	border-top-style: solid;
+	border-bottom: 0;
+	border-left-color: transparent;
+	border-right-color: transparent;
+}
+
+.mce-tooltip-sw .mce-tooltip-arrow
+{
+	bottom: 0;
+	left: 10px;
+	border-top-style: solid;
+	border-bottom: 0;
+	border-left-color: transparent;
+	border-right-color: transparent;
+}
+
+.mce-tooltip-se .mce-tooltip-arrow
+{
+	bottom: 0;
+	right: 10px;
+	border-top-style: solid;
+	border-bottom: 0;
+	border-left-color: transparent;
+	border-right-color: transparent;
+}
+
+.mce-tooltip-e .mce-tooltip-arrow
+{
+	right: 0;
+	top: 50%;
+	margin-top: -5px;
+	border-left-style: solid;
+	border-right: 0;
+	border-top-color: transparent;
+	border-bottom-color: transparent;
+}
+
+.mce-tooltip-w .mce-tooltip-arrow
+{
+	left: 0;
+	top: 50%;
+	margin-top: -5px;
+	border-right-style: solid;
+	border-left: none;
+	border-top-color: transparent;
+	border-bottom-color: transparent;
+}
+
+.mce-btn
+{
+	position: relative;
+	{xen:property tinyquattro_btn_border_color}
+	background-color: {xen:property tinyquattro_btn_bckg_color};
+	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_gradient_from}),to({xen:property tinyquattro_btn_gradient_to}));
+	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+	background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+	background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_gradient_to_ie}',GradientType=0);
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+}
+
+.mce-btn:hover,.mce-btn:focus
+{
+	{xen:property tinyquattro_btn_hov_border_color}
+	background-color: {xen:property tinyquattro_btn_hov_bckg_color};
+	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
+	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_hov_gradient_from}),to({xen:property tinyquattro_btn_hov_gradient_to}));
+	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
+	background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
+	background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_hov_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_hov_gradient_to_ie}',GradientType=0);
+	zoom: 1;
+}
+
+.mce-btn.mce-disabled,.mce-btn.mce-disabled:hover
+{
+	cursor: default;
+	background-image: none;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	opacity: .65;
+	filter: alpha(opacity=65);
+	zoom: 1;
+}
+
+.mce-btn.mce-active,.mce-btn.mce-active:hover
+{
+	{xen:property tinyquattro_btn_active_border_color}	
+	background-color: {xen:property tinyquattro_btn_active_bckg_color};
+	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
+	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_active_gradient_from}),to({xen:property tinyquattro_btn_active_gradient_to}));
+	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
+	background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
+	background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_active_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_active_gradient_to_ie}',GradientType=0);
+	zoom: 1;
+}
+
+.mce-btn button
+{
+	{xen:property tinyquattro_button}
+}
+
+.mce-btn button::-moz-focus-inner
+{
+	border: 0;
+	padding: 0;
+}
+
+.mce-btn i
+{
+	text-shadow: 1px 1px #fff;
+}
+
+.mce-primary
+{
+	{xen:property tinyquattro_primary_border_color}
+	background-color: {xen:property tinyquattro_primary_background_color};
+	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
+	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_gradient_from}),to({xen:property tinyquattro_primary_gradient_to}));
+	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
+	background-image: -o-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
+	background-image: linear-gradient(to bottom,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_primary_gradient_from_ie}',endColorstr='{xen:property tinyquattro_primary_gradient_to_ie}',GradientType=0);
+	zoom: 1;
+}
+
+.mce-primary:hover,.mce-primary:focus
+{
+	{xen:property tinyquattro_primary_hov_border_color}
+	background-color: {xen:property tinyquattro_primary_hover_bck_color};
+	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
+	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_hover_grdt_from}),to({xen:property tinyquattro_primary_hover_grdt_to}));
+	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
+	background-image: -o-linear-gradient(top,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
+	background-image: linear-gradient(to bottom,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_primary_hov_grdt_from_ie}',endColorstr='tinyquattro_primary_hov_grdt_to_ie',GradientType=0);
+	zoom: 1;
+}
+
+.mce-primary button
+{
+	color: {xen:property tinyquattro_primary_border_color.color};
+}
+
+.mce-btn-large button
+{
+	padding: 9px 14px;
+	font-size: 16px;
+	line-height: normal;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.mce-btn-large i
+{
+	margin-top: 2px;
+}
+
+.mce-btn-small button
+{
+	padding: 3px 5px;
+	font-size: 12px;
+	line-height: 16px;
+}
+
+.mce-btn-small i
+{
+	margin-top: 0;
+}
+
+.mce-btn .mce-caret
+{
+	margin-top: 8px;
+	*margin-top: 6px;
+	margin-left: 0;
+}
+
+.mce-btn-small .mce-caret
+{
+	margin-top: 6px;
+	*margin-top: 4px;
+	margin-left: 0;
+}
+
+.mce-caret
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	width: 0;
+	height: 0;
+	vertical-align: top;
+	border-top: 4px solid #444;
+	border-right: 4px solid transparent;
+	border-left: 4px solid transparent;
+	content: "";
+}
+
+.mce-disabled .mce-caret
+{
+	border-top-color: #999;
+}
+
+.mce-caret.mce-up
+{
+	border-bottom: 4px solid #444;
+	border-top: 0;
+}
+
+.mce-btn-group .mce-btn
+{
+	border-width: 1px 0 1px 0;
+	margin: 0;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+}
+
+.mce-btn-group .mce-btn:hover,.mce-btn-group .mce-btn:focus
+{
+	{xen:property tinyquattro_btngrp_hov_border_color}
+	background-color: {xen:property tinyquattro_btngrp_hov_bckg_color};
+	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
+	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btngrp_hov_gradient_from}),to({xen:property tinyquattro_btngrp_hov_gradient_to}));
+	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
+	background-image: -o-linear-gradient(top,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
+	background-image: linear-gradient(to bottom,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btngrp_hov_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btngrp_hov_gradient_to_ie}',GradientType=0);
+	zoom: 1;
+}
+
+.mce-btn-group .mce-btn.mce-disabled,.mce-btn-group .mce-btn.mce-disabled:hover
+{
+	{xen:property tinyquattro_btngrp_disable_border_color}
+	background-color: {xen:property tinyquattro_btn_bckg_color};
+	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_gradient_from}),to({xen:property tinyquattro_btn_gradient_to}));
+	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+	background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+	background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_gradient_to_ie}',GradientType=0);
+	zoom: 1;
+}
+
+.mce-btn-group .mce-btn.mce-active,.mce-btn-group .mce-btn.mce-active:hover,.mce-btn-group .mce-btn:active
+{
+	{xen:property tinyquattro_btngrp_active_border_color}
+	background-color: {xen:property tinyquattro_btngrp_active_bckg_color};
+	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
+	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btngrp_active_grdt_from}),to({xen:property tinyquattro_btngrp_active_grdt_to}));
+	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
+	background-image: -o-linear-gradient(top,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
+	background-image: linear-gradient(to bottom,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btngrp_active_grdt_from_ie}',endColorstr='{xen:property tinyquattro_btngrp_active_grdt_to_ie}',GradientType=0);
+	zoom: 1;
+}
+
+.mce-btn-group .mce-btn.mce-disabled button
+{
+	opacity: .65;
+	filter: alpha(opacity=65);
+	zoom: 1;
+}
+
+.mce-btn-group .mce-first
+{
+	border-left: 1px solid {xen:property tinyquattro_standard_boder.border-color};
+	-webkit-border-radius: 3px 0 0 3px;
+	-moz-border-radius: 3px 0 0 3px;
+	border-radius: 3px 0 0 3px;
+}
+
+.mce-btn-group .mce-last
+{
+	border-right: 1px solid {xen:property tinyquattro_standard_boder.border-color};
+	-webkit-border-radius: 0 3px 3px 0;
+	-moz-border-radius: 0 3px 3px 0;
+	border-radius: 0 3px 3px 0;
+}
+
+.mce-btn-group .mce-first.mce-last
+{
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.mce-btn-group .mce-btn.mce-flow-layout-item
+{
+	margin: 0;
+}
+
+.mce-checkbox
+{
+	cursor: pointer;
+}
+
+i.mce-i-checkbox
+{
+	margin: 0 3px 0 0;
+	{xen:property tinyquattro_standard_boder}
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+	-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+	box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+	background-color: {xen:property tinyquattro_panel_background_color};
+	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
+	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+	background-image: -o-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+	background-image: linear-gradient(to bottom,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_panel_gradient_from_ie}',endColorstr='{xen:property tinyquattro_panel_gradient_to_ie}',GradientType=0);
+	zoom: 1;
+	text-indent: -10em;
+	*font-size: 0;
+	*line-height: 0;
+	*text-indent: 0;
+}
+
+.mce-checked i.mce-i-checkbox
+{
+	color: #000;
+	font-size: 16px;
+	line-height: 16px;
+	text-indent: 0;
+}
+
+.mce-checkbox:focus i.mce-i-checkbox
+{
+	{xen:property tinyquattro_focus_boder}
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
+	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
+	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
+}
+
+.mce-colorbutton .mce-ico
+{
+	position: relative;
+}
+
+.mce-colorpicker
+{
+	background: #FFF;
+}
+
+.mce-colorbutton-grid
+{
+	margin: 4px;
+}
+
+.mce-grid td div
+{
+	border: 1px solid #808080;
+	width: 12px;
+	height: 12px;
+	margin: 2px;
+	cursor: pointer;
+}
+
+.mce-grid td div:hover
+{
+	border-color: black;
+}
+
+.mce-grid td div:focus
+{
+	border-color: {xen:property tinyquattro_focus_boder.border-color};
+	outline: 1px solid {xen:property tinyquattro_focus_boder.border-color};
+}
+
+.mce-colorbutton
+{
+	position: relative;
+}
+
+.mce-colorbutton .mce-preview
+{
+	display: block;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -8px;
+	margin-top: 7px;
+	background: gray;
+	width: 16px;
+	height: 2px;
+	overflow: hidden;
+}
+
+.mce-combobox
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	width: 100px;
+	-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+	-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+	box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+}
+
+.mce-combobox input
+{
+	border-color: 1px solid {xen:property tinyquattro_standard_boder.border-color};
+	border-right-color: rgba(0,0,0,0.15);
+	height: 28px;
+}
+
+.mce-combobox.mce-has-open input
+{
+	-webkit-border-radius: 4px 0 0 4px;
+	-moz-border-radius: 4px 0 0 4px;
+	border-radius: 4px 0 0 4px;
+}
+
+.mce-combobox .mce-btn
+{
+	border-left: 0;
+	-webkit-border-radius: 0 4px 4px 0;
+	-moz-border-radius: 0 4px 4px 0;
+	border-radius: 0 4px 4px 0;
+}
+
+.mce-combobox button
+{
+	padding-right: 8px;
+	padding-left: 8px;
+}
+
+.mce-combobox *:focus
+{
+	border-color: {xen:property tinyquattro_focus_boder.border-color};
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
+	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
+	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
+}
+
+.mce-path
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	padding: 8px;
+	white-space: normal;
+}
+
+.mce-path .mce-txt
+{
+	display: inline-block;
+	padding-right: 3px;
+}
+
+.mce-path .mce-path-body
+{
+	display: inline-block;
+}
+
+.mce-path-item
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	cursor: pointer;
+	color: #000;
+}
+
+.mce-path-item:hover
+{
+	text-decoration: underline;
+}
+
+.mce-path-item:focus
+{
+	background: gray;
+	color: white;
+}
+
+.mce-path .mce-divider
+{
+	display: inline;
+}
+
+.mce-fieldset
+{
+	border: 0 solid #9e9e9e;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.mce-fieldset>.mce-container-body
+{
+	margin-top: -15px;
+}
+
+.mce-fieldset-title
+{
+	margin-left: 5px;
+	padding: 0 5px 0 5px;
+}
+
+.mce-fit-layout
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+}
+
+.mce-fit-layout-item
+{
+	position: absolute;
+}
+
+.mce-flow-layout-item
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+}
+
+.mce-flow-layout-item
+{
+	margin: 2px 0 2px 2px;
+}
+
+.mce-flow-layout-item.mce-last
+{
+	margin-right: 2px;
+}
+
+.mce-flow-layout
+{
+	white-space: normal;
+}
+
+.mce-iframe
+{
+	border: 0 solid {xen:property tinyquattro_standard_boder.border-color};
+	width: 100%;
+	height: 100%;
+}
+
+.mce-label
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	text-shadow: 0 1px 1px rgba(255,255,255,0.75);
+	border: 0 solid {xen:property tinyquattro_standard_boder.border-color};
+	overflow: hidden;
+}
+
+.mce-label.mce-autoscroll
+{
+	overflow: auto;
+}
+
+.mce-label-disabled .mce-text
+{
+	color: #999;
+}
+
+.mce-label.mce-multiline
+{
+	white-space: pre-wrap;
+}
+
+.mce-menubar .mce-menubtn
+{
+	border-color: transparent;
+	background: transparent;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	filter: none;
+}
+
+.mce-menubar
+{
+	border: 1px solid {xen:property tinyquattro_panel_gradient_to};
+}
+
+.mce-menubar .mce-menubtn button
+{
+	color: #000;
+}
+
+.mce-menubar .mce-menubtn:hover,.mce-menubar .mce-menubtn.mce-active,.mce-menubtn:focus
+{
+	border-color: transparent;
+	background: {xen:property tinyquattro_panel_gradient_to};
+	filter: none;
+}
+
+.mce-menubtn.mce-disabled span
+{
+	color: #999;
+}
+
+.mce-listbox button
+{
+	text-align: left;
+	padding-right: 20px;
+	position: relative;
+}
+
+.mce-listbox .mce-caret
+{
+	position: absolute;
+	margin-top: -2px;
+	right: 8px;
+	top: 50%;
+}
+
+.mce-listbox span
+{
+	width: 100%;
+	display: block;
+	overflow: hidden;
+}
+
+.mce-menu-item
+{
+	display: block;
+	padding: 6px 20px;
+	clear: both;
+	font-weight: normal;
+	line-height: 20px;
+	color: {xen:property tinyquattro_menuitem_font_normal};
+	white-space: nowrap;
+	cursor: pointer;
+	line-height: normal;
+}
+
+.mce-menu-item.mce-disabled .mce-text
+{
+	color: {xen:property tinyquattro_menuitem_font_disable};
+}
+
+.mce-menu-item:hover,.mce-menu-item.mce-selected,.mce-menu-item:focus
+{
+	text-decoration: none;
+	color: {xen:property tinyquattro_menuitem_font_hover};
+	background-color: {xen:property tinyquattro_focus_boder.border-color};
+	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
+	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_gradient_from}),to({xen:property tinyquattro_primary_hover_grdt_from}));
+	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
+	background-image: -o-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
+	background-image: linear-gradient(to bottom,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc',endColorstr='{xen:property tinyquattro_primary_hov_grdt_from_ie}',GradientType=0);
+	zoom: 1;
+}
+
+.mce-menu-item:hover .mce-text,.mce-menu-item.mce-selected .mce-text
+{
+	color: {xen:property tinyquattro_menuitem_font_hover};
+}
+
+.mce-menu-item:hover .mce-ico,.mce-menu-item.mce-selected .mce-ico,.mce-menu-item:focus .mce-ico
+{
+	color: {xen:property tinyquattro_menuitem_font_hover};
+}
+
+.mce-menu-shortcut
+{
+	display: inline-block;
+	color: #999;
+}
+
+.mce-menu-shortcut
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	padding: 0 20px 0 20px;
+}
+
+.mce-menu-item .mce-caret
+{
+	margin-top: 6px;
+	*margin-top: 3px;
+	margin-right: 6px;
+	border-top: 4px solid transparent;
+	border-bottom: 4px solid transparent;
+	border-left: 4px solid #666;
+}
+
+.mce-menu-item.mce-selected .mce-caret,.mce-menu-item:focus .mce-caret
+{
+	border-left-color: #FFF;
+}
+
+.mce-menu-align .mce-menu-shortcut
+{
+	*margin-top: -2px;
+}
+
+.mce-menu-align .mce-menu-shortcut,.mce-menu-align .mce-caret
+{
+	position: absolute;
+	right: 0;
+}
+
+.mce-menu-item-sep,.mce-menu-item-sep:hover
+{
+	padding: 0;
+	height: 1px;
+	margin: 9px 1px;
+	overflow: hidden;
+	background: #e5e5e5;
+	border-bottom: 1px solid white;
+	cursor: default;
+	filter: none;
+}
+
+.mce-menu-item.mce-active i
+{
+	visibility: visible;
+}
+
+.mce-menu-item.mce-active
+{
+	background-color: #c8def4;
+	outline: 1px solid {xen:property tinyquattro_standard_boder.border-color};
+}
+
+.mce-menu-item-checkbox.mce-active
+{
+	background-color: #FFF;
+	outline: 0;
+}
+
+.mce-menu
+{
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+	background: transparent;
+	z-index: 1000;
+	padding: 5px 0 5px 0;
+	margin: 2px 0 0;
+	min-width: 160px;
+	background: #FFF;
+	border: 1px solid #CCC;
+	border: 1px solid rgba(0,0,0,0.2);
+	z-index: 1002;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	-webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+	-moz-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+	box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+
+.mce-menu i
+{
+	display: none;
+}
+
+.mce-menu-has-icons i
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+}
+
+.mce-menu-sub
+{
+	margin-top: -6px;
+	margin-left: -1px;
+	-webkit-border-radius: 0 6px 6px 6px;
+	-moz-border-radius: 0 6px 6px 6px;
+	border-radius: 0 6px 6px 6px;
+}
+
+i.mce-radio
+{
+	padding: 1px;
+	margin: 0 3px 0 0;
+	background-color: #fafafa;
+	border: 1px solid #cacece;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+	-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+	-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+	box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+	background-color: {xen:property tinyquattro_panel_background_color};
+	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
+	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+	background-image: -o-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+	background-image: linear-gradient(to bottom,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_panel_gradient_from_ie}',endColorstr='{xen:property tinyquattro_panel_gradient_to_ie}',GradientType=0);
+	zoom: 1;
+}
+
+i.mce-radio:after
+{
+	font-family: Arial;
+	font-size: 12px;
+	color: #000;
+	content: '\25cf';
+}
+
+.mce-container-body .mce-resizehandle
+{
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	width: 16px;
+	height: 16px;
+	visibility: visible;
+	cursor: s-resize;
+	margin: 0;
+}
+
+.mce-resizehandle-both
+{
+	cursor: se-resize;
+}
+
+i.mce-i-resize
+{
+	color: #000;
+}
+
+.mce-spacer
+{
+	visibility: hidden;
+}
+
+.mce-splitbtn .mce-open
+{
+	border-left: 1px solid transparent;
+	border-right: 1px solid transparent;
+}
+
+.mce-splitbtn:hover .mce-open
+{
+	border-left-color: {xen:property tinyquattro_standard_boder.border-color};
+	border-right-color: {xen:property tinyquattro_standard_boder.border-color};
+}
+
+.mce-splitbtn button
+{
+	padding-right: 4px;
+}
+
+.mce-splitbtn .mce-open
+{
+	padding-left: 4px;
+}
+
+.mce-splitbtn .mce-open.mce-active
+{
+	-webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
+	-moz-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
+	box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
+}
+
+.mce-stack-layout-item
+{
+	display: block;
+}
+
+.mce-tabs
+{
+	display: block;
+	border-bottom: 1px solid #ccc;
+}
+
+.mce-tab
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	border: 1px solid #ccc;
+	border-width: 1px 1px 0 0;
+	background: #e3e3e3;
+	padding: 8px;
+	text-shadow: 0 1px 1px rgba(255,255,255,0.75);
+	height: 13px;
+	cursor: pointer;
+}
+
+.mce-tab:hover
+{
+	background: {xen:property tinyquattro_panel_gradient_from};
+}
+
+.mce-tab.mce-active
+{
+	background: {xen:property tinyquattro_panel_gradient_from};
+	border-bottom-color: transparent;
+	margin-bottom: -1px;
+	height: 14px;
+}
+
+.mce-textbox
+{
+	background: #FFF;
+	{xen:property tinyquattro_standard_boder}
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+	display: inline-block;
+	-webkit-transition: border linear .2s,box-shadow linear .2s;
+	transition: border linear .2s,box-shadow linear .2s;
+	height: 28px;
+	resize: none;
+	padding: 0 4px 0 4px;
+	white-space: normal;
+	color: #000;
+}
+
+.mce-textbox:focus
+{
+	border-color: {xen:property tinyquattro_focus_boder.border-color};
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
+	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
+	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
+}
+
+.mce-placeholder .mce-textbox
+{
+	color: #aaa;
+}
+
+.mce-textbox.mce-multiline
+{
+	padding: 4px;
+}
+
+.mce-throbber
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	opacity: .6;
+	filter: alpha(opacity=60);
+	zoom: 1;
+	background: #fff url('styles/sedo/tinyquattro/img/loader.gif') no-repeat center center;
+}
+
+
+<xen:comment>
+	XenForo Framework addons
+</xen:comment>
+
+#mce-top-right{
+	float:right;
+	padding-right:2px;
+}
+
+.mceAdvPicker{
+	position: relative;
+	text-align: center;
+	margin: 0 8px;
+	top: -3px;
+	font-size:10pt;
+	cursor: pointer;
+}
+
+.mceAdvPicker:hover{
+	background-color:black;
+	color:white;
+}
+
+.mce-xen-font-size-menu{
+	min-width:80px;
+}
+
+.mce-xen-font-size-menu .mce-container-body{
+	width:100px;
+	height:80px;
+	overflow-y:auto;
+}
+
+.mce-xen-font-size{
+	text-align:center;
+}
+
+.mce-xen-font-family-menu .mce-container-body{
+	width:180px;
+	height:80px;
+	overflow-y:auto;
+}
+
+<xen:comment>
+	/*Normal Icons can still work*/
+	.mce-ico.mce-i-xen_switch {
+		background: url('{xen:property imagePath}/xenforo/xenforo-ui-sprite.png') no-repeat scroll -144px 0 ;
+	}
+</xen:comment>
+
+<xen:comment>
+	XenForo Smilies
+</xen:comment>
+
+<xen:include template="tiny_quattro_smilies.css" />
+
+.mceQuattroSmilieBlock{
+	width:100px;
+	white-space: normal;
+	text-align: center;
+	padding:5px;
+	max-height:80px;
+	overflow:auto;
+}
+.mceQuattroSmilieBlock a{
+	white-space: normal;
+}
+
+.mceQuattroSmilieBlock > img,
+.mceQuattroSmilie{
+	margin:2px;
+	cursor: pointer;
+}
+
+
+
+<xen:comment>
+	BUTTONS: DON'T MOVE THIS INCLUDE.
+	It must be at the last line
+</xen:comment>
+
+<xen:include template="tiny_quattro_buttons.css" />]]></template>
+    <template title="tiny_quattro_iframe.css" version_id="0" version_string="1.0"><![CDATA[<xen:comment>
+	EDITOR IFRAME CONTENT CSS
+</xen:comment>
+
+body.mce-content-body {
+	{xen:property html.background}
+	{xen:property html.font}
+	
+	{xen:property body.background}
+	{xen:property body.font}
+	
+	{xen:property content.background}
+	{xen:property content.font}
+
+	{xen:property primaryContent.background}
+	{xen:property primaryContent.font}
+	
+	{xen:property messageInfo.background}
+	{xen:property messageInfo.font}
+
+	{xen:property messageText}
+	
+	background-image: none;
+	
+	{xen:property editorContent}
+    scrollbar-3dlight-color: #f0f0ee;
+    scrollbar-arrow-color: #676662;
+    scrollbar-base-color: #f0f0ee;
+    scrollbar-darkshadow-color: #ddd;
+    scrollbar-face-color: #e0e0dd;
+    scrollbar-highlight-color: #f0f0ee;
+    scrollbar-shadow-color: #f0f0ee;
+    scrollbar-track-color: #f5f5f5;
+}
+
+body, td, pre
+{	
+	margin:8px;
+	word-wrap: break-word;
+}
+
+p { margin: 0; padding: 0; }
+
+td,th {
+    font-family: Verdana,Arial,Helvetica,sans-serif;
+    font-size: 11px;
+}
+
+.mce-object {
+    border: 1px dotted #3a3a3a;
+    background: #d5d5d5 url(styles/sedo/tinyquattro/img/object.gif) no-repeat center;
+}
+
+.mce-pagebreak {
+    cursor: default;
+    display: block;
+    border: 0;
+    width: 100%;
+    height: 5px;
+    border: 1px dashed #666;
+    margin-top: 15px;
+}
+
+.mce-item-anchor {
+    cursor: default;
+    display: inline-block;
+    -webkit-user-select: all;
+    -webkit-user-modify: read-only;
+    -moz-user-select: all;
+    -moz-user-modify: read-only;
+    width: 9px!important;
+    height: 9px!important;
+    border: 1px dotted #3a3a3a;
+    background: #d5d5d5 url(styles/sedo/tinyquattro/img/anchor.gif) no-repeat center;
+}
+
+.mce-nbsp {
+    background: #AAA;
+}
+
+hr {
+    cursor: default;
+}
+
+.mce-match-marker {
+    background: green;
+    color: #fff;
+}
+
+.mce-spellchecker-word {
+    background: url(styles/sedo/tinyquattro/img/wline.gif) repeat-x bottom left;
+    cursor: default;
+}
+
+.mce-item-table,.mce-item-table td,.mce-item-table th,.mce-item-table caption {
+    border: 1px dashed #BBB;
+}
+
+td.mce-item-selected,th.mce-item-selected {
+    background-color: #39f!important;
+}
+
+.mce-edit-focus {
+    outline: 1px dotted #333;
+}
+
+a:link,
+a:visited
+{
+	{xen:helper cssImportant, {xen:property link}}
+	{xen:helper cssImportant, {xen:property ugcLink}}
+}
+
+h1 { font-size: 2em; }
+h2 { font-size: 1.5em; }
+h3 { font-size: 1.17em; }
+h4 { font-size: 1em; }
+h5 { font-size: .83em; }
+h6 { font-size: .75em; }
+
+
+<xen:include template="bb_code_base.css" />
+<xen:include template="bb_code.css" />
+<xen:if is="{$smilieSprites}">
+	<xen:foreach loop="{$smilieSprites}" key="{$smilieId}" value="{$smilieSprite}">
+		<xen:if is="{$smilieSprite.sprite_css}">
+			img.mceQuattroSmilieSprite.mceSmilie{$smilieId}{
+				{xen:raw $smilieSprite.sprite_css}
+			}
+		</xen:if>
+	</xen:foreach>
+</xen:if>]]></template>
+    <template title="tiny_quattro_js_setup" version_id="0" version_string="1.0"><![CDATA[<xen:require js="js/sedo/tinyquattro/tinymce/tinymce.min.js" />
+
+<xen:if is="{$visitor.getBrowser.IEis} != 7">
+	<xen:require css="tiny_quattro_editor.css" />
+<xen:else />
+	<xen:require css="tiny_quattro_editor_ie7.css" />
+</xen:if>
+	
+<script>
+<xen:hook name="quattro_js_setup" params="{xen:array 'editorId={$editorId}'}">
+
+!function($, window, document, _undefined)
+{
+
+	if(typeof xenMCE === 'undefined') xenMCE = {};
+
+	<xen:hook name="quattro_phrases" params="{xen:array 'editorId={$editorId}'}">
+		xenMCE.Phrases = {<xen:include template="tiny_quattro_phrases" />}
+	</xen:hook>
+
+	<xen:hook name="quattro_params" params="{xen:array 'editorId={$editorId}'}">
+		xenMCE.Params = {<xen:include template="tiny_quattro_params" />}
+	</xen:hook>
+
+	var $editor = $("#{xen:jsescape $editorId}_html").hide();
+	console.info('XenForo editor %s, %o', '{xen:jsescape {$editorId}}', $editor);
+		
+	$(function()
+	{
+		$editor.css('visibility', '').show();
+		
+		if (window.tinyMCE)
+		{
+			var config = {
+				selector: "#"+$editor.attr('id'),
+				theme: "modern",
+				language: "xen",
+				skin: false,
+				content_css: "css.php?style={xen:urlencode $visitorStyle.style_id}&css=tiny_quattro_iframe&d={xen:urlencode $visitorStyle.last_modified_date}",
+				menubar: false,
+				toolbar_items_size : '{$xenOptions.quattro_iconsize}',
+				plugins: [
+				 "advlist autolink lists charmap visualchars fullscreen",
+				 "directionality searchreplace",
+				 "paste textcolor xenforo autoresize autosave"
+				],
+				//resize: false, <xen:comment>bug #5938</xen:comment>
+				object_resizing: false,
+				autoresize_min_height:{$xenOptions.quattro_autoresize_min_height},
+				autoresize_max_height:{$xenOptions.quattro_autoresize_max_height},
+				autosave_interval: '{$xenOptions.quattro_autosave_interval}s',
+				autosave_retention: '{$xenOptions.quattro_autosave_retention}m',
+				directionality: '{$visitorLanguage.text_direction}',<xen:comment>Must be set by a BM</xen:comment>
+				document_base_url: "{xen:jsescape $requestPaths.fullBasePath}",	
+				autosave_ask_before_unload: {$xenOptions.quattro_autosave_ask_before_unload},
+				statusbar: {$xenOptions.quattro_statusbar},
+				toolbar1: "removeformat undo redo restoredraft | xen_fontfamily xen_fontsize forecolor backcolor |  bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | fullscreen xen_switch",
+				toolbar2: "bullist numlist outdent indent | xen_image xen_media xen_link xen_unlink | xen_smilies charmap xen_nonbreaking xen_code xen_quote",
+				nonbreaking_force_tab: true
+			};
+
+			<xen:if is="{$xenOptions.quattro_wordcount} != 'no'">
+				config.plugins.push('wordcount');
+
+				<xen:if is="{$xenOptions.quattro_wordcount} == 'char'">
+					config.wordcount_countregex = /\S/g;
+					config.wordcount_cleanregex = '';
+				</xen:if>
+
+				<xen:if is="{$xenOptions.quattro_wordcount} == 'charwp'">
+					config.wordcount_countregex = /(\S|\b[\u0020]\b)/g;
+					config.wordcount_cleanregex = /\n/g;
+				</xen:if>
+			</xen:if>
+
+			tinymce.init(config);
+		}
+		else
+		{
+			<xen:if is="!{$message}">$editor.after($('<input type="hidden" name="_xfRteFailed" value="1" />'));</xen:if>
+		}
+
+		$editor.data('editorActivated', true);
+	});
+}
+(jQuery, this, document);
+
+</xen:hook>
+
+</script>
+
+<xen:edithint template="tiny_quattro_iframe.css" />
+<xen:edithint template="tiny_quattro_buttons.css" />
+<xen:edithint template="tiny_quattro_buttons_ie7.css" />]]></template>
+    <template title="tiny_quattro_params" version_id="0" version_string="1.0"><![CDATA[<xen:comment>
+	We are inside a JavaScript file. All phrases must be escaped
+</xen:comment>
+
+	frightMode: {$xenOptions.quattro_frightmode},
+	fastUnlink: {$xenOptions.quattro_fastunlink},
+	extraColors: {$xenOptions.quattro_extracolors},
+	extraLists: {$xenOptions.quattro_extralists},
+	hidePath: {$xenOptions.quattro_hidepath},
+	geckoFullfix: {$xenOptions.quattro_geckofullfix},
+	overlayDefaultSize: { w: 320, h: 240 },
+	overlayColorPickerSize: { w: 450, h: 265 },
+	overlayImageSize: { w: 480, h: 110 },
+	overlayLinkSize: { w: 480, h: 160 },
+	overlayMediaSize: { w: 480, h: 160 },
+	xSmilies: {$xenOptions.quattro_xsmilies},
+	xenforo_smilies: {xen:helper json, $smilies}]]></template>
+    <template title="tiny_quattro_phrases" version_id="0" version_string="1.0"><![CDATA[<xen:comment>
+	We are inside a JavaScript file. All phrases must be escaped
+</xen:comment>
+
+	fullscreen: "{xen:jsescape {xen:phrase sedo_quattro_fullscreen}}",
+	notitle: "{xen:jsescape {xen:phrase sedo_quattro_titleismissing}}",
+	more_colors: "{xen:jsescape {xen:phrase sedo_quattro_more_colors}}",
+	font_size: "{xen:jsescape {xen:phrase sedo_quattro_font_size}}",
+	font_family: "{xen:jsescape {xen:phrase sedo_quattro_font_family}}",
+	apply: "{xen:jsescape {xen:phrase apply}}",
+	insert: "{xen:jsescape {xen:phrase insert}}",
+	update: "{xen:jsescape {xen:phrase update}}",
+	cancel: "{xen:jsescape {xen:phrase cancel}}",
+	close: "{xen:jsescape {xen:phrase close}}",
+	switch_text: ["{xen:jsescape {xen:phrase use_bb_code_editor}}", "{xen:jsescape {xen:phrase use_rich_text_editor}}"],
+	unlink: "{xen:jsescape {xen:phrase unlink}}",
+	
+<xen:comment>autotranslation</xen:comment>
+
+	alignleft_desc: "{xen:jsescape {xen:phrase align_left}}",
+	aligncenter_desc:  "{xen:jsescape {xen:phrase align_center}}",
+	alignrigth_desc: "{xen:jsescape {xen:phrase align_right}}",
+	alignjustify_desc: "{xen:jsescape {xen:phrase quattro_align_justify}}",
+	backcolor_desc: "{xen:jsescape {xen:phrase select_background_color}}",
+	forecolor_desc: "{xen:jsescape {xen:phrase text_color}}",
+	bold_desc: "{xen:jsescape {xen:phrase bold_ctrl_b}}",
+	italic_desc: "{xen:jsescape {xen:phrase italic_ctrl_i}}",
+	underline_desc: "{xen:jsescape {xen:phrase underline_ctrl_u}}",
+	strikethrough_desc: "{xen:jsescape {xen:phrase strike_through}}",
+	removeformat_desc: "{xen:jsescape {xen:phrase remove_formatting}}",
+	undo_desc: "{xen:jsescape {xen:phrase undo_ctrl_z}}",
+	redo_desc: "{xen:jsescape {xen:phrase redo_ctrl_y}}",
+	outdent_desc: "{xen:jsescape {xen:phrase outdent}}",
+	indent_desc: "{xen:jsescape {xen:phrase indent}}",
+	bullist_desc: "{xen:jsescape {xen:phrase unordered_list}}",
+	numlist_desc: "{xen:jsescape {xen:phrase ordered_list}}",
+	xen_link_desc: "{xen:jsescape {xen:phrase insert_edit_link}}",
+	xen_unlink_desc: "{xen:jsescape {xen:phrase unlink}}",
+	xen_media_desc: "{xen:jsescape {xen:phrase media}}",
+	xen_image_desc: "{xen:jsescape {xen:phrase insert_edit_image}}",
+	xen_code_desc: "{xen:jsescape {xen:phrase code}}",
+	xen_quote_desc: "{xen:jsescape {xen:phrase quote}}",
+	xen_smilies_desc: "{xen:jsescape {xen:phrase smilies}}",
+	xen_nonbreaking_desc: "{xen:jsescape {xen:phrase sedo_quattro_nonbreaking}}",
+	restoredraft_desc: "{xen:jsescape {xen:phrase sedo_quattro_restoredraft}}",
+
+<xen:comment>tinymce I18n translation object</xen:comment>
+
+	I18n: {
+		"Words: {0}": "{xen:jsescape {xen:if "in_array({$xenOptions.quattro_wordcount}, array('char','charwp'))", "{xen:phrase sedo_quattro_characters}", "{xen:phrase sedo_quattro_words}"}}",
+		"Special characters": "{xen:jsescape {xen:phrase sedo_quattro_specialcharacters}}"
+	}
+
+]]></template>
+    <template title="tiny_quattro_smilies.css" version_id="0" version_string="1.0"><![CDATA[<xen:if is="{$smilieSprites}">
+	<xen:foreach loop="{$smilieSprites}" key="{$smilieId}" value="{$smilieSprite}">
+		<xen:if is="{$smilieSprite.sprite_css}">
+			img.mceQuattroSmilieSprite.mceSmilie{$smilieId}{
+				{xen:raw $smilieSprite.sprite_css}
+			}
+		</xen:if>
+	</xen:foreach>
+</xen:if>
+
+]]></template>
+  </templates>
+  <bb_code_media_sites/>
+  <template_modifications>
+    <modification title="tiny_quattro_js_setup" template_title="editor" execute_order="10" modification_type="str_replace" callback_class="" callback_method="" description="TinyMCE Quattro Setup" version_id="0" version_string="1.0" active="1">
+      <search_value><![CDATA[<xen:include template="editor_js_setup" />]]></search_value>
+      <replace_value><![CDATA[<xen:include template="tiny_quattro_js_setup" />]]></replace_value>
+    </modification>
+  </template_modifications>
+</addon>

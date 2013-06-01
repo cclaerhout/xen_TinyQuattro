@@ -1,0 +1,1 @@
+tinymce.addI18n('xen', xenMCE.Phrases.I18n);
