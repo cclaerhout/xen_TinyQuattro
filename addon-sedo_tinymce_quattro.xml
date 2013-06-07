@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.0.1" version_id="1" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.0.2" version_id="2" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -7,6 +7,7 @@
   <code_events/>
   <code_event_listeners>
     <listener event_id="load_class_controller" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_ControllerPublic" callback_method="listen" active="1" description="Controller Public Listener"/>
+    <listener event_id="template_create" execute_order="8" callback_class="Sedo_TinyQuattro_Listener_Templates_Preloader" callback_method="preloader" active="1" description="Template Preloader"/>
   </code_event_listeners>
   <cron/>
   <email_templates/>
@@ -46,6 +47,12 @@ step=5</edit_format_params>
 step=5</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="110"/>
+    </option>
+    <option option_id="quattro_disable_on_mobiles" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="5000"/>
     </option>
     <option option_id="quattro_extracolors" edit_format="radio" data_type="boolean" can_backup="1">
       <default_value>1</default_value>
@@ -119,9 +126,15 @@ step=1</edit_format_params>
     </option>
   </optiongroups>
   <permissions>
-    <permission_groups/>
-    <permissions/>
-    <interface_groups/>
+    <permission_groups>
+      <permission_group permission_group_id="sedo_quattro"/>
+    </permission_groups>
+    <permissions>
+      <permission permission_group_id="sedo_quattro" permission_id="display" permission_type="flag" default_value="unset" interface_group_id="sedo_quattro" display_order="10"/>
+    </permissions>
+    <interface_groups>
+      <interface_group interface_group_id="sedo_quattro" display_order="9999"/>
+    </interface_groups>
   </permissions>
   <phrases>
     <phrase title="option_group_tiny_quattro" version_id="0" version_string="1.0"><![CDATA[TinyQuattro]]></phrase>
@@ -136,6 +149,8 @@ step=1</edit_format_params>
     <phrase title="option_quattro_autosave_interval_explain" version_id="0" version_string="1.0"><![CDATA[Select here the interval to auto save your draft (unit: seconds)]]></phrase>
     <phrase title="option_quattro_autosave_retention" version_id="0" version_string="1.0"><![CDATA[Autosave Retention]]></phrase>
     <phrase title="option_quattro_autosave_retention_explain" version_id="0" version_string="1.0"><![CDATA[Select here how long your draft will be kept in memory (unit: minutes)]]></phrase>
+    <phrase title="option_quattro_disable_on_mobiles" version_id="1" version_string="1.0.1"><![CDATA[Disable on mobile devices?]]></phrase>
+    <phrase title="option_quattro_disable_on_mobiles_explain" version_id="1" version_string="1.0.1"><![CDATA[This will disable TinyMCE 4 on mobile devices and will load your forum default editor.]]></phrase>
     <phrase title="option_quattro_extracolors" version_id="0" version_string="1.0"><![CDATA[Enable extra colors?]]></phrase>
     <phrase title="option_quattro_extracolors_explain" version_id="0" version_string="1.0"><![CDATA[This option will add a menu to the colors buttons (frontcolor/backcolor) to load a color picker.]]></phrase>
     <phrase title="option_quattro_extralists" version_id="0" version_string="1.0"><![CDATA[Enable extra lists?]]></phrase>
@@ -156,6 +171,9 @@ step=1</edit_format_params>
     <phrase title="option_quattro_wordcount_explain" version_id="0" version_string="1.0"><![CDATA[This option will activate the TinyMCE word count plugin.]]></phrase>
     <phrase title="option_quattro_xsmilies" version_id="0" version_string="1.0"><![CDATA[Number of smilies?]]></phrase>
     <phrase title="option_quattro_xsmilies_explain" version_id="0" version_string="1.0"><![CDATA[Select here the number of smilies you would like to display in the button menu. Set 0 if you want to display all of them.]]></phrase>
+    <phrase title="permission_group_sedo_quattro" version_id="1" version_string="1.0.1"><![CDATA[TinyMCE Quattro]]></phrase>
+    <phrase title="permission_interface_sedo_quattro" version_id="1" version_string="1.0.1"><![CDATA[TinyMCE Quattro]]></phrase>
+    <phrase title="permission_sedo_quattro_display" version_id="1" version_string="1.0.1"><![CDATA[Use the editor]]></phrase>
     <phrase title="quattro_align_justify" version_id="0" version_string="1.0"><![CDATA[Justify align]]></phrase>
     <phrase title="sedo_quattro_characters" version_id="0" version_string="1.0"><![CDATA[Characters: {0}]]></phrase>
     <phrase title="sedo_quattro_color" version_id="0" version_string="1.0"><![CDATA[Selected color]]></phrase>
@@ -443,6 +461,88 @@ step=1</edit_format_params>
 .mce-xen-body textarea {
 	padding: 5px;
 }]]></template>
+    <template title="quattro_dialog_bbm_demo" version_id="1" version_string="1.0.1"><![CDATA[<xen:comment>
+	The below css template is the default css. It must be included with all dialog
+</xen:comment>
+
+<xen:require css="quattro_dialog.css" />
+
+<xen:comment>
+	The below css template is the template that will be only use to customize this dialog
+</xen:comment>
+
+<xen:require css="quattro_dialog_bbm_demo.css" />
+
+<xen:comment>
+	The below line is the locaction of the Javascript file that 
+	will manage the submit function and, if you want, the "onafterload" callback.
+
+	It can be anywhere and have the name you want. But its content must have
+	a single Javascript Object named xenMCE.Templates.Bbm_yourTemplate.
+	You just need to replace yourTemplate with the name of your template (here: demo).
+</xen:comment>
+
+<xen:require js="js/sedo/tinyquattro/templates/bbm_demo.js" />
+
+<xen:comment>
+	Below starts the dialog html content. There are several commands that will
+	automatically perform some tasks for your. Examples:
+
+	#classes#
+	> mceTitle => will give a title to the modal window
+	> mceFocus => will focus the field
+	> mceSubmit => will change the title of the submit button
+	> mceCancel => will change the title of the cancel button
+	> mce-xen-content => css to use for the content of the overlay
+	> ... (check the other dialogs to see the options (tabs/inputs inline/normal inputs, etc.)
+
+	#name#
+	> Every input tags (input, textarea, select) will be automatically send to the
+	  submit function (check the event "data").
+	  Don't forget to specify a name attribute to get the data.
+
+	> If you need another field or tag content to be send, just add it 
+	  this data parameter: data-input (data-input="whatYouWant").
+	  Both the content of the data-input parameter and the content content of its tag
+	  will be send to the submit function
+
+	#template variables#
+	> $selection.text => selection in raw format
+	> $selection.html => selection in html format
+	> $selection.bbCode => selection in BbCode format
+	> $isUrl => if the selection is an Url (link or email)
+	> $isLink => if the selection is a link
+	> $isEmail => if the selection is an Email
+	> $urlDatas.text => the url text
+	> $urlDatas.href => the url link
+</xen:comment>
+
+<div class="mceTitle">Title</div>
+
+<div id="quattro_demo" class="mce-xen-content">
+	<dl>
+		<dt>Bb Code Content:</dt>
+		<dd>
+			<textarea id="ctrl_quattro_content" name="content" class="mce-textbox mceFocus">{$selection.text}</textarea>
+		</dd>
+	</dl>
+	<dl class="xenmce_inline">
+		<dt>Bb Code Options:</dt>
+		<dd><input 	id="ctrl_quattro_options"
+				name="options"
+				type="text"
+				size="30"
+				class="mce-textbox"
+				value=""
+			/>
+		</dd>
+	</dl>
+</div>]]></template>
+    <template title="quattro_dialog_bbm_demo.css" version_id="1" version_string="1.0.1"><![CDATA[#ctrl_quattro_content {
+	display: block;
+	width: 98%;
+	height: 95px;
+}]]></template>
     <template title="quattro_dialog_code" version_id="0" version_string="1.0"><![CDATA[<xen:require css="quattro_dialog.css" />
 <xen:require css="quattro_dialog_code.css" />
 <xen:require js="js/sedo/tinyquattro/templates/code.js" />
@@ -467,7 +567,7 @@ step=1</edit_format_params>
 		</dd>
 	</dl>
 </div>]]></template>
-    <template title="quattro_dialog_code.css" version_id="0" version_string="1.0"><![CDATA[#quattro_code_input {
+    <template title="quattro_dialog_code.css" version_id="1" version_string="1.0.1"><![CDATA[#quattro_code_input {
 	display: block;
 	width: 98%;
 	height: 185px;
@@ -1366,7 +1466,34 @@ i.mce-i-backcolor
 .mce-i-xen_quote:before        { -ie7-icon: "\e009"; }
 .mce-i-xen_nonbreaking:before  { -ie7-icon: "\e025"; } <xen:comment>Original icon set</xen:comment>
 ]]></template>
-    <template title="tiny_quattro_editor.css" version_id="0" version_string="1.0"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_custom_buttons" version_id="1" version_string="1.0.1"><![CDATA[<xen:foreach loop="$customButtonsJs" value="$button" i="$i" count="$total">
+<xen:set var="$coma">{xen:if '{$i} != {$total}', ','}</xen:set>
+
+<xen:if is="{$button.return} == 'direct'">
+	{$button.tag}:{
+		code: "{$button.code}",
+		iconSet: "{$button.iconSet}",
+		desc: "{xen:jsescape {$button.description}}",
+		type: "{$button.type}",
+		typeOpt: "{xen:jsescape {$button.typeOption}}",
+		_return: "{$button.return}",
+		tagOpt: "{xen:jsescape {$button.tagOptions}}",
+		tagCont: "{xen:jsescape {$button.tagContent}}"
+	}{$coma}
+<xen:else />
+	{$button.tag}:{
+		code: "{$button.code}",
+		iconSet: "{$button.iconSet}",
+		desc: "{xen:jsescape {$button.description}}",
+		type: "{$button.type}",
+		typeOpt: "{xen:jsescape {$button.typeOption}}",
+		_return: "{$button.return}",
+		template: "{$button.returnOption}"
+	}{$coma}
+</xen:if>
+</xen:foreach>
+]]></template>
+    <template title="tiny_quattro_editor.css" version_id="2" version_string="1.0.2"><![CDATA[<xen:comment>
 	ALL EDITOR CSS (EXCEPT IFRAME CONTENT)
 	> IE7 have the same CSS except for buttons.
 	> These main css can be copied to the tiny_quattro_editor_ie7.css, just change the require template (see the last line)
@@ -2160,7 +2287,7 @@ body .mce-abs-layout-item,.mce-abs-end
 {
 	padding: 3px 5px;
 	font-size: 12px;
-	line-height: 16px;
+	line-height: 17px;
 }
 
 .mce-btn-small i
@@ -3042,6 +3169,17 @@ i.mce-i-resize
 </xen:comment>
 
 <xen:include template="tiny_quattro_buttons.css" />]]></template>
+    <template title="tiny_quattro_grid" version_id="1" version_string="1.0.1"><![CDATA[<xen:if is="{$quattroGrid}">
+	<xen:foreach loop="$quattroGrid" value="$buttons" key="$key">
+		toolbar{$key}: "{$buttons}",
+	</xen:foreach>
+<xen:else />
+	<xen:comment>Default Fallback</xen:comment>
+	toolbar1: "removeformat undo redo restoredraft | xen_fontfamily xen_fontsize forecolor backcolor |  bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | fullscreen xen_switch",
+	toolbar2: "bullist numlist outdent indent | xen_image xen_media xen_link xen_unlink | xen_smilies charmap xen_nonbreaking xen_code xen_quote",
+</xen:if>
+
+]]></template>
     <template title="tiny_quattro_iframe.css" version_id="0" version_string="1.0"><![CDATA[<xen:comment>
 	EDITOR IFRAME CONTENT CSS
 </xen:comment>
@@ -3174,14 +3312,24 @@ h6 { font-size: .75em; }
 		</xen:if>
 	</xen:foreach>
 </xen:if>]]></template>
-    <template title="tiny_quattro_js_setup" version_id="0" version_string="1.0"><![CDATA[<xen:require js="js/sedo/tinyquattro/tinymce/tinymce.min.js" />
+    <template title="tiny_quattro_js_setup" version_id="1" version_string="1.0.1"><![CDATA[<xen:require js="js/sedo/tinyquattro/tinymce/tinymce.min.js" />
 
 <xen:if is="{$visitor.getBrowser.IEis} != 7">
 	<xen:require css="tiny_quattro_editor.css" />
+	<style type="text/css">
+		<xen:foreach loop="$customButtonsCss" value="$button">
+			.mce-i-{$button.buttonCode}:before	{ content: "\{$button.iconCode}"; }
+		</xen:foreach>
+	</style>
 <xen:else />
 	<xen:require css="tiny_quattro_editor_ie7.css" />
+	<style type="text/css">
+		<xen:foreach loop="$customButtonsCss" value="$button">
+			.mce-i-{$button.buttonCode}	{ -ie7-icon: "\{$button.iconCode}"; }
+		</xen:foreach>
+	</style>
 </xen:if>
-	
+
 <script>
 <xen:hook name="quattro_js_setup" params="{xen:array 'editorId={$editorId}'}">
 
@@ -3230,8 +3378,7 @@ h6 { font-size: .75em; }
 				document_base_url: "{xen:jsescape $requestPaths.fullBasePath}",	
 				autosave_ask_before_unload: {$xenOptions.quattro_autosave_ask_before_unload},
 				statusbar: {$xenOptions.quattro_statusbar},
-				toolbar1: "removeformat undo redo restoredraft | xen_fontfamily xen_fontsize forecolor backcolor |  bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | fullscreen xen_switch",
-				toolbar2: "bullist numlist outdent indent | xen_image xen_media xen_link xen_unlink | xen_smilies charmap xen_nonbreaking xen_code xen_quote",
+				<xen:include template="tiny_quattro_grid" />
 				nonbreaking_force_tab: true
 			};
 
@@ -3267,8 +3414,10 @@ h6 { font-size: .75em; }
 
 <xen:edithint template="tiny_quattro_iframe.css" />
 <xen:edithint template="tiny_quattro_buttons.css" />
-<xen:edithint template="tiny_quattro_buttons_ie7.css" />]]></template>
-    <template title="tiny_quattro_params" version_id="0" version_string="1.0"><![CDATA[<xen:comment>
+<xen:edithint template="tiny_quattro_buttons_ie7.css" />
+<xen:edithint template="tiny_quattro_custom_buttons" />
+]]></template>
+    <template title="tiny_quattro_params" version_id="1" version_string="1.0.1"><![CDATA[<xen:comment>
 	We are inside a JavaScript file. All phrases must be escaped
 </xen:comment>
 
@@ -3284,7 +3433,8 @@ h6 { font-size: .75em; }
 	overlayLinkSize: { w: 480, h: 160 },
 	overlayMediaSize: { w: 480, h: 160 },
 	xSmilies: {$xenOptions.quattro_xsmilies},
-	xenforo_smilies: {xen:helper json, $smilies}]]></template>
+	xenforo_smilies: {xen:helper json, $smilies},
+	bbmButtons: {<xen:include template="tiny_quattro_custom_buttons" />}]]></template>
     <template title="tiny_quattro_phrases" version_id="0" version_string="1.0"><![CDATA[<xen:comment>
 	We are inside a JavaScript file. All phrases must be escaped
 </xen:comment>
@@ -3353,9 +3503,14 @@ h6 { font-size: .75em; }
   </templates>
   <bb_code_media_sites/>
   <template_modifications>
-    <modification title="tiny_quattro_js_setup" template_title="editor" execute_order="10" modification_type="str_replace" callback_class="" callback_method="" description="TinyMCE Quattro Setup" version_id="0" version_string="1.0" active="1">
+    <modification title="tiny_quattro_js_setup" template_title="editor" execute_order="10" modification_type="str_replace" callback_class="" callback_method="" description="TinyMCE Quattro Setup" version_id="1" version_string="1.0.1" active="1">
       <search_value><![CDATA[<xen:include template="editor_js_setup" />]]></search_value>
-      <replace_value><![CDATA[<xen:include template="tiny_quattro_js_setup" />]]></replace_value>
+      <replace_value><![CDATA[	<xen:if is="{$loadQuattro}">
+		<xen:include template="tiny_quattro_js_setup" />
+	<xen:else />
+		<xen:include template="editor_js_setup" />
+	</xen:if>
+]]></replace_value>
     </modification>
   </template_modifications>
 </addon>

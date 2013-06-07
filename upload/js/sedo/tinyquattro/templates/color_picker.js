@@ -63,7 +63,7 @@
 			'#F5DEB3':'Wheat','#FFFFFF':'White','#F5F5F5':'White Smoke','#FFFF00':'Yellow','#9ACD32':'Yellow Green'
 		},
 		namedLookup: {},
-		init: function(e, $ovl, ed, src) {
+		init: function($ovl, data, ed, src) {
 
 			var t = xenMCE.Templates.ColorPicker;
 

@@ -105,7 +105,7 @@
 					   	> Argument: windowManagerConfig 
 					   # 'onafterload'	(string with the name of the function to call - optionnal)
 					   	> Use this callback to do something after the XenForo overlay has been loaded
-					   	> Arguments: event, $overlay, editor, parentClass
+					   	> Arguments: $overlay, data, editor, parentClass
 					   # 'onsubmit'		(string with the name of the function to call - optionnal)
 					   	> Use this callback to do something when the form is submitted
 					   	> Arguments: event, $overlay, editor, parentClass
@@ -165,6 +165,7 @@
 				windowManagerConfig = {};
 						
 			this.overlayParams = {
+				dialog: dialog,
 				src: t.isDefined(callbacks, 'src'),
 				onbeforeload: t.isDefined(callbacks, 'onbeforeload'),
 				onafterload: t.isDefined(callbacks, 'onafterload'),
@@ -667,8 +668,84 @@
 /***
 *	SUB-PLUGINS
 ***/
-
 	var xenPlugin = 'xenMCE.Plugins.Auto';
+
+	/***
+	*	XenForo Switch Plugin: change editor RTE<=>BBCODE
+	*	Independent plugin
+	***/
+	tinymce.create(xenPlugin+'.BbmButtons', {
+		BbmButtons: function(parent) 
+		{
+			$.extend(this, parent);
+			this.ed = this.getEditor();
+			
+			var src = this, buttons = xenMCE.Params.bbmButtons, un = 'undefined';
+
+			$.each(buttons, function(tag, data){
+				var n = data.code;
+			
+				config = { name: n, tooltip: data.desc };
+			
+				if(data.type == 'manual'){
+					config.icon = n;
+					if(data.typeOpt)
+						config.classes = data.typeOpt;
+				}
+				else if(data.type == 'text'){
+					config.icon = false;
+					config.text = data.typeOpt;
+				}
+				else{
+					config.icon = n;
+					config.iconset = data.iconSet;
+				}
+			
+				if(data._return == 'direct'){
+					config.onclick = function(e){
+						src.insertBbCode(tag, data.tagOpt, data.tagCont);
+					}
+				}else{
+					config.onclick = function(e){
+						var ovlConfig, ovlCallbacks;
+						
+						src.bbm_tag = tag;
+						
+						ovlConfig = {
+							onsubmit: src.submit
+						};
+			
+						ovlCallbacks = {
+							src: src,
+							onafterload: 'onafterload'
+						};
+					
+						src.loadOverlay('bbm_'+data.template, ovlConfig, ovlCallbacks);
+					}
+				}
+				
+				src.ed.addButton(n, config);
+			});
+		},
+		onafterload: function($ovl, data, ed, src)
+		{
+			var dialog = src.overlayParams.dialog.replace('bbm_', 'Bbm_');
+
+			if(typeof xenMCE.Templates[dialog].onafterload !== 'undefined')
+				xenMCE.Templates[dialog].onafterload($ovl, data, ed, src);
+			
+		},
+		submit: function(e, $overlay, ed, src)
+		{
+			var dialog = src.overlayParams.dialog.replace('bbm_', 'Bbm_');
+			
+			if(typeof xenMCE.Templates[dialog].submit === 'undefined'){
+				return console.error('Submit function not found');			
+			}
+
+			xenMCE.Templates[dialog].submit(e, $overlay, ed, src);
+		}
+	});
 
 	/***
 	*	XenForo Switch Plugin: change editor RTE<=>BBCODE
@@ -1153,14 +1230,14 @@
 			
 			callbacks = {
 				src: this,
-				onafterload: 'onload'
+				onafterload: 'onafterload'
 			}
 
 			this.loadOverlay('colors', config, callbacks);
 		},
-		onload:	function(e, $overlay, ed, src)
+		onafterload: function($ovl, data, ed, src)
 		{
-			xenMCE.Templates.ColorPicker.init(e, $overlay, ed, src);
+			xenMCE.Templates.ColorPicker.init($ovl, data, ed, src);
 		},
 		submit: function(e, $overlay, ed, src)
 		{
@@ -1308,7 +1385,7 @@
 		XenSmilies: function(parent) 
 		{
 			$.extend(this, parent);
-			var ed = this.getEditor(), n = 'xen_smilies',i = 1, i_max = xenMCE.Params.xSmilies;
+			var ed = this.getEditor(), n = 'xen_smilies',i = 1, i_max = xenMCE.Params.xSmilies,
 			smilies = xenMCE.Params.xenforo_smilies, prefix = 'mceQuattroSmilie';
 
 			function getHtml() 
@@ -1369,7 +1446,7 @@
 	tinymce.create(xenPlugin+'.XenNonBreaking', {
 		XenNonBreaking: function(parent) 
 		{
-			var editor = parent.getEditor(), name = 'xen_nonbreaking', cmd = 'XenNonBreaking', i = 0;
+			var editor = parent.getEditor(), name = 'xen_nonbreaking', cmd = 'XenNonBreaking';
 			
 			editor.addCommand(cmd, function() {
 				editor.insertContent(
@@ -1382,12 +1459,13 @@
 				name: name,
 				cmd: cmd
 			});
-		
+
 			if (editor.getParam('nonbreaking_force_tab')) {
 				editor.on('keydown', function(e) {
 					if (e.keyCode == 9) {
 						e.preventDefault();
 		
+						var i = 0;
 						while (i<4){
 							editor.execCommand(cmd);
 							i++;

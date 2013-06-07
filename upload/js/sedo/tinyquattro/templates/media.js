@@ -25,6 +25,5 @@ xenMCE.Templates.Media = {
 		{
 			this.ed.windowManager.alert(ajaxData.noMatch);
 		}
-	
 	}
 }

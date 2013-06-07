@@ -15,6 +15,5 @@ xenMCE.Templates.Code = {
 			output = '<p>' + output + '</p>';
 			
 		ed.execCommand('mceInsertContent', false, output);
-
 	}
 }

@@ -30,8 +30,5 @@ xenMCE.Templates.Image = {
 		}
 
 		waitLoad(imgElm);
-		
-		console.log(url);
-		console.log(imgElm);	
 	}
 }
