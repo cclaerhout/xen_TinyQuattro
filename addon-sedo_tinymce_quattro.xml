@@ -1,9 +1,402 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.0.2" version_id="2" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.0.3" version_id="3" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
-  <admin_templates/>
+  <admin_templates>
+    <template title="tiny_quattro_buttons_admin.css"><![CDATA[<xen:comment>
+	TINYMCE BUTTONS FOR ALL BROWSERS EXCEPT IE7
+	This css template is a copy from the public template
+</xen:comment>
+
+@font-face
+{
+	font-family:'tinymce';
+	src:url('styles/sedo/tinyquattro/fonts/icomoon.eot');
+	src:	url('styles/sedo/tinyquattro/fonts/icomoon.eot?#iefix') format('embedded-opentype'),
+		url('styles/sedo/tinyquattro/fonts/icomoon.svg#icomoon') format('svg'),
+		url('styles/sedo/tinyquattro/fonts/icomoon.woff') format('woff'),
+		url('styles/sedo/tinyquattro/fonts/icomoon.ttf') format('truetype');
+	font-weight:normal;
+	font-style:normal;
+}
+
+@font-face
+{
+	font-family:'tinymce-small';
+	src:url('styles/sedo/tinyquattro/fonts/icomoon-small.eot');
+	src:	url('styles/sedo/tinyquattro/fonts/icomoon-small.eot?#iefix') format('embedded-opentype'),
+		url('styles/sedo/tinyquattro/fonts/icomoon-small.svg#icomoon') format('svg'),
+		url('styles/sedo/tinyquattro/fonts/icomoon-small.woff') format('woff'),
+		url('styles/sedo/tinyquattro/fonts/icomoon-small.ttf') format('truetype');
+	font-weight:normal;
+	font-style:normal;
+}
+
+.mce-ico
+{
+	font-family: 'tinymce',Arial;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 16px;
+	vertical-align: text-top;
+	-webkit-font-smoothing: antialiased;
+	display: inline-block;
+	background: transparent center center;
+	width: 16px;
+	height: 16px;
+	color: #333;
+}
+
+.mce-btn-small .mce-ico
+{
+	font-family: 'tinymce-small',Arial;
+}
+
+.mce-i-save:before
+{
+	content: "\e000";
+}
+
+.mce-i-newdocument:before
+{
+	content: "\e001";
+}
+
+.mce-i-fullpage:before
+{
+	content: "\e002";
+}
+
+.mce-i-alignleft:before
+{
+	content: "\e003";
+}
+
+.mce-i-aligncenter:before
+{
+	content: "\e004";
+}
+
+.mce-i-alignright:before
+{
+	content: "\e005";
+}
+
+.mce-i-alignjustify:before
+{
+	content: "\e006";
+}
+
+.mce-i-cut:before
+{
+	content: "\e007";
+}
+
+.mce-i-paste:before
+{
+	content: "\e008";
+}
+
+.mce-i-searchreplace:before
+{
+	content: "\e009";
+}
+
+.mce-i-bullist:before
+{
+	content: "\e00a";
+}
+
+.mce-i-numlist:before
+{
+	content: "\e00b";
+}
+
+.mce-i-indent:before
+{
+	content: "\e00c";
+}
+
+.mce-i-outdent:before
+{
+	content: "\e00d";
+}
+
+.mce-i-blockquote:before
+{
+	content: "\e00e";
+}
+
+.mce-i-undo:before
+{
+	content: "\e00f";
+}
+
+.mce-i-redo:before
+{
+	content: "\e010";
+}
+
+.mce-i-link:before
+{
+	content: "\e011";
+}
+
+.mce-i-unlink:before
+{
+	content: "\e012";
+}
+
+.mce-i-anchor:before
+{
+	content: "\e013";
+}
+
+.mce-i-image:before
+{
+	content: "\e014";
+}
+
+.mce-i-media:before
+{
+	content: "\e015";
+}
+
+.mce-i-help:before
+{
+	content: "\e016";
+}
+
+.mce-i-code:before
+{
+	content: "\e017";
+}
+
+.mce-i-inserttime:before
+{
+	content: "\e018";
+}
+
+.mce-i-preview:before
+{
+	content: "\e019";
+}
+
+.mce-i-forecolor:before
+{
+	content: "\e01a";
+}
+
+.mce-i-backcolor:before
+{
+	content: "\e01a";
+}
+
+.mce-i-table:before
+{
+	content: "\e01b";
+}
+
+.mce-i-hr:before
+{
+	content: "\e01c";
+}
+
+.mce-i-removeformat:before
+{
+	content: "\e01d";
+}
+
+.mce-i-subscript:before
+{
+	content: "\e01e";
+}
+
+.mce-i-superscript:before
+{
+	content: "\e01f";
+}
+
+.mce-i-charmap:before
+{
+	content: "\e020";
+}
+
+.mce-i-emoticons:before
+{
+	content: "\e021";
+}
+
+.mce-i-print:before
+{
+	content: "\e022";
+}
+
+.mce-i-fullscreen:before
+{
+	content: "\e023";
+}
+
+.mce-i-spellchecker:before
+{
+	content: "\e024";
+}
+
+.mce-i-nonbreaking:before
+{
+	content: "\e025";
+}
+
+.mce-i-template:before
+{
+	content: "\e026";
+}
+
+.mce-i-pagebreak:before
+{
+	content: "\e027";
+}
+
+.mce-i-restoredraft:before
+{
+	content: "\e028";
+}
+
+.mce-i-untitled:before
+{
+	content: "\e029";
+}
+
+.mce-i-bold:before
+{
+	content: "\e02a";
+}
+
+.mce-i-italic:before
+{
+	content: "\e02b";
+}
+
+.mce-i-underline:before
+{
+	content: "\e02c";
+}
+
+.mce-i-strikethrough:before
+{
+	content: "\e02d";
+}
+
+.mce-i-visualchars:before
+{
+	content: "\e02e";
+}
+
+.mce-i-visualblocks:before
+{
+	content: "\e02e";
+}
+
+.mce-i-ltr:before
+{
+	content: "\e02f";
+}
+
+.mce-i-rtl:before
+{
+	content: "\e030";
+}
+
+.mce-i-copy:before
+{
+	content: "\e031";
+}
+
+.mce-i-resize:before
+{
+	content: "\e032";
+}
+
+.mce-i-browse:before
+{
+	content: "\e034";
+}
+
+.mce-i-checkbox:before,.mce-i-selected:before
+{
+	content: "\e033";
+}
+
+.mce-i-selected
+{
+	visibility: hidden;
+}
+
+i.mce-i-backcolor
+{
+	text-shadow: none;
+	background: #BBB;
+}
+
+<xen:comment>
+	Buttons - XenForo config
+</xen:comment>
+
+@font-face
+{
+	font-family:'xenforo-small';
+	src:url('styles/sedo/tinyquattro/fonts/xenforo-small.eot');
+	src:	url('styles/sedo/tinyquattro/fonts/xenforo-small.eot?#iefix') format('embedded-opentype'),
+		url('styles/sedo/tinyquattro/fonts/xenforo-small.svg#icomoon') format('svg'),
+		url('styles/sedo/tinyquattro/fonts/xenforo-small.woff') format('woff'),
+		url('styles/sedo/tinyquattro/fonts/xenforo-small.ttf') format('truetype');
+	font-weight:normal;
+	font-style:normal;
+}
+
+
+@font-face
+{
+	font-family:'xenforo';
+	src:url('styles/sedo/tinyquattro/fonts/xenforo.eot');
+	src:	url('styles/sedo/tinyquattro/fonts/xenforo.eot?#iefix') format('embedded-opentype'),
+		url('styles/sedo/tinyquattro/fonts/xenforo.svg#icomoon') format('svg'),
+		url('styles/sedo/tinyquattro/fonts/xenforo.woff') format('woff'),
+		url('styles/sedo/tinyquattro/fonts/xenforo.ttf') format('truetype');
+	font-weight:normal;
+	font-style:normal;
+}
+
+.mce-xenforo-icons
+{
+	font-family: 'xenforo',Arial;
+}
+
+.mce-btn-small .mce-xenforo-icons
+{
+	font-family: 'xenforo-small',Arial;
+}
+
+
+<xen:comment>XenForo custom buttons - original icon set</xen:comment>
+
+.mce-i-xen_image:before			{ content: "\e014"; }
+.mce-i-xen_link:before			{ content: "\e011"; }
+.mce-i-xen_unlink:before		{ content: "\e012"; }
+.mce-i-xen_image:before			{ content: "\e014"; }
+.mce-i-xen_media:before			{ content: "\e015"; }
+.mce-i-xen_smilies:before		{ content: "\e021"; }
+.mce-i-xen_nonbreaking:before		{ content: "\e025"; }
+
+<xen:comment>XenForo custom buttons - xenforo icon set</xen:comment>
+
+.mce-i-xen_switch:before		{ content: "\e01a"; }
+.mce-i-xen_code:before			{ content: "\e000"; }
+.mce-i-xen_quote:before			{ content: "\e009"; }
+.mce-i-xen_smilies_picker:before	{ content: "\e035"; }]]></template>
+  </admin_templates>
   <code_events/>
   <code_event_listeners>
     <listener event_id="load_class_controller" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_ControllerPublic" callback_method="listen" active="1" description="Controller Public Listener"/>
@@ -201,6 +594,7 @@ step=1</edit_format_params>
     <phrase title="sedo_quattro_restoredraft" version_id="0" version_string="1.0"><![CDATA[Restore last draft]]></phrase>
     <phrase title="sedo_quattro_rgb_picker" version_id="0" version_string="1.0"><![CDATA[RGB picker]]></phrase>
     <phrase title="sedo_quattro_small" version_id="0" version_string="1.0"><![CDATA[Small]]></phrase>
+    <phrase title="sedo_quattro_smiliespicker" version_id="2" version_string="1.0.2"><![CDATA[Smilies picker]]></phrase>
     <phrase title="sedo_quattro_specialcharacters" version_id="0" version_string="1.0"><![CDATA[Special characters]]></phrase>
     <phrase title="sedo_quattro_wordcount_characters" version_id="0" version_string="1.0"><![CDATA[Yes - count characters]]></phrase>
     <phrase title="sedo_quattro_wordcount_characterswithwhitespaces" version_id="0" version_string="1.0"><![CDATA[Yes - count characters & white space]]></phrase>
@@ -316,6 +710,14 @@ step=1</edit_format_params>
     <phrase title="style_property_tinyquattro_primary_hov_grdt_from_ie_master" version_id="0" version_string="1.0"><![CDATA[[IE] Primary hover gradient from:]]></phrase>
     <phrase title="style_property_tinyquattro_primary_hov_grdt_to_ie_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
     <phrase title="style_property_tinyquattro_primary_hov_grdt_to_ie_master" version_id="0" version_string="1.0"><![CDATA[[IE] Primary hover gradient to:]]></phrase>
+    <phrase title="style_property_tinyquattro_smiliesbtn_maxheight_description_master" version_id="2" version_string="1.0.2"><![CDATA[Default value: 80px.]]></phrase>
+    <phrase title="style_property_tinyquattro_smiliesbtn_maxheight_master" version_id="2" version_string="1.0.2"><![CDATA[Smilies button menu max height]]></phrase>
+    <phrase title="style_property_tinyquattro_smiliesbtn_width_description_master" version_id="2" version_string="1.0.2"><![CDATA[Default value: 100px]]></phrase>
+    <phrase title="style_property_tinyquattro_smiliesbtn_width_master" version_id="2" version_string="1.0.2"><![CDATA[Smilies button menu width]]></phrase>
+    <phrase title="style_property_tinyquattro_smiliespicker_maxheight_description_master" version_id="2" version_string="1.0.2"><![CDATA[Default value: 140px.]]></phrase>
+    <phrase title="style_property_tinyquattro_smiliespicker_maxheight_master" version_id="2" version_string="1.0.2"><![CDATA[Smilies picker modal max height]]></phrase>
+    <phrase title="style_property_tinyquattro_smiliespicker_width_description_master" version_id="2" version_string="1.0.2"><![CDATA[Default value: 350px.]]></phrase>
+    <phrase title="style_property_tinyquattro_smiliespicker_width_master" version_id="2" version_string="1.0.2"><![CDATA[Smilies picker modal width]]></phrase>
     <phrase title="style_property_tinyquattro_standard_boder_description_master" version_id="0" version_string="1.0"><![CDATA[This border is used in several elements.]]></phrase>
     <phrase title="style_property_tinyquattro_standard_boder_master" version_id="0" version_string="1.0"><![CDATA[Border standard]]></phrase>
     <phrase title="style_property_tinyquattro_win_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
@@ -385,6 +787,10 @@ step=1</edit_format_params>
     <property property_name="tinyquattro_menuitem_font_hover" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Menu item font (hover)" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="51" sub_group="menuitem"><![CDATA[#fff]]></property>
     <property property_name="tinyquattro_menuitem_font_disable" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Menu item font (disable)" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="52" sub_group="menuitem"><![CDATA[#999]]></property>
     <property property_name="tinyquattro_win" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Window (modal)" description="" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="20000" sub_group=""><![CDATA[{"background-color":"#FFF","border-radius":"6px","extra":"-webkit-box-shadow: 0 3px 7px rgba(0,0,0,0.3);\n-moz-box-shadow: 0 3px 7px rgba(0,0,0,0.3);\nbox-shadow: 0 3px 7px rgba(0,0,0,0.3);\nfilter: progid:DXImageTransform.Microsoft.gradient(enabled = false);\nposition: fixed;\ntop: 0;\nleft: 0;\nopacity: 0;\n-webkit-transition: opacity 150ms ease-in;\ntransition: opacity 150ms ease-in;"}]]></property>
+    <property property_name="tinyquattro_smiliesbtn_width" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies button menu width" description="Default value: 100px" css_components="" scalar_type="number" scalar_parameters="" display_order="10" sub_group="smilies"><![CDATA[100px]]></property>
+    <property property_name="tinyquattro_smiliesbtn_maxheight" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies button menu max height" description="Default value: 80px." css_components="" scalar_type="number" scalar_parameters="" display_order="11" sub_group="smilies"><![CDATA[80px]]></property>
+    <property property_name="tinyquattro_smiliespicker_width" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies picker modal width" description="Default value: 350px." css_components="" scalar_type="number" scalar_parameters="" display_order="12" sub_group="smilies"><![CDATA[380px]]></property>
+    <property property_name="tinyquattro_smiliespicker_maxheight" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies picker modal max height" description="Default value: 140px." css_components="" scalar_type="number" scalar_parameters="" display_order="13" sub_group="smilies"><![CDATA[200px]]></property>
     <group group_name="sedo_tinyquattro" display_order="13209">
       <title>TinyMCE Quattro</title>
       <description>Configure the layout of TinyMCE 4</description>
@@ -822,7 +1228,7 @@ step=1</edit_format_params>
 	overflow-y: auto;
 	margin-left:8px;
 }]]></template>
-    <template title="tiny_quattro_buttons.css" version_id="0" version_string="1.0"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_buttons.css" version_id="3" version_string="1.0.3"><![CDATA[<xen:comment>
 	TINYMCE BUTTONS FOR ALL BROWSERS EXCEPT IE7
 </xen:comment>
 
@@ -1196,12 +1602,17 @@ i.mce-i-backcolor
 	font-family: 'xenforo-small',Arial;
 }
 
-.mce-i-xen_switch:before       { content: "\e01a"; }
-.mce-i-xen_code:before         { content: "\e000"; }
-.mce-i-xen_quote:before        { content: "\e009"; }
-.mce-i-xen_nonbreaking:before  { content: "\e025"; } <xen:comment>Original icon set</xen:comment>
+
+<xen:comment>Original icon set</xen:comment>
+.mce-i-xen_nonbreaking:before		{ content: "\e025"; }
+
+<xen:comment>XenForo icon set</xen:comment>
+.mce-i-xen_switch:before		{ content: "\e01a"; }
+.mce-i-xen_code:before			{ content: "\e000"; }
+.mce-i-xen_quote:before			{ content: "\e009"; }
+.mce-i-xen_smilies_picker:before	{ content: "\e035"; }
 ]]></template>
-    <template title="tiny_quattro_buttons_ie7.css" version_id="0" version_string="1.0"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_buttons_ie7.css" version_id="3" version_string="1.0.3"><![CDATA[<xen:comment>
 	TINYMCE BUTTONS FOR IE7
 </xen:comment>
 
@@ -1461,10 +1872,15 @@ i.mce-i-backcolor
 	font-family: 'xenforo-small'
 }
 
-.mce-i-xen_switch:before       { -ie7-icon: "\e01a"; }
-.mce-i-xen_code:before         { -ie7-icon: "\e000"; }
-.mce-i-xen_quote:before        { -ie7-icon: "\e009"; }
-.mce-i-xen_nonbreaking:before  { -ie7-icon: "\e025"; } <xen:comment>Original icon set</xen:comment>
+<xen:comment>Original icon set</xen:comment>
+.mce-i-xen_nonbreaking:before		{ -ie7-icon: "\e025"; }
+
+<xen:comment>XenForo icon set</xen:comment>
+.mce-i-xen_switch:before		{ -ie7-icon: "\e01a"; }
+.mce-i-xen_code:before			{ -ie7-icon: "\e000"; }
+.mce-i-xen_quote:before			{ -ie7-icon: "\e009"; }
+.mce-i-xen_smilies_picker:before	{ -ie7-icon: "\e035"; }
+
 ]]></template>
     <template title="tiny_quattro_custom_buttons" version_id="1" version_string="1.0.1"><![CDATA[<xen:foreach loop="$customButtonsJs" value="$button" i="$i" count="$total">
 <xen:set var="$coma">{xen:if '{$i} != {$total}', ','}</xen:set>
@@ -3144,24 +3560,32 @@ i.mce-i-resize
 <xen:include template="tiny_quattro_smilies.css" />
 
 .mceQuattroSmilieBlock{
-	width:100px;
+	width: {xen:property tinyquattro_smiliesbtn_width};
 	white-space: normal;
 	text-align: center;
 	padding:5px;
-	max-height:80px;
+	max-height: {xen:property tinyquattro_smiliesbtn_maxheight};
 	overflow:auto;
 }
-.mceQuattroSmilieBlock a{
+
+.mceQuattroSmilieBlockFull{
+	width: {xen:property tinyquattro_smiliespicker_width};
+	max-height: {xen:property tinyquattro_smiliespicker_maxheight};
+	white-space: normal;
+	overflow:auto;
+}
+
+.mceQuattroSmilieBlock a,
+.mceQuattroSmilieBlockFull a{
 	white-space: normal;
 }
 
 .mceQuattroSmilieBlock > img,
+.mceQuattroSmilieBlockFull > img,
 .mceQuattroSmilie{
 	margin:2px;
 	cursor: pointer;
 }
-
-
 
 <xen:comment>
 	BUTTONS: DON'T MOVE THIS INCLUDE.
@@ -3169,14 +3593,14 @@ i.mce-i-resize
 </xen:comment>
 
 <xen:include template="tiny_quattro_buttons.css" />]]></template>
-    <template title="tiny_quattro_grid" version_id="1" version_string="1.0.1"><![CDATA[<xen:if is="{$quattroGrid}">
+    <template title="tiny_quattro_grid" version_id="2" version_string="1.0.2"><![CDATA[<xen:if is="{$quattroGrid}">
 	<xen:foreach loop="$quattroGrid" value="$buttons" key="$key">
 		toolbar{$key}: "{$buttons}",
 	</xen:foreach>
 <xen:else />
 	<xen:comment>Default Fallback</xen:comment>
 	toolbar1: "removeformat undo redo restoredraft | xen_fontfamily xen_fontsize forecolor backcolor |  bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | fullscreen xen_switch",
-	toolbar2: "bullist numlist outdent indent | xen_image xen_media xen_link xen_unlink | xen_smilies charmap xen_nonbreaking xen_code xen_quote",
+	toolbar2: "bullist numlist outdent indent | xen_image xen_media xen_link xen_unlink | xen_smilies xen_smilies_picker charmap xen_nonbreaking xen_code xen_quote",
 </xen:if>
 
 ]]></template>
@@ -3417,7 +3841,7 @@ h6 { font-size: .75em; }
 <xen:edithint template="tiny_quattro_buttons_ie7.css" />
 <xen:edithint template="tiny_quattro_custom_buttons" />
 ]]></template>
-    <template title="tiny_quattro_params" version_id="1" version_string="1.0.1"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_params" version_id="2" version_string="1.0.2"><![CDATA[<xen:comment>
 	We are inside a JavaScript file. All phrases must be escaped
 </xen:comment>
 
@@ -3435,7 +3859,7 @@ h6 { font-size: .75em; }
 	xSmilies: {$xenOptions.quattro_xsmilies},
 	xenforo_smilies: {xen:helper json, $smilies},
 	bbmButtons: {<xen:include template="tiny_quattro_custom_buttons" />}]]></template>
-    <template title="tiny_quattro_phrases" version_id="0" version_string="1.0"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_phrases" version_id="2" version_string="1.0.2"><![CDATA[<xen:comment>
 	We are inside a JavaScript file. All phrases must be escaped
 </xen:comment>
 
@@ -3448,7 +3872,6 @@ h6 { font-size: .75em; }
 	insert: "{xen:jsescape {xen:phrase insert}}",
 	update: "{xen:jsescape {xen:phrase update}}",
 	cancel: "{xen:jsescape {xen:phrase cancel}}",
-	close: "{xen:jsescape {xen:phrase close}}",
 	switch_text: ["{xen:jsescape {xen:phrase use_bb_code_editor}}", "{xen:jsescape {xen:phrase use_rich_text_editor}}"],
 	unlink: "{xen:jsescape {xen:phrase unlink}}",
 	
@@ -3485,7 +3908,9 @@ h6 { font-size: .75em; }
 
 	I18n: {
 		"Words: {0}": "{xen:jsescape {xen:if "in_array({$xenOptions.quattro_wordcount}, array('char','charwp'))", "{xen:phrase sedo_quattro_characters}", "{xen:phrase sedo_quattro_words}"}}",
-		"Special characters": "{xen:jsescape {xen:phrase sedo_quattro_specialcharacters}}"
+		"Special characters": "{xen:jsescape {xen:phrase sedo_quattro_specialcharacters}}",
+		"Smilies picker": "{xen:jsescape {xen:phrase sedo_quattro_smiliespicker}}",
+		"close": "{xen:jsescape {xen:phrase close}}"
 	}
 
 ]]></template>

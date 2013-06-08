@@ -60,9 +60,23 @@ class Sedo_TinyQuattro_Installer
 
 			self::insertButtons($defaultButtons, 'default');
 		}
+
+		if(empty($addon) || $addon['version_id'] < 4)
+		{
+			$buttonsToReset = array(
+				'xen_smilies' => array(270, 270, 2, 0, 'xenforo') //error RTL
+			);
+			self::resetButtons($buttonsToReset, 'default');
+
+
+			$newButtons = array(
+				'xen_smilies_picker' => array(271, 271, 2, 0, 'xenforo')
+			);
+			self::insertButtons($newButtons, 'default');
+		}
 	}
 
-	public static function insertButtons(array $buttons, $category)
+	public static function insertButtons(array $buttons, $category, $reset = false)
 	{
 		$db = XenForo_Application::get('db');
 	
@@ -75,11 +89,21 @@ class Sedo_TinyQuattro_Installer
 			$font = 	(isset($buttonDatas[4])) ? $buttonDatas[4] : 'tinymce';
 			
 			$bakeButtons[] = "('$category', '$buttonName', '$ltrPosition', '$rtlPosition', '$line', '$separator', '$font')";
+			
+			if($reset == true)
+			{
+				$db->query("DELETE FROM bbm_tinyquattro WHERE button_name = '$buttonName'");
+			}
 		}
 		
 		$buttonsSQL = implode(',', $bakeButtons);
 		
 		$db->query("INSERT INTO bbm_tinyquattro (button_cat, button_name, button_ltr_pos, button_rtl_pos, button_line, button_separator, button_font) VALUES $buttonsSQL;");
+	}
+
+	public static function resetButtons(array $buttons, $category)
+	{
+		self::insertButtons($buttons, $category, true);
 	}
 	
 	public static function uninstall()

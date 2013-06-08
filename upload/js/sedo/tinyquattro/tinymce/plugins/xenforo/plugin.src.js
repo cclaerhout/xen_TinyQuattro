@@ -1385,12 +1385,20 @@
 		XenSmilies: function(parent) 
 		{
 			$.extend(this, parent);
-			var ed = this.getEditor(), n = 'xen_smilies',i = 1, i_max = xenMCE.Params.xSmilies,
-			smilies = xenMCE.Params.xenforo_smilies, prefix = 'mceQuattroSmilie';
+			var ed = this.getEditor(),  n = 'xen_smilies', n2 = 'xen_smilies_picker';
 
-			function getHtml() 
+			function _getHtml(fullSmilies) 
 			{
-				var dom = ed.dom, smiliesHtml = '<div role="presentation" class="'+prefix+'Block">',
+				var i = 1, i_max, smilies = xenMCE.Params.xenforo_smilies, prefix = 'mceQuattroSmilie', suffix = '';
+
+				if(fullSmilies === true){
+					i_max = 0;
+					suffix = 'Full';
+				}else{
+					i_max = xenMCE.Params.xSmilies;
+				}
+				
+				var dom = ed.dom, smiliesHtml = '<div role="presentation" class="'+prefix+'Block'+suffix+'">',
 				dataTags = 'data-smilie="yes"';
 				/*** Above: 	> The data-smilie is used by @XenForo_Html_Renderer_BbCode. There are many conditions but actually the data-smilie should be enough
 					 	> It is will also used to trigger the smilie button and prevent the img button to be triggered
@@ -1408,13 +1416,58 @@
 						smiliesHtml += '<a href="#"><img src="'+dom.encode(v[1])+'" alt="'+k+'" '+dataTags+' class="'+prefix+'" /></a>';
 					}
 
-						i++;
+					i++;
 				});
 		
 				smiliesHtml += '</div>';
 				
-				return smiliesHtml;
+				return smiliesHtml;			
 			}
+
+			function getSmilies() 
+			{
+				return _getHtml();
+			}
+
+			function pickerDialog()
+			{
+				var fullSmilies = _getHtml(true);
+				
+				var smiliesPanel = {
+					type: 'container',
+					html: fullSmilies,
+					onclick: function(e) {
+						e.preventDefault();
+						var linkElm = ed.dom.getParent(e.target, 'a');
+						if (linkElm) {
+							var imgHtml = $(linkElm).html();
+							ed.execCommand('mceInsertContent', false, imgHtml);
+						}
+					}
+				}
+
+				var win = ed.windowManager.open({
+					title: "Smilies picker",
+					spacing: 10,
+					padding: 10,
+					items: [smiliesPanel],
+					buttons: [{
+						text: "Close", onclick: function() {
+							win.close();
+						}
+					}]
+				});
+
+			}
+
+			ed.addButton(n2, {
+				name: n2,
+				icon: n2,
+				iconset: 'xenforo',
+				tooltip: "Smilies picker",
+				stateSelector: 'img[data-smilie]',
+				onclick: pickerDialog
+			});
 
 			ed.addButton(n, {
 				name: n,
@@ -1424,7 +1477,7 @@
 				popoverAlign: 'bc-tl',
 				panel: {
 					autohide: true,
-					html: getHtml,
+					html: getSmilies,
 					onclick: function(e) {
 						var linkElm = ed.dom.getParent(e.target, 'a');
 
@@ -1473,7 +1526,6 @@
 					}
 				});
 			}
-		
 		}
 	});
 })();
