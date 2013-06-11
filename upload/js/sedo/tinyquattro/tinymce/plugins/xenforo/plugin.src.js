@@ -361,6 +361,12 @@
 				$overlay = $(win.windows[0].getEl());
 				xenMCE.Tools.backupOverlay.$overlay = $overlay;
 
+				/* Get body height */
+				var ovlBodyHeight = $overlay.find('.mce-xen-body').height();
+
+				/*Add a class using the dialog name to the overlay*/
+				win.windows[0].addClass(params.dialog);
+				
 				/* AutoFocus */
 				$overlay.find('.mceFocus').focus();
 
@@ -382,6 +388,30 @@
 					$tabs.tabs($panes, {
 						current: 'mce-active',
 						initialIndex: (i >= 0 ? i:0)
+					});
+				}
+
+				/*Slider - provided by JQT*/
+				var slideTag = 'mceSlides';
+				$slides = $overlay.find('.'+slideTag);
+
+				
+				if($slides.length > 0){
+					var sl = ovlBodyHeight - 40;
+					$slides.height(sl).children().height(sl);
+					
+					$slider_tabs = $overlay.find('.'+slideTag+'Tabs');
+					$('<a class="'+slideTag+'Navig '+slideTag+'Backward">\u00AB</a><a class="'+slideTag+'Navig '+slideTag+'Forward">\u00BB</a>').insertBefore($slides);
+					$overlay.find('.'+slideTag+'Navig').css('top', (sl/2)-10+'px');
+
+					$slider_tabs.tabs($slides.children(), {
+						effect: 'fade',
+						fadeOutSpeed: "fast",
+						rotate: true
+					}).slideshow({
+						prev:'.'+slideTag+'Backward',
+						next:'.'+slideTag+'Forward',
+						clickable: false
 					});
 				}
 
@@ -428,11 +458,12 @@
 			//AutoReturn Tool if inputs => return val else => return text
 			if(autoReturn === true){
 				inputs = ['input','textarea','select'];
-				
-				if($.inArray(tag, inputs))
+
+				if($.inArray(tag, inputs) !== -1){
 					return $e.val();
-				else
+				} else {
 					return $e.text();
+				}
 			}
 
 			//Compare Tool
@@ -729,21 +760,26 @@
 		},
 		onafterload: function($ovl, data, ed, src)
 		{
-			var dialog = src.overlayParams.dialog.replace('bbm_', 'Bbm_');
+			var dialog = src.overlayParams.dialog.replace('bbm_', 'Bbm_'), un = 'undefined';
 
-			if(typeof xenMCE.Templates[dialog].onafterload !== 'undefined')
+			if(	typeof xenMCE.Templates[dialog] !== un
+				&&
+				typeof xenMCE.Templates[dialog].onafterload !== un
+			){
 				xenMCE.Templates[dialog].onafterload($ovl, data, ed, src);
+			}
 			
 		},
 		submit: function(e, $overlay, ed, src)
 		{
-			var dialog = src.overlayParams.dialog.replace('bbm_', 'Bbm_');
+			var dialog = src.overlayParams.dialog.replace('bbm_', 'Bbm_'), un = 'undefined';
 			
-			if(typeof xenMCE.Templates[dialog].submit === 'undefined'){
-				return console.error('Submit function not found');			
-			}
-
-			xenMCE.Templates[dialog].submit(e, $overlay, ed, src);
+			if(	typeof xenMCE.Templates[dialog] !== un
+				&&
+				typeof xenMCE.Templates[dialog].submit !== un
+			){
+				xenMCE.Templates[dialog].submit(e, $overlay, ed, src);
+			} 
 		}
 	});
 
@@ -1385,17 +1421,19 @@
 		XenSmilies: function(parent) 
 		{
 			$.extend(this, parent);
-			var ed = this.getEditor(),  n = 'xen_smilies', n2 = 'xen_smilies_picker';
+			var src = this, ed = this.getEditor(),  n = 'xen_smilies', n2 = 'xen_smilies_picker';
+			
+			this.params = xenMCE.Params;
 
 			function _getHtml(fullSmilies) 
 			{
-				var i = 1, i_max, smilies = xenMCE.Params.xenforo_smilies, prefix = 'mceQuattroSmilie', suffix = '';
+				var i = 1, i_max, smilies = src.params.xenforo_smilies, prefix = 'mceQuattroSmilie', suffix = '';
 
 				if(fullSmilies === true){
 					i_max = 0;
 					suffix = 'Full';
 				}else{
-					i_max = xenMCE.Params.xSmilies;
+					i_max = src.params.xSmilies;
 				}
 				
 				var dom = ed.dom, smiliesHtml = '<div role="presentation" class="'+prefix+'Block'+suffix+'">',
@@ -1460,15 +1498,6 @@
 
 			}
 
-			ed.addButton(n2, {
-				name: n2,
-				icon: n2,
-				iconset: 'xenforo',
-				tooltip: "Smilies picker",
-				stateSelector: 'img[data-smilie]',
-				onclick: pickerDialog
-			});
-
 			ed.addButton(n, {
 				name: n,
 				icon: 'emoticons',
@@ -1489,6 +1518,41 @@
 					}
 				}
 			});
+
+			var configN2 = {
+				name: n2,
+				icon: n2,
+				iconset: 'xenforo',
+				tooltip: "Smilies picker",
+				stateSelector: 'img[data-smilie]',
+			};
+
+			if(src.params.smiliesSlider == true)
+				configN2.onclick = $.proxy(this, 'init');
+			else
+				configN2.onclick = pickerDialog;
+			
+			ed.addButton(n2, configN2);
+		},
+		init: function(e)
+		{
+			var size = this.params.overlaySmiliesSize;
+			
+			config = {
+				width: parseInt(size.w),
+				height: parseInt(size.h)
+			}
+			
+			callbacks = {
+				src: this,
+				onafterload: 'onafterload'
+			}
+
+			this.loadOverlay('smilies_slider', config, callbacks);
+		},
+		onafterload: function($ovl, data, ed, src)
+		{
+			xenMCE.Templates.SmiliesSlider.init($ovl, data, ed, src);
 		}
 	});
 

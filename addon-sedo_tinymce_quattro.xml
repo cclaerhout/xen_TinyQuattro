@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.0.3" version_id="3" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.0.4" version_id="4" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -494,6 +494,12 @@ small={xen:phrase sedo_quattro_small}</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="1"/>
     </option>
+    <option option_id="quattro_smilies_slider" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="520"/>
+    </option>
     <option option_id="quattro_statusbar" edit_format="radio" data_type="string" can_backup="1">
       <default_value>true</default_value>
       <edit_format_params>false={xen:phrase no}
@@ -515,7 +521,14 @@ charwp={xen:phrase sedo_quattro_wordcount_characterswithwhitespaces}</edit_forma
       <edit_format_params>min=0
 step=1</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="5"/>
+      <relation group_id="tiny_quattro" display_order="500"/>
+    </option>
+    <option option_id="quattro_xsmilies_slide" edit_format="spinbox" data_type="positive_integer" can_backup="1">
+      <default_value>20</default_value>
+      <edit_format_params>min=0
+step=1</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="530"/>
     </option>
   </optiongroups>
   <permissions>
@@ -558,12 +571,18 @@ step=1</edit_format_params>
     <phrase title="option_quattro_hidepath_explain" version_id="0" version_string="1.0"><![CDATA[This will hide the html path inside the status bar.]]></phrase>
     <phrase title="option_quattro_iconsize" version_id="0" version_string="1.0"><![CDATA[Buttons size:]]></phrase>
     <phrase title="option_quattro_iconsize_explain" version_id="0" version_string="1.0"><![CDATA[Select here if the size of your buttons]]></phrase>
+    <phrase title="option_quattro_smilies_slider" version_id="3" version_string="1.0.3"><![CDATA[[Modal button] Use the smilies slider ?]]></phrase>
+    <phrase title="option_quattro_smilies_slider_explain" version_id="3" version_string="1.0.3"><![CDATA[The "smilies slider" will load a slider with your smilies. The biggest difference is of course the slider but also the loading method. The  smilies modal will be loaded programmatically (TinyMCE feature) whereas the the smilies slider overlay will be loaded using the XenForo template system. The first method is faster.<br />
+<br />
+In both methods, the width and the height of the modal window can be set in the style properties.]]></phrase>
     <phrase title="option_quattro_statusbar" version_id="0" version_string="1.0"><![CDATA[Display the status bar?]]></phrase>
     <phrase title="option_quattro_statusbar_explain" version_id="0" version_string="1.0"><![CDATA[This option will display a status bar below the editor]]></phrase>
     <phrase title="option_quattro_wordcount" version_id="0" version_string="1.0"><![CDATA[Enable word count?]]></phrase>
     <phrase title="option_quattro_wordcount_explain" version_id="0" version_string="1.0"><![CDATA[This option will activate the TinyMCE word count plugin.]]></phrase>
-    <phrase title="option_quattro_xsmilies" version_id="0" version_string="1.0"><![CDATA[Number of smilies?]]></phrase>
+    <phrase title="option_quattro_xsmilies" version_id="3" version_string="1.0.3"><![CDATA[[Menu button] Number of smilies?]]></phrase>
     <phrase title="option_quattro_xsmilies_explain" version_id="0" version_string="1.0"><![CDATA[Select here the number of smilies you would like to display in the button menu. Set 0 if you want to display all of them.]]></phrase>
+    <phrase title="option_quattro_xsmilies_slide" version_id="3" version_string="1.0.3"><![CDATA[[Slider Smilies] Number of smilies per slide?]]></phrase>
+    <phrase title="option_quattro_xsmilies_slide_explain" version_id="3" version_string="1.0.3"><![CDATA[Select the number of smilies to display per slide.]]></phrase>
     <phrase title="permission_group_sedo_quattro" version_id="1" version_string="1.0.1"><![CDATA[TinyMCE Quattro]]></phrase>
     <phrase title="permission_interface_sedo_quattro" version_id="1" version_string="1.0.1"><![CDATA[TinyMCE Quattro]]></phrase>
     <phrase title="permission_sedo_quattro_display" version_id="1" version_string="1.0.1"><![CDATA[Use the editor]]></phrase>
@@ -710,13 +729,13 @@ step=1</edit_format_params>
     <phrase title="style_property_tinyquattro_primary_hov_grdt_from_ie_master" version_id="0" version_string="1.0"><![CDATA[[IE] Primary hover gradient from:]]></phrase>
     <phrase title="style_property_tinyquattro_primary_hov_grdt_to_ie_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
     <phrase title="style_property_tinyquattro_primary_hov_grdt_to_ie_master" version_id="0" version_string="1.0"><![CDATA[[IE] Primary hover gradient to:]]></phrase>
-    <phrase title="style_property_tinyquattro_smiliesbtn_maxheight_description_master" version_id="2" version_string="1.0.2"><![CDATA[Default value: 80px.]]></phrase>
-    <phrase title="style_property_tinyquattro_smiliesbtn_maxheight_master" version_id="2" version_string="1.0.2"><![CDATA[Smilies button menu max height]]></phrase>
+    <phrase title="style_property_tinyquattro_smiliesbtn_height_description_master" version_id="3" version_string="1.0.3"><![CDATA[Default value: 80px.]]></phrase>
+    <phrase title="style_property_tinyquattro_smiliesbtn_height_master" version_id="3" version_string="1.0.3"><![CDATA[Smilies button menu height]]></phrase>
     <phrase title="style_property_tinyquattro_smiliesbtn_width_description_master" version_id="2" version_string="1.0.2"><![CDATA[Default value: 100px]]></phrase>
     <phrase title="style_property_tinyquattro_smiliesbtn_width_master" version_id="2" version_string="1.0.2"><![CDATA[Smilies button menu width]]></phrase>
-    <phrase title="style_property_tinyquattro_smiliespicker_maxheight_description_master" version_id="2" version_string="1.0.2"><![CDATA[Default value: 140px.]]></phrase>
-    <phrase title="style_property_tinyquattro_smiliespicker_maxheight_master" version_id="2" version_string="1.0.2"><![CDATA[Smilies picker modal max height]]></phrase>
-    <phrase title="style_property_tinyquattro_smiliespicker_width_description_master" version_id="2" version_string="1.0.2"><![CDATA[Default value: 350px.]]></phrase>
+    <phrase title="style_property_tinyquattro_smiliespicker_height_description_master" version_id="3" version_string="1.0.3"><![CDATA[Default value: 160px.]]></phrase>
+    <phrase title="style_property_tinyquattro_smiliespicker_height_master" version_id="3" version_string="1.0.3"><![CDATA[Smilies picker modal height]]></phrase>
+    <phrase title="style_property_tinyquattro_smiliespicker_width_description_master" version_id="3" version_string="1.0.3"><![CDATA[Default value: 380px.]]></phrase>
     <phrase title="style_property_tinyquattro_smiliespicker_width_master" version_id="2" version_string="1.0.2"><![CDATA[Smilies picker modal width]]></phrase>
     <phrase title="style_property_tinyquattro_standard_boder_description_master" version_id="0" version_string="1.0"><![CDATA[This border is used in several elements.]]></phrase>
     <phrase title="style_property_tinyquattro_standard_boder_master" version_id="0" version_string="1.0"><![CDATA[Border standard]]></phrase>
@@ -788,16 +807,16 @@ step=1</edit_format_params>
     <property property_name="tinyquattro_menuitem_font_disable" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Menu item font (disable)" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="52" sub_group="menuitem"><![CDATA[#999]]></property>
     <property property_name="tinyquattro_win" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Window (modal)" description="" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="20000" sub_group=""><![CDATA[{"background-color":"#FFF","border-radius":"6px","extra":"-webkit-box-shadow: 0 3px 7px rgba(0,0,0,0.3);\n-moz-box-shadow: 0 3px 7px rgba(0,0,0,0.3);\nbox-shadow: 0 3px 7px rgba(0,0,0,0.3);\nfilter: progid:DXImageTransform.Microsoft.gradient(enabled = false);\nposition: fixed;\ntop: 0;\nleft: 0;\nopacity: 0;\n-webkit-transition: opacity 150ms ease-in;\ntransition: opacity 150ms ease-in;"}]]></property>
     <property property_name="tinyquattro_smiliesbtn_width" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies button menu width" description="Default value: 100px" css_components="" scalar_type="number" scalar_parameters="" display_order="10" sub_group="smilies"><![CDATA[100px]]></property>
-    <property property_name="tinyquattro_smiliesbtn_maxheight" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies button menu max height" description="Default value: 80px." css_components="" scalar_type="number" scalar_parameters="" display_order="11" sub_group="smilies"><![CDATA[80px]]></property>
-    <property property_name="tinyquattro_smiliespicker_width" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies picker modal width" description="Default value: 350px." css_components="" scalar_type="number" scalar_parameters="" display_order="12" sub_group="smilies"><![CDATA[380px]]></property>
-    <property property_name="tinyquattro_smiliespicker_maxheight" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies picker modal max height" description="Default value: 140px." css_components="" scalar_type="number" scalar_parameters="" display_order="13" sub_group="smilies"><![CDATA[200px]]></property>
+    <property property_name="tinyquattro_smiliesbtn_height" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies button menu height" description="Default value: 80px." css_components="" scalar_type="number" scalar_parameters="" display_order="11" sub_group="smilies"><![CDATA[80px]]></property>
+    <property property_name="tinyquattro_smiliespicker_width" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies picker modal width" description="Default value: 380px." css_components="" scalar_type="number" scalar_parameters="" display_order="12" sub_group="smilies"><![CDATA[380px]]></property>
+    <property property_name="tinyquattro_smiliespicker_height" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies picker modal height" description="Default value: 160px." css_components="" scalar_type="number" scalar_parameters="" display_order="13" sub_group="smilies"><![CDATA[160px]]></property>
     <group group_name="sedo_tinyquattro" display_order="13209">
       <title>TinyMCE Quattro</title>
       <description>Configure the layout of TinyMCE 4</description>
     </group>
   </style_properties>
   <templates>
-    <template title="quattro_dialog.css" version_id="0" version_string=""><![CDATA[.mce-xen-body{
+    <template title="quattro_dialog.css" version_id="3" version_string="1.0.3"><![CDATA[.mce-xen-body{
 	width:100%;
 	height:100%;
 	{xen:property tinyquattro_panel_border}
@@ -866,6 +885,115 @@ step=1</edit_format_params>
 
 .mce-xen-body textarea {
 	padding: 5px;
+}
+
+<xen:comment>
+	SLIDER SLIDES
+</xen:comment>
+
+.mce-xen-body .mceSlides{
+	display:block;
+	margin-right: auto;
+	margin-left: auto;
+	position: relative;
+	cursor: pointer;
+	white-space: normal;
+	text-align: center;
+	padding:5px;
+}
+
+.mce-xen-body .mceSlides > div {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	margin: 7px;
+	padding: 15px 35px;
+	white-space: normal;
+	overflow: auto;
+	text-align:center;
+}
+
+<xen:comment>
+	SLIDER  NAVIG BUTTONS
+</xen:comment>
+
+.mce-xen-body .mceSlidesNavig{
+	position: relative;
+	font-size: 20px;
+	font-family: Calibri, 'Trebuchet MS', Verdana, Geneva, Arial, Helvetica, sans-serif;
+	color: {xen:property textCtrlBackground};
+	background: {xen:property primaryMedium} url('{xen:property imagePath}/xenforo/gradients/form-button-white-25px.png') repeat-x top;
+	padding: 0 6px;
+	border: 1px solid {xen:property primaryLightish};
+	border-bottom-color: {xen:property primaryMedium};
+	border-radius: 5px;
+	display: block;
+	text-align: center;
+	box-shadow: 0px 1px 2px 0px rgb(79,79,89);
+	text-shadow: 0px -1px 2px white;
+	outline: none;
+	line-height: 23px;
+	box-sizing: border-box;
+	cursor: pointer;
+	z-index: 30;
+	height: 26px;
+}
+
+.mce-xen-body .mceSlidesNavig:hover{
+	background-color: {xen:property primaryLightish};
+	border-color: {xen:property primaryLight};
+	border-bottom-color: {xen:property primaryLightish};
+	box-shadow: 0px 1px 2px 0px rgb(79,79,89);
+}
+
+.mce-xen-body .mceSlidesNavig:active{
+	background-color: {xen:property secondaryLight};
+	border-color: {xen:property secondaryLighter};
+	border-top-color: {xen:property secondaryLightest};
+	box-shadow: 0px 1px 2px 0px rgb(242, 242, 242);
+	outline: 0;
+}
+
+.mce-xen-body .mceSlidesBackward{
+	float: left;
+	left: 8px;
+}
+
+.mce-xen-body .mceSlidesForward{
+	float: right;
+	right: 8px;
+	clear: right;
+}
+
+<xen:comment>
+	SLIDER TABS
+</xen:comment>
+
+.mce-xen-body .mceSlidesTabs {
+	text-align:center;
+	position: relative;
+}
+
+
+.mce-xen-body .mceSlidesTabs a {
+	display:inline;
+	font-family: Calibri, 'Trebuchet MS', Verdana, Geneva, Arial, Helvetica, sans-serif;
+	color: {xen:property primaryMedium};
+	font-size: 12pt;
+}
+
+.mce-xen-body .mceSlidesTabs a:hover {
+	color: {xen:property primaryLightish};
+}
+
+.mce-xen-body .mceSlidesTabs a:active,
+.mce-xen-body .mceSlidesTabs a.current {
+	color: rgb(238, 0, 24) !important;
+}
+
+.mce-xen-body .mceSlidesTabs a:visited {
+	color: {xen:property primaryMedium};
 }]]></template>
     <template title="quattro_dialog_bbm_demo" version_id="1" version_string="1.0.1"><![CDATA[<xen:comment>
 	The below css template is the default css. It must be included with all dialog
@@ -1228,6 +1356,40 @@ step=1</edit_format_params>
 	overflow-y: auto;
 	margin-left:8px;
 }]]></template>
+    <template title="quattro_dialog_smilies_slider" version_id="3" version_string="1.0.3"><![CDATA[<xen:require js="js/sedo/tinyquattro/extra/jqt_slider.js" />
+<xen:require js="js/sedo/tinyquattro/templates/smilies_slider.js" />
+
+<xen:require css="quattro_dialog.css" />
+<xen:require css="tiny_quattro_smilies.css" />
+<xen:require css="quattro_dialog_smilies_slider.css" />
+
+<div class="mceTitle">{xen:phrase sedo_quattro_smiliespicker}</div>
+
+<div class="mceSlides">
+	<xen:foreach loop="$smiliesBySlides" value="$slideSmilies" i="$id" count="$total">
+		<div id="smilies_{$id}" class="smilies_slide">
+			<xen:foreach loop="$slideSmilies" value="$smilie" key="$k" i="$i" count="$total">
+				<xen:if is="{$smilie.type} == 'sprite'">
+					<a href="#"><img src="styles/default/xenforo/clear.png" alt="{$k}" data-smilie="yes" class="mceSlideSmilie mceQuattroSmilieSprite mceSmilie{$smilie.1}" /></a>
+				<xen:else />
+					<a href="#"><img src="{$smilie.1}" alt="{$k}" data-smilie="yes" class="mceSlideSmilie" /></a>
+				</xen:if>
+			</xen:foreach>
+		</div>
+	</xen:foreach>
+</div>
+
+<div class="mceSlidesTabs">
+	<xen:foreach loop="$smiliesBySlides" value="$slide" i="$i" count="$total">
+		<a href="#">{$i}</a>
+	</xen:foreach>
+</div>
+
+<div class="mceCancel">{xen:phrase close}</div>
+]]></template>
+    <template title="quattro_dialog_smilies_slider.css" version_id="3" version_string="1.0.3"><![CDATA[<xen:comment>
+	Empty at the moment
+</xen:comment>]]></template>
     <template title="tiny_quattro_buttons.css" version_id="3" version_string="1.0.3"><![CDATA[<xen:comment>
 	TINYMCE BUTTONS FOR ALL BROWSERS EXCEPT IE7
 </xen:comment>
@@ -1909,7 +2071,7 @@ i.mce-i-backcolor
 </xen:if>
 </xen:foreach>
 ]]></template>
-    <template title="tiny_quattro_editor.css" version_id="2" version_string="1.0.2"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_editor.css" version_id="3" version_string="1.0.3"><![CDATA[<xen:comment>
 	ALL EDITOR CSS (EXCEPT IFRAME CONTENT)
 	> IE7 have the same CSS except for buttons.
 	> These main css can be copied to the tiny_quattro_editor_ie7.css, just change the require template (see the last line)
@@ -3564,13 +3726,13 @@ i.mce-i-resize
 	white-space: normal;
 	text-align: center;
 	padding:5px;
-	max-height: {xen:property tinyquattro_smiliesbtn_maxheight};
+	height: @tinyquattro_smiliesbtn_height;
 	overflow:auto;
 }
 
 .mceQuattroSmilieBlockFull{
 	width: {xen:property tinyquattro_smiliespicker_width};
-	max-height: {xen:property tinyquattro_smiliespicker_maxheight};
+	height: {xen:property tinyquattro_smiliespicker_height};
 	white-space: normal;
 	overflow:auto;
 }
@@ -3593,6 +3755,1690 @@ i.mce-i-resize
 </xen:comment>
 
 <xen:include template="tiny_quattro_buttons.css" />]]></template>
+    <template title="tiny_quattro_editor_ie7.css" version_id="0" version_string=""><![CDATA[<xen:comment>
+	ALL EDITOR CSS (EXCEPT IFRAME CONTENT)
+	> IE7 have the same CSS except for buttons.
+	> These main css can be copied to the tiny_quattro_editor_ie7.css, just change the require template (see the last line)
+	> Why this?  
+		1) conditionals don't work here
+		2) buttons css must be included in the main css (using another css template with <xen:require> will create problems (can be solved with !important, but let's avoid this)
+		3) modifications should be easier to make like this
+</xen:comment>
+
+<xen:comment>
+	 GLOBAL CSS
+</xen:comment>
+
+.mce-container,.mce-container *,.mce-widget,.mce-widget *
+{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	vertical-align: top;
+	background: transparent;
+	text-decoration: none;
+	color: #000;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 14px;
+	text-shadow: none;
+	float: none;
+	position: static;
+	width: auto;
+	height: auto;
+	white-space: nowrap;
+	cursor: inherit;
+	-webkit-tap-highlight-color: transparent;
+	line-height: normal;
+}
+
+.mce-container *[unselectable]
+{
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+.mce-container ::-webkit-scrollbar
+{
+	width: 8px;
+	height: 8px;
+	-webkit-border-radius: 4px;
+}
+
+.mce-container ::-webkit-scrollbar-track,.mce-container ::-webkit-scrollbar-track-piece
+{
+	background-color: transparent;
+}
+
+.mce-container ::-webkit-scrollbar-thumb
+{
+	background-color: rgba(53,57,71,0.3);
+	width: 6px;
+	height: 6px;
+	-webkit-border-radius: 4px;
+}
+
+.mce-fade
+{
+	opacity: 0;
+	-webkit-transition: opacity .15s linear;
+	transition: opacity .15s linear;
+}
+
+.mce-fade.mce-in
+{
+	opacity: 1;
+}
+
+.mce-tinymce
+{
+	visibility: visible!important;
+	position: relative;
+}
+
+.mce-fullscreen
+{
+	border: 0;
+	padding: 0;
+	margin: 0;
+	overflow: hidden !important;
+	background: #FFF;
+	height: 100%;
+	z-index: 100;
+}
+
+div.mce-fullscreen
+{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: auto;
+}
+
+.mce-tinymce
+{
+	display: block;
+	border-radius: 2px;
+}
+
+.mce-wordcount
+{
+	float: right;
+	padding: 8px 20px 8px 8px;
+}
+
+.mce-edit-area
+{
+	background: #FFF;
+	filter: none;
+}
+
+.mce-statusbar
+{
+	position: relative;
+}
+
+.mce-statusbar .mce-container-body
+{
+	position: relative;
+}
+
+.mce-fullscreen .mce-resizehandle
+{
+	display: none;
+}
+
+.mce-charmap
+{
+	border-collapse: collapse;
+}
+
+.mce-charmap td
+{
+	{xen:property tinyquattro_standard_boder}
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+	vertical-align: center;
+	padding: 2px;
+	cursor: default;
+}
+
+.mce-charmap td:hover
+{
+	background: {xen:property tinyquattro_btn_gradient_to};
+}
+
+.mce-grid
+{
+	border-spacing: 2px;
+	border-collapse: separate;
+}
+
+.mce-grid a
+{
+	display: block;
+	border: 1px solid transparent;
+}
+
+.mce-grid a:hover
+{
+	border-color:{xen:property tinyquattro_standard_boder.border-color};
+}
+
+.mce-grid-border
+{
+	margin: 0 4px 0 4px;
+}
+
+.mce-grid-border a
+{
+	border-color: #e8e8e8;
+	width: 13px;
+	height: 13px;
+}
+
+.mce-grid-border a:hover,.mce-grid-border a.mce-active
+{
+	border-color: #c4daff;
+	background: #deeafa;
+}
+
+.mce-text-center
+{
+	text-align: center;
+}
+
+div.mce-tinymce-inline
+{
+	width: 100%;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+
+.mce-container,.mce-container-body
+{
+	display: block;
+}
+
+.mce-autoscroll
+{
+	overflow: hidden;
+}
+
+.mce-scrollbar
+{
+	position: absolute;
+	width: 7px;
+	height: 100%;
+	top: 2px;
+	right: 2px;
+	opacity: .4;
+	filter: alpha(opacity=40);
+	zoom: 1;
+}
+
+.mce-scrollbar-h
+{
+	top: auto;
+	right: auto;
+	left: 2px;
+	bottom: 2px;
+	width: 100%;
+	height: 7px;
+}
+
+.mce-scrollbar-thumb
+{
+	position: absolute;
+	background-color: #000;
+	border: 1px solid #888;
+	border-color: rgba(85,85,85,0.6);
+	width: 5px;
+	height: 100%;
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+}
+
+.mce-scrollbar-h .mce-scrollbar-thumb
+{
+	width: 100%;
+	height: 5px;
+}
+
+.mce-scrollbar:hover,.mce-scrollbar.mce-active
+{
+	background-color: #AAA;
+	opacity: .6;
+	filter: alpha(opacity=60);
+	zoom: 1;
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+}
+
+.mce-scroll
+{
+	position: relative;
+}
+
+.mce-panel
+{
+	{xen:property tinyquattro_panel_border}
+	background-color: {xen:property tinyquattro_panel_background_color};
+	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
+	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+	background-image: -o-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+	background-image: linear-gradient(to bottom,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_panel_gradient_from_ie}',endColorstr='{xen:property tinyquattro_panel_gradient_to_ie}',GradientType=0);
+	zoom: 1;
+}
+
+.mce-floatpanel
+{
+	position: absolute;
+	-webkit-box-shadow: #ccc 5px 5px 5px;
+	-moz-box-shadow: #ccc 5px 5px 5px;
+	box-shadow: #ccc 5px 5px 5px;
+}
+
+.mce-floatpanel .mce-arrow,.mce-floatpanel .mce-arrow:after
+{
+	position: absolute;
+	display: block;
+	width: 0;
+	height: 0;
+	border-color: transparent;
+	border-style: solid;
+}
+
+.mce-floatpanel .mce-arrow
+{
+	border-width: 11px;
+}
+
+.mce-floatpanel .mce-arrow:after
+{
+	border-width: 10px;
+	content: "";
+}
+
+.mce-floatpanel.mce-popover
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: #fff;
+	-webkit-background-clip: padding-box;
+	-moz-background-clip: padding;
+	background-clip: padding-box;
+	border: 1px solid #ccc;
+	border: 1px solid rgba(0,0,0,0.2);
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	-webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+	-moz-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+	box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+
+.mce-floatpanel.mce-popover.mce-bottom
+{
+	margin-top: 10px;
+}
+
+.mce-floatpanel.mce-popover.mce-bottom>.mce-arrow
+{
+	left: 50%;
+	margin-left: -11px;
+	border-top-width: 0;
+	border-bottom-color: #999;
+	border-bottom-color: rgba(0,0,0,0.25);
+	top: -11px;
+}
+
+.mce-floatpanel.mce-popover.mce-bottom>.mce-arrow:after
+{
+	top: 1px;
+	margin-left: -10px;
+	border-top-width: 0;
+	border-bottom-color: #fff;
+}
+
+.mce-floatpanel.mce-popover.mce-bottom.mce-start
+{
+	margin-left: -22px;
+}
+
+.mce-floatpanel.mce-popover.mce-bottom.mce-start>.mce-arrow
+{
+	left: 20px;
+}
+
+.mce-floatpanel.mce-popover.mce-bottom.mce-end
+{
+	margin-left: 22px;
+}
+
+.mce-floatpanel.mce-popover.mce-bottom.mce-end>.mce-arrow
+{
+	right: 10px;
+	left: auto;
+}
+
+.mce-fullscreen
+{
+	border: 0;
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+	background: #FFF;
+	height: 100%;
+}
+
+div.mce-fullscreen
+{
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+
+#mce-modal-block
+{
+	opacity: 0;
+	filter: alpha(opacity=0);
+	zoom: 1;
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: #000;
+}
+
+#mce-modal-block.mce-in
+{
+	opacity: .3;
+	filter: alpha(opacity=30);
+	zoom: 1;
+}
+
+.mce-window-move
+{
+	cursor: move;
+}
+
+.mce-window
+{
+	{xen:property tinyquattro_win}
+}
+
+.mce-window.mce-in
+{
+	opacity: 1;
+}
+
+.mce-window-head
+{
+	{xen:property tinyquattro_win_head}
+}
+
+.mce-window-head .mce-close
+{
+	position: absolute;
+	right: 15px;
+	top: 9px;
+	font-size: 20px;
+	font-weight: bold;
+	line-height: 20px;
+	color: #CCC;
+	text-shadow: 0 1px 0 white;
+	cursor: pointer;
+	height: 20px;
+	overflow: hidden;
+}
+
+.mce-close:hover
+{
+	color: #AAA;
+}
+
+.mce-window-head .mce-title
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	line-height: 20px;
+	font-size: 20px;
+	font-weight: bold;
+	text-rendering: optimizelegibility;
+	padding-right: 10px;
+}
+
+.mce-window .mce-container-body
+{
+	display: block;
+}
+
+.mce-foot
+{
+	{xen:property tinyquattro_win_foot}
+}
+
+.mce-window-head .mce-dragh
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	cursor: move;
+	width: 90%;
+	height: 100%;
+}
+
+.mce-window iframe
+{
+	width: 100%;
+	height: 100%;
+}
+
+.mce-window.mce-fullscreen,.mce-window.mce-fullscreen .mce-foot
+{
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+}
+
+.mce-abs-layout
+{
+	position: relative;
+}
+
+body .mce-abs-layout-item,.mce-abs-end
+{
+	position: absolute;
+}
+
+.mce-abs-end
+{
+	width: 1px;
+	height: 1px;
+}
+
+.mce-container-body.mce-abs-layout
+{
+	overflow: hidden;
+}
+
+.mce-tooltip
+{
+	position: absolute;
+	padding: 5px;
+	opacity: .8;
+	filter: alpha(opacity=80);
+	zoom: 1;
+}
+
+.mce-tooltip-inner
+{
+	font-size: 11px;
+	background-color: #000;
+	color: #fff;
+	max-width: 200px;
+	padding: 5px 8px 4px 8px;
+	text-align: center;
+	white-space: normal;
+}
+
+.mce-tooltip-inner
+{
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.mce-tooltip-inner
+{
+	-webkit-box-shadow: 0 0 5px #000;
+	-moz-box-shadow: 0 0 5px #000;
+	box-shadow: 0 0 5px #000;
+}
+
+.mce-tooltip-arrow
+{
+	position: absolute;
+	width: 0;
+	height: 0;
+	line-height: 0;
+	border: 5px dashed #000;
+}
+
+.mce-tooltip-arrow-n
+{
+	border-bottom-color: #000;
+}
+
+.mce-tooltip-arrow-s
+{
+	border-top-color: #000;
+}
+
+.mce-tooltip-arrow-e
+{
+	border-left-color: #000;
+}
+
+.mce-tooltip-arrow-w
+{
+	border-right-color: #000;
+}
+
+.mce-tooltip-n .mce-tooltip-arrow
+{
+	top: 0;
+	left: 50%;
+	margin-left: -5px;
+	border-bottom-style: solid;
+	border-top: 0;
+	border-left-color: transparent;
+	border-right-color: transparent;
+}
+
+.mce-tooltip-nw .mce-tooltip-arrow
+{
+	top: 0;
+	left: 10px;
+	border-bottom-style: solid;
+	border-top: 0;
+	border-left-color: transparent;
+	border-right-color: transparent;
+}
+
+.mce-tooltip-ne .mce-tooltip-arrow
+{
+	top: 0;
+	right: 10px;
+	border-bottom-style: solid;
+	border-top: 0;
+	border-left-color: transparent;
+	border-right-color: transparent;
+}
+
+.mce-tooltip-s .mce-tooltip-arrow
+{
+	bottom: 0;
+	left: 50%;
+	margin-left: -5px;
+	border-top-style: solid;
+	border-bottom: 0;
+	border-left-color: transparent;
+	border-right-color: transparent;
+}
+
+.mce-tooltip-sw .mce-tooltip-arrow
+{
+	bottom: 0;
+	left: 10px;
+	border-top-style: solid;
+	border-bottom: 0;
+	border-left-color: transparent;
+	border-right-color: transparent;
+}
+
+.mce-tooltip-se .mce-tooltip-arrow
+{
+	bottom: 0;
+	right: 10px;
+	border-top-style: solid;
+	border-bottom: 0;
+	border-left-color: transparent;
+	border-right-color: transparent;
+}
+
+.mce-tooltip-e .mce-tooltip-arrow
+{
+	right: 0;
+	top: 50%;
+	margin-top: -5px;
+	border-left-style: solid;
+	border-right: 0;
+	border-top-color: transparent;
+	border-bottom-color: transparent;
+}
+
+.mce-tooltip-w .mce-tooltip-arrow
+{
+	left: 0;
+	top: 50%;
+	margin-top: -5px;
+	border-right-style: solid;
+	border-left: none;
+	border-top-color: transparent;
+	border-bottom-color: transparent;
+}
+
+.mce-btn
+{
+	position: relative;
+	{xen:property tinyquattro_btn_border_color}
+	background-color: {xen:property tinyquattro_btn_bckg_color};
+	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_gradient_from}),to({xen:property tinyquattro_btn_gradient_to}));
+	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+	background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+	background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_gradient_to_ie}',GradientType=0);
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+}
+
+.mce-btn:hover,.mce-btn:focus
+{
+	{xen:property tinyquattro_btn_hov_border_color}
+	background-color: {xen:property tinyquattro_btn_hov_bckg_color};
+	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
+	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_hov_gradient_from}),to({xen:property tinyquattro_btn_hov_gradient_to}));
+	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
+	background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
+	background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_hov_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_hov_gradient_to_ie}',GradientType=0);
+	zoom: 1;
+}
+
+.mce-btn.mce-disabled,.mce-btn.mce-disabled:hover
+{
+	cursor: default;
+	background-image: none;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	opacity: .65;
+	filter: alpha(opacity=65);
+	zoom: 1;
+}
+
+.mce-btn.mce-active,.mce-btn.mce-active:hover
+{
+	{xen:property tinyquattro_btn_active_border_color}	
+	background-color: {xen:property tinyquattro_btn_active_bckg_color};
+	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
+	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_active_gradient_from}),to({xen:property tinyquattro_btn_active_gradient_to}));
+	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
+	background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
+	background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_active_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_active_gradient_to_ie}',GradientType=0);
+	zoom: 1;
+}
+
+.mce-btn button
+{
+	{xen:property tinyquattro_button}
+}
+
+.mce-btn button::-moz-focus-inner
+{
+	border: 0;
+	padding: 0;
+}
+
+.mce-btn i
+{
+	text-shadow: 1px 1px #fff;
+}
+
+.mce-primary
+{
+	{xen:property tinyquattro_primary_border_color}
+	background-color: {xen:property tinyquattro_primary_background_color};
+	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
+	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_gradient_from}),to({xen:property tinyquattro_primary_gradient_to}));
+	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
+	background-image: -o-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
+	background-image: linear-gradient(to bottom,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_primary_gradient_from_ie}',endColorstr='{xen:property tinyquattro_primary_gradient_to_ie}',GradientType=0);
+	zoom: 1;
+}
+
+.mce-primary:hover,.mce-primary:focus
+{
+	{xen:property tinyquattro_primary_hov_border_color}
+	background-color: {xen:property tinyquattro_primary_hover_bck_color};
+	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
+	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_hover_grdt_from}),to({xen:property tinyquattro_primary_hover_grdt_to}));
+	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
+	background-image: -o-linear-gradient(top,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
+	background-image: linear-gradient(to bottom,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_primary_hov_grdt_from_ie}',endColorstr='tinyquattro_primary_hov_grdt_to_ie',GradientType=0);
+	zoom: 1;
+}
+
+.mce-primary button
+{
+	color: {xen:property tinyquattro_primary_border_color.color};
+}
+
+.mce-btn-large button
+{
+	padding: 9px 14px;
+	font-size: 16px;
+	line-height: normal;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.mce-btn-large i
+{
+	margin-top: 2px;
+}
+
+.mce-btn-small button
+{
+	padding: 3px 5px;
+	font-size: 12px;
+	line-height: 17px;
+}
+
+.mce-btn-small i
+{
+	margin-top: 0;
+}
+
+.mce-btn .mce-caret
+{
+	margin-top: 8px;
+	*margin-top: 6px;
+	margin-left: 0;
+}
+
+.mce-btn-small .mce-caret
+{
+	margin-top: 6px;
+	*margin-top: 4px;
+	margin-left: 0;
+}
+
+.mce-caret
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	width: 0;
+	height: 0;
+	vertical-align: top;
+	border-top: 4px solid #444;
+	border-right: 4px solid transparent;
+	border-left: 4px solid transparent;
+	content: "";
+}
+
+.mce-disabled .mce-caret
+{
+	border-top-color: #999;
+}
+
+.mce-caret.mce-up
+{
+	border-bottom: 4px solid #444;
+	border-top: 0;
+}
+
+.mce-btn-group .mce-btn
+{
+	border-width: 1px 0 1px 0;
+	margin: 0;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+}
+
+.mce-btn-group .mce-btn:hover,.mce-btn-group .mce-btn:focus
+{
+	{xen:property tinyquattro_btngrp_hov_border_color}
+	background-color: {xen:property tinyquattro_btngrp_hov_bckg_color};
+	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
+	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btngrp_hov_gradient_from}),to({xen:property tinyquattro_btngrp_hov_gradient_to}));
+	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
+	background-image: -o-linear-gradient(top,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
+	background-image: linear-gradient(to bottom,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btngrp_hov_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btngrp_hov_gradient_to_ie}',GradientType=0);
+	zoom: 1;
+}
+
+.mce-btn-group .mce-btn.mce-disabled,.mce-btn-group .mce-btn.mce-disabled:hover
+{
+	{xen:property tinyquattro_btngrp_disable_border_color}
+	background-color: {xen:property tinyquattro_btn_bckg_color};
+	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_gradient_from}),to({xen:property tinyquattro_btn_gradient_to}));
+	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+	background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+	background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_gradient_to_ie}',GradientType=0);
+	zoom: 1;
+}
+
+.mce-btn-group .mce-btn.mce-active,.mce-btn-group .mce-btn.mce-active:hover,.mce-btn-group .mce-btn:active
+{
+	{xen:property tinyquattro_btngrp_active_border_color}
+	background-color: {xen:property tinyquattro_btngrp_active_bckg_color};
+	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
+	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btngrp_active_grdt_from}),to({xen:property tinyquattro_btngrp_active_grdt_to}));
+	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
+	background-image: -o-linear-gradient(top,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
+	background-image: linear-gradient(to bottom,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btngrp_active_grdt_from_ie}',endColorstr='{xen:property tinyquattro_btngrp_active_grdt_to_ie}',GradientType=0);
+	zoom: 1;
+}
+
+.mce-btn-group .mce-btn.mce-disabled button
+{
+	opacity: .65;
+	filter: alpha(opacity=65);
+	zoom: 1;
+}
+
+.mce-btn-group .mce-first
+{
+	border-left: 1px solid {xen:property tinyquattro_standard_boder.border-color};
+	-webkit-border-radius: 3px 0 0 3px;
+	-moz-border-radius: 3px 0 0 3px;
+	border-radius: 3px 0 0 3px;
+}
+
+.mce-btn-group .mce-last
+{
+	border-right: 1px solid {xen:property tinyquattro_standard_boder.border-color};
+	-webkit-border-radius: 0 3px 3px 0;
+	-moz-border-radius: 0 3px 3px 0;
+	border-radius: 0 3px 3px 0;
+}
+
+.mce-btn-group .mce-first.mce-last
+{
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.mce-btn-group .mce-btn.mce-flow-layout-item
+{
+	margin: 0;
+}
+
+.mce-checkbox
+{
+	cursor: pointer;
+}
+
+i.mce-i-checkbox
+{
+	margin: 0 3px 0 0;
+	{xen:property tinyquattro_standard_boder}
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+	-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+	box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+	background-color: {xen:property tinyquattro_panel_background_color};
+	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
+	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+	background-image: -o-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+	background-image: linear-gradient(to bottom,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_panel_gradient_from_ie}',endColorstr='{xen:property tinyquattro_panel_gradient_to_ie}',GradientType=0);
+	zoom: 1;
+	text-indent: -10em;
+	*font-size: 0;
+	*line-height: 0;
+	*text-indent: 0;
+}
+
+.mce-checked i.mce-i-checkbox
+{
+	color: #000;
+	font-size: 16px;
+	line-height: 16px;
+	text-indent: 0;
+}
+
+.mce-checkbox:focus i.mce-i-checkbox
+{
+	{xen:property tinyquattro_focus_boder}
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
+	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
+	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
+}
+
+.mce-colorbutton .mce-ico
+{
+	position: relative;
+}
+
+.mce-colorpicker
+{
+	background: #FFF;
+}
+
+.mce-colorbutton-grid
+{
+	margin: 4px;
+}
+
+.mce-grid td div
+{
+	border: 1px solid #808080;
+	width: 12px;
+	height: 12px;
+	margin: 2px;
+	cursor: pointer;
+}
+
+.mce-grid td div:hover
+{
+	border-color: black;
+}
+
+.mce-grid td div:focus
+{
+	border-color: {xen:property tinyquattro_focus_boder.border-color};
+	outline: 1px solid {xen:property tinyquattro_focus_boder.border-color};
+}
+
+.mce-colorbutton
+{
+	position: relative;
+}
+
+.mce-colorbutton .mce-preview
+{
+	display: block;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -8px;
+	margin-top: 7px;
+	background: gray;
+	width: 16px;
+	height: 2px;
+	overflow: hidden;
+}
+
+.mce-combobox
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	width: 100px;
+	-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+	-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+	box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+}
+
+.mce-combobox input
+{
+	border-color: 1px solid {xen:property tinyquattro_standard_boder.border-color};
+	border-right-color: rgba(0,0,0,0.15);
+	height: 28px;
+}
+
+.mce-combobox.mce-has-open input
+{
+	-webkit-border-radius: 4px 0 0 4px;
+	-moz-border-radius: 4px 0 0 4px;
+	border-radius: 4px 0 0 4px;
+}
+
+.mce-combobox .mce-btn
+{
+	border-left: 0;
+	-webkit-border-radius: 0 4px 4px 0;
+	-moz-border-radius: 0 4px 4px 0;
+	border-radius: 0 4px 4px 0;
+}
+
+.mce-combobox button
+{
+	padding-right: 8px;
+	padding-left: 8px;
+}
+
+.mce-combobox *:focus
+{
+	border-color: {xen:property tinyquattro_focus_boder.border-color};
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
+	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
+	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
+}
+
+.mce-path
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	padding: 8px;
+	white-space: normal;
+}
+
+.mce-path .mce-txt
+{
+	display: inline-block;
+	padding-right: 3px;
+}
+
+.mce-path .mce-path-body
+{
+	display: inline-block;
+}
+
+.mce-path-item
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	cursor: pointer;
+	color: #000;
+}
+
+.mce-path-item:hover
+{
+	text-decoration: underline;
+}
+
+.mce-path-item:focus
+{
+	background: gray;
+	color: white;
+}
+
+.mce-path .mce-divider
+{
+	display: inline;
+}
+
+.mce-fieldset
+{
+	border: 0 solid #9e9e9e;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.mce-fieldset>.mce-container-body
+{
+	margin-top: -15px;
+}
+
+.mce-fieldset-title
+{
+	margin-left: 5px;
+	padding: 0 5px 0 5px;
+}
+
+.mce-fit-layout
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+}
+
+.mce-fit-layout-item
+{
+	position: absolute;
+}
+
+.mce-flow-layout-item
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+}
+
+.mce-flow-layout-item
+{
+	margin: 2px 0 2px 2px;
+}
+
+.mce-flow-layout-item.mce-last
+{
+	margin-right: 2px;
+}
+
+.mce-flow-layout
+{
+	white-space: normal;
+}
+
+.mce-iframe
+{
+	border: 0 solid {xen:property tinyquattro_standard_boder.border-color};
+	width: 100%;
+	height: 100%;
+}
+
+.mce-label
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	text-shadow: 0 1px 1px rgba(255,255,255,0.75);
+	border: 0 solid {xen:property tinyquattro_standard_boder.border-color};
+	overflow: hidden;
+}
+
+.mce-label.mce-autoscroll
+{
+	overflow: auto;
+}
+
+.mce-label-disabled .mce-text
+{
+	color: #999;
+}
+
+.mce-label.mce-multiline
+{
+	white-space: pre-wrap;
+}
+
+.mce-menubar .mce-menubtn
+{
+	border-color: transparent;
+	background: transparent;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	filter: none;
+}
+
+.mce-menubar
+{
+	border: 1px solid {xen:property tinyquattro_panel_gradient_to};
+}
+
+.mce-menubar .mce-menubtn button
+{
+	color: #000;
+}
+
+.mce-menubar .mce-menubtn:hover,.mce-menubar .mce-menubtn.mce-active,.mce-menubtn:focus
+{
+	border-color: transparent;
+	background: {xen:property tinyquattro_panel_gradient_to};
+	filter: none;
+}
+
+.mce-menubtn.mce-disabled span
+{
+	color: #999;
+}
+
+.mce-listbox button
+{
+	text-align: left;
+	padding-right: 20px;
+	position: relative;
+}
+
+.mce-listbox .mce-caret
+{
+	position: absolute;
+	margin-top: -2px;
+	right: 8px;
+	top: 50%;
+}
+
+.mce-listbox span
+{
+	width: 100%;
+	display: block;
+	overflow: hidden;
+}
+
+.mce-menu-item
+{
+	display: block;
+	padding: 6px 20px;
+	clear: both;
+	font-weight: normal;
+	line-height: 20px;
+	color: {xen:property tinyquattro_menuitem_font_normal};
+	white-space: nowrap;
+	cursor: pointer;
+	line-height: normal;
+}
+
+.mce-menu-item.mce-disabled .mce-text
+{
+	color: {xen:property tinyquattro_menuitem_font_disable};
+}
+
+.mce-menu-item:hover,.mce-menu-item.mce-selected,.mce-menu-item:focus
+{
+	text-decoration: none;
+	color: {xen:property tinyquattro_menuitem_font_hover};
+	background-color: {xen:property tinyquattro_focus_boder.border-color};
+	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
+	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_gradient_from}),to({xen:property tinyquattro_primary_hover_grdt_from}));
+	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
+	background-image: -o-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
+	background-image: linear-gradient(to bottom,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc',endColorstr='{xen:property tinyquattro_primary_hov_grdt_from_ie}',GradientType=0);
+	zoom: 1;
+}
+
+.mce-menu-item:hover .mce-text,.mce-menu-item.mce-selected .mce-text
+{
+	color: {xen:property tinyquattro_menuitem_font_hover};
+}
+
+.mce-menu-item:hover .mce-ico,.mce-menu-item.mce-selected .mce-ico,.mce-menu-item:focus .mce-ico
+{
+	color: {xen:property tinyquattro_menuitem_font_hover};
+}
+
+.mce-menu-shortcut
+{
+	display: inline-block;
+	color: #999;
+}
+
+.mce-menu-shortcut
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	padding: 0 20px 0 20px;
+}
+
+.mce-menu-item .mce-caret
+{
+	margin-top: 6px;
+	*margin-top: 3px;
+	margin-right: 6px;
+	border-top: 4px solid transparent;
+	border-bottom: 4px solid transparent;
+	border-left: 4px solid #666;
+}
+
+.mce-menu-item.mce-selected .mce-caret,.mce-menu-item:focus .mce-caret
+{
+	border-left-color: #FFF;
+}
+
+.mce-menu-align .mce-menu-shortcut
+{
+	*margin-top: -2px;
+}
+
+.mce-menu-align .mce-menu-shortcut,.mce-menu-align .mce-caret
+{
+	position: absolute;
+	right: 0;
+}
+
+.mce-menu-item-sep,.mce-menu-item-sep:hover
+{
+	padding: 0;
+	height: 1px;
+	margin: 9px 1px;
+	overflow: hidden;
+	background: #e5e5e5;
+	border-bottom: 1px solid white;
+	cursor: default;
+	filter: none;
+}
+
+.mce-menu-item.mce-active i
+{
+	visibility: visible;
+}
+
+.mce-menu-item.mce-active
+{
+	background-color: #c8def4;
+	outline: 1px solid {xen:property tinyquattro_standard_boder.border-color};
+}
+
+.mce-menu-item-checkbox.mce-active
+{
+	background-color: #FFF;
+	outline: 0;
+}
+
+.mce-menu
+{
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+	background: transparent;
+	z-index: 1000;
+	padding: 5px 0 5px 0;
+	margin: 2px 0 0;
+	min-width: 160px;
+	background: #FFF;
+	border: 1px solid #CCC;
+	border: 1px solid rgba(0,0,0,0.2);
+	z-index: 1002;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	-webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+	-moz-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+	box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+
+.mce-menu i
+{
+	display: none;
+}
+
+.mce-menu-has-icons i
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+}
+
+.mce-menu-sub
+{
+	margin-top: -6px;
+	margin-left: -1px;
+	-webkit-border-radius: 0 6px 6px 6px;
+	-moz-border-radius: 0 6px 6px 6px;
+	border-radius: 0 6px 6px 6px;
+}
+
+i.mce-radio
+{
+	padding: 1px;
+	margin: 0 3px 0 0;
+	background-color: #fafafa;
+	border: 1px solid #cacece;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+	-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+	-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+	box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+	background-color: {xen:property tinyquattro_panel_background_color};
+	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
+	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+	background-image: -o-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+	background-image: linear-gradient(to bottom,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_panel_gradient_from_ie}',endColorstr='{xen:property tinyquattro_panel_gradient_to_ie}',GradientType=0);
+	zoom: 1;
+}
+
+i.mce-radio:after
+{
+	font-family: Arial;
+	font-size: 12px;
+	color: #000;
+	content: '\25cf';
+}
+
+.mce-container-body .mce-resizehandle
+{
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	width: 16px;
+	height: 16px;
+	visibility: visible;
+	cursor: s-resize;
+	margin: 0;
+}
+
+.mce-resizehandle-both
+{
+	cursor: se-resize;
+}
+
+i.mce-i-resize
+{
+	color: #000;
+}
+
+.mce-spacer
+{
+	visibility: hidden;
+}
+
+.mce-splitbtn .mce-open
+{
+	border-left: 1px solid transparent;
+	border-right: 1px solid transparent;
+}
+
+.mce-splitbtn:hover .mce-open
+{
+	border-left-color: {xen:property tinyquattro_standard_boder.border-color};
+	border-right-color: {xen:property tinyquattro_standard_boder.border-color};
+}
+
+.mce-splitbtn button
+{
+	padding-right: 4px;
+}
+
+.mce-splitbtn .mce-open
+{
+	padding-left: 4px;
+}
+
+.mce-splitbtn .mce-open.mce-active
+{
+	-webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
+	-moz-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
+	box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
+}
+
+.mce-stack-layout-item
+{
+	display: block;
+}
+
+.mce-tabs
+{
+	display: block;
+	border-bottom: 1px solid #ccc;
+}
+
+.mce-tab
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	border: 1px solid #ccc;
+	border-width: 1px 1px 0 0;
+	background: #e3e3e3;
+	padding: 8px;
+	text-shadow: 0 1px 1px rgba(255,255,255,0.75);
+	height: 13px;
+	cursor: pointer;
+}
+
+.mce-tab:hover
+{
+	background: {xen:property tinyquattro_panel_gradient_from};
+}
+
+.mce-tab.mce-active
+{
+	background: {xen:property tinyquattro_panel_gradient_from};
+	border-bottom-color: transparent;
+	margin-bottom: -1px;
+	height: 14px;
+}
+
+.mce-textbox
+{
+	background: #FFF;
+	{xen:property tinyquattro_standard_boder}
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+	display: inline-block;
+	-webkit-transition: border linear .2s,box-shadow linear .2s;
+	transition: border linear .2s,box-shadow linear .2s;
+	height: 28px;
+	resize: none;
+	padding: 0 4px 0 4px;
+	white-space: normal;
+	color: #000;
+}
+
+.mce-textbox:focus
+{
+	border-color: {xen:property tinyquattro_focus_boder.border-color};
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
+	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
+	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
+}
+
+.mce-placeholder .mce-textbox
+{
+	color: #aaa;
+}
+
+.mce-textbox.mce-multiline
+{
+	padding: 4px;
+}
+
+.mce-throbber
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	opacity: .6;
+	filter: alpha(opacity=60);
+	zoom: 1;
+	background: #fff url('styles/sedo/tinyquattro/img/loader.gif') no-repeat center center;
+}
+
+
+<xen:comment>
+	XenForo Framework addons
+</xen:comment>
+
+#mce-top-right{
+	float:right;
+	padding-right:2px;
+}
+
+.mceAdvPicker{
+	position: relative;
+	text-align: center;
+	margin: 0 8px;
+	top: -3px;
+	font-size:10pt;
+	cursor: pointer;
+}
+
+.mceAdvPicker:hover{
+	background-color:black;
+	color:white;
+}
+
+.mce-xen-font-size-menu{
+	min-width:80px;
+}
+
+.mce-xen-font-size-menu .mce-container-body{
+	width:100px;
+	height:80px;
+	overflow-y:auto;
+}
+
+.mce-xen-font-size{
+	text-align:center;
+}
+
+.mce-xen-font-family-menu .mce-container-body{
+	width:180px;
+	height:80px;
+	overflow-y:auto;
+}
+
+<xen:comment>
+	/*Normal Icons can still work*/
+	.mce-ico.mce-i-xen_switch {
+		background: url('{xen:property imagePath}/xenforo/xenforo-ui-sprite.png') no-repeat scroll -144px 0 ;
+	}
+</xen:comment>
+
+<xen:comment>
+	XenForo Smilies
+</xen:comment>
+
+<xen:include template="tiny_quattro_smilies.css" />
+
+.mceQuattroSmilieBlock{
+	width: {xen:property tinyquattro_smiliesbtn_width};
+	white-space: normal;
+	text-align: center;
+	padding:5px;
+	height: @tinyquattro_smiliesbtn_height;
+	overflow:auto;
+}
+
+.mceQuattroSmilieBlockFull{
+	width: {xen:property tinyquattro_smiliespicker_width};
+	height: {xen:property tinyquattro_smiliespicker_height};
+	white-space: normal;
+	overflow:auto;
+}
+
+.mceQuattroSmilieBlock a,
+.mceQuattroSmilieBlockFull a{
+	white-space: normal;
+}
+
+.mceQuattroSmilieBlock > img,
+.mceQuattroSmilieBlockFull > img,
+.mceQuattroSmilie{
+	margin:2px;
+	cursor: pointer;
+}
+
+<xen:comment>
+	IE7 BUTTONS: DON'T MOVE THIS INCLUDE.
+	It must be at the last line
+</xen:comment>
+
+<xen:include template="tiny_quattro_buttons_ie7.css" />]]></template>
     <template title="tiny_quattro_grid" version_id="2" version_string="1.0.2"><![CDATA[<xen:if is="{$quattroGrid}">
 	<xen:foreach loop="$quattroGrid" value="$buttons" key="$key">
 		toolbar{$key}: "{$buttons}",
@@ -3841,7 +5687,7 @@ h6 { font-size: .75em; }
 <xen:edithint template="tiny_quattro_buttons_ie7.css" />
 <xen:edithint template="tiny_quattro_custom_buttons" />
 ]]></template>
-    <template title="tiny_quattro_params" version_id="2" version_string="1.0.2"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_params" version_id="3" version_string="1.0.3"><![CDATA[<xen:comment>
 	We are inside a JavaScript file. All phrases must be escaped
 </xen:comment>
 
@@ -3856,6 +5702,8 @@ h6 { font-size: .75em; }
 	overlayImageSize: { w: 480, h: 110 },
 	overlayLinkSize: { w: 480, h: 160 },
 	overlayMediaSize: { w: 480, h: 160 },
+	overlaySmiliesSize: { w: "{xen:property tinyquattro_smiliespicker_width}", h: "{xen:property tinyquattro_smiliespicker_height}" },
+	smiliesSlider: {$xenOptions.quattro_smilies_slider},
 	xSmilies: {$xenOptions.quattro_xsmilies},
 	xenforo_smilies: {xen:helper json, $smilies},
 	bbmButtons: {<xen:include template="tiny_quattro_custom_buttons" />}]]></template>
