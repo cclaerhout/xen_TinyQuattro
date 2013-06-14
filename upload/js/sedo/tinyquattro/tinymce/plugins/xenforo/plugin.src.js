@@ -77,7 +77,7 @@
 					return false
 				else
 					return ed.plugins.fullscreen.isFullscreen();
-			 };
+			};
 			
 			/*Create a static mirror*/
 			xenMCE.Overlay._Tools = this;
@@ -401,7 +401,7 @@
 					$slides.height(sl).children().height(sl);
 					
 					$slider_tabs = $overlay.find('.'+slideTag+'Tabs');
-					$('<a class="'+slideTag+'Navig '+slideTag+'Backward">\u00AB</a><a class="'+slideTag+'Navig '+slideTag+'Forward">\u00BB</a>').insertBefore($slides);
+					$('<a class="'+slideTag+'Navig '+slideTag+'Backward">&lsaquo;</a><a class="'+slideTag+'Navig '+slideTag+'Forward">&rsaquo;</a>').insertBefore($slides);
 					$overlay.find('.'+slideTag+'Navig').css('top', (sl/2)-10+'px');
 
 					$slider_tabs.tabs($slides.children(), {
@@ -1107,7 +1107,8 @@
 			var flsc = ed.buttons.fullscreen;
 			
 			//Radical fix for a bug on IE8; might come from jQuery (to check)
-			if(tinymce.isIE && tinymce.Env.ie <= 8 ){
+			//Edit 2013-06-14: is working now with IE8 but not with IE7
+			if(tinymce.isIE && tinymce.Env.ie <= 7 ){
 				delete ed.buttons['fullscreen'];
 				return false;
 			}
@@ -1189,41 +1190,61 @@
 	/***
 	*	XenForo Colors Plugin
 	*	This modifies the official plugin (so keep it in the config)
+	*	Last update: 2013-06-14
 	***/
 	tinymce.create(xenPlugin+'.XenColors', {
 		XenColors: function(parent) 
 		{
-			if(xenMCE.Params.extraColors != true)
-				return false;
-
 			$.extend(this, parent);
 			var src = this, ed = this.ed = this.getEditor(), extra;
 
 			/*Extra color picker*/
 			function modifyButton(button) {
-				var html = button.panel.html, cmd = button.selectcmd;
+				var html = button.panel.html, cmd = button.selectcmd, onclick = button.onclick;
 				
-				button.panel.html = function(e){
-					var advPicker = '<div href="#" class="mceAdvPicker" data-mode="'+cmd+'">';
-					advPicker += xenMCE.Phrases.more_colors;
-					advPicker += '</div>';
-					return html() + advPicker;
+				if(xenMCE.Params.extraColors == true){
+					button.panel.html = function(e){
+						var advPicker = '<div href="#" class="mceAdvPicker" data-mode="'+cmd+'">';
+						advPicker += xenMCE.Phrases.more_colors;
+						advPicker += '</div>';
+						return html() + advPicker;
+					}
 				}
 
 				/***
-					The ideal solution would have been to modify the panel.onclick function but
-					with jQuery 1.5.3 the $.proxy doesn't accept arguments, so the function couldn't
-					be extended without being rewritten. To avoid this let's use the parent onclick
-					listener (which is not used here) and a jQuery trick (unbind/bind);
+				*	The ideal solution would have been to modify the panel.onclick function but
+				*	with jQuery 1.5.3 the $.proxy doesn't accept arguments, so the function couldn't
+				*	be extended without being rewritten. To avoid this let's use the parent onclick
+				*	listener (which is not used here) and a jQuery trick (unbind/bind);
+				*	
+				*	Edit 2013-06-14: the onclick is now used by mce, use onshow instead
 				**/
-				button.onclick = function(e){
+				button.onshow = function(e){
+					/*Color Picker Mangement*/
 					var buttonCtrl = this;
-					
 					$('.mceAdvPicker').unbind('click').bind('click', function(e){
 						e.preventDefault();
 						buttonCtrl.hidePanel();
-						src.init($(this).data('mode'));
+
+						var buttonObj = {
+							mode: $(this).data('mode'),
+							buttonCtrl: buttonCtrl
+						}
+
+						src.init(buttonObj); // arg = created element (1)
 					});
+
+					/*Postion fix - TinyMCE bug #bug 5910*/
+					$button = $(this.getEl());
+					$panel = $(this.panel.getEl());
+					var btnOffset = $button.offset(), btnPos = $button.position();
+
+					if(!src.isFullscreen())
+						btnOffset.top = btnOffset.top + $button.height() + parseInt($panel.css('marginTop'));
+					else
+						btnOffset.top = btnPos.top + $button.height() + parseInt($panel.css('marginTop'));
+
+					$panel.offset(btnOffset);					
 				}
 			}
 
@@ -1234,34 +1255,16 @@
 			if(typeof ed.buttons.backcolor !== 'undefined'){
 				modifyButton(ed.buttons.backcolor);
 			}
-			
-			/*Postion fix - TinyMCE bug #bug 5910*/
-			function posFix(e){
-				$button = $(this.getEl());
-				$panel = $(this.panel.getEl());
-				var btnOffset = $button.offset();
-				var btnPos = $button.position();
-
-				if(!src.isFullscreen())
-					btnOffset.top = btnOffset.top + $button.height() + parseInt($panel.css('marginTop'));
-				else
-					btnOffset.top = btnPos.top + $button.height() + parseInt($panel.css('marginTop'));
-
-				$panel.offset(btnOffset);
-			}
-
-			ed.buttons.forecolor.onShow = posFix;
-			ed.buttons.backcolor.onShow = posFix;
-			
 		},
-		init: function(mode)
+		init: function(buttonObj)
 		{
+			this._colorButton = buttonObj;// element added (2)
+			
 			var size = xenMCE.Params.overlayColorPickerSize;
 			config = {
 				width: size.w,
 				height: size.h,
-				data: {	colorMode: mode },
-				onsubmit: this.submit
+				onsubmit: $.proxy(this, 'submit') // element sent (3)
 			}
 			
 			callbacks = {
@@ -1277,6 +1280,7 @@
 		},
 		submit: function(e, $overlay, ed, src)
 		{
+			src = this; // src modifided with the new element (4)
 			xenMCE.Templates.ColorPicker.submit(e, $overlay, ed, src);
 		}
 	});
@@ -1524,7 +1528,7 @@
 				icon: n2,
 				iconset: 'xenforo',
 				tooltip: "Smilies picker",
-				stateSelector: 'img[data-smilie]',
+				stateSelector: 'img[data-smilie]'
 			};
 
 			if(src.params.smiliesSlider == true)

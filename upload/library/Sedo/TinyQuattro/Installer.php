@@ -74,6 +74,11 @@ class Sedo_TinyQuattro_Installer
 			);
 			self::insertButtons($newButtons, 'default');
 		}
+
+		if(empty($addon) || $addon['version_id'] < 5)
+		{
+			self::addColumnIfNotExist($db, 'xf_user_option', 'quattro_rte_mobile', 'TINYINT UNSIGNED NOT NULL DEFAULT 1');
+		}
 	}
 
 	public static function insertButtons(array $buttons, $category, $reset = false)
@@ -110,6 +115,7 @@ class Sedo_TinyQuattro_Installer
 	{
 		$db = XenForo_Application::get('db');
 		$db->query("DROP TABLE IF EXISTS bbm_tinyquattro");
+		$db->query("ALTER TABLE xf_user_option DROP quattro_rte_mobile");
 	}
 	
 	public static function addColumnIfNotExist($db, $table, $field, $attr)

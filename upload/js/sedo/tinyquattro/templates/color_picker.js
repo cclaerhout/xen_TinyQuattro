@@ -133,12 +133,15 @@
 			}
 		},
 		submit: function(e, $overlay, ed, src) {
-			var color = e.data.pickerColor, mode =  e.data.colorMode, fc = 'ForeColor', hl = 'HiliteColor';
+			var color = e.data.pickerColor, fc = 'ForeColor', hl = 'HiliteColor',
+			colorButton = src._colorButton, mode = colorButton.mode, buttonCtrl = colorButton.buttonCtrl;
 
-			if(mode == fc || mode == hl)
+			if(mode == fc || mode == hl){
+				buttonCtrl.color(color);
 				ed.execCommand(mode, false, color);
-			else
+			} else {
 				console.debug('Color mode not found');
+			}
 		},
 		toHexColor: function(color) {
 			var matches, red, green, blue, toInt = parseInt;

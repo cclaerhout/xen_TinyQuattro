@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.0.4" version_id="4" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.0.5" version_id="5" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -399,13 +399,17 @@ i.mce-i-backcolor
   </admin_templates>
   <code_events/>
   <code_event_listeners>
+    <listener event_id="load_class_bb_code" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_BbCode" callback_method="listen" active="1" description="BbCode &gt; Wysiwyg HTML Parser Patch"/>
     <listener event_id="load_class_controller" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_ControllerPublic" callback_method="listen" active="1" description="Controller Public Listener"/>
+    <listener event_id="load_class_datawriter" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_Datawriter" callback_method="listen" active="1" description="Datawriter listener"/>
+    <listener event_id="load_class_view" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_ViewPublic" callback_method="listen" active="1" description="BbCode &lt;=&gt; Html converter fix"/>
     <listener event_id="template_create" execute_order="8" callback_class="Sedo_TinyQuattro_Listener_Templates_Preloader" callback_method="preloader" active="1" description="Template Preloader"/>
   </code_event_listeners>
   <cron/>
   <email_templates/>
   <optiongroups>
     <group group_id="tiny_quattro" display_order="11111" debug_only="0"/>
+    <group group_id="tiny_quattro_paser" display_order="11112" debug_only="0"/>
     <option option_id="quattro_autoresize_max_height" edit_format="spinbox" data_type="integer" can_backup="1">
       <default_value>380</default_value>
       <edit_format_params>min=100
@@ -440,6 +444,18 @@ step=5</edit_format_params>
 step=5</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="110"/>
+    </option>
+    <option option_id="quattro_converter_bb_to_html" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro_paser" display_order="920"/>
+    </option>
+    <option option_id="quattro_converter_html_to_bbcode" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>1</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro_paser" display_order="910"/>
     </option>
     <option option_id="quattro_disable_on_mobiles" edit_format="onoff" data_type="boolean" can_backup="1">
       <default_value>0</default_value>
@@ -494,6 +510,30 @@ small={xen:phrase sedo_quattro_small}</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="1"/>
     </option>
+    <option option_id="quattro_parser_bb_to_wysiwyg" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>1</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro_paser" display_order="800"/>
+    </option>
+    <option option_id="quattro_parser_bypass_mobile_limit" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro_paser" display_order="10"/>
+    </option>
+    <option option_id="quattro_parser_mobile_user_option" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro_paser" display_order="20"/>
+    </option>
+    <option option_id="quattro_parser_wysiwyg_to_bb" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>1</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro_paser" display_order="800"/>
+    </option>
     <option option_id="quattro_smilies_slider" edit_format="onoff" data_type="boolean" can_backup="1">
       <default_value>0</default_value>
       <edit_format_params></edit_format_params>
@@ -530,6 +570,12 @@ step=1</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="530"/>
     </option>
+    <option option_id="tinyquattro_guilty_tags" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value>left,center,right,b,i,u,s,font,color,size</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro_paser" display_order="980"/>
+    </option>
   </optiongroups>
   <permissions>
     <permission_groups>
@@ -545,6 +591,8 @@ step=1</edit_format_params>
   <phrases>
     <phrase title="option_group_tiny_quattro" version_id="0" version_string="1.0"><![CDATA[TinyQuattro]]></phrase>
     <phrase title="option_group_tiny_quattro_description" version_id="0" version_string="1.0"><![CDATA[Options to customise TinyMCE 4]]></phrase>
+    <phrase title="option_group_tiny_quattro_paser" version_id="4" version_string="1.0.4"><![CDATA[TinyQuattro - XenForo parser]]></phrase>
+    <phrase title="option_group_tiny_quattro_paser_description" version_id="4" version_string="1.0.4"><![CDATA[These options are made to modify/complete/fix some behaviours of XenForo]]></phrase>
     <phrase title="option_quattro_autoresize_max_height" version_id="0" version_string="1.0"><![CDATA[Editor autoresize maximum height]]></phrase>
     <phrase title="option_quattro_autoresize_max_height_explain" version_id="0" version_string="1.0"><![CDATA[Once the maximum height is reached, an overflow will be applied.]]></phrase>
     <phrase title="option_quattro_autoresize_min_height" version_id="0" version_string="1.0"><![CDATA[Editor autoresize minimum height]]></phrase>
@@ -555,6 +603,14 @@ step=1</edit_format_params>
     <phrase title="option_quattro_autosave_interval_explain" version_id="0" version_string="1.0"><![CDATA[Select here the interval to auto save your draft (unit: seconds)]]></phrase>
     <phrase title="option_quattro_autosave_retention" version_id="0" version_string="1.0"><![CDATA[Autosave Retention]]></phrase>
     <phrase title="option_quattro_autosave_retention_explain" version_id="0" version_string="1.0"><![CDATA[Select here how long your draft will be kept in memory (unit: minutes)]]></phrase>
+    <phrase title="option_quattro_converter_bb_to_html" version_id="4" version_string="1.0.4"><![CDATA[Activate the BbCode > HTML Converter Patch?]]></phrase>
+    <phrase title="option_quattro_converter_bb_to_html_explain" version_id="4" version_string="1.0.4"><![CDATA[This option will activate some fixes when you <span style="text-decoration:underline">toggle</span> the BbCode editor to the RTE editor. This fix generates a virtual BbCode pollution to look like the Html tags format.<br />
+<br />
+This patch is disabled by default. Reason:  its code is quite "acrobatic". On the other side, I've been using this html converter patch for several months without any problems on several boards. If you see any problems after having activated it, just disable it.]]></phrase>
+    <phrase title="option_quattro_converter_html_to_bbcode" version_id="4" version_string="1.0.4"><![CDATA[Activate the HTML >  BbCode Converter Patch?]]></phrase>
+    <phrase title="option_quattro_converter_html_to_bbcode_explain" version_id="4" version_string="1.0.4"><![CDATA[This option will activate some fixes when you <span style="text-decoration:underline">toggle</span> the RTE editor to the BbCode editor<br />
+<br />
+This patch is enable by default.]]></phrase>
     <phrase title="option_quattro_disable_on_mobiles" version_id="1" version_string="1.0.1"><![CDATA[Disable on mobile devices?]]></phrase>
     <phrase title="option_quattro_disable_on_mobiles_explain" version_id="1" version_string="1.0.1"><![CDATA[This will disable TinyMCE 4 on mobile devices and will load your forum default editor.]]></phrase>
     <phrase title="option_quattro_extracolors" version_id="0" version_string="1.0"><![CDATA[Enable extra colors?]]></phrase>
@@ -571,6 +627,27 @@ step=1</edit_format_params>
     <phrase title="option_quattro_hidepath_explain" version_id="0" version_string="1.0"><![CDATA[This will hide the html path inside the status bar.]]></phrase>
     <phrase title="option_quattro_iconsize" version_id="0" version_string="1.0"><![CDATA[Buttons size:]]></phrase>
     <phrase title="option_quattro_iconsize_explain" version_id="0" version_string="1.0"><![CDATA[Select here if the size of your buttons]]></phrase>
+    <phrase title="option_quattro_parser_bb_to_wysiwyg" version_id="4" version_string="1.0.4"><![CDATA[Activate the BbCode > Wysiwyg HTML Parser Patch?]]></phrase>
+    <phrase title="option_quattro_parser_bb_to_wysiwyg_explain" version_id="4" version_string="1.0.4"><![CDATA[This option will activate some fixes when you <span style="text-decoration:underline">edit </span> a message with the RTE editor and when you <span style="text-decoration:underline">toggle</span> the Bb Code editor to the RTE editor. <br />
+ <br />
+The fixes are relative to the Pacman problem (eaten space between the end of a list and the next paragraph) & the tabulation problem (tabs are modified to 4 blanks characters). <br />
+ <br />
+This patch is enable by default.]]></phrase>
+    <phrase title="option_quattro_parser_bypass_mobile_limit" version_id="4" version_string="1.0.4"><![CDATA[Activate the RTE Editor on mobile devices?]]></phrase>
+    <phrase title="option_quattro_parser_bypass_mobile_limit_explain" version_id="4" version_string="1.0.4"><![CDATA[This option will bypass the XenForo protection (all version below the 1.2) that prevents to load the Rich Text Editor (wysiwyg) on mobile devices.]]></phrase>
+    <phrase title="option_quattro_parser_mobile_user_option" version_id="4" version_string="1.0.4"><![CDATA[Enable an user option for the RTE?]]></phrase>
+    <phrase title="option_quattro_parser_mobile_user_option_explain" version_id="4" version_string="1.0.4"><![CDATA[This will enable & activate an option to let users decide if they want to use or not the RTE editor on their personal mobile device.]]></phrase>
+    <phrase title="option_quattro_parser_wysiwyg_to_bb" version_id="4" version_string="1.0.4"><![CDATA[Activate the Wysiwyg HTML >  BbCode  Parser Patch?]]></phrase>
+    <phrase title="option_quattro_parser_wysiwyg_to_bb_explain" version_id="4" version_string="1.0.4"><![CDATA[This option will activate a small but important patch that will convert 4 white spaces from the RTE editor to a real tabulation  when you <span style="text-decoration:underline">save</span> your message.<br />
+<br />
+<span style="font-weight:bolder">Important:</span> this patch will only save tabulations in posts and conversations. If you want to enable it globally you will have to:<br/>
+<br/>
+- Edit the following class: <span style="color:orange;font-style:italic">XenForo_Html_Renderer_BbCode</span><br />
+- Find the function <span style="color:orange;font-style:italic">renderFromHtml</span><br />
+- Just before: <span style="background-color:#E3E3CE; color: black; display: block; font-size: 9pt; margin: 4px; padding: 2px; white-space: pre;">return $rendered;</span><br />
+- Add: <span style="background-color: #E3E3CE; color: black; display: block; font-size: 9pt; margin: 4px; padding: 2px; white-space: pre;"> $rendered = preg_replace('# {4}#', "\t", $rendered); </span><br/>
+<br />
+ This patch is enable by default.]]></phrase>
     <phrase title="option_quattro_smilies_slider" version_id="3" version_string="1.0.3"><![CDATA[[Modal button] Use the smilies slider ?]]></phrase>
     <phrase title="option_quattro_smilies_slider_explain" version_id="3" version_string="1.0.3"><![CDATA[The "smilies slider" will load a slider with your smilies. The biggest difference is of course the slider but also the loading method. The  smilies modal will be loaded programmatically (TinyMCE feature) whereas the the smilies slider overlay will be loaded using the XenForo template system. The first method is faster.<br />
 <br />
@@ -583,14 +660,21 @@ In both methods, the width and the height of the modal window can be set in the 
     <phrase title="option_quattro_xsmilies_explain" version_id="0" version_string="1.0"><![CDATA[Select here the number of smilies you would like to display in the button menu. Set 0 if you want to display all of them.]]></phrase>
     <phrase title="option_quattro_xsmilies_slide" version_id="3" version_string="1.0.3"><![CDATA[[Slider Smilies] Number of smilies per slide?]]></phrase>
     <phrase title="option_quattro_xsmilies_slide_explain" version_id="3" version_string="1.0.3"><![CDATA[Select the number of smilies to display per slide.]]></phrase>
+    <phrase title="option_tinyquattro_guilty_tags" version_id="4" version_string="1.0.4"><![CDATA[Converters Guily tags]]></phrase>
+    <phrase title="option_tinyquattro_guilty_tags_explain" version_id="4" version_string="1.0.4"><![CDATA[<span style="color:red;font-weight:bolder">DO NOT CHANGE THIS UNLESS TO BE TOLD TO</span><br />
+Enter here the converters  guilty tags. Each tags must be without square brackets ([]) and must be separated with a coma. Default values: left,center,right,b,i,u,s,font,color,size]]></phrase>
     <phrase title="permission_group_sedo_quattro" version_id="1" version_string="1.0.1"><![CDATA[TinyMCE Quattro]]></phrase>
     <phrase title="permission_interface_sedo_quattro" version_id="1" version_string="1.0.1"><![CDATA[TinyMCE Quattro]]></phrase>
     <phrase title="permission_sedo_quattro_display" version_id="1" version_string="1.0.1"><![CDATA[Use the editor]]></phrase>
     <phrase title="quattro_align_justify" version_id="0" version_string="1.0"><![CDATA[Justify align]]></phrase>
+    <phrase title="quattro_rte_mobile_desc" version_id="4" version_string="1.0.4"><![CDATA[Use the rich text editor with <b>your</b> mobile device?]]></phrase>
+    <phrase title="quattro_rte_mobile_explain" version_id="4" version_string="1.0.4"><![CDATA[If your mobile device is not compatible with the Rich Text Editor, just uncheck this option.]]></phrase>
     <phrase title="sedo_quattro_characters" version_id="0" version_string="1.0"><![CDATA[Characters: {0}]]></phrase>
     <phrase title="sedo_quattro_color" version_id="0" version_string="1.0"><![CDATA[Selected color]]></phrase>
     <phrase title="sedo_quattro_colorname" version_id="0" version_string="1.0"><![CDATA[Color name]]></phrase>
     <phrase title="sedo_quattro_colors_picker" version_id="0" version_string="1.0"><![CDATA[Colors picker]]></phrase>
+    <phrase title="sedo_quattro_find" version_id="4" version_string="1.0.4"><![CDATA[Find]]></phrase>
+    <phrase title="sedo_quattro_find_and_replace" version_id="4" version_string="1.0.4"><![CDATA[Find and replace]]></phrase>
     <phrase title="sedo_quattro_font_family" version_id="0" version_string="1.0"><![CDATA[Font family]]></phrase>
     <phrase title="sedo_quattro_font_size" version_id="0" version_string="1.0"><![CDATA[Font size]]></phrase>
     <phrase title="sedo_quattro_fullscreen" version_id="0" version_string="1.0"><![CDATA[Fullscreen]]></phrase>
@@ -604,17 +688,25 @@ In both methods, the width and the height of the modal window can be set in the 
     <phrase title="sedo_quattro_mail" version_id="0" version_string="1.0"><![CDATA[Email options]]></phrase>
     <phrase title="sedo_quattro_mail_text" version_id="0" version_string="1.0"><![CDATA[Text of your Email]]></phrase>
     <phrase title="sedo_quattro_mail_url" version_id="0" version_string="1.0"><![CDATA[Email address]]></phrase>
+    <phrase title="sedo_quattro_match_case" version_id="4" version_string="1.0.4"><![CDATA[Match case]]></phrase>
     <phrase title="sedo_quattro_more_colors" version_id="0" version_string="1.0"><![CDATA[More colors]]></phrase>
     <phrase title="sedo_quattro_named_picker" version_id="0" version_string="1.0"><![CDATA[Color name picker]]></phrase>
+    <phrase title="sedo_quattro_next" version_id="4" version_string="1.0.4"><![CDATA[Next]]></phrase>
     <phrase title="sedo_quattro_nonbreaking" version_id="0" version_string="1.0"><![CDATA[Insert nonbreaking space]]></phrase>
     <phrase title="sedo_quattro_normal" version_id="0" version_string="1.0"><![CDATA[Normal]]></phrase>
     <phrase title="sedo_quattro_palette" version_id="0" version_string="1.0"><![CDATA[Color palette]]></phrase>
+    <phrase title="sedo_quattro_paste_alert_message" version_id="4" version_string="1.0.4"><![CDATA[Please use Ctrl+V/Cmd+V keyboard shortcuts to paste contents.]]></phrase>
     <phrase title="sedo_quattro_php" version_id="0" version_string="1.0"><![CDATA[PHP]]></phrase>
+    <phrase title="sedo_quattro_prev" version_id="4" version_string="1.0.4"><![CDATA[Prev]]></phrase>
+    <phrase title="sedo_quattro_replace" version_id="4" version_string="1.0.4"><![CDATA[Replace]]></phrase>
+    <phrase title="sedo_quattro_replacewith" version_id="4" version_string="1.0.4"><![CDATA[Replace with]]></phrase>
+    <phrase title="sedo_quattro_replace_all" version_id="4" version_string="1.0.4"><![CDATA[Replace all]]></phrase>
     <phrase title="sedo_quattro_restoredraft" version_id="0" version_string="1.0"><![CDATA[Restore last draft]]></phrase>
     <phrase title="sedo_quattro_rgb_picker" version_id="0" version_string="1.0"><![CDATA[RGB picker]]></phrase>
     <phrase title="sedo_quattro_small" version_id="0" version_string="1.0"><![CDATA[Small]]></phrase>
-    <phrase title="sedo_quattro_smiliespicker" version_id="2" version_string="1.0.2"><![CDATA[Smilies picker]]></phrase>
+    <phrase title="sedo_quattro_smiliespicker" version_id="4" version_string="1.0.4"><![CDATA[Smilies picker]]></phrase>
     <phrase title="sedo_quattro_specialcharacters" version_id="0" version_string="1.0"><![CDATA[Special characters]]></phrase>
+    <phrase title="sedo_quattro_whole_words" version_id="4" version_string="1.0.4"><![CDATA[Whole words]]></phrase>
     <phrase title="sedo_quattro_wordcount_characters" version_id="0" version_string="1.0"><![CDATA[Yes - count characters]]></phrase>
     <phrase title="sedo_quattro_wordcount_characterswithwhitespaces" version_id="0" version_string="1.0"><![CDATA[Yes - count characters & white space]]></phrase>
     <phrase title="sedo_quattro_wordcount_words" version_id="0" version_string="1.0"><![CDATA[Yes - count words (default)]]></phrase>
@@ -729,7 +821,7 @@ In both methods, the width and the height of the modal window can be set in the 
     <phrase title="style_property_tinyquattro_primary_hov_grdt_from_ie_master" version_id="0" version_string="1.0"><![CDATA[[IE] Primary hover gradient from:]]></phrase>
     <phrase title="style_property_tinyquattro_primary_hov_grdt_to_ie_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
     <phrase title="style_property_tinyquattro_primary_hov_grdt_to_ie_master" version_id="0" version_string="1.0"><![CDATA[[IE] Primary hover gradient to:]]></phrase>
-    <phrase title="style_property_tinyquattro_smiliesbtn_height_description_master" version_id="3" version_string="1.0.3"><![CDATA[Default value: 80px.]]></phrase>
+    <phrase title="style_property_tinyquattro_smiliesbtn_height_description_master" version_id="4" version_string="1.0.4"><![CDATA[Default value: 70px.]]></phrase>
     <phrase title="style_property_tinyquattro_smiliesbtn_height_master" version_id="3" version_string="1.0.3"><![CDATA[Smilies button menu height]]></phrase>
     <phrase title="style_property_tinyquattro_smiliesbtn_width_description_master" version_id="2" version_string="1.0.2"><![CDATA[Default value: 100px]]></phrase>
     <phrase title="style_property_tinyquattro_smiliesbtn_width_master" version_id="2" version_string="1.0.2"><![CDATA[Smilies button menu width]]></phrase>
@@ -801,13 +893,13 @@ In both methods, the width and the height of the modal window can be set in the 
     <property property_name="tinyquattro_focus_boder" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Border focus" description="The color will be used in many other properties" css_components="border" scalar_type="" scalar_parameters="" display_order="11010" sub_group=""><![CDATA[{"border-color":"rgba(82, 168, 236, 0.38)","border-style":"solid","border-width":"1px"}]]></property>
     <property property_name="tinyquattro_win_head" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Window (modal) head" description="" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="20010" sub_group=""><![CDATA[{"background-color":"rgb(252, 250, 250)","border-bottom-color":"#EEE","border-bottom-style":"solid","border-bottom-width":"1px","extra":"position: relative;","padding-bottom":"9px","padding-left":"15px","padding-right":"15px","padding-top":"9px"}]]></property>
     <property property_name="tinyquattro_win_foot" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Window (modal) foot" description="" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="20020" sub_group=""><![CDATA[{"background-color":"rgb(245, 245, 245)","border-top-color":"#DDD","border-top-style":"solid","border-top-width":"1px","extra":"display: block;\n-webkit-box-shadow: inset 0 1px 0 #fff;\n-moz-box-shadow: inset 0 1px 0 #fff;\nbox-shadow: inset 0 1px 0 #fff;"}]]></property>
-    <property property_name="tinyquattro_button" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Button" description="" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="20030" sub_group=""><![CDATA[{"color":"#333","extra":"line-height: 20px;\n*line-height: 16px;\ncursor: pointer;\noverflow: visible;\n-webkit-appearance: none;","font-size":"14px","padding-bottom":"4px","padding-left":"10px","padding-right":"10px","padding-top":"4px"}]]></property>
+    <property property_name="tinyquattro_button" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Button" description="" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="20030" sub_group=""><![CDATA[{"color":"#333","extra":"line-height: 20px;\n*line-height: 16px;\ncursor: pointer;\ntext-align: center;\noverflow: visible;\n-webkit-appearance: none;","font-size":"14px","padding-bottom":"4px","padding-left":"10px","padding-right":"10px","padding-top":"4px"}]]></property>
     <property property_name="tinyquattro_menuitem_font_normal" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Menu item font (normal)" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="50" sub_group="menuitem"><![CDATA[#333]]></property>
     <property property_name="tinyquattro_menuitem_font_hover" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Menu item font (hover)" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="51" sub_group="menuitem"><![CDATA[#fff]]></property>
     <property property_name="tinyquattro_menuitem_font_disable" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Menu item font (disable)" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="52" sub_group="menuitem"><![CDATA[#999]]></property>
     <property property_name="tinyquattro_win" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Window (modal)" description="" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="20000" sub_group=""><![CDATA[{"background-color":"#FFF","border-radius":"6px","extra":"-webkit-box-shadow: 0 3px 7px rgba(0,0,0,0.3);\n-moz-box-shadow: 0 3px 7px rgba(0,0,0,0.3);\nbox-shadow: 0 3px 7px rgba(0,0,0,0.3);\nfilter: progid:DXImageTransform.Microsoft.gradient(enabled = false);\nposition: fixed;\ntop: 0;\nleft: 0;\nopacity: 0;\n-webkit-transition: opacity 150ms ease-in;\ntransition: opacity 150ms ease-in;"}]]></property>
     <property property_name="tinyquattro_smiliesbtn_width" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies button menu width" description="Default value: 100px" css_components="" scalar_type="number" scalar_parameters="" display_order="10" sub_group="smilies"><![CDATA[100px]]></property>
-    <property property_name="tinyquattro_smiliesbtn_height" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies button menu height" description="Default value: 80px." css_components="" scalar_type="number" scalar_parameters="" display_order="11" sub_group="smilies"><![CDATA[80px]]></property>
+    <property property_name="tinyquattro_smiliesbtn_height" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies button menu height" description="Default value: 70px." css_components="" scalar_type="number" scalar_parameters="" display_order="11" sub_group="smilies"><![CDATA[70px]]></property>
     <property property_name="tinyquattro_smiliespicker_width" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies picker modal width" description="Default value: 380px." css_components="" scalar_type="number" scalar_parameters="" display_order="12" sub_group="smilies"><![CDATA[380px]]></property>
     <property property_name="tinyquattro_smiliespicker_height" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies picker modal height" description="Default value: 160px." css_components="" scalar_type="number" scalar_parameters="" display_order="13" sub_group="smilies"><![CDATA[160px]]></property>
     <group group_name="sedo_tinyquattro" display_order="13209">
@@ -1390,6 +1482,18 @@ In both methods, the width and the height of the modal window can be set in the 
     <template title="quattro_dialog_smilies_slider.css" version_id="3" version_string="1.0.3"><![CDATA[<xen:comment>
 	Empty at the moment
 </xen:comment>]]></template>
+    <template title="quattro_mobile_user_option" version_id="4" version_string="1.0.4"><![CDATA[	<xen:set var="$tinymce_fix_mobile">{$visitor.quattro_rte_mobile}</xen:set>
+	<xen:set var="$tinymce_fix_mobile_chk">{xen:if '{$tinymce_fix_mobile} == 1', 'checked="checked"', ''}</xen:set>
+
+	<li>
+		
+		<label for="ctrl_quattro_rte_mobile">
+			<input type="hidden" name="quattro_rte_mobile_chk" value="1" id="ctrl_quattro_rte_mobile_chk" />
+			<input type="checkbox" name="quattro_rte_mobile" value="1" id="ctrl_quattro_rte_mobile" {$tinymce_fix_mobile_chk} />
+			{xen:phrase quattro_rte_mobile_desc}
+			<p class="hint">{xen:phrase quattro_rte_mobile_explain}</p>
+		</label>
+	</li>]]></template>
     <template title="tiny_quattro_buttons.css" version_id="3" version_string="1.0.3"><![CDATA[<xen:comment>
 	TINYMCE BUTTONS FOR ALL BROWSERS EXCEPT IE7
 </xen:comment>
@@ -2071,7 +2175,7 @@ i.mce-i-backcolor
 </xen:if>
 </xen:foreach>
 ]]></template>
-    <template title="tiny_quattro_editor.css" version_id="3" version_string="1.0.3"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_editor.css" version_id="4" version_string="1.0.4"><![CDATA[<xen:comment>
 	ALL EDITOR CSS (EXCEPT IFRAME CONTENT)
 	> IE7 have the same CSS except for buttons.
 	> These main css can be copied to the tiny_quattro_editor_ie7.css, just change the require template (see the last line)
@@ -2105,7 +2209,9 @@ i.mce-i-backcolor
 	white-space: nowrap;
 	cursor: inherit;
 	-webkit-tap-highlight-color: transparent;
-	line-height: normal;
+	line-height:normal;
+	font-weight:normal;
+	text-align:left
 }
 
 .mce-container *[unselectable]
@@ -2219,7 +2325,7 @@ div.mce-fullscreen
 	height: 20px;
 	line-height: 20px;
 	text-align: center;
-	vertical-align: center;
+	vertical-align: middle;
 	padding: 2px;
 	cursor: default;
 }
@@ -2227,6 +2333,22 @@ div.mce-fullscreen
 .mce-charmap td:hover
 {
 	background: {xen:property tinyquattro_btn_gradient_to};
+}
+
+.mce-grid td div {
+	border:1px solid #808080;
+	width:12px;
+	height:12px;
+	margin:2px;
+	cursor:pointer
+}
+.mce-grid td div:hover {
+	border-color:black
+}
+.mce-grid td div:focus {
+	border-color:#59a5e1;
+	outline:1px solid rgba(82,168,236,0.8);
+	border-color:rgba(82,168,236,0.8)
 }
 
 .mce-grid
@@ -2366,6 +2488,10 @@ div.mce-tinymce-inline
 	box-shadow: #ccc 5px 5px 5px;
 }
 
+.mce-floatpanel.mce-fixed {
+	position:fixed
+}
+
 .mce-floatpanel .mce-arrow,.mce-floatpanel .mce-arrow:after
 {
 	position: absolute;
@@ -2389,7 +2515,6 @@ div.mce-tinymce-inline
 
 .mce-floatpanel.mce-popover
 {
-	position: absolute;
 	top: 0;
 	left: 0;
 	background: #fff;
@@ -2656,6 +2781,11 @@ body .mce-abs-layout-item,.mce-abs-end
 	border-right-color: #000;
 }
 
+.mce-tooltip-nw,.mce-tooltip-sw 
+{
+	margin-left:-14px
+}
+
 .mce-tooltip-n .mce-tooltip-arrow
 {
 	top: 0;
@@ -2816,6 +2946,7 @@ body .mce-abs-layout-item,.mce-abs-end
 .mce-primary
 {
 	{xen:property tinyquattro_primary_border_color}
+	min-width:50px;
 	background-color: {xen:property tinyquattro_primary_background_color};
 	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
 	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_gradient_from}),to({xen:property tinyquattro_primary_gradient_to}));
@@ -3059,43 +3190,43 @@ i.mce-i-checkbox
 	margin: 4px;
 }
 
-.mce-grid td div
-{
-	border: 1px solid #808080;
-	width: 12px;
-	height: 12px;
-	margin: 2px;
-	cursor: pointer;
+.mce-colorbutton button {
+	padding-right:4px
 }
 
-.mce-grid td div:hover
+.mce-colorbutton .mce-preview 
 {
-	border-color: black;
+	padding-right:3px;
+	display:block;
+	position:absolute;
+	left:50%;
+	top:50%;
+	margin-left:-14px;
+	margin-top:7px;
+	background:gray;
+	width:13px;
+	height:2px;
+	overflow:hidden
 }
 
-.mce-grid td div:focus
+.mce-colorbutton.mce-btn-small .mce-preview
 {
-	border-color: {xen:property tinyquattro_focus_boder.border-color};
-	outline: 1px solid {xen:property tinyquattro_focus_boder.border-color};
+	margin-left:-17px;
+	padding-right:0;
+	width:16px
 }
 
-.mce-colorbutton
+.mce-colorbutton .mce-open
 {
-	position: relative;
+	padding-left:4px;
+	border-left:1px solid transparent;
+	border-right:1px solid transparent
 }
 
-.mce-colorbutton .mce-preview
+.mce-colorbutton:hover .mce-open
 {
-	display: block;
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	margin-left: -8px;
-	margin-top: 7px;
-	background: gray;
-	width: 16px;
-	height: 2px;
-	overflow: hidden;
+	border-left-color:#c5c5c5;
+	border-right-color:#c5c5c5
 }
 
 .mce-combobox
@@ -3301,7 +3432,7 @@ i.mce-i-checkbox
 	color: #000;
 }
 
-.mce-menubar .mce-menubtn:hover,.mce-menubar .mce-menubtn.mce-active,.mce-menubtn:focus
+.mce-menubar .mce-menubtn:hover,.mce-menubar .mce-menubtn.mce-active,.mce-menubar .mce-menubtn:focus
 {
 	border-color: transparent;
 	background: {xen:property tinyquattro_panel_gradient_to};
@@ -3311,6 +3442,30 @@ i.mce-i-checkbox
 .mce-menubtn.mce-disabled span
 {
 	color: #999;
+}
+
+.mce-menubtn span
+{
+	line-height:20px
+}
+
+.mce-menubtn.mce-btn-small span
+{
+	font-size:12px;
+	line-height:15px
+}
+
+.mce-menubtn.mce-fixed-width span
+{
+	display:inline-block;
+	overflow-x:hidden;
+	text-overflow:ellipsis;
+	width:90px
+}
+
+.mce-menubtn.mce-fixed-width.mce-btn-small span
+{
+	width:70px
 }
 
 .mce-listbox button
@@ -3326,13 +3481,6 @@ i.mce-i-checkbox
 	margin-top: -2px;
 	right: 8px;
 	top: 50%;
-}
-
-.mce-listbox span
-{
-	width: 100%;
-	display: block;
-	overflow: hidden;
 }
 
 .mce-menu-item
@@ -3465,6 +3613,9 @@ i.mce-i-checkbox
 	-webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
 	-moz-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
 	box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+	max-height:400px;
+	overflow:auto;
+	overflow-x:hidden;
 }
 
 .mce-menu i
@@ -3479,13 +3630,24 @@ i.mce-i-checkbox
 	*zoom: 1;
 }
 
-.mce-menu-sub
+.mce-menu-sub-tr-tl
 {
-	margin-top: -6px;
-	margin-left: -1px;
-	-webkit-border-radius: 0 6px 6px 6px;
-	-moz-border-radius: 0 6px 6px 6px;
-	border-radius: 0 6px 6px 6px;
+	margin:-6px 0 0 -1px
+}
+
+.mce-menu-sub-br-bl
+{
+	margin:6px 0 0 -1px
+}
+
+.mce-menu-sub-tl-tr
+{
+	margin:-6px 0 0 1px
+}
+
+.mce-menu-sub-bl-br
+{
+	margin:6px 0 0 1px
 }
 
 i.mce-radio
@@ -3531,9 +3693,9 @@ i.mce-radio:after
 	margin: 0;
 }
 
-.mce-resizehandle-both
+.mce-container-body .mce-resizehandle-both
 {
-	cursor: se-resize;
+	cursor:se-resize
 }
 
 i.mce-i-resize
@@ -3726,7 +3888,7 @@ i.mce-i-resize
 	white-space: normal;
 	text-align: center;
 	padding:5px;
-	height: @tinyquattro_smiliesbtn_height;
+	height: {xen:property tinyquattro_smiliesbtn_height};
 	overflow:auto;
 }
 
@@ -3755,7 +3917,7 @@ i.mce-i-resize
 </xen:comment>
 
 <xen:include template="tiny_quattro_buttons.css" />]]></template>
-    <template title="tiny_quattro_editor_ie7.css" version_id="0" version_string=""><![CDATA[<xen:comment>
+    <template title="tiny_quattro_editor_ie7.css" version_id="4" version_string="1.0.4"><![CDATA[<xen:comment>
 	ALL EDITOR CSS (EXCEPT IFRAME CONTENT)
 	> IE7 have the same CSS except for buttons.
 	> These main css can be copied to the tiny_quattro_editor_ie7.css, just change the require template (see the last line)
@@ -3789,7 +3951,9 @@ i.mce-i-resize
 	white-space: nowrap;
 	cursor: inherit;
 	-webkit-tap-highlight-color: transparent;
-	line-height: normal;
+	line-height:normal;
+	font-weight:normal;
+	text-align:left
 }
 
 .mce-container *[unselectable]
@@ -3903,7 +4067,7 @@ div.mce-fullscreen
 	height: 20px;
 	line-height: 20px;
 	text-align: center;
-	vertical-align: center;
+	vertical-align: middle;
 	padding: 2px;
 	cursor: default;
 }
@@ -3911,6 +4075,22 @@ div.mce-fullscreen
 .mce-charmap td:hover
 {
 	background: {xen:property tinyquattro_btn_gradient_to};
+}
+
+.mce-grid td div {
+	border:1px solid #808080;
+	width:12px;
+	height:12px;
+	margin:2px;
+	cursor:pointer
+}
+.mce-grid td div:hover {
+	border-color:black
+}
+.mce-grid td div:focus {
+	border-color:#59a5e1;
+	outline:1px solid rgba(82,168,236,0.8);
+	border-color:rgba(82,168,236,0.8)
 }
 
 .mce-grid
@@ -4050,6 +4230,10 @@ div.mce-tinymce-inline
 	box-shadow: #ccc 5px 5px 5px;
 }
 
+.mce-floatpanel.mce-fixed {
+	position:fixed
+}
+
 .mce-floatpanel .mce-arrow,.mce-floatpanel .mce-arrow:after
 {
 	position: absolute;
@@ -4073,7 +4257,6 @@ div.mce-tinymce-inline
 
 .mce-floatpanel.mce-popover
 {
-	position: absolute;
 	top: 0;
 	left: 0;
 	background: #fff;
@@ -4340,6 +4523,11 @@ body .mce-abs-layout-item,.mce-abs-end
 	border-right-color: #000;
 }
 
+.mce-tooltip-nw,.mce-tooltip-sw 
+{
+	margin-left:-14px
+}
+
 .mce-tooltip-n .mce-tooltip-arrow
 {
 	top: 0;
@@ -4500,6 +4688,7 @@ body .mce-abs-layout-item,.mce-abs-end
 .mce-primary
 {
 	{xen:property tinyquattro_primary_border_color}
+	min-width:50px;
 	background-color: {xen:property tinyquattro_primary_background_color};
 	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
 	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_gradient_from}),to({xen:property tinyquattro_primary_gradient_to}));
@@ -4743,43 +4932,43 @@ i.mce-i-checkbox
 	margin: 4px;
 }
 
-.mce-grid td div
-{
-	border: 1px solid #808080;
-	width: 12px;
-	height: 12px;
-	margin: 2px;
-	cursor: pointer;
+.mce-colorbutton button {
+	padding-right:4px
 }
 
-.mce-grid td div:hover
+.mce-colorbutton .mce-preview 
 {
-	border-color: black;
+	padding-right:3px;
+	display:block;
+	position:absolute;
+	left:50%;
+	top:50%;
+	margin-left:-14px;
+	margin-top:7px;
+	background:gray;
+	width:13px;
+	height:2px;
+	overflow:hidden
 }
 
-.mce-grid td div:focus
+.mce-colorbutton.mce-btn-small .mce-preview
 {
-	border-color: {xen:property tinyquattro_focus_boder.border-color};
-	outline: 1px solid {xen:property tinyquattro_focus_boder.border-color};
+	margin-left:-17px;
+	padding-right:0;
+	width:16px
 }
 
-.mce-colorbutton
+.mce-colorbutton .mce-open
 {
-	position: relative;
+	padding-left:4px;
+	border-left:1px solid transparent;
+	border-right:1px solid transparent
 }
 
-.mce-colorbutton .mce-preview
+.mce-colorbutton:hover .mce-open
 {
-	display: block;
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	margin-left: -8px;
-	margin-top: 7px;
-	background: gray;
-	width: 16px;
-	height: 2px;
-	overflow: hidden;
+	border-left-color:#c5c5c5;
+	border-right-color:#c5c5c5
 }
 
 .mce-combobox
@@ -4985,7 +5174,7 @@ i.mce-i-checkbox
 	color: #000;
 }
 
-.mce-menubar .mce-menubtn:hover,.mce-menubar .mce-menubtn.mce-active,.mce-menubtn:focus
+.mce-menubar .mce-menubtn:hover,.mce-menubar .mce-menubtn.mce-active,.mce-menubar .mce-menubtn:focus
 {
 	border-color: transparent;
 	background: {xen:property tinyquattro_panel_gradient_to};
@@ -4995,6 +5184,30 @@ i.mce-i-checkbox
 .mce-menubtn.mce-disabled span
 {
 	color: #999;
+}
+
+.mce-menubtn span
+{
+	line-height:20px
+}
+
+.mce-menubtn.mce-btn-small span
+{
+	font-size:12px;
+	line-height:15px
+}
+
+.mce-menubtn.mce-fixed-width span
+{
+	display:inline-block;
+	overflow-x:hidden;
+	text-overflow:ellipsis;
+	width:90px
+}
+
+.mce-menubtn.mce-fixed-width.mce-btn-small span
+{
+	width:70px
 }
 
 .mce-listbox button
@@ -5010,13 +5223,6 @@ i.mce-i-checkbox
 	margin-top: -2px;
 	right: 8px;
 	top: 50%;
-}
-
-.mce-listbox span
-{
-	width: 100%;
-	display: block;
-	overflow: hidden;
 }
 
 .mce-menu-item
@@ -5149,6 +5355,9 @@ i.mce-i-checkbox
 	-webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
 	-moz-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
 	box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+	max-height:400px;
+	overflow:auto;
+	overflow-x:hidden;
 }
 
 .mce-menu i
@@ -5163,13 +5372,24 @@ i.mce-i-checkbox
 	*zoom: 1;
 }
 
-.mce-menu-sub
+.mce-menu-sub-tr-tl
 {
-	margin-top: -6px;
-	margin-left: -1px;
-	-webkit-border-radius: 0 6px 6px 6px;
-	-moz-border-radius: 0 6px 6px 6px;
-	border-radius: 0 6px 6px 6px;
+	margin:-6px 0 0 -1px
+}
+
+.mce-menu-sub-br-bl
+{
+	margin:6px 0 0 -1px
+}
+
+.mce-menu-sub-tl-tr
+{
+	margin:-6px 0 0 1px
+}
+
+.mce-menu-sub-bl-br
+{
+	margin:6px 0 0 1px
 }
 
 i.mce-radio
@@ -5215,9 +5435,9 @@ i.mce-radio:after
 	margin: 0;
 }
 
-.mce-resizehandle-both
+.mce-container-body .mce-resizehandle-both
 {
-	cursor: se-resize;
+	cursor:se-resize
 }
 
 i.mce-i-resize
@@ -5410,7 +5630,7 @@ i.mce-i-resize
 	white-space: normal;
 	text-align: center;
 	padding:5px;
-	height: @tinyquattro_smiliesbtn_height;
+	height: {xen:property tinyquattro_smiliesbtn_height};
 	overflow:auto;
 }
 
@@ -5434,7 +5654,7 @@ i.mce-i-resize
 }
 
 <xen:comment>
-	IE7 BUTTONS: DON'T MOVE THIS INCLUDE.
+	BUTTONS: DON'T MOVE THIS INCLUDE.
 	It must be at the last line
 </xen:comment>
 
@@ -5582,7 +5802,7 @@ h6 { font-size: .75em; }
 		</xen:if>
 	</xen:foreach>
 </xen:if>]]></template>
-    <template title="tiny_quattro_js_setup" version_id="1" version_string="1.0.1"><![CDATA[<xen:require js="js/sedo/tinyquattro/tinymce/tinymce.min.js" />
+    <template title="tiny_quattro_js_setup" version_id="4" version_string="1.0.4"><![CDATA[<xen:require js="js/sedo/tinyquattro/tinymce/tinymce.min.js" />
 
 <xen:if is="{$visitor.getBrowser.IEis} != 7">
 	<xen:require css="tiny_quattro_editor.css" />
@@ -5638,7 +5858,7 @@ h6 { font-size: .75em; }
 				 "directionality searchreplace",
 				 "paste textcolor xenforo autoresize autosave"
 				],
-				//resize: false, <xen:comment>bug #5938</xen:comment>
+				resize: false,
 				object_resizing: false,
 				autoresize_min_height:{$xenOptions.quattro_autoresize_min_height},
 				autoresize_max_height:{$xenOptions.quattro_autoresize_max_height},
@@ -5707,7 +5927,7 @@ h6 { font-size: .75em; }
 	xSmilies: {$xenOptions.quattro_xsmilies},
 	xenforo_smilies: {xen:helper json, $smilies},
 	bbmButtons: {<xen:include template="tiny_quattro_custom_buttons" />}]]></template>
-    <template title="tiny_quattro_phrases" version_id="2" version_string="1.0.2"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_phrases" version_id="4" version_string="1.0.4"><![CDATA[<xen:comment>
 	We are inside a JavaScript file. All phrases must be escaped
 </xen:comment>
 
@@ -5758,7 +5978,17 @@ h6 { font-size: .75em; }
 		"Words: {0}": "{xen:jsescape {xen:if "in_array({$xenOptions.quattro_wordcount}, array('char','charwp'))", "{xen:phrase sedo_quattro_characters}", "{xen:phrase sedo_quattro_words}"}}",
 		"Special characters": "{xen:jsescape {xen:phrase sedo_quattro_specialcharacters}}",
 		"Smilies picker": "{xen:jsescape {xen:phrase sedo_quattro_smiliespicker}}",
-		"close": "{xen:jsescape {xen:phrase close}}"
+		"Please use Ctrl+V/Cmd+V keyboard shortcuts to paste contents.": "{xen:jsescape {xen:phrase sedo_quattro_paste_alert_message}}",
+		"close": "{xen:jsescape {xen:phrase close}}",
+		"Find": "{xen:jsescape {xen:phrase sedo_quattro_find}}",
+		"Find and replace": "{xen:jsescape {xen:phrase sedo_quattro_find_and_replace}}",
+		"Replace with": "{xen:jsescape {xen:phrase sedo_quattro_replacewith}}",
+		"Match case": "{xen:jsescape {xen:phrase sedo_quattro_match_case}}",
+		"Whole words": "{xen:jsescape {xen:phrase sedo_quattro_whole_words}}",
+		"Replace": "{xen:jsescape {xen:phrase sedo_quattro_replace}}",
+		"Replace all": "{xen:jsescape {xen:phrase sedo_quattro_replace_all}}",
+		"Prev": "{xen:jsescape {xen:phrase sedo_quattro_prev}}",
+		"Next": "{xen:jsescape {xen:phrase sedo_quattro_next}}"
 	}
 
 ]]></template>
@@ -5776,6 +6006,13 @@ h6 { font-size: .75em; }
   </templates>
   <bb_code_media_sites/>
   <template_modifications>
+    <modification title="RTE Quattro Mobile Option" template_title="account_preferences" execute_order="10" modification_type="preg_replace" callback_class="" callback_method="" description="User field" version_id="4" version_string="1.0.4" active="1">
+      <search_value><![CDATA[#([ \t]*)<li>.+?ctrl_enable_rte(?s).+?</li>#i]]></search_value>
+      <replace_value><![CDATA[$1<xen:if is="{$xenOptions.quattro_parser_mobile_user_option}">
+$1<xen:include template="quattro_mobile_user_option"></xen:include>
+$1</xen:if>
+$0]]></replace_value>
+    </modification>
     <modification title="tiny_quattro_js_setup" template_title="editor" execute_order="10" modification_type="str_replace" callback_class="" callback_method="" description="TinyMCE Quattro Setup" version_id="1" version_string="1.0.1" active="1">
       <search_value><![CDATA[<xen:include template="editor_js_setup" />]]></search_value>
       <replace_value><![CDATA[	<xen:if is="{$loadQuattro}">
