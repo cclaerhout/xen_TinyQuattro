@@ -115,7 +115,11 @@ class Sedo_TinyQuattro_Installer
 	{
 		$db = XenForo_Application::get('db');
 		$db->query("DROP TABLE IF EXISTS bbm_tinyquattro");
-		$db->query("ALTER TABLE xf_user_option DROP quattro_rte_mobile");
+
+		if ($db->fetchRow("SHOW COLUMNS FROM xf_user_option WHERE Field = ?", 'quattro_rte_mobile'))
+		{
+			$db->query("ALTER TABLE xf_user_option DROP quattro_rte_mobile");
+		}
 	}
 	
 	public static function addColumnIfNotExist($db, $table, $field, $attr)
