@@ -925,10 +925,13 @@
 			ed.on('init', function(e) {
 				$buttons = parent.getButtonsByProperty('iconset', 'xenforo', true);
 				$buttons.find('i.mce-ico').addClass('mce-xenforo-icons');
-
-				$statBar = $(ed.theme.panel.find('#statusbar')[0].getEl());
+				
+				var statBar = ed.theme.panel.find('#statusbar');
+				
+				if(statBar && statBar.length > 0)
+					$statBar = $(statBar[0].getEl());
 		
-				if(settings.hidePath)
+				if(settings.hidePath && statBar.length > 0)
 					 $statBar.find('.mce-path').css('visibility', 'hidden');
 			});
 		}
