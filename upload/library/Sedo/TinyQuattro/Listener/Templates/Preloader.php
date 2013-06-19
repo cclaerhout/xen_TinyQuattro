@@ -6,32 +6,56 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 	{
 		switch ($templateName)
 		{
-		   	case 'editor':
-				$options = XenForo_Application::get('options');
-				$visitor = XenForo_Visitor::getInstance();
-				$enable = true;
-				
-				if(XenForo_Visitor::isBrowsingWith('mobile') && $options->quattro_disable_on_mobiles)
-				{
-					//TinyQuattro disable on mobiles
-					$enable = false;
-				}
-				
-				if(empty($visitor->permissions['sedo_quattro']['display']))
-				{
-					//No permission to load TinyQuattro
-					$enable = false;
-				}
-		
+		   	case 'PAGE_CONTAINER':
 				$params += array(
-					'loadQuattro' => $enable, //auattro param
-					'quattroGrid' => array(), //default bbm param
-					'customButtonsCss' => array(), //default bbm param
-					'customButtonsJs' => array(), //default bbm param
-					'showWysiwyg' => self::_showWysiwyg() // XenForo param
+					'quattroIntegration' => (self::_checkQuattroPermissions() && self::_quattroIntegration()) //quattro integration js (for 1.2)
+				);
+		   	break;
+		   	case 'editor':
+				$params += array(
+					'loadQuattro' => self::_checkQuattroPermissions(), 	//quattro param
+					'quattroIntegration' => self::_quattroIntegration(),	//quattro integration js (for 1.2)
+					'quattroGrid' => array(), 				//default bbm param
+					'customButtonsCss' => array(), 				//default bbm param
+					'customButtonsJs' => array(), 				//default bbm param
+					'showWysiwyg' => self::_showWysiwyg() 			//XenForo param
 				);
 	   		break;
 		}
+	}
+
+	protected static function _quattroIntegration()
+	{
+		return (XenForo_Application::get('options')->get('currentVersionId') >= 1020031);
+	}
+
+	protected static $QuattroPerms = null;
+
+	protected static function _checkQuattroPermissions()
+	{
+		if(self::$QuattroPerms == null)
+		{
+			$options = XenForo_Application::get('options');
+			$visitor = XenForo_Visitor::getInstance();
+			$enable = true;
+				
+			if(XenForo_Visitor::isBrowsingWith('mobile') && $options->quattro_disable_on_mobiles)
+			{
+				//TinyQuattro disable on mobiles
+				$enable = false;
+			}
+			
+			if(empty($visitor->permissions['sedo_quattro']['display']))
+			{
+				//No permission to load TinyQuattro
+				$enable = false;
+			}
+				
+			self::$QuattroPerms = $enable;
+			return $enable;
+		}
+		
+		return self::$QuattroPerms;
 	}
 	
 	protected static function _showWysiwyg()
