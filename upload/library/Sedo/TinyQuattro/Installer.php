@@ -79,6 +79,14 @@ class Sedo_TinyQuattro_Installer
 		{
 			self::addColumnIfNotExist($db, 'xf_user_option', 'quattro_rte_mobile', 'TINYINT UNSIGNED NOT NULL DEFAULT 1');
 		}
+		
+		if(empty($addon) || $addon['version_id'] < 7)
+		{
+			$newButtons = array(
+				'pastetext' => array(35, 35, 1, 0, 'tinymce')
+			);
+			self::insertButtons($newButtons, 'default');
+		}
 	}
 
 	public static function insertButtons(array $buttons, $category, $reset = false)

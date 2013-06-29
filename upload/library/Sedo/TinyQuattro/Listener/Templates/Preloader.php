@@ -12,14 +12,17 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 				);
 		   	break;
 		   	case 'editor':
+
 				$params += array(
 					'loadQuattro' => self::_checkQuattroPermissions(), 	//quattro param
 					'quattroIntegration' => self::_quattroIntegration(),	//quattro integration js (for 1.2)
 					'quattroGrid' => array(), 				//default bbm param
-					'customButtonsCss' => array(), 				//default bbm param
-					'customButtonsJs' => array(), 				//default bbm param
-					'showWysiwyg' => self::_showWysiwyg() 			//XenForo param
+					'customQuattroButtonsCss' => array(), 			//default bbm param
+					'customQuattroButtonsJs' => array(), 				//default bbm param
+					'showWysiwyg' => self::_showWysiwyg(), 			//XenForo param
+					'bbmSmilies' => Sedo_TinyQuattro_Helper_Editor::getEditorSmilies()
 				);
+				
 	   		break;
 		}
 	}

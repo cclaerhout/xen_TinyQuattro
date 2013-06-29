@@ -192,7 +192,7 @@
 			if (XenForo.hasResponseError(ajaxData) || typeof(ajaxData.templateHtml) === 'undefined')
 				return;
 
-			var 	t = this,
+			var 	self = this,
 				editor = this.getEditor(),
 				params = this.overlayParams,
 				wmConfig = params.wmConfig, 
@@ -222,10 +222,10 @@
 				$Cancel = $html.find('.mceCancel').remove();
 
 				if($Submit.length == 1)
-					buttonOk = t.getTagName($Submit, true);
+					buttonOk = self.getTagName($Submit, true);
 
 				if($Cancel.length == 1)
-					buttonCancel = t.getTagName($Cancel, true);
+					buttonCancel = self.getTagName($Cancel, true);
 
 				/* Get all datas from inputs or from data-input tag */
 				function getDatas($el) {
@@ -253,7 +253,7 @@
 							$(this).hide();
 					});
 					
-					t.overlayInputs = data;
+					self.overlayInputs = data;
 					staticBackup.inputs = data;
 					return data;
 				}
@@ -276,13 +276,19 @@
 				if(typeof wmConfig.height === un)
 					wmConfig.height = defaultSize.h;
 			
+				if(typeof $title.data('width') !== un)
+					wmConfig.width = parseInt($title.data('width'));
+
+				if(typeof $title.data('height') !== un)
+					wmConfig.height = parseInt($title.data('height'));
+			
 				/*Autofield & extend Data*/
 				if(typeof wmConfig.data !== un){
 					//Autofield existed tags with name attribute with their related data
 					$.each(wmConfig.data, function(k, v){
 						$e = $html.find('[name='+k+']');
 						if($e.length == 1){
-							if(t.getTagName($e, inputsTags)){
+							if(self.getTagName($e, inputsTags)){
 								/***
 									# Data ugly trick (step 1) #
 									Ok here's the thing, the value of the input tags
@@ -312,7 +318,7 @@
 						xenDatas = getDatas($overlay);
 						$.extend(params.data, xenDatas);
 
-						originalSubmit(params, $overlay, editor, t);
+						originalSubmit(params, $overlay, editor, self);
 					};
 				}
 
@@ -327,7 +333,7 @@
 							if(params.onsubmit != false){
 								var xenDatas = getDatas($overlay);
 								$.extend(e.data, xenDatas);
-								params.src[params.onsubmit](e, $overlay, editor, t);
+								params.src[params.onsubmit](e, $overlay, editor, self);
 							}
 
 							if(typeof win.find('form')[0] !== 'undefined')
@@ -349,7 +355,7 @@
 
 				/* Beforeload callback: use to modify the wmConfig if needed*/
 				if(params.onbeforeload != false){
-					var wmConfigModified = params.src[params.onbeforeload](wmConfig, t);
+					var wmConfigModified = params.src[params.onbeforeload](wmConfig, self);
 					if (typeof wmConfigModified !== un)
 						wmConfig = wmConfigModified;
 				}
@@ -379,7 +385,7 @@
 
 				/*Tabs & Panes - provided by JQT*/
 				$tabs = $overlay.find('.mceTabs').addClass('mce-tabs');
-				$tabs = t.cleanWhiteSpace($tabs);
+				$tabs = self.cleanWhiteSpace($tabs);
 					
 				$panes = $tabs.next('.mcePanes').children().addClass('mce-pane');
 				if($tabs.length > 0 && $panes.length > 0){
@@ -422,11 +428,47 @@
 					$multi.attr('spellcheck', 'false').attr('hidefocus', 'true');
 				}
 
+				/*Checkbox shortcut*/
+				$checkBox = $overlay.find('.xenCheckBox');
+				
+				if($checkBox.length > 1){
+					$checkBox.each(function(i){
+						var phrase = $(this).data('phrase'),
+						inputName = $(this).data('inputname'),
+						checked = ($(this).data('checked') == 'checked') ? 1 : 0,
+						html = '<i class="mce-ico mce-i-checkbox"></i><span>'+phrase+'</span><input name="'+inputName+'" type="hidden" value="'+checked+'" />';
+				
+						if(checked)
+							$(this).addClass('mce-checked');
+				
+						$(html).prependTo($(this));
+					});
+					
+					self._initCheckBox($checkBox);
+				}
+
 				/* Afterload Callback*/				
 				if(params.onafterload != false)
-					params.src[params.onafterload]($overlay, data, editor, t);
+					params.src[params.onafterload]($overlay, data, editor, self);
 		
 				return false;
+			});
+		},
+		_initCheckBox: function($checkBox)
+		{
+			$checkBox.children('i').unbind('click').bind('click', function(e){
+				$parent = $(this).parent();
+				$input = $(this).siblings('input');
+
+				var isChecked = parseInt($input.val()), chkClass = 'mce-checked';
+				
+				if(isChecked){
+					$parent.removeClass(chkClass);
+					$input.val(0);
+				}else{
+					$parent.addClass(chkClass);
+					$input.val(1);				
+				}
 			});
 		},
 		isDefined: function(v, k)
@@ -591,12 +633,12 @@
 				dataVal = (typeof bakeData[i] !== un) ? bakeData[i] : '';
 
 				if(typeof css === un)
-					return items.push({ text: text, data: dataVal } );
+					return items.push({ text: text, value: dataVal } );
 
 				var baker = { 
 					title: text,
 					text: text,
-					data: dataVal,
+					value: dataVal,
 					textStyle: css.replace(/{t}/g, text).replace(/{v}/g, dataVal)
 				};
 				
@@ -608,7 +650,47 @@
 
 			return items;
 		},
+		createListBoxChangeHandler: function(items, formatName) {
+			ed = this.getEditor();
+		
+			return function() {
+				/*How to spend 3 hours to debug a function that was supposed to work? */
+				var self = this; //Answer: forget the "var". Bloody hell
+				
+				ed.on('nodeChange', function(e) {
+					var formatter = ed.formatter;
+					var value = null;
+			
+					tinymce.each(e.parents, function(node) {
+						tinymce.each(items, function(item) {
+						
+							if (formatName) {
+								if (formatter.matchNode(node, formatName, {value: item.value})) {
+									value = item.value;
+								}
+							} else {
+								if (formatter.matchNode(node, item.value)) {
+									value = item.value;
+								}
+							}
+		
+							if (value) {
+								return false;
+							}
+						});
+		
+						if (value) {
+							return false;
+						}
+					});
+
+					self.value(value);
+				});
+			};
+		},
 		insertBbCode: function(tag, tagOptions, content){
+			tag = tag.replace(/^at_/, '');
+		
 			var ed = this.getEditor(), dom = ed.dom, caretId = 'MceCaretBb', caret,
 			oTag ='['+tag, cTag = '[/'+tag+']';
 		
@@ -745,6 +827,7 @@
 						var ovlConfig, ovlCallbacks;
 						
 						src.bbm_tag = tag;
+						src.bbm_separator = data.separator;
 						
 						ovlConfig = {
 							onsubmit: src.submit
@@ -960,17 +1043,21 @@
 				
 			ed.addButton('xen_fontsize', {
 				name: 'xen_fontsize',
-				type: 'menubutton',
+				//type: 'menubutton',
+				//menu: menuSize,
+				type: 'listbox',
+				values: menuSize,
 				icon: false,
+				fixedWidth: true,
 				text: p.font_size,
-				menu: menuSize,
+				onPostRender: parent.createListBoxChangeHandler(menuSize, 'fontsize'),
 				onShow: function(e) {
 					e.control.addClass(sizeClass+'-menu');
 					e.control.initLayoutRect();
 				},
 				onclick: function(e) {
-					if (e.control.settings.data) {
-						ed.execCommand('FontSize', false, e.control.settings.data);
+					if (e.control.settings.value) {
+						ed.execCommand('FontSize', false, e.control.settings.value);
 					}
 				}
 			});
@@ -989,17 +1076,21 @@
 
 			ed.addButton('xen_fontfamily', {
 				name: 'xen_fontfamily',
-				type: 'menubutton',
+				//type: 'menubutton',
+				//menu: menuFam,
+				type: 'listbox',
+				values: menuFam,
 				icon: false,
+				fixedWidth: true,
 				text: p.font_family,
-				menu: menuFam,
+				onPostRender: parent.createListBoxChangeHandler(menuFam, 'fontname'),
 				onShow: function(e) {
 					e.control.addClass(famClass+'-menu');
 					e.control.initLayoutRect();
 				},
 				onclick: function(e) {
-					if (e.control.settings.data) {
-						ed.execCommand('FontName', false, e.control.settings.data);
+					if (e.control.settings.value) {
+						ed.execCommand('FontName', false, e.control.settings.value);
 					}
 				}
 			});

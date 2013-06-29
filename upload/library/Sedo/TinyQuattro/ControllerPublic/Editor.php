@@ -80,7 +80,7 @@ class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_Con
 		
 		if ($dialog == 'smilies_slider')
 		{
-			$smilies = XenForo_ViewPublic_Helper_Editor::getEditorSmilies();
+			$smilies = Sedo_TinyQuattro_Helper_Editor::getEditorSmilies();
 
 			foreach ($smilies as &$smiley){
 				$smiley['type'] = (is_int($smiley[1])) ? 'sprite' : 'link';
