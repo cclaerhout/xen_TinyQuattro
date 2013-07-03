@@ -12,7 +12,6 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 				);
 		   	break;
 		   	case 'editor':
-
 				$params += array(
 					'loadQuattro' => self::_checkQuattroPermissions(), 	//quattro param
 					'quattroIntegration' => self::_quattroIntegration(),	//quattro integration js (for 1.2)

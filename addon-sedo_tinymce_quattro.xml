@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.1.0" version_id="7" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.1.1" version_id="8" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -729,6 +729,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_replace_all" version_id="4" version_string="1.0.4"><![CDATA[Replace all]]></phrase>
     <phrase title="sedo_quattro_restoredraft" version_id="0" version_string="1.0"><![CDATA[Restore last draft]]></phrase>
     <phrase title="sedo_quattro_rgb_picker" version_id="0" version_string="1.0"><![CDATA[RGB picker]]></phrase>
+    <phrase title="sedo_quattro_size" version_id="7" version_string="1.1.0"><![CDATA[Size]]></phrase>
     <phrase title="sedo_quattro_small" version_id="0" version_string="1.0"><![CDATA[Small]]></phrase>
     <phrase title="sedo_quattro_smiliespicker" version_id="4" version_string="1.0.4"><![CDATA[Smilies picker]]></phrase>
     <phrase title="sedo_quattro_specialcharacters" version_id="0" version_string="1.0"><![CDATA[Special characters]]></phrase>
@@ -934,13 +935,10 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     </group>
   </style_properties>
   <templates>
-    <template title="adv_tiny_quattro_params" version_id="6" version_string="1.0.6"><![CDATA[		adv_hl_norm_open: "{xen:property adv_highlight_normal_tags_open}",
-		adv_hl_norm_options: "{xen:property adv_highlight_normal_tags_options}",
-		adv_hl_norm_close: "{xen:property adv_highlight_normal_tags_close}",
-		adv_hl_spe_open: "{xen:property adv_highlight_special_tags_open}",
-		adv_hl_spe_content: "{xen:property adv_highlight_special_tags_content}",
-		adv_hl_spe_close: "{xen:property adv_highlight_special_tags_close}",
-		adv_hl_tag_separator: "{xen:property adv_highlight_tag_options_separator}",]]></template>
+    <template title="adv_tiny_quattro_params" version_id="7" version_string="1.1.0"><![CDATA[		adv_hl_norm: {open: "{xen:property adv_highlight_normal_tags_open}", options: "{xen:property adv_highlight_normal_tags_options}", close: "{xen:property adv_highlight_normal_tags_close}"},
+		adv_hl_spe: {open: "{xen:property adv_highlight_special_tags_open}", options: "@adv_highlight_special_tags_options", close: "{xen:property adv_highlight_special_tags_close}"},
+		adv_hl_tag_separator: "{xen:property adv_highlight_tag_options_separator}",
+		adv_attach: {type: "{$editorOptions.sedo_adv.type}", id: "{$editorOptions.sedo_adv.id}", hash: "{$editorOptions.sedo_adv.hash}"},]]></template>
     <template title="quattro_dialog.css" version_id="6" version_string="1.0.6"><![CDATA[.mce-xen-body{
 	width:100%;
 	height:100%;
@@ -1476,7 +1474,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <template title="quattro_dialog_link.css" version_id="0" version_string="1.0"><![CDATA[.mce-xen-body .mcePanes dt{
 	width:150px;
 }]]></template>
-    <template title="quattro_dialog_media" version_id="0" version_string="1.0"><![CDATA[<xen:require css="quattro_dialog.css" />
+    <template title="quattro_dialog_media" version_id="7" version_string="1.1.0"><![CDATA[<xen:require css="quattro_dialog.css" />
 <xen:require css="quattro_dialog_media.css" />
 <xen:require js="js/sedo/tinyquattro/templates/media.js" />
 
@@ -1505,7 +1503,8 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 		</span>
 	</div>
 </div>]]></template>
-    <template title="quattro_dialog_media.css" version_id="0" version_string="1.0"><![CDATA[.mce-xen-body .supported_sites {
+    <template title="quattro_dialog_media.css" version_id="7" version_string="1.1.0"><![CDATA[.mce-xen-body .supported_sites {
+	width: 450px;
 	height: 95px;
 	overflow-y: auto;
 	margin-left:8px;
@@ -2247,7 +2246,7 @@ i.mce-i-backcolor
 </xen:if>
 </xen:foreach>
 ]]></template>
-    <template title="tiny_quattro_editor.css" version_id="6" version_string="1.0.6"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_editor.css" version_id="7" version_string="1.1.0"><![CDATA[<xen:comment>
 	ALL EDITOR CSS (EXCEPT IFRAME CONTENT)
 	> IE7 have the same CSS except for buttons.
 	> These main css can be copied to the tiny_quattro_editor_ie7.css, just change the require template (see the last line)
@@ -2340,7 +2339,7 @@ i.mce-i-backcolor
 	overflow: hidden !important;
 	background: #FFF;
 	height: 100%;
-	z-index: 100;
+	z-index: 10000;
 }
 
 div.mce-fullscreen
@@ -3940,11 +3939,11 @@ i.mce-i-resize
 }
 
 .mce-xen-font-size-menu{
-	min-width:80px;
+	min-width:130px;
 }
 
 .mce-xen-font-size-menu .mce-container-body{
-	width:100px;
+	width:150px;
 	height:80px;
 	overflow-y:auto;
 }
@@ -4006,7 +4005,7 @@ i.mce-i-resize
 </xen:comment>
 
 <xen:include template="tiny_quattro_buttons.css" />]]></template>
-    <template title="tiny_quattro_editor_ie7.css" version_id="6" version_string="1.0.6"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_editor_ie7.css" version_id="7" version_string="1.1.0"><![CDATA[<xen:comment>
 	ALL EDITOR CSS (EXCEPT IFRAME CONTENT)
 	> IE7 have the same CSS except for buttons.
 	> These main css can be copied to the tiny_quattro_editor_ie7.css, just change the require template (see the last line)
@@ -4099,7 +4098,7 @@ i.mce-i-resize
 	overflow: hidden !important;
 	background: #FFF;
 	height: 100%;
-	z-index: 100;
+	z-index: 10000;
 }
 
 div.mce-fullscreen
@@ -5699,11 +5698,11 @@ i.mce-i-resize
 }
 
 .mce-xen-font-size-menu{
-	min-width:80px;
+	min-width:130px;
 }
 
 .mce-xen-font-size-menu .mce-container-body{
-	width:100px;
+	width:150px;
 	height:80px;
 	overflow-y:auto;
 }
@@ -6000,6 +5999,7 @@ h6 { font-size: .75em; }
 				document_base_url: "{xen:jsescape $requestPaths.fullBasePath}",	
 				autosave_ask_before_unload: {$xenOptions.quattro_autosave_ask_before_unload},
 				paste_as_text: {$xenOptions.quattro_paste_as_text},
+				font_size_legacy_values: '9px,10px,12px,15px,18px,22px,26px',
 				statusbar: {$xenOptions.quattro_statusbar},
 				<xen:include template="tiny_quattro_grid" />
 				nonbreaking_force_tab: true
@@ -6042,7 +6042,7 @@ h6 { font-size: .75em; }
 <xen:edithint template="tiny_quattro_buttons_ie7.css" />
 <xen:edithint template="tiny_quattro_custom_buttons" />
 ]]></template>
-    <template title="tiny_quattro_params" version_id="6" version_string="1.0.6"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_params" version_id="7" version_string="1.1.0"><![CDATA[<xen:comment>
 	We are inside a JavaScript file. All phrases must be escaped
 </xen:comment>
 	<xen:comment>extend</xen:comment>
@@ -6057,18 +6057,20 @@ h6 { font-size: .75em; }
 	overlayImageSize: { w: 480, h: 110 },
 	overlayLinkSize: { w: 480, h: 160 },
 	overlayMediaSize: { w: 480, h: 160 },
+	oldXen: {xen:if "{$xenOptions.currentVersionId} < 1020031", true, false},
 	overlaySmiliesSize: { w: "{xen:property tinyquattro_smiliespicker_width}", h: "{xen:property tinyquattro_smiliespicker_height}" },
 	smiliesSlider: {$xenOptions.quattro_smilies_slider},
 	xSmilies: {$xenOptions.quattro_xsmilies},
 	xenforo_smilies: {xen:helper json, $bbmSmilies},
 	bbmButtons: { <xen:include template="tiny_quattro_custom_buttons" /> }]]></template>
-    <template title="tiny_quattro_phrases" version_id="6" version_string="1.0.6"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_phrases" version_id="7" version_string="1.1.0"><![CDATA[<xen:comment>
 	We are inside a JavaScript file. All phrases must be escaped
 </xen:comment>
 
 	fullscreen: "{xen:jsescape {xen:phrase sedo_quattro_fullscreen}}",
 	notitle: "{xen:jsescape {xen:phrase sedo_quattro_titleismissing}}",
 	more_colors: "{xen:jsescape {xen:phrase sedo_quattro_more_colors}}",
+	size: "{xen:jsescape {xen:phrase sedo_quattro_size}}",
 	font_size: "{xen:jsescape {xen:phrase sedo_quattro_font_size}}",
 	font_family: "{xen:jsescape {xen:phrase sedo_quattro_font_family}}",
 	apply: "{xen:jsescape {xen:phrase apply}}",

@@ -1031,12 +1031,27 @@
 	tinymce.create(xenPlugin+'.XenFonts', {
 		XenFonts: function(parent) 
 		{
-			var ed = parent.getEditor(), Factory = tinymce.ui.Factory, menuSize, menuFam,
-			sizeClass = 'xen-font-size', famClass = 'xen-font-family', p = xenMCE.Phrases;
+			var ed = parent.getEditor(), Factory = tinymce.ui.Factory, menuSize, menuFam, un = 'undefined',
+			sizeClass = 'xen-font-size', fontFamily = 'font-family',  famClass = 'xen-'+fontFamily, p = xenMCE.Phrases, 
+			fontSizeText = '', fontSizeValues;
+
+			if(xenMCE.Params.oldXen === true){
+				fontSizeValues = 'xx-small|x-small|small|medium|large|x-large|xx-large'; //for Xen 1.1
+			} else {
+				fontSizeValues = '9px|10px|12px|15px|18px|22px|26px'; //for Xen 1.2
+			}
+
+			for (var i=1;i<8;i++)
+			{
+				fontSizeText += p.size+' '+i;
+
+				if(i != 7)
+					fontSizeText += '|';
+			}
 
 			menuSize = parent.buildMenuItems(
-					'1|2|3|4|5|6|7', //Text
-					'xx-small|x-small|small|medium|large|x-large|xx-large', //Value
+					fontSizeText, //Text
+					fontSizeValues, //Value
 					'font-size:{v}', //Css
 					sizeClass //Item Class
 				);
@@ -1070,7 +1085,7 @@
 					+'courier new,courier|georgia,palatino|helvetica|impact,chicago|tahoma,arial,helvetica,sans-serif|'
 					+'times new roman,times|trebuchet ms,geneva|verdana,geneva',
 					
-					'font-family:{v}',
+					fontFamily+':{v}',
 					famClass
 				);
 
@@ -1093,6 +1108,32 @@
 						ed.execCommand('FontName', false, e.control.settings.value);
 					}
 				}
+			});
+			
+			//Get back the font-family fallbacks so MCE can match them with the above listbox values
+			ed.on('preInit', function() {
+				ed.on('PreProcess SetContent', function(e){
+					$iframeBody = $(e.target.getBody());
+					
+					$famEl = $iframeBody.find('span').filter(function() {
+						return( typeof $(this).css(fontFamily) !== un && $(this).css(fontFamily) !== 'serif')
+					})
+					
+					if($famEl.length > 0){
+						var convTable = {};
+
+						$.each(menuFam, function(k, v){
+							convTable[v.title.toLowerCase()] = v.value;
+						});
+					
+						$famEl.each(function(i) {
+							var fontName = $(this).css(fontFamily);
+							
+							if(typeof convTable[fontName] !== un)
+								$(this).css(fontFamily, convTable[fontName])
+						});
+					}
+				});
 			});
 		}
 	});

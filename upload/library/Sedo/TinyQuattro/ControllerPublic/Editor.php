@@ -91,7 +91,7 @@ class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_Con
 
 			$viewParams['smiliesBySlides'] = $smilies;
 		}
-	
+
 		return $viewParams;
 	}
 }
