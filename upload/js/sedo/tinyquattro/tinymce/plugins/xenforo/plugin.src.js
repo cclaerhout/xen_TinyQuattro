@@ -1120,22 +1120,17 @@
 			ed.on('preInit', function() {
 				ed.on('PreProcess SetContent', function(e){
 					$iframeBody = $(e.target.getBody());
-					
-					$famEl = $iframeBody.find('span').filter(function() {
-						if(oldXen === true && (!tinymce.isIE || tinymce.Env.ie > 8)){
-							//bug with jQuery 1.5.x => fix for all browsers except IE < 9
-							var el = $(this).get(0), style = window.getComputedStyle(el), fontname = style.getPropertyValue(fontFamily); 
-						}else{
-							var fontname = $(this).css(fontFamily);
-						}
-						
-						if(typeof fontname!== un){
-							fontname = fontname.replace(/'/g, '');
+					var dom = ed.dom;
 
-							if(fontname !== 'serif' && typeof convTable[fontname] !== un)
-								$(this).css(fontFamily, convTable[fontname])
+					tinymce.each(dom.select('span', e.node), function(node) {
+						var fontname = node.style.fontFamily;
+						if(fontname){
+							fontname = fontname.toLowerCase().replace(/'/g, '');
+							if(fontname !== 'serif' && typeof convTable[fontname] !== un){
+								dom.setStyle(node, 'fontFamily', convTable[fontname]);
+							}
 						}
-					})
+					});
 				});
 			});
 		}
