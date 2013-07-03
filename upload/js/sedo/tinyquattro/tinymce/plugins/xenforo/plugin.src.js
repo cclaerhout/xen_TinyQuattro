@@ -1033,9 +1033,9 @@
 		{
 			var ed = parent.getEditor(), Factory = tinymce.ui.Factory, menuSize, menuFam, un = 'undefined',
 			sizeClass = 'xen-font-size', fontFamily = 'font-family',  famClass = 'xen-'+fontFamily, p = xenMCE.Phrases, 
-			fontSizeText = '', fontSizeValues;
+			fontSizeText = '', fontSizeValues, oldXen = xenMCE.Params.oldXen;
 
-			if(xenMCE.Params.oldXen === true){
+			if(oldXen === true){
 				fontSizeValues = 'xx-small|x-small|small|medium|large|x-large|xx-large'; //for Xen 1.1
 			} else {
 				fontSizeValues = '9px|10px|12px|15px|18px|22px|26px'; //for Xen 1.2
@@ -1111,28 +1111,31 @@
 			});
 			
 			//Get back the font-family fallbacks so MCE can match them with the above listbox values
+			var convTable = {};
+
+			$.each(menuFam, function(k, v){
+				convTable[v.title.toLowerCase()] = v.value;
+			});
+			
 			ed.on('preInit', function() {
 				ed.on('PreProcess SetContent', function(e){
 					$iframeBody = $(e.target.getBody());
 					
 					$famEl = $iframeBody.find('span').filter(function() {
-						return( typeof $(this).css(fontFamily) !== un && $(this).css(fontFamily) !== 'serif')
-					})
-					
-					if($famEl.length > 0){
-						var convTable = {};
+						if(oldXen === true && (!tinymce.isIE || tinymce.Env.ie > 8)){
+							//bug with jQuery 1.5.x => fix for all browsers except IE < 9
+							var el = $(this).get(0), style = window.getComputedStyle(el), fontname = style.getPropertyValue(fontFamily); 
+						}else{
+							var fontname = $(this).css(fontFamily);
+						}
+						
+						if(typeof fontname!== un){
+							fontname = fontname.replace(/'/g, '');
 
-						$.each(menuFam, function(k, v){
-							convTable[v.title.toLowerCase()] = v.value;
-						});
-					
-						$famEl.each(function(i) {
-							var fontName = $(this).css(fontFamily);
-							
-							if(typeof convTable[fontName] !== un)
-								$(this).css(fontFamily, convTable[fontName])
-						});
-					}
+							if(fontname !== 'serif' && typeof convTable[fontname] !== un)
+								$(this).css(fontFamily, convTable[fontname])
+						}
+					})
 				});
 			});
 		}
