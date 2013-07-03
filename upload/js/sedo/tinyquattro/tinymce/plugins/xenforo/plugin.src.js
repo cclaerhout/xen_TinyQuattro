@@ -1119,7 +1119,6 @@
 			
 			ed.on('preInit', function() {
 				ed.on('PreProcess SetContent', function(e){
-					$iframeBody = $(e.target.getBody());
 					var dom = ed.dom;
 
 					tinymce.each(dom.select('span', e.node), function(node) {
