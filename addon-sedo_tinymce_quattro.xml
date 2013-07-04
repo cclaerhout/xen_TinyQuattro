@@ -405,6 +405,7 @@ i.mce-i-backcolor
   <admin_template_modifications/>
   <code_events/>
   <code_event_listeners>
+    <listener event_id="editor_setup" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_EditorSetup" callback_method="ExtendOptions" active="1" hint="" description="Extend Editor Template Variables"/>
     <listener event_id="load_class_bb_code" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_BbCode" callback_method="listen" active="1" hint="" description="BbCode &gt; Wysiwyg HTML Parser Patch"/>
     <listener event_id="load_class_controller" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_ControllerPublic" callback_method="listen" active="1" hint="" description="Controller Public Listener"/>
     <listener event_id="load_class_datawriter" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_Datawriter" callback_method="listen" active="1" hint="" description="Datawriter listener"/>
@@ -935,10 +936,6 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     </group>
   </style_properties>
   <templates>
-    <template title="adv_tiny_quattro_params" version_id="7" version_string="1.1.0"><![CDATA[		adv_hl_norm: {open: "{xen:property adv_highlight_normal_tags_open}", options: "{xen:property adv_highlight_normal_tags_options}", close: "{xen:property adv_highlight_normal_tags_close}"},
-		adv_hl_spe: {open: "{xen:property adv_highlight_special_tags_open}", options: "@adv_highlight_special_tags_options", close: "{xen:property adv_highlight_special_tags_close}"},
-		adv_hl_tag_separator: "{xen:property adv_highlight_tag_options_separator}",
-		adv_attach: {type: "{$editorOptions.sedo_adv.type}", id: "{$editorOptions.sedo_adv.id}", hash: "{$editorOptions.sedo_adv.hash}"},]]></template>
     <template title="quattro_dialog.css" version_id="6" version_string="1.0.6"><![CDATA[.mce-xen-body{
 	width:100%;
 	height:100%;
@@ -5913,7 +5910,7 @@ h6 { font-size: .75em; }
 		</xen:if>
 	</xen:foreach>
 </xen:if>]]></template>
-    <template title="tiny_quattro_js_setup" version_id="7" version_string="1.1.0"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_js_setup" version_id="8" version_string="1.1.1"><![CDATA[<xen:comment>
 	Load Quattro Integration JS files for 1.2
 </xen:comment>
 
@@ -6001,6 +5998,7 @@ h6 { font-size: .75em; }
 				paste_as_text: {$xenOptions.quattro_paste_as_text},
 				font_size_legacy_values: '9px,10px,12px,15px,18px,22px,26px',
 				statusbar: {$xenOptions.quattro_statusbar},
+				xen_attach: "{$editorOptions.sedo_quattro.attach.type},{$editorOptions.sedo_quattro.attach.id},{$editorOptions.sedo_quattro.attach.hash}",
 				<xen:include template="tiny_quattro_grid" />
 				nonbreaking_force_tab: true
 			};

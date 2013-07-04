@@ -11,6 +11,7 @@ class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_Con
 		$isLink = $this->_input->filterSingle('isLink', XenForo_Input::STRING);
 		$isEmail = $this->_input->filterSingle('isEmail', XenForo_Input::STRING);
 		$urlDatas = $this->_input->filterSingle('urlDatas', XenForo_Input::JSON_ARRAY);
+		$attachmentData = $this->_input->filterSingle('attach', XenForo_Input::JSON_ARRAY);
 
 		/*Convert needed strings to booleans*/
 		$isUrl = filter_var($isUrl, FILTER_VALIDATE_BOOLEAN);
@@ -52,6 +53,18 @@ class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_Con
 			$urlDatas['href'] = str_replace('mailto:', '', $urlDatas['href']);
 		}
 
+		/*Get Post attachments*/
+		$attachments = $this->_quattroGetAttachments($attachmentData['type'], $attachmentData['id'], $attachmentData['hash']);
+		$imgAttachments = array();
+		
+		foreach($attachments as $attachment)
+		{
+			if(!empty($attachment['thumbnailUrl']))
+			{
+				$imgAttachments[] = $attachment;
+			}
+		}
+		
 		/* Create ViewParams */
 		$viewParams = array(
 			'selection' => array(
@@ -62,7 +75,9 @@ class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_Con
 			'isUrl' => $isUrl,
 			'isLink' => $isLink,
 			'isEmail' => $isEmail,
-			'urlDatas' => $urlDatas
+			'urlDatas' => $urlDatas,
+			'attachments' =>  $attachments,
+			'imgAttachments' => $imgAttachments
 		);
 
 		/* Extend ViewParams */
@@ -93,6 +108,80 @@ class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_Con
 		}
 
 		return $viewParams;
+	}
+	
+	protected function _quattroGetAttachments($type, $id, $hash)
+	{
+		$id = filter_var($id, FILTER_VALIDATE_INT);
+
+		if(!in_array($type, array('new', 'edit')) || !$id)
+		{
+			return array();
+		}
+		
+		$ftpHelper = $this->getHelper('ForumThreadPost');
+		
+		if($type == 'edit')
+		{
+			$postId = $id;
+			$attachmentModel = $this->_getAttachmentModel();
+			
+			list($post, $thread, $forum) = $ftpHelper->assertPostValidAndViewable($postId);
+
+			if (!$this->_getPostModel()->canEditPost($post, $thread, $forum, $errorPhraseKey))
+			{
+				//To prevent users to edit the js code to get access to unauthorised attachments
+				return array();
+			}
+			
+			$attachmentParams = $this->_getForumModel()->getAttachmentParams($forum, array(
+				'post_id' => $post['post_id']
+			));
+			
+			$attachments = $attachmentModel->getAttachmentsByContentId('post', $postId);
+			$attachments = $attachmentModel->prepareAttachments($attachments);
+		}
+		else
+		{
+			$threadId = $id;
+			$quickReplyAttachmentHash = $hash;
+			
+			list($thread, $forum) = $ftpHelper->assertThreadValidAndViewable($threadId);
+
+			if (!$this->_getThreadModel()->canReplyToThread($thread, $forum, $errorPhraseKey))
+			{
+				//To prevent users to edit the js code to get access to unauthorised attachments
+				return array();
+			}
+			
+			$attachmentParams = $this->_getForumModel()->getAttachmentParams($forum, array(
+				'thread_id' => $thread['thread_id']
+			), null, null, $quickReplyAttachmentHash);
+			
+			$attachments = !empty($attachmentParams['attachments']) ? $attachmentParams['attachments'] : array();			
+		}
+
+		return $attachments;
+	}
+
+	protected function _getPostModel()
+	{
+		return $this->getModelFromCache('XenForo_Model_Post');
+	}
+
+	protected function _getForumModel()
+	{
+		return $this->getModelFromCache('XenForo_Model_Forum');
+	}
+
+	protected function _getThreadModel()
+	{
+		return $this->getModelFromCache('XenForo_Model_Thread');
+	}
+
+	protected function _getAttachmentModel()
+	{
+		return $this->getModelFromCache('XenForo_Model_Attachment');
 	}
 }
 //Zend_Debug::dump($abc);

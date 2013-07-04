@@ -142,6 +142,10 @@
 				isLink = !isEmail;
 			}
 
+			/*Get attachments key params*/
+			var attachData = ed.settings.xen_attach.split(',');
+			xenAttach = { type:attachData[0], id:attachData[1], hash:attachData[2] };
+
 			/* Get selection after url checker */
 			selHtml = sel.getContent();
 			selText = sel.getContent({format: 'text'});
@@ -183,7 +187,8 @@
 					urlDatas: {
 						text: url_text,
 						href: url_href
-					}
+					},
+					attach: xenAttach
 				}, $.proxy(this, '_overlayLoader')
 			);
 		},
