@@ -169,7 +169,7 @@ class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_Con
 
 			if (!$this->_getForumModel()->canPostThreadInForum($forum, $errorPhraseKey))
 			{
-				//Not needed - just keep the same logical as above
+				//Not needed - just keep the same logic as above
 				return array();
 			}
 
