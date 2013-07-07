@@ -6,9 +6,15 @@ class Sedo_TinyQuattro_Listener_EditorSetup
 		$viewParams = $view->getParams();
 		$hash = $type = $id = '';
 		
+		if(!empty($viewParams['forum']['node_id']))
+		{
+			$type = 'newThread';
+			$id = 	$viewParams['forum']['node_id'];
+		}
+
 		if(!empty($viewParams['thread']['thread_id']))
 		{
-			$type = 'new';
+			$type = 'newPost';
 			$id = 	$viewParams['thread']['thread_id'];
 		}
 

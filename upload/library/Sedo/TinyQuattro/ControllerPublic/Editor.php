@@ -114,7 +114,7 @@ class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_Con
 	{
 		$id = filter_var($id, FILTER_VALIDATE_INT);
 
-		if(!in_array($type, array('new', 'edit')) || !$id)
+		if(!in_array($type, array('newThread', 'newPost', 'edit')) || !$id)
 		{
 			return array();
 		}
@@ -141,7 +141,7 @@ class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_Con
 			$attachments = $attachmentModel->getAttachmentsByContentId('post', $postId);
 			$attachments = $attachmentModel->prepareAttachments($attachments);
 		}
-		else
+		elseif($type == 'newPost')
 		{
 			$threadId = $id;
 			$quickReplyAttachmentHash = $hash;
@@ -159,6 +159,27 @@ class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_Con
 			), null, null, $quickReplyAttachmentHash);
 			
 			$attachments = !empty($attachmentParams['attachments']) ? $attachmentParams['attachments'] : array();			
+		}
+		elseif($type == 'newThread')
+		{
+			$forumId = $id;
+			$attachmentHash = $hash;
+
+			$forum = $ftpHelper->assertForumValidAndViewable($forumId);
+
+			if (!$this->_getForumModel()->canPostThreadInForum($forum, $errorPhraseKey))
+			{
+				//Not needed - just keep the same logical as above
+				return array();
+			}
+
+			$forumId = $forum['node_id'];
+		
+			$attachmentParams = $this->_getForumModel()->getAttachmentParams($forum, array(
+				'node_id' => $forum['node_id']
+			), null, null, $attachmentHash);
+			
+			$attachments = !empty($attachmentParams['attachments']) ? $attachmentParams['attachments'] : array();
 		}
 
 		return $attachments;
