@@ -46,20 +46,32 @@
 				}
 	
 				$form.find('input:submit').blur();
-	
-				new XenForo.ExtLoader(e.ajaxData, function()
-				{
-					$('#messageList').find('.messagesSinceReplyingNotice').remove();
-	
-					$(e.ajaxData.templateHtml).each(function()
-					{
-						if (this.tagName)
-						{
-							$(this).xfInsert('appendTo', $('#messageList'));
+
+				if($form.hasClass('QuickReplyLive')){
+					//For sonnb - Live Thread 1/2
+					$('input[name="last_position"]', $form).val(e.ajaxData.lastPosition);
+					$('form.InlineModForm').data("timestamp", e.ajaxData.lastDate);
+
+					if (e.ajaxData.posts && e.ajaxData.posts.length){
+						for (i = 0; i < e.ajaxData.posts.length; i++){
+							$(e.ajaxData.posts[i]).xfInsert('appendTo', $('ol#messageList'), 'xfSlideDown');
 						}
+					}
+				}else{
+					new XenForo.ExtLoader(e.ajaxData, function()
+					{
+						$('#messageList').find('.messagesSinceReplyingNotice').remove();
+		
+						$(e.ajaxData.templateHtml).each(function()
+						{
+							if (this.tagName)
+							{
+								$(this).xfInsert('appendTo', $('#messageList'));
+							}
+						});
 					});
-				});
-	
+				}
+				
 				$('#QuickReply').find('textarea').val('');
 				if (window.tinyMCE)
 				{
@@ -72,7 +84,13 @@
 				}
 	
 				$form.trigger('QuickReplyComplete');
-	
+
+				if($form.hasClass('QuickReplyLive')){
+					//For sonnb - Live Thread 2/2
+					$('.AttachmentEditor').find('.AttachmentList.New li:not(#AttachedFileTemplate)').xfRemove();
+					$form.data('isReplying', 0);
+				}
+
 				return false;				
 			}
 		});
@@ -151,5 +169,3 @@
 	};
 }
 (jQuery, this, document);
-
-
