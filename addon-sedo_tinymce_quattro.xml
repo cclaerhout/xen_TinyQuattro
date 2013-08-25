@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.1.2" version_id="9" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.1.3" version_id="10" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -706,6 +706,8 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_fullscreen" version_id="0" version_string="1.0"><![CDATA[Fullscreen]]></phrase>
     <phrase title="sedo_quattro_full_picker" version_id="0" version_string="1.0"><![CDATA[Full picker]]></phrase>
     <phrase title="sedo_quattro_html" version_id="0" version_string="1.0"><![CDATA[HTML]]></phrase>
+    <phrase title="sedo_quattro_insert_edit_image" version_id="10" version_string="1.1.3"><![CDATA[Insert edit image]]></phrase>
+    <phrase title="sedo_quattro_insert_edit_link" version_id="10" version_string="1.1.3"><![CDATA[Insert edit link]]></phrase>
     <phrase title="sedo_quattro_link" version_id="0" version_string="1.0"><![CDATA[Link options]]></phrase>
     <phrase title="sedo_quattro_link_or_mail_edit" version_id="0" version_string="1.0"><![CDATA[Edit your link or email]]></phrase>
     <phrase title="sedo_quattro_link_or_mail_new" version_id="0" version_string="1.0"><![CDATA[Insert a new link or email]]></phrase>
@@ -730,6 +732,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_replace_all" version_id="4" version_string="1.0.4"><![CDATA[Replace all]]></phrase>
     <phrase title="sedo_quattro_restoredraft" version_id="0" version_string="1.0"><![CDATA[Restore last draft]]></phrase>
     <phrase title="sedo_quattro_rgb_picker" version_id="0" version_string="1.0"><![CDATA[RGB picker]]></phrase>
+    <phrase title="sedo_quattro_select_background_color" version_id="10" version_string="1.1.3"><![CDATA[Select background color]]></phrase>
     <phrase title="sedo_quattro_size" version_id="7" version_string="1.1.0"><![CDATA[Size]]></phrase>
     <phrase title="sedo_quattro_small" version_id="0" version_string="1.0"><![CDATA[Small]]></phrase>
     <phrase title="sedo_quattro_smiliespicker" version_id="4" version_string="1.0.4"><![CDATA[Smilies picker]]></phrase>
@@ -1552,7 +1555,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 			<p class="hint">{xen:phrase quattro_rte_mobile_explain}</p>
 		</label>
 	</li>]]></template>
-    <template title="tiny_quattro_buttons.css" version_id="6" version_string="1.0.6"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_buttons.css" version_id="9" version_string="1.1.2"><![CDATA[<xen:comment>
 	TINYMCE BUTTONS FOR ALL BROWSERS EXCEPT IE7
 </xen:comment>
 
@@ -1648,7 +1651,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 
 .mce-i-pastetext:before
 {
-	content: "\e008";
+	content: "\e035";
 }
 
 .mce-i-searchreplace:before
@@ -1941,7 +1944,7 @@ i.mce-i-backcolor
 .mce-i-xen_quote:before			{ content: "\e009"; }
 .mce-i-xen_smilies_picker:before	{ content: "\e035"; }
 ]]></template>
-    <template title="tiny_quattro_buttons_ie7.css" version_id="6" version_string="1.0.6"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_buttons_ie7.css" version_id="9" version_string="1.1.2"><![CDATA[<xen:comment>
 	TINYMCE BUTTONS FOR IE7
 </xen:comment>
 
@@ -2021,7 +2024,7 @@ i.mce-i-backcolor
 	-ie7-icon:"\e008"
 }
 .mce-i-pastetext {
-	-ie7-icon:"\e008"
+	-ie7-icon:"\e035"
 }
 .mce-i-searchreplace {
 	-ie7-icon:"\e009"
@@ -2214,7 +2217,7 @@ i.mce-i-backcolor
 .mce-i-xen_smilies_picker:before	{ -ie7-icon: "\e035"; }
 
 ]]></template>
-    <template title="tiny_quattro_custom_buttons" version_id="6" version_string="1.0.6"><![CDATA[<xen:foreach loop="$customQuattroButtonsJs" value="$button" i="$i" count="$total">
+    <template title="tiny_quattro_custom_buttons" version_id="10" version_string="1.1.3"><![CDATA[<xen:foreach loop="$customQuattroButtonsJs" value="$button" i="$i" count="$total">
 <xen:set var="$coma">{xen:if '{$i} != {$total}', ','}</xen:set>
 
 <xen:if is="{$button.return} == 'direct'">
@@ -2243,7 +2246,7 @@ i.mce-i-backcolor
 </xen:if>
 </xen:foreach>
 ]]></template>
-    <template title="tiny_quattro_editor.css" version_id="7" version_string="1.1.0"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_editor.css" version_id="9" version_string="1.1.2"><![CDATA[<xen:comment>
 	ALL EDITOR CSS (EXCEPT IFRAME CONTENT)
 	> IE7 have the same CSS except for buttons.
 	> These main css can be copied to the tiny_quattro_editor_ie7.css, just change the require template (see the last line)
@@ -3447,6 +3450,10 @@ i.mce-i-checkbox
 	white-space: normal;
 }
 
+.mce-tinymce-inline .mce-flow-layout {
+	white-space: nowrap;
+}
+
 .mce-iframe
 {
 	border: 0 solid {xen:property tinyquattro_standard_boder.border-color};
@@ -3516,6 +3523,7 @@ i.mce-i-checkbox
 
 .mce-menubtn span
 {
+	margin-right:2px;
 	line-height:20px;
 	*line-height:16px
 }
@@ -4002,7 +4010,7 @@ i.mce-i-resize
 </xen:comment>
 
 <xen:include template="tiny_quattro_buttons.css" />]]></template>
-    <template title="tiny_quattro_editor_ie7.css" version_id="7" version_string="1.1.0"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_editor_ie7.css" version_id="9" version_string="1.1.2"><![CDATA[<xen:comment>
 	ALL EDITOR CSS (EXCEPT IFRAME CONTENT)
 	> IE7 have the same CSS except for buttons.
 	> These main css can be copied to the tiny_quattro_editor_ie7.css, just change the require template (see the last line)
@@ -5206,6 +5214,10 @@ i.mce-i-checkbox
 	white-space: normal;
 }
 
+.mce-tinymce-inline .mce-flow-layout {
+	white-space: nowrap;
+}
+
 .mce-iframe
 {
 	border: 0 solid {xen:property tinyquattro_standard_boder.border-color};
@@ -5275,6 +5287,7 @@ i.mce-i-checkbox
 
 .mce-menubtn span
 {
+	margin-right:2px;
 	line-height:20px;
 	*line-height:16px
 }
@@ -5910,7 +5923,7 @@ h6 { font-size: .75em; }
 		</xen:if>
 	</xen:foreach>
 </xen:if>]]></template>
-    <template title="tiny_quattro_js_setup" version_id="8" version_string="1.1.1"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_js_setup" version_id="10" version_string="1.1.3"><![CDATA[<xen:comment>
 	Load Quattro Integration JS files for 1.2
 </xen:comment>
 
@@ -6061,7 +6074,7 @@ h6 { font-size: .75em; }
 	xSmilies: {$xenOptions.quattro_xsmilies},
 	xenforo_smilies: {xen:helper json, $bbmSmilies},
 	bbmButtons: { <xen:include template="tiny_quattro_custom_buttons" /> }]]></template>
-    <template title="tiny_quattro_phrases" version_id="7" version_string="1.1.0"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_phrases" version_id="10" version_string="1.1.3"><![CDATA[<xen:comment>
 	We are inside a JavaScript file. All phrases must be escaped
 </xen:comment>
 
@@ -6083,7 +6096,7 @@ h6 { font-size: .75em; }
 	aligncenter_desc:  "{xen:jsescape {xen:phrase align_center}}",
 	alignrigth_desc: "{xen:jsescape {xen:phrase align_right}}",
 	alignjustify_desc: "{xen:jsescape {xen:phrase quattro_align_justify}}",
-	backcolor_desc: "{xen:jsescape {xen:phrase select_background_color}}",
+	backcolor_desc: "{xen:jsescape {xen:phrase sedo_quattro_select_background_color}}",
 	forecolor_desc: "{xen:jsescape {xen:phrase text_color}}",
 	bold_desc: "{xen:jsescape {xen:phrase bold_ctrl_b}}",
 	italic_desc: "{xen:jsescape {xen:phrase italic_ctrl_i}}",
@@ -6096,10 +6109,10 @@ h6 { font-size: .75em; }
 	indent_desc: "{xen:jsescape {xen:phrase indent}}",
 	bullist_desc: "{xen:jsescape {xen:phrase unordered_list}}",
 	numlist_desc: "{xen:jsescape {xen:phrase ordered_list}}",
-	xen_link_desc: "{xen:jsescape {xen:phrase insert_edit_link}}",
+	xen_link_desc: "{xen:jsescape {xen:phrase  sedo_quattro_insert_edit_link}}",
 	xen_unlink_desc: "{xen:jsescape {xen:phrase unlink}}",
 	xen_media_desc: "{xen:jsescape {xen:phrase media}}",
-	xen_image_desc: "{xen:jsescape {xen:phrase insert_edit_image}}",
+	xen_image_desc: "{xen:jsescape {xen:phrase sedo_quattro_insert_edit_image}}",
 	xen_code_desc: "{xen:jsescape {xen:phrase code}}",
 	xen_quote_desc: "{xen:jsescape {xen:phrase quote}}",
 	xen_smilies_desc: "{xen:jsescape {xen:phrase smilies}}",

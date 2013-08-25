@@ -793,7 +793,7 @@
 	var xenPlugin = 'xenMCE.Plugins.Auto';
 
 	/***
-	*	XenForo Switch Plugin: change editor RTE<=>BBCODE
+	*	XenForo Custom Buttons
 	*	Independent plugin
 	***/
 	tinymce.create(xenPlugin+'.BbmButtons', {
@@ -801,6 +801,7 @@
 		{
 			$.extend(this, parent);
 			this.ed = this.getEditor();
+			var ed = this.ed;
 			
 			var src = this, buttons = xenMCE.Params.bbmButtons, un = 'undefined';
 
@@ -827,7 +828,7 @@
 					config.onclick = function(e){
 						src.insertBbCode(tag, data.tagOpt, data.tagCont);
 					}
-				}else{
+				}else if (data._return != 'kill'){
 					config.onclick = function(e){
 						var ovlConfig, ovlCallbacks;
 						
@@ -845,6 +846,16 @@
 					
 						src.loadOverlay('bbm_'+data.template, ovlConfig, ovlCallbacks);
 					}
+				}
+				
+				if(data._return == 'kill'){
+					if(typeof ed.buttons[data.code] === un){
+						console.debug('Button not found - Activate your plugin before xenforo plugin');
+						return;						
+					}
+						
+					$.extend(ed.buttons[data.code], config);
+					return;
 				}
 				
 				src.ed.addButton(n, config);
