@@ -1212,7 +1212,13 @@
 		jQueryToolsFix: function(parent) 
 		{
 			var ed = parent.getEditor(), settings = xenMCE.Params;
-			
+
+			/* 2013/08/28: fix for the autoresize plugin needed with the overlay and with some browsers (IE, Chrome) */
+			ed.on('postrender', function(e) {
+				tinyMCE.activeEditor.execCommand('mceAutoResize', false, e);
+			});
+
+			/* 2013/08/28: These two fixes don't seem to be needed anymore. I'm going to wait a little then I will exclude them (just need to comment) from the minify version*/
 			ed.on('postrender', function(e) {
 				var doc = ed.getDoc();
 		
@@ -1605,9 +1611,9 @@
 					k = dom.encode(k);
 					
 					if(typeof v[1] === 'number'){
-						smiliesHtml += '<a href="#"><img src="styles/default/xenforo/clear.png" alt="'+k+'" '+dataTags+' class="'+prefix+' '+prefix+'Sprite mceSmilie'+v[1]+'"  /></a>';
+						smiliesHtml += '<a href="#"><img src="styles/default/xenforo/clear.png" alt="'+k+'" title="'+k+'" '+dataTags+' class="'+prefix+' '+prefix+'Sprite mceSmilie'+v[1]+'"  /></a>';
 					}else{
-						smiliesHtml += '<a href="#"><img src="'+dom.encode(v[1])+'" alt="'+k+'" '+dataTags+' class="'+prefix+'" /></a>';
+						smiliesHtml += '<a href="#"><img src="'+dom.encode(v[1])+'" alt="'+k+'" title="'+k+'" '+dataTags+' class="'+prefix+'" /></a>';
 					}
 
 					i++;

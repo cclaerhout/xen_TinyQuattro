@@ -439,6 +439,13 @@ true={xen:phrase yes}</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="130"/>
     </option>
+    <option option_id="quattro_autosave_autorestore" edit_format="radio" data_type="string" can_backup="1">
+      <default_value>true</default_value>
+      <edit_format_params>false={xen:phrase no}
+true={xen:phrase yes}</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="150"/>
+    </option>
     <option option_id="quattro_autosave_interval" edit_format="spinbox" data_type="positive_integer" can_backup="1">
       <default_value>30</default_value>
       <edit_format_params>min=10
@@ -621,6 +628,8 @@ step=1</edit_format_params>
     <phrase title="option_quattro_autoresize_min_height_explain" version_id="0" version_string="1.0"><![CDATA[This minimum height will be activated when the editor is focused.]]></phrase>
     <phrase title="option_quattro_autosave_ask_before_unload" version_id="0" version_string="1.0"><![CDATA[Ask before unload?]]></phrase>
     <phrase title="option_quattro_autosave_ask_before_unload_explain" version_id="0" version_string="1.0"><![CDATA[Once activated, this option will display a popup asking the user if he really wants to leave the page whereas the editor is not empty.]]></phrase>
+    <phrase title="option_quattro_autosave_autorestore" version_id="10" version_string="1.1.3"><![CDATA[Automatically restore draft when editor is empty]]></phrase>
+    <phrase title="option_quattro_autosave_autorestore_explain" version_id="10" version_string="1.1.3"><![CDATA[If you set this option on "Yes" then,  when a TinyMCE draft has been saved and the editor is empty, this draft will be automatically restore inside the editor. Once the message is sent, the draft will be erased. If you set this options on "No", the user can still get the draft back inside the editor. He just needs to manually click on the icon.]]></phrase>
     <phrase title="option_quattro_autosave_interval" version_id="0" version_string="1.0"><![CDATA[Autosave Interval]]></phrase>
     <phrase title="option_quattro_autosave_interval_explain" version_id="0" version_string="1.0"><![CDATA[Select here the interval to auto save your draft (unit: seconds)]]></phrase>
     <phrase title="option_quattro_autosave_retention" version_id="0" version_string="1.0"><![CDATA[Autosave Retention]]></phrase>
@@ -723,9 +732,9 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_nonbreaking" version_id="0" version_string="1.0"><![CDATA[Insert nonbreaking space]]></phrase>
     <phrase title="sedo_quattro_normal" version_id="0" version_string="1.0"><![CDATA[Normal]]></phrase>
     <phrase title="sedo_quattro_palette" version_id="0" version_string="1.0"><![CDATA[Color palette]]></phrase>
+    <phrase title="sedo_quattro_pasteastext" version_id="11" version_string="1.1.4"><![CDATA[Paste as text]]></phrase>
     <phrase title="sedo_quattro_paste_alert_message" version_id="4" version_string="1.0.4"><![CDATA[Please use Ctrl+V/Cmd+V keyboard shortcuts to paste contents.]]></phrase>
     <phrase title="sedo_quattro_paste_plain_alert_message" version_id="6" version_string="1.0.6"><![CDATA[Paste is now in plain text mode. Contents will now be pasted as plain text until you toggle this option off.]]></phrase>
-    <phrase title="sedo_quattro_pasteastext" version_id="11" version_string="1.1.4"><![CDATA[Paste as text]]></phrase>
     <phrase title="sedo_quattro_php" version_id="0" version_string="1.0"><![CDATA[PHP]]></phrase>
     <phrase title="sedo_quattro_prev" version_id="4" version_string="1.0.4"><![CDATA[Prev]]></phrase>
     <phrase title="sedo_quattro_replace" version_id="4" version_string="1.0.4"><![CDATA[Replace]]></phrase>
@@ -2247,7 +2256,7 @@ i.mce-i-backcolor
 </xen:if>
 </xen:foreach>
 ]]></template>
-    <template title="tiny_quattro_editor.css" version_id="9" version_string="1.1.2"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_editor.css" version_id="10" version_string="1.1.3"><![CDATA[<xen:comment>
 	ALL EDITOR CSS (EXCEPT IFRAME CONTENT)
 	> IE7 have the same CSS except for buttons.
 	> These main css can be copied to the tiny_quattro_editor_ie7.css, just change the require template (see the last line)
@@ -2370,6 +2379,7 @@ div.mce-fullscreen
 {
 	background: #FFF;
 	filter: none;
+	margin-right:1px; <xen:comment>Fix for Chrome with QuickReply</xen:comment>
 }
 
 .mce-statusbar
@@ -3319,7 +3329,7 @@ i.mce-i-checkbox
 
 .mce-combobox input
 {
-	border-color: 1px solid {xen:property tinyquattro_standard_boder.border-color};
+	border: 1px solid {xen:property tinyquattro_standard_boder.border-color};
 	border-right-color: rgba(0,0,0,0.15);
 	height: 28px;
 }
@@ -4011,7 +4021,7 @@ i.mce-i-resize
 </xen:comment>
 
 <xen:include template="tiny_quattro_buttons.css" />]]></template>
-    <template title="tiny_quattro_editor_ie7.css" version_id="9" version_string="1.1.2"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_editor_ie7.css" version_id="10" version_string="1.1.3"><![CDATA[<xen:comment>
 	ALL EDITOR CSS (EXCEPT IFRAME CONTENT)
 	> IE7 have the same CSS except for buttons.
 	> These main css can be copied to the tiny_quattro_editor_ie7.css, just change the require template (see the last line)
@@ -4134,6 +4144,7 @@ div.mce-fullscreen
 {
 	background: #FFF;
 	filter: none;
+	margin-right:1px; <xen:comment>Fix for Chrome with QuickReply</xen:comment>
 }
 
 .mce-statusbar
@@ -5083,7 +5094,7 @@ i.mce-i-checkbox
 
 .mce-combobox input
 {
-	border-color: 1px solid {xen:property tinyquattro_standard_boder.border-color};
+	border: 1px solid {xen:property tinyquattro_standard_boder.border-color};
 	border-right-color: rgba(0,0,0,0.15);
 	height: 28px;
 }
@@ -5997,7 +6008,7 @@ h6 { font-size: .75em; }
 				plugins: [
 				 "advlist autolink lists charmap visualchars fullscreen",
 				 "directionality searchreplace",
-				 "paste textcolor xenforo autoresize autosave"
+				 "paste textcolor autoresize autosave xenforo"
 				],
 				resize: false,
 				object_resizing: false,
@@ -6006,6 +6017,7 @@ h6 { font-size: .75em; }
 				autoresize_max_height: {$xenOptions.quattro_autoresize_max_height},
 				autosave_interval: '{$xenOptions.quattro_autosave_interval}s',
 				autosave_retention: '{$xenOptions.quattro_autosave_retention}m',
+				autosave_restore_when_empty: {$xenOptions.quattro_autosave_autorestore},
 				directionality: '{$visitorLanguage.text_direction}',<xen:comment>Must be set by a BM</xen:comment>
 				document_base_url: "{xen:jsescape $requestPaths.fullBasePath}",	
 				autosave_ask_before_unload: {$xenOptions.quattro_autosave_ask_before_unload},
