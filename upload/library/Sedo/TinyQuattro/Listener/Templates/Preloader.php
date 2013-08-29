@@ -18,10 +18,10 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 					'quattroGrid' => array(), 				//default bbm param
 					'customQuattroButtonsCss' => array(), 			//default bbm param
 					'customQuattroButtonsJs' => array(), 				//default bbm param
-					'showWysiwyg' => self::_showWysiwyg(), 			//XenForo param
 					'bbmSmilies' => Sedo_TinyQuattro_Helper_Editor::getEditorSmilies()
 				);
 				
+				$params['showWysiwyg'] = self::_showWysiwyg();
 	   		break;
 		}
 	}
@@ -79,7 +79,7 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 		{
 			$showWysiwyg = !$isMobile;
 		}
-		
+
 		return $showWysiwyg;
 	}
 }
