@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.1.5" version_id="12" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.1.6" version_id="13" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -563,6 +563,14 @@ true={xen:phrase yes}</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="60"/>
     </option>
+    <option option_id="quattro_smilies_desc" edit_format="select" data_type="string" can_backup="1">
+      <default_value>full</default_value>
+      <edit_format_params>full={xen:phrase sedo_quattro_smilies_desc_full}
+bbcode={xen:phrase sedo_quattro_smilies_desc_bbcode}
+none={xen:phrase sedo_quattro_smilies_desc_none}</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="540"/>
+    </option>
     <option option_id="quattro_smilies_slider" edit_format="onoff" data_type="boolean" can_backup="1">
       <default_value>0</default_value>
       <edit_format_params></edit_format_params>
@@ -683,6 +691,8 @@ This patch is enable by default.]]></phrase>
  This patch is enable by default.]]></phrase>
     <phrase title="option_quattro_paste_as_text" version_id="6" version_string="1.0.6"><![CDATA[Plain text mode by default]]></phrase>
     <phrase title="option_quattro_paste_as_text_explain" version_id="6" version_string="1.0.6"><![CDATA[Select this option if you want to activate by default the plain text mode when a user pastes a text inside the editor. He will be able to enable it again if you have inserted the plain text button inside the buttons bar.]]></phrase>
+    <phrase title="option_quattro_smilies_desc" version_id="12" version_string="1.1.5"><![CDATA[Smilies description]]></phrase>
+    <phrase title="option_quattro_smilies_desc_explain" version_id="12" version_string="1.1.5"><![CDATA[Choose what kind of description should be displayed on mouse over.]]></phrase>
     <phrase title="option_quattro_smilies_slider" version_id="3" version_string="1.0.3"><![CDATA[[Modal button] Use the smilies slider ?]]></phrase>
     <phrase title="option_quattro_smilies_slider_explain" version_id="3" version_string="1.0.3"><![CDATA[The "smilies slider" will load a slider with your smilies. The biggest difference is of course the slider but also the loading method. The  smilies modal will be loaded programmatically (TinyMCE feature) whereas the the smilies slider overlay will be loaded using the XenForo template system. The first method is faster.<br />
 <br />
@@ -746,6 +756,9 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_size" version_id="7" version_string="1.1.0"><![CDATA[Size]]></phrase>
     <phrase title="sedo_quattro_small" version_id="0" version_string="1.0"><![CDATA[Small]]></phrase>
     <phrase title="sedo_quattro_smiliespicker" version_id="4" version_string="1.0.4"><![CDATA[Smilies picker]]></phrase>
+    <phrase title="sedo_quattro_smilies_desc_bbcode" version_id="12" version_string="1.1.5"><![CDATA[Bb Code description]]></phrase>
+    <phrase title="sedo_quattro_smilies_desc_full" version_id="12" version_string="1.1.5"><![CDATA[Full description]]></phrase>
+    <phrase title="sedo_quattro_smilies_desc_none" version_id="12" version_string="1.1.5"><![CDATA[No description]]></phrase>
     <phrase title="sedo_quattro_specialcharacters" version_id="0" version_string="1.0"><![CDATA[Special characters]]></phrase>
     <phrase title="sedo_quattro_whole_words" version_id="4" version_string="1.0.4"><![CDATA[Whole words]]></phrase>
     <phrase title="sedo_quattro_wordcount_characters" version_id="0" version_string="1.0"><![CDATA[Yes - count characters]]></phrase>
@@ -5935,7 +5948,7 @@ h6 { font-size: .75em; }
 		</xen:if>
 	</xen:foreach>
 </xen:if>]]></template>
-    <template title="tiny_quattro_js_setup" version_id="10" version_string="1.1.3"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_js_setup" version_id="12" version_string="1.1.5"><![CDATA[<xen:comment>
 	Load Quattro Integration JS files for 1.2
 </xen:comment>
 
@@ -6007,9 +6020,9 @@ h6 { font-size: .75em; }
 				toolbar_items_size: '{$xenOptions.quattro_iconsize}',
 				plugins: [
 				 "advlist autolink lists charmap visualchars fullscreen",
-				 "directionality searchreplace",
+				 "directionality searchreplace", 
 				 "paste textcolor autoresize autosave xenforo"
-				],
+				], <xen:comment>TO DO: contextmenu table</xen:comment>
 				resize: false,
 				object_resizing: false,
 				browser_spellcheck: {$xenOptions.quattro_enable_browser_spellcheck},
@@ -6066,7 +6079,7 @@ h6 { font-size: .75em; }
 <xen:edithint template="tiny_quattro_buttons_ie7.css" />
 <xen:edithint template="tiny_quattro_custom_buttons" />
 ]]></template>
-    <template title="tiny_quattro_params" version_id="7" version_string="1.1.0"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_params" version_id="12" version_string="1.1.5"><![CDATA[<xen:comment>
 	We are inside a JavaScript file. All phrases must be escaped
 </xen:comment>
 	<xen:comment>extend</xen:comment>
@@ -6085,6 +6098,7 @@ h6 { font-size: .75em; }
 	overlaySmiliesSize: { w: "{xen:property tinyquattro_smiliespicker_width}", h: "{xen:property tinyquattro_smiliespicker_height}" },
 	smiliesSlider: {$xenOptions.quattro_smilies_slider},
 	xSmilies: {$xenOptions.quattro_xsmilies},
+	smiliesDesc: '{$xenOptions.quattro_smilies_desc}',
 	xenforo_smilies: {xen:helper json, $bbmSmilies},
 	bbmButtons: { <xen:include template="tiny_quattro_custom_buttons" /> }]]></template>
     <template title="tiny_quattro_phrases" version_id="11" version_string="1.1.4"><![CDATA[<xen:comment>

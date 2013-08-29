@@ -850,7 +850,7 @@
 				
 				if(data._return == 'kill'){
 					if(typeof ed.buttons[data.code] === un){
-						console.debug('Button not found - Activate your plugin before xenforo plugin');
+						console.debug('Button "'+data.code+'" not found - Dev: activate your plugin before xenforo plugin / Admin: Delete it from the BBM');
 						return;						
 					}
 						
@@ -915,9 +915,13 @@
 					$(fullscreen).trigger('click');
 			}
 
+			var args = {content: this.ed.getContent()};
+			this.ed.fire('XenSwitchToBbCode', args);
+			var html = args.content;
+
 			XenForo.ajax(
 				'index.php?editor/to-bb-code',
-				{ html: this.ed.getContent() },
+				{ html: html },
 				$.proxy(this, 'wysiwygToBbCodeSuccess')
 			);
 		},
@@ -978,8 +982,13 @@
 	
 			$existingTextArea.attr('disabled', false);
 			$container.show();
+
+
+			var args = {content: ajaxData.html};
+			this.ed.fire('XenSwitchToWysiwyg', args);
+			var html = args.content;
 	
-			this.ed.setContent(ajaxData.html);
+			this.ed.setContent(html);
 			this.ed.focus();
 	
 			this.$bbCodeTextContainer.remove();
@@ -1250,6 +1259,39 @@
 					};
 				};
 			}
+		}
+	});
+
+
+	/***
+	*	TinyMCE Table plugin Integration
+	*
+	***/
+	tinymce.create(xenPlugin+'.TableIntegration', {
+		TableIntegration: function(parent) 
+		{
+			return false;//WIP
+			
+			this.ed = parent.getEditor();
+			var self = this, ed = this.ed, settings = xenMCE.Params;
+		
+			ed.on('postProcess XenSwitchToBbCode', function(e) {
+				self.EditorContent = e.content;
+				e.content = self.TableToBbCodes();
+			});
+			
+			ed.on('beforeSetContent XenSwitchToWysiwyg', function(e) {
+				self.EditorContent = e.content;
+				e.content = self.TableToWysiwyg();
+			});
+		},
+		TableToBbCodes: function()
+		{
+			return this.EditorContent;
+		},
+		TableToWysiwyg: function()
+		{
+			return this.EditorContent;
 		}
 	});
 
@@ -1608,15 +1650,22 @@
 				**/
 				
 				tinymce.each(smilies, function(v, k) {
+					var smilieInfo = { id: v[1], desc: v[0]};
+					k = dom.encode(k);
+					
+					if(src.params.smiliesDesc == 'bbcode'){
+						smilieInfo.desc = k;
+					}else if(src.params.smiliesDesc == 'none'){
+						smilieInfo.desc = '';					
+					}
+
 					if(i_max != 0 && i > i_max)
 						return false;
 
-					k = dom.encode(k);
-					
-					if(typeof v[1] === 'number'){
-						smiliesHtml += '<a href="#"><img src="styles/default/xenforo/clear.png" alt="'+k+'" title="'+k+'" '+dataTags+' class="'+prefix+' '+prefix+'Sprite mceSmilie'+v[1]+'"  /></a>';
+					if(typeof smilieInfo.id === 'number'){
+						smiliesHtml += '<a href="#"><img src="styles/default/xenforo/clear.png" alt="'+smilieInfo.bbcode+'" title="'+smilieInfo.desc+'" '+dataTags+' class="'+prefix+' '+prefix+'Sprite mceSmilie'+smilieInfo.id+'"  /></a>';
 					}else{
-						smiliesHtml += '<a href="#"><img src="'+dom.encode(v[1])+'" alt="'+k+'" title="'+k+'" '+dataTags+' class="'+prefix+'" /></a>';
+						smiliesHtml += '<a href="#"><img src="'+dom.encode(smilieInfo.id)+'" alt="'+smilieInfo.bbcode+'" title="'+smilieInfo.desc+'" '+dataTags+' class="'+prefix+'" /></a>';
 					}
 
 					i++;
