@@ -1214,8 +1214,11 @@
 			var ed = parent.getEditor(), settings = xenMCE.Params;
 
 			/* 2013/08/28: fix for the autoresize plugin needed with the overlay and with some browsers (IE, Chrome) */
-			ed.on('postrender', function(e) {
-				tinyMCE.activeEditor.execCommand('mceAutoResize', false, e);
+			ed.on('postrender', function(e) { //other event possible: focus
+				$container = $(ed.getContainer());
+				if($container.parents('form').hasClass('InlineMessageEditor')){
+					tinyMCE.activeEditor.execCommand('mceAutoResize', false, e);
+				}
 			});
 
 			/* 2013/08/28: These two fixes don't seem to be needed anymore. I'm going to wait a little then I will exclude them (just need to comment) from the minify version*/
