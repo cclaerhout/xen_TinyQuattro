@@ -12,6 +12,9 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 				);
 		   	break;
 		   	case 'editor':
+				$bbmShowWysiwyg = self::_showWysiwyg();
+				$xenShowWysiwyg = $params['showWysiwyg'];
+				
 				$params += array(
 					'loadQuattro' => self::_checkQuattroPermissions(), 	//quattro param
 					'quattroIntegration' => self::_quattroIntegration(),	//quattro integration js (for 1.2)
@@ -21,7 +24,12 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 					'bbmSmilies' => Sedo_TinyQuattro_Helper_Editor::getEditorSmilies()
 				);
 				
-				$params['showWysiwyg'] = self::_showWysiwyg();
+				if($xenShowWysiwyg == false && $bbmShowWysiwyg == true)
+				{
+					$params['formCtrlNameHtml'] =  $params['formCtrlNameHtml'] . '_html';
+				}
+				
+				$params['showWysiwyg'] = $bbmShowWysiwyg;
 	   		break;
 		}
 	}
