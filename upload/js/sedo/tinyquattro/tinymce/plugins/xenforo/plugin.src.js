@@ -1650,8 +1650,7 @@
 				**/
 				
 				tinymce.each(smilies, function(v, k) {
-					var smilieInfo = { id: v[1], desc: v[0]};
-					k = dom.encode(k);
+					var smilieInfo = { id: v[1], desc: v[0], bbcode: dom.encode(k)};
 					
 					if(src.params.smiliesDesc == 'bbcode'){
 						smilieInfo.desc = k;
