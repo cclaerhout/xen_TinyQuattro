@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.1.6" version_id="13" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.2.0" version_id="14" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -406,6 +406,7 @@ i.mce-i-backcolor
   <code_events/>
   <code_event_listeners>
     <listener event_id="editor_setup" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_EditorSetup" callback_method="ExtendOptions" active="1" hint="" description="Extend Editor Template Variables"/>
+    <listener event_id="load_class" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_LoadClass" callback_method="Listen" active="1" hint="" description="Load Class: DESC TO DO"/>
     <listener event_id="load_class_bb_code" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_BbCode" callback_method="listen" active="1" hint="" description="BbCode &gt; Wysiwyg HTML Parser Patch"/>
     <listener event_id="load_class_controller" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_ControllerPublic" callback_method="listen" active="1" hint="" description="Controller Public Listener"/>
     <listener event_id="load_class_datawriter" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_Datawriter" callback_method="listen" active="1" hint="" description="Datawriter listener"/>
@@ -484,6 +485,15 @@ step=5</edit_format_params>
 true={xen:phrase yes}</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="50"/>
+    </option>
+    <option option_id="quattro_extra_bbcodes" edit_format="checkbox" data_type="array" can_backup="1">
+      <default_value></default_value>
+      <edit_format_params>bcolor={xen:phrase sedo_quattro_extra_bbcodes_bcolor}
+justify={xen:phrase sedo_quattro_extra_bbcodes_justify}</edit_format_params>
+      <sub_options>bcolor
+justify
+table</sub_options>
+      <relation group_id="tiny_quattro" display_order="600"/>
     </option>
     <option option_id="quattro_extracolors" edit_format="radio" data_type="boolean" can_backup="1">
       <default_value>1</default_value>
@@ -658,6 +668,8 @@ This patch is enable by default.]]></phrase>
     <phrase title="option_quattro_extracolors_explain" version_id="0" version_string="1.0"><![CDATA[This option will add a menu to the colors buttons (frontcolor/backcolor) to load a color picker.]]></phrase>
     <phrase title="option_quattro_extralists" version_id="0" version_string="1.0"><![CDATA[Enable extra lists?]]></phrase>
     <phrase title="option_quattro_extralists_explain" version_id="0" version_string="1.0"><![CDATA[The TinyMCE default list buttons have several options incompatible with the XenForo parser (it would need to be extendable to try to integrate them). This option must be set to "no" until XenForo becomes more open.]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes" version_id="13" version_string="1.1.6"><![CDATA[Extra Bb Codes]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_explain" version_id="13" version_string="1.1.6"><![CDATA[These Bb Codes will be added to XenForo (<b>only > 1.2</b>) and will work with their TinyMCE Quattro functions, which means they will have a Wysiwyg output. They should work with the XenForo redactor too, but these functions and their buttons will have to be coded or activated (if someone wants this, feel free to do it, but I will not).]]></phrase>
     <phrase title="option_quattro_fastunlink" version_id="0" version_string="1.0"><![CDATA[Enable fast unlink menu?]]></phrase>
     <phrase title="option_quattro_fastunlink_explain" version_id="0" version_string="1.0"><![CDATA[This option will add a fast menu with an unlink option to the link button]]></phrase>
     <phrase title="option_quattro_frightmode" version_id="0" version_string="1.0"><![CDATA[Enable "Fright" mode?]]></phrase>
@@ -718,6 +730,8 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_color" version_id="0" version_string="1.0"><![CDATA[Selected color]]></phrase>
     <phrase title="sedo_quattro_colorname" version_id="0" version_string="1.0"><![CDATA[Color name]]></phrase>
     <phrase title="sedo_quattro_colors_picker" version_id="0" version_string="1.0"><![CDATA[Colors picker]]></phrase>
+    <phrase title="sedo_quattro_extra_bbcodes_bcolor" version_id="13" version_string="1.1.6"><![CDATA[Background Color BbCode: [bcolor]]]></phrase>
+    <phrase title="sedo_quattro_extra_bbcodes_justify" version_id="13" version_string="1.1.6"><![CDATA[Justify Align BbCode: [justify]]]></phrase>
     <phrase title="sedo_quattro_find" version_id="4" version_string="1.0.4"><![CDATA[Find]]></phrase>
     <phrase title="sedo_quattro_find_and_replace" version_id="4" version_string="1.0.4"><![CDATA[Find and replace]]></phrase>
     <phrase title="sedo_quattro_font_family" version_id="0" version_string="1.0"><![CDATA[Font family]]></phrase>
@@ -5948,7 +5962,7 @@ h6 { font-size: .75em; }
 		</xen:if>
 	</xen:foreach>
 </xen:if>]]></template>
-    <template title="tiny_quattro_js_setup" version_id="12" version_string="1.1.5"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_js_setup" version_id="13" version_string="1.1.6"><![CDATA[<xen:comment>
 	Load Quattro Integration JS files for 1.2
 </xen:comment>
 

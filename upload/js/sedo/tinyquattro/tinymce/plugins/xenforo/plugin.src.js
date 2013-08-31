@@ -1267,6 +1267,7 @@
 	*	TinyMCE Table plugin Integration
 	*
 	***/
+	/*
 	tinymce.create(xenPlugin+'.TableIntegration', {
 		TableIntegration: function(parent) 
 		{
@@ -1294,6 +1295,7 @@
 			return this.EditorContent;
 		}
 	});
+	*/
 
 	/***
 	*	TinyMCE fullscreen plugin modified for XenForo

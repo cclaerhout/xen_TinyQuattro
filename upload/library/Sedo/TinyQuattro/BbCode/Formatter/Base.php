@@ -1,5 +1,5 @@
 <?php
-class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg
+class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCode_Formatter_Base
 {
 	public function getTags()
 	{
@@ -33,38 +33,19 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 		
 		return $parentTags;
 	}
-	
-	public function filterFinalOutput($output)
-	{
-		$parent = parent::filterFinalOutput($output);
-
-		if(!XenForo_Application::get('options')->get('quattro_parser_bb_to_wysiwyg'))
-		{
-			return $parent;
-		}
-
-		$emptyParaText = (XenForo_Visitor::isBrowsingWith('ie') ? '&nbsp;' : '<br />');
-
-		//Fix Pacman effect with ol/ul with RTE editing
-		$parent = preg_replace('#(</(ul|ol)>)\s</p>#', '$1<p>' . $emptyParaText . '</p>', $parent);
-
-		//Fix for tabs (From DB to RTE editor && from Bb Code editor to rte Editor)
-		$parent = preg_replace('#\t#', '&nbsp;&nbsp;&nbsp;&nbsp;', $parent);
-
-		return $parent;
-	}
 
 	public function renderTagAlign(array $tag, array $rendererStates)
 	{
 		$parentOuput = parent::renderTagAlign($tag, $rendererStates);
-		
+
 		if(strtolower($tag['tag']) == 'justify' && Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('justify'))
 		{
 			$text = $this->renderSubTree($tag['children'], $rendererStates);
-			return $this->_wrapInHtml('<p style="text-align: ' . $tag['tag'] . '">', '</p>', $text) . "<break-start />\n";
+			$invisibleSpace = $this->_endsInBlockTag($text) ? '' : '&#8203;';
+			return $this->_wrapInHtml('<div style="text-align: ' . $tag['tag'] . '">', $invisibleSpace. '</div>', $text);
 		}
 		
 		return $parentOuput;
-	}
+	}	
 }
 //Zend_Debug::dump($parent);
