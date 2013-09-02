@@ -128,7 +128,7 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 		//Execute
 		$this->_manageMceTableAttributes($tag);
 		
-		//Check
+		//Check & Patch
 		if(empty($this->_mceTableAttributes))
 		{
 			return '';
@@ -180,7 +180,7 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 				$this->_checkMceTableAttribute('width', $tag->attribute('width'));
 				$this->_checkMceTableAttribute('height', $tag->attribute('height'));
 
-				//Css after (will override the direct attributes)
+				//Css after (will override some of the direct attributes)
 				if ($css)
 				{
 					foreach ($css AS $cssRule => $cssValue)
@@ -200,6 +200,10 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 						{
 							$this->_checkMceTableAttribute('css_float', $cssValue);						
 						}
+						elseif($cssRule == 'background-color')
+						{
+							$this->_checkMceTableAttribute('css_background-color', $cssValue);						
+						}
 					}
 					
 					$alignRules = array_merge(array('margin-left' => '', 'margin-right' => ''), $css);
@@ -214,16 +218,165 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 				$this->_checkMceTableAttribute('valign', $tag->attribute('valign'));
 				break;
 			case 'colgroup':
+				$this->_checkMceTableAttribute('align', $tag->attribute('align'));			
+				$this->_checkMceTableAttribute('valign', $tag->attribute('valign'));
+				$this->_checkMceTableAttribute('width', $tag->attribute('width'));
+				$this->_checkMceTableAttribute('height', $tag->attribute('height'));
+
+				//Css after (will override some of the direct attributes)
+				if ($css)
+				{
+					foreach ($css AS $cssRule => $cssValue)
+					{
+						$cssRule  = strtolower($cssRule);
+						$cssValue = strtolower($cssValue);
+						
+						if($cssRule == 'width')
+						{
+							$this->_checkMceTableAttribute('css_width', $cssValue);
+						}
+						elseif($cssRule == 'height')
+						{
+							$this->_checkMceTableAttribute('css_height', $cssValue);
+						}
+						elseif($cssRule == 'background-color')
+						{
+							$this->_checkMceTableAttribute('css_background-color', $cssValue);						
+						}
+					}
+				}				
 				break;
-			case 'col': 
+			case 'col':
+				$this->_checkMceTableAttribute('align', $tag->attribute('align'));			
+				$this->_checkMceTableAttribute('valign', $tag->attribute('valign'));
+				$this->_checkMceTableAttribute('width', $tag->attribute('width'));
+				$this->_checkMceTableAttribute('height', $tag->attribute('height'));
+				$this->_checkMceTableAttribute('span', $tag->attribute('span'));
+
+				//Css after (will override some of the direct attributes)
+				if ($css)
+				{
+					foreach ($css AS $cssRule => $cssValue)
+					{
+						$cssRule  = strtolower($cssRule);
+						$cssValue = strtolower($cssValue);
+						
+						if($cssRule == 'width')
+						{
+							$this->_checkMceTableAttribute('css_width', $cssValue);
+						}
+						elseif($cssRule == 'height')
+						{
+							$this->_checkMceTableAttribute('css_height', $cssValue);
+						}
+						elseif($cssRule == 'background-color')
+						{
+							$this->_checkMceTableAttribute('css_background-color', $cssValue);						
+						}
+					}
+				}
 				break;
-			case 'caption': 
-				break;
-			case 'th':
+			case 'caption':
+				$this->_checkMceTableAttribute('align', $tag->attribute('align'));
+
+				//Css after (will override some of the direct attributes)
+				if ($css)
+				{
+					foreach ($css AS $cssRule => $cssValue)
+					{
+						$cssRule  = strtolower($cssRule);
+						$cssValue = strtolower($cssValue);
+						
+						if($cssRule == 'width')
+						{
+							$this->_checkMceTableAttribute('css_width', $cssValue);
+						}
+						elseif($cssRule == 'height')
+						{
+							$this->_checkMceTableAttribute('css_height', $cssValue);
+						}
+						elseif($cssRule == 'background-color')
+						{
+							$this->_checkMceTableAttribute('css_background-color', $cssValue);						
+						}
+						elseif($cssRule == 'text-align')
+						{
+							$this->_checkMceTableAttribute('css_text-align', $cssValue);
+						}
+					}
+				}
 				break;
 			case 'tr':
+				$this->_checkMceTableAttribute('align', $tag->attribute('align'));
+				$this->_checkMceTableAttribute('valign', $tag->attribute('valign'));
+				$this->_checkMceTableAttribute('bgcolor', $tag->attribute('bgcolor'));
+				//Css after (will override some of the direct attributes)
+				if ($css)
+				{
+					foreach ($css AS $cssRule => $cssValue)
+					{
+						$cssRule  = strtolower($cssRule);
+						$cssValue = strtolower($cssValue);
+						
+						if($cssRule == 'width')
+						{
+							$this->_checkMceTableAttribute('css_width', $cssValue);
+						}
+						elseif($cssRule == 'height')
+						{
+							$this->_checkMceTableAttribute('css_height', $cssValue);
+						}
+						elseif($cssRule == 'background-color')
+						{
+							$this->_checkMceTableAttribute('css_background-color', $cssValue);						
+						}
+						elseif($cssRule == 'text-align')
+						{
+							$this->_checkMceTableAttribute('css_text-align', $cssValue);
+						}
+					}
+				}
+				
 				break;
+			case 'th':
 			case 'td':
+				$this->_checkMceTableAttribute('align', $tag->attribute('align'));
+				$this->_checkMceTableAttribute('valign', $tag->attribute('valign'));
+				$this->_checkMceTableAttribute('bgcolor', $tag->attribute('bgcolor'));
+				$this->_checkMceTableAttribute('colspan', $tag->attribute('colspan'));
+				$this->_checkMceTableAttribute('width', $tag->attribute('width'));
+				$this->_checkMceTableAttribute('height', $tag->attribute('height'));
+				$this->_checkMceTableAttribute('nowrap', $tag->attribute('nowrap'));
+				$this->_checkMceTableAttribute('rowspan', $tag->attribute('rowspan'));
+				$this->_checkMceTableAttribute('scope', $tag->attribute('scope'));
+
+				//Css after (will override some of the direct attributes)
+				if ($css)
+				{
+					foreach ($css AS $cssRule => $cssValue)
+					{
+						$cssRule  = strtolower($cssRule);
+						$cssValue = strtolower($cssValue);
+						
+						if($cssRule == 'width')
+						{
+							$this->_checkMceTableAttribute('css_width', $cssValue);
+						}
+						elseif($cssRule == 'height')
+						{
+							$this->_checkMceTableAttribute('css_height', $cssValue);
+						}
+						elseif($cssRule == 'background-color')
+						{
+							$this->_checkMceTableAttribute('css_background-color', $cssValue);						
+						}
+						elseif($cssRule == 'text-align')
+						{
+							$this->_checkMceTableAttribute('css_text-align', $cssValue);
+						}						
+					}
+				}
+				
 				break;
 		}
 	}
@@ -249,6 +402,7 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 		switch ($attribute)
 		{
 			case 'align':
+			case 'css_text-align':
 				if(in_array($value, array('left','center','right','justify')))
 				{
 					if($block == true && $value != 'justify')
@@ -262,42 +416,42 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 					}
 				}
 				break;
-			case 'valign':
-				if(in_array($value, array('bottom','middle','top','baseline')))
-				{
-					$this->_addMceTableAddAttribute($attribute, $value);
-				}
-				break;	
 			case 'bgcolor':
+			case 'css_background-color':
 				if(preg_match($hexaRgbColorPattern, $value))
 				{
-					$this->_addMceTableAddAttribute($attribute, $value);
+					$this->_addMceTableAddAttribute('bcolor', "bcolor:$value");
 				}
 				break;
 			case 'border':
 				$value = (int) $value;
 				if( $value > 0 && $value < 10 )
 				{
-					$this->_addMceTableAddAttribute($attribute, "b$value");
+					$this->_addMceTableAddAttribute($attribute, "border:$value");
 				}
 				break;
 			case 'cellpadding':
 				if(preg_match($twoDigitsMaxPattern, $value))
 				{
-					$this->_addMceTableAddAttribute($attribute, "p$value");
+					$this->_addMceTableAddAttribute($attribute, "cellpadding:$value");
 				}
 				break;
 			case 'cellspacing':
 				if(preg_match($twoDigitsMaxPattern, $value))
 				{
-					$this->_addMceTableAddAttribute($attribute, "s$value");
+					$this->_addMceTableAddAttribute($attribute, "cellspacing:$value");
 				}
-				break;					
-			case 'width':
-			case 'css_width':
-				if(preg_match($sizePxPercenPattern, $value))
+				break;	
+			case 'colspan':
+				if(preg_match($twoDigitsMaxPattern, $value))
 				{
-					$this->_addMceTableAddAttribute('width', $value);
+					$this->_addMceTableAddAttribute('colspan', "colspan:$value");
+				}
+				break;
+			case 'css_float':
+				if(in_array($value, array('left', 'right')))
+				{
+					$this->_addMceTableAddAttribute('float', "f$value");
 				}
 				break;
 			case 'height':
@@ -307,10 +461,41 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 					$this->_addMceTableAddAttribute('height', $value);
 				}
 				break;
-			case 'css_float':
-				if(in_array($value, array('left', 'right')))
+			case 'nowrap':
+				if($value == 'nowrap')
 				{
-					$this->_addMceTableAddAttribute('float', "f$value");
+					$this->_addMceTableAddAttribute('nowrap', "nowrap");
+				}
+				break;
+			case 'rowspan':
+				if(preg_match($twoDigitsMaxPattern, $value))
+				{
+					$this->_addMceTableAddAttribute('rowspan', "rowspan:$value");
+				}
+				break;
+			case 'scope':
+				if(in_array($value, array('col', 'colgroup', 'row', 'rowgroup')))
+				{
+					$this->_addMceTableAddAttribute($attribute, $value);
+				}
+				break;
+			case 'span':
+				if(preg_match($twoDigitsMaxPattern, $value))
+				{
+					$this->_addMceTableAddAttribute($attribute, "span:$value");
+				}
+				break;				
+			case 'valign':
+				if(in_array($value, array('bottom','middle','top','baseline')))
+				{
+					$this->_addMceTableAddAttribute($attribute, $value);
+				}
+				break;
+			case 'width':
+			case 'css_width':
+				if(preg_match($sizePxPercenPattern, $value))
+				{
+					$this->_addMceTableAddAttribute('width', $value);
 				}
 				break;
 		}
