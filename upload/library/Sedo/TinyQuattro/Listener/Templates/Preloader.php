@@ -7,11 +7,25 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 		switch ($templateName)
 		{
 		   	case 'PAGE_CONTAINER':
+   				$visitor = XenForo_Visitor::getInstance();
+
+				if(!$visitor->enable_rte)
+				{
+					break;
+				}
+				
 				$params += array(
 					'quattroIntegration' => (self::_checkQuattroPermissions() && self::_quattroIntegration()) //quattro integration js (for 1.2)
 				);
 		   	break;
 		   	case 'editor':
+   				$visitor = XenForo_Visitor::getInstance();
+
+				if(!$visitor->enable_rte)
+				{
+					break;
+				}
+				
 				$bbmShowWysiwyg = self::_showWysiwyg();
 				$xenShowWysiwyg = $params['showWysiwyg'];
 				
@@ -59,6 +73,11 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 			{
 				//No permission to load TinyQuattro
 				$enable = false;
+			}
+			
+			if(!$visitor->enable_rte)
+			{
+				$enable = false;			
 			}
 				
 			self::$QuattroPerms = $enable;

@@ -26,6 +26,11 @@ class Sedo_TinyQuattro_Helper_Quattro
 			//No permission to load TinyQuattro
 			$enable = false;
 		}
+
+		if(!$visitor->enable_rte)
+		{
+			$enable = false;			
+		}
 			
 		return $enable;
 	}

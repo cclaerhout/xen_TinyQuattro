@@ -7,6 +7,10 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 		{
 			$this->_cssHandlers += array('background-color' => array('$this', 'handleCssBckgndColor'));
 		}
+
+		return parent::__construct($options); 
+		
+		//WIP
 		
 		if(	is_array($this->_handlers) 
 			&& Sedo_TinyQuattro_Helper_Quattro::isEnabled()) //only if TinyQuattro in enabled - reason: if other table bbcodes exist don't mess with them
