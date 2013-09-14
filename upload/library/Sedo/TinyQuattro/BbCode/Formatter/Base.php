@@ -46,6 +46,6 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 		}
 		
 		return $parentOuput;
-	}	
+	}
 }
 //Zend_Debug::dump($parent);

@@ -29,6 +29,18 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 				);			
 			
 			}
+
+			//WIP
+			/*
+			if(Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('justify'))
+			{
+				$parentTags += array(
+					'xtable' => array(
+						'callback' => array($this, 'renderTagSedoXtable'),
+					)
+				);			
+			}
+			*/
 		}
 		
 		return $parentTags;
@@ -65,6 +77,75 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 		}
 		
 		return $parentOuput;
+	}
+	
+	//WIP
+	public function renderTagSedoXtable(array $tag, array $rendererStates)
+	{
+		$content = $this->renderSubTree($tag['children'], $rendererStates);
+
+		$slaveTags = array(
+			'thead' => array(
+				'a' => '',
+				'b' => ''
+			),
+			'tbody' => array(
+				'a' => '',
+				'b' => ''
+			),
+			'tfoot' => array(
+				'a' => '',
+				'b' => ''
+			),
+			'colgroup' => array(
+				'a' => '',
+				'b' => ''
+			),
+			'caption' => array(
+				'a' => '',
+				'b' => ''
+			),
+			'tr' => array(
+				'a' => '',
+				'b' => ''
+			),
+			'col' => array(
+				'a' => '',
+				'b' => ''
+			),
+			'td' => array(
+				'a' => '',
+				'b' => ''
+			),
+			'th' => array(
+				'a' => '',
+				'b' => ''
+			)
+		);
+
+		$test = new Sedo_TinyQuattro_Helper_MiniParser($content, 'xtable', $slaveTags);
+		break;
+
+		$L0 = '{(thead|tbody|tfoot)(=(\[([\w\d]+)(?:=.+?)?\].+?\[/\4\]|[^{}]+)+?)?}(.*?){/\1}(?!(?:\W+)?{/\1})';
+		$L1 = '{(colgroup|caption|tr)(=(\[([\w\d]+)(?:=.+?)?\].+?\[/\4\]|[^{}]+)+?)?}(.*?){/\1}(?!(?:\W+)?{/\1})';
+		$L2 = '{(col|td|th)(=(\[([\w\d]+)(?:=.+?)?\].+?\[/\4\]|[^{}]+)+?)?}(.*?){/\1}(?!(?:\W+)?{/\1})';
+
+
+		$start  = strpos($content, '{');
+		$end    = strpos($str, '}', $start + 1);
+		$length = $end - $start;
+		$result = substr($str, $start + 1, $length - 1);
+
+
+		preg_match_all("#$L0#is", $content, $matches, PREG_SET_ORDER);
+		$content = ''; //RAZ
+
+		foreach($matches as $match)
+		{
+			preg_match_all("#$L1#is", $match[5], $matches_l1, PREG_SET_ORDER);
+			Zend_Debug::dump($matches_l1);
+		}
+		Zend_Debug::dump('a');		
 	}
 }
 //Zend_Debug::dump($parent);
