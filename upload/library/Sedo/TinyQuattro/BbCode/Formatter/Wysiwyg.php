@@ -1,6 +1,20 @@
 <?php
 class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg
 {
+	/**
+	 * Custom MCE tags name
+	 */
+	protected $_mceBackgroundColorTagName = 'bcolor';
+	protected $_mceTableTagName = 'xtable';
+
+	/**
+	 * Xen Options for MCE Table
+	 */
+	protected $_xenOptionsMceTable;
+	
+	/**
+	 * Extend tags
+	 */
 	public function getTags()
 	{
 		$parentTags = parent::getTags();
@@ -9,8 +23,11 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 		{
 			if(Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('bcolor'))
 			{
+				$bcTag = Sedo_TinyQuattro_Helper_BbCodes::getQuattroBbCodeTagName('bcolor');
+				$this->_mceBackgroundColorTagName = $bcTag;
+				
 				$parentTags += array(
-					'bcolor' => array(
+					$bcTag => array(
 						'hasOption' => true,
 						'optionRegex' => '/^(rgb\(\s*\d+%?\s*,\s*\d+%?\s*,\s*\d+%?\s*\)|#[a-f0-9]{6}|#[a-f0-9]{3}|[a-z]+)$/i',
 						'replace' => array('<span style="background-color: %s">', '</span>')
@@ -27,25 +44,33 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 						'trimLeadingLinesAfter' => 1,
 					)
 				);			
+			}
 			
-			}
-
-			//WIP
-			/*
-			if(Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('justify'))
+			if(Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('xtable'))
 			{
+				$this->_preloadMceTemplates[] = 'quattro_bbcode_xtable';
+				
+				$tableTag = Sedo_TinyQuattro_Helper_BbCodes::getQuattroBbCodeTagName('xtable');
+				$this->_mceTableTagName =  $tableTag; 
+				
 				$parentTags += array(
-					'xtable' => array(
+					$tableTag => array(
 						'callback' => array($this, 'renderTagSedoXtable'),
+						'stopLineBreakConversion' => true,
+						'trimLeadingLinesAfter' => 2,
 					)
-				);			
+				);
+				
+				$this->_xenOptionsMceTable = Sedo_TinyQuattro_Helper_BbCodes::getMceTableXenOptions();
 			}
-			*/
 		}
 		
 		return $parentTags;
 	}
-	
+
+	/**
+	 * Extend the filter final output to add some custom fixes
+	 */	
 	public function filterFinalOutput($output)
 	{
 		$parent = parent::filterFinalOutput($output);
@@ -66,6 +91,9 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 		return $parent;
 	}
 
+	/**
+	 * Extend XenForo Tag align to add jystify option
+	 */
 	public function renderTagAlign(array $tag, array $rendererStates)
 	{
 		$parentOuput = parent::renderTagAlign($tag, $rendererStates);
@@ -78,74 +106,185 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 		
 		return $parentOuput;
 	}
-	
-	//WIP
+
+	/**
+	 * Extend XenForo functions to check if a text has been parsed with the mini parser
+	 * If yes, use the slave tags rules from the renderStates
+	 */
+	protected $_mceSlaveTags = false;
+	protected $_miniParserNoHtmlspecialchars = false;
+
+	public function renderSubTree(array $tree, array $rendererStates)
+	{
+		$this->_mceSlaveTags = false;
+		$this->_miniParserNoHtmlspecialchars = false;
+		
+		if(!empty($rendererStates['miniParser']) && !empty($rendererStates['miniParserTagRules']))
+		{
+			$this->_mceSlaveTags = $rendererStates['miniParserTagRules'];
+		}
+		
+		if(!empty($rendererStates['miniParserNoHtmlspecialchars']))
+		{
+			$this->_miniParserNoHtmlspecialchars = true;
+		}
+		
+		return parent::renderSubTree($tree, $rendererStates);
+	}
+
+	protected function _getTagRule($tagName)
+	{
+		if(empty($this->_mceSlaveTags))
+		{
+			return parent::_getTagRule($tagName);
+		}
+		
+		$tagName = strtolower($tagName);
+
+		if (!empty($this->_mceSlaveTags[$tagName]) && is_array($this->_mceSlaveTags[$tagName]))
+		{
+			return $this->_mceSlaveTags[$tagName];
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	public function replaceSmiliesInText($text, $escapeCallback = '')
+	{
+		if($this->_miniParserNoHtmlspecialchars)
+		{
+			/***
+				Ugly workaround that will disable the Htmlspecialchars function
+				Will only work if the smilies are not disable
+				
+				Disable with the XenForo wysiwyg formatter (use the mini parser formatter)
+			**/
+			return parent::replaceSmiliesInText($text, false);
+		}
+
+		return parent::replaceSmiliesInText($text, $escapeCallback);
+	}
+
+	/**
+	 * Mce Table Master Bb Code Renderer
+	 */
 	public function renderTagSedoXtable(array $tag, array $rendererStates)
 	{
+		$tagName = $tag['tag'];
+		$tagOptions = $tag['option'];
+		
+		$tableOptionsChecker = new Sedo_TinyQuattro_Helper_TableOptions($tagName, $tagOptions, $this->_xenOptionsMceTable);
+		$options = $tableOptionsChecker->getValidOptions();
+				
 		$content = $this->renderSubTree($tag['children'], $rendererStates);
 
 		$slaveTags = array(
 			'thead' => array(
-				'a' => '',
-				'b' => ''
+				'callback'  => array($this, 'renderTagSedoXtableSlaveTags'),
+				'allowedParents' => array($tagName),
+				'allowedChildren' => array('tr'),
+				'disableTextNodes' => 'inAndAfter'
 			),
 			'tbody' => array(
-				'a' => '',
-				'b' => ''
+				'callback'  => array($this, 'renderTagSedoXtableSlaveTags'),
+				'allowedParents' => array($tagName),
+				'allowedChildren' => array('tr'),
+				'disableTextNodes' => 'inAndAfter'
 			),
 			'tfoot' => array(
-				'a' => '',
-				'b' => ''
+				'callback'  => array($this, 'renderTagSedoXtableSlaveTags'),
+				'allowedParents' => array($tagName),
+				'allowedChildren' => array('tr'),
+				'disableTextNodes' => 'inAndAfter'
 			),
 			'colgroup' => array(
-				'a' => '',
-				'b' => ''
+				'callback'  => array($this, 'renderTagSedoXtableSlaveTags'),
+				'allowedParents' => array($tagName),
+				'allowedChildren' => array('col'),
+				'disableTextNodes' => 'insideContent'
 			),
 			'caption' => array(
-				'a' => '',
-				'b' => ''
+				'callback'  => array($this, 'renderTagSedoXtableSlaveTags'),
+				'allowedParents' => array($tagName),
+				'allowedChildren' => 'none'
 			),
 			'tr' => array(
-				'a' => '',
-				'b' => ''
+				'callback'  => array($this, 'renderTagSedoXtableSlaveTags'),
+				'allowedParents' => array($tagName, 'thead', 'tbody', 'tfoot'),
+				'allowedChildren' => array('td', 'th'),
+				'disableTextNodes' => 'insideContent'
 			),
 			'col' => array(
-				'a' => '',
-				'b' => ''
+				'callback'  => array($this, 'renderTagSedoXtableSlaveTags'),
+				'allowedParents' => array('colgroup'),
+				'allowedChildren' => 'none'
 			),
 			'td' => array(
-				'a' => '',
-				'b' => ''
+				'callback'  => array($this, 'renderTagSedoXtableSlaveTags'),
+				'allowedParents' => array('tr'),
+				'allowedChildren' => 'none',
+				'disableTextNodes' => 'afterClosing'
 			),
 			'th' => array(
-				'a' => '',
-				'b' => ''
+				'callback'  => array($this, 'renderTagSedoXtableSlaveTags'),
+				'allowedParents' => array('tr'),
+				'allowedChildren' => 'none',
+				'disableTextNodes' => 'afterClosing'
 			)
 		);
+		
+		/***
+			MiniParser options
+		 	Don't use the XenForo formatter here neither...
+		**/
+		$miniParserOptions = array(
+			'htmlspecialcharsForContent' => false,
+			'breakToBr' => true,
+			'renderStates' => array(),
+			//'externalFormatter' => array($this, 'renderTree')
+		);
 
-		$test = new Sedo_TinyQuattro_Helper_MiniParser($content, 'xtable', $slaveTags);
-		break;
+		$miniParser =  new Sedo_TinyQuattro_Helper_MiniParser($content, $slaveTags, $tag, $miniParserOptions);
+		$content = $miniParser->render();
 
-		$L0 = '{(thead|tbody|tfoot)(=(\[([\w\d]+)(?:=.+?)?\].+?\[/\4\]|[^{}]+)+?)?}(.*?){/\1}(?!(?:\W+)?{/\1})';
-		$L1 = '{(colgroup|caption|tr)(=(\[([\w\d]+)(?:=.+?)?\].+?\[/\4\]|[^{}]+)+?)?}(.*?){/\1}(?!(?:\W+)?{/\1})';
-		$L2 = '{(col|td|th)(=(\[([\w\d]+)(?:=.+?)?\].+?\[/\4\]|[^{}]+)+?)?}(.*?){/\1}(?!(?:\W+)?{/\1})';
+		$wysiwygOuput = "<table class=\"quattro_table\" $options>$content</table>";
 
+		return $wysiwygOuput;
+	}
 
-		$start  = strpos($content, '{');
-		$end    = strpos($str, '}', $start + 1);
-		$length = $end - $start;
-		$result = substr($str, $start + 1, $length - 1);
+	/**
+	 * Mce Table Slave Tags Renderer
+	 */
+	public function renderTagSedoXtableSlaveTags(array $tag, array $rendererStates, $parentClass)
+	{
+		$tagName = $tag['tag'];
+		$tagOptions = $tag['option'];
 
+		$tableOptionsChecker = new Sedo_TinyQuattro_Helper_TableOptions($tagName, $tagOptions, $this->_xenOptionsMceTable);
+		$options = $tableOptionsChecker->getValidOptions();
+		
+		$openingHtmlTag = ($options) ? "<$tagName $options>":"<$tagName>";
+		$closingHtmlTag = "</$tagName>";
 
-		preg_match_all("#$L0#is", $content, $matches, PREG_SET_ORDER);
-		$content = ''; //RAZ
-
-		foreach($matches as $match)
+		if(empty($rendererStates['miniParserFormatter']))
 		{
-			preg_match_all("#$L1#is", $match[5], $matches_l1, PREG_SET_ORDER);
-			Zend_Debug::dump($matches_l1);
+			/***
+				We're using the XenForo formatter, so the $parentClass is $this
+				Disable with the XenForo wysiwyg formatter (use the mini parser formatter)
+			**/
+			$content = $this->renderSubTree($tag['children'], $rendererStates);
+			return $this->_wrapInHtml($openingHtmlTag, $closingHtmlTag, $content);
 		}
-		Zend_Debug::dump('a');		
+		else
+		{
+			/***
+				We're using the formatter of the Miniparser - the "wrapInHtml" function is here public
+			**/
+			$content = $parentClass->renderSubTree($tag['children'], $rendererStates);
+			return $parentClass->wrapInHtml($openingHtmlTag, $closingHtmlTag, $content);
+		}
 	}
 }
 //Zend_Debug::dump($parent);

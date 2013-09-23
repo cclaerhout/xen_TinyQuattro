@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.2.2" version_id="16" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.3.0" version_id="17" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -461,6 +461,13 @@ step=5</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="110"/>
     </option>
+    <option option_id="quattro_contextmenu" edit_format="radio" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params>0={xen:phrase no}
+1={xen:phrase yes}</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="600"/>
+    </option>
     <option option_id="quattro_converter_bb_to_html" edit_format="onoff" data_type="boolean" can_backup="1">
       <default_value>0</default_value>
       <edit_format_params></edit_format_params>
@@ -489,11 +496,100 @@ true={xen:phrase yes}</edit_format_params>
     <option option_id="quattro_extra_bbcodes" edit_format="checkbox" data_type="array" can_backup="1">
       <default_value></default_value>
       <edit_format_params>bcolor={xen:phrase sedo_quattro_extra_bbcodes_bcolor}
-justify={xen:phrase sedo_quattro_extra_bbcodes_justify}</edit_format_params>
+justify={xen:phrase sedo_quattro_extra_bbcodes_justify}
+xtable={xen:phrase sedo_quattro_extra_bbcodes_xtable}</edit_format_params>
       <sub_options>bcolor
 justify
-table</sub_options>
-      <relation group_id="tiny_quattro" display_order="600"/>
+xtable</sub_options>
+      <relation group_id="tiny_quattro" display_order="700"/>
+    </option>
+    <option option_id="quattro_extra_bbcodes_bcolor_tag" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value>bcolor</default_value>
+      <edit_format_params>size=8</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="710"/>
+    </option>
+    <option option_id="quattro_extra_bbcodes_xtable_cellpadding_max" edit_format="spinbox" data_type="positive_integer" can_backup="1">
+      <default_value>7</default_value>
+      <edit_format_params>min=0
+max=20
+step=1</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="820"/>
+    </option>
+    <option option_id="quattro_extra_bbcodes_xtable_cellspacing_max" edit_format="spinbox" data_type="positive_integer" can_backup="1">
+      <default_value>7</default_value>
+      <edit_format_params>min=0
+max=20
+step=1</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="821"/>
+    </option>
+    <option option_id="quattro_extra_bbcodes_xtable_maxheight_percent" edit_format="spinbox" data_type="positive_integer" can_backup="1">
+      <default_value>100</default_value>
+      <edit_format_params>min=0
+max=100
+step=10</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="812"/>
+    </option>
+    <option option_id="quattro_extra_bbcodes_xtable_maxheight_px" edit_format="spinbox" data_type="positive_integer" can_backup="1">
+      <default_value>1000</default_value>
+      <edit_format_params>min=100
+step=10</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="804"/>
+    </option>
+    <option option_id="quattro_extra_bbcodes_xtable_maxwidth_percent" edit_format="spinbox" data_type="positive_integer" can_backup="1">
+      <default_value>100</default_value>
+      <edit_format_params>min=0
+max=100
+step=10</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="808"/>
+    </option>
+    <option option_id="quattro_extra_bbcodes_xtable_maxwidth_px" edit_format="spinbox" data_type="positive_integer" can_backup="1">
+      <default_value>800</default_value>
+      <edit_format_params>min=0
+step=10</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="800"/>
+    </option>
+    <option option_id="quattro_extra_bbcodes_xtable_minheight_percent" edit_format="spinbox" data_type="positive_integer" can_backup="1">
+      <default_value>15</default_value>
+      <edit_format_params>min=0
+max=100
+step=5</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="814"/>
+    </option>
+    <option option_id="quattro_extra_bbcodes_xtable_minheight_px" edit_format="spinbox" data_type="positive_integer" can_backup="1">
+      <default_value>150</default_value>
+      <edit_format_params>min=0
+step=5</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="806"/>
+    </option>
+    <option option_id="quattro_extra_bbcodes_xtable_minwidth_percent" edit_format="spinbox" data_type="positive_integer" can_backup="1">
+      <default_value>15</default_value>
+      <edit_format_params>min=0
+max=100
+step=5</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="810"/>
+    </option>
+    <option option_id="quattro_extra_bbcodes_xtable_minwidth_px" edit_format="spinbox" data_type="positive_integer" can_backup="1">
+      <default_value>50</default_value>
+      <edit_format_params>min=0
+step=5</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="802"/>
+    </option>
+    <option option_id="quattro_extra_bbcodes_xtable_tag" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value>xtable</default_value>
+      <edit_format_params>size=8</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="720"/>
     </option>
     <option option_id="quattro_extracolors" edit_format="radio" data_type="boolean" can_backup="1">
       <default_value>1</default_value>
@@ -618,7 +714,7 @@ step=1</edit_format_params>
       <relation group_id="tiny_quattro" display_order="530"/>
     </option>
     <option option_id="tinyquattro_guilty_tags" edit_format="textbox" data_type="string" can_backup="1">
-      <default_value>left,center,right,b,i,u,s,font,color,size</default_value>
+      <default_value>left,center,right,b,i,u,s,font,color,size,bcolor,justify</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro_paser" display_order="980"/>
@@ -652,6 +748,8 @@ step=1</edit_format_params>
     <phrase title="option_quattro_autosave_interval_explain" version_id="0" version_string="1.0"><![CDATA[Select here the interval to auto save your draft (unit: seconds)]]></phrase>
     <phrase title="option_quattro_autosave_retention" version_id="0" version_string="1.0"><![CDATA[Autosave Retention]]></phrase>
     <phrase title="option_quattro_autosave_retention_explain" version_id="0" version_string="1.0"><![CDATA[Select here how long your draft will be kept in memory (unit: minutes)]]></phrase>
+    <phrase title="option_quattro_contextmenu" version_id="16" version_string="1.2.2"><![CDATA[Activate the Context menu?]]></phrase>
+    <phrase title="option_quattro_contextmenu_explain" version_id="16" version_string="1.2.2"><![CDATA[If you activate this option a context menu will be displayed when you click on the right button of your mouse. This context menu has some options in it. It is very useful if you use the tinymce table (you will have to activate this function inside the bbcode options).]]></phrase>
     <phrase title="option_quattro_converter_bb_to_html" version_id="4" version_string="1.0.4"><![CDATA[Activate the BbCode > HTML Converter Patch?]]></phrase>
     <phrase title="option_quattro_converter_bb_to_html_explain" version_id="4" version_string="1.0.4"><![CDATA[This option will activate some fixes when you <span style="text-decoration:underline">toggle</span> the BbCode editor to the RTE editor. This fix generates a virtual BbCode pollution to look like the Html tags format.<br />
 <br />
@@ -669,7 +767,31 @@ This patch is enable by default.]]></phrase>
     <phrase title="option_quattro_extralists" version_id="0" version_string="1.0"><![CDATA[Enable extra lists?]]></phrase>
     <phrase title="option_quattro_extralists_explain" version_id="0" version_string="1.0"><![CDATA[The TinyMCE default list buttons have several options incompatible with the XenForo parser (it would need to be extendable to try to integrate them). This option must be set to "no" until XenForo becomes more open.]]></phrase>
     <phrase title="option_quattro_extra_bbcodes" version_id="13" version_string="1.1.6"><![CDATA[Extra Bb Codes]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_bcolor_tag" version_id="16" version_string="1.2.2"><![CDATA[Background color tag]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_bcolor_tag_explain" version_id="16" version_string="1.2.2"><![CDATA[If you want to change the tag name for this  bb code, do it here but do it only once. If you change the tag name a few time using it, all previous bb codes won't be able to be parsed. Default is: <b>bcolor</b>.]]></phrase>
     <phrase title="option_quattro_extra_bbcodes_explain" version_id="13" version_string="1.1.6"><![CDATA[These Bb Codes will be added to XenForo (<b>only > 1.2</b>) and will work with their TinyMCE Quattro functions, which means they will have a Wysiwyg output. They should work with the XenForo redactor too, but these functions and their buttons will have to be coded or activated (if someone wants this, feel free to do it, but I will not).]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_xtable_cellpadding_max" version_id="17" version_string="1.3.0"><![CDATA[Cellpadding max value]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_xtable_cellpadding_max_explain" version_id="17" version_string="1.3.0"><![CDATA[Note: if you want to set some cellpadding, you will need to check if your table doesn't have the css setting "border-collapse" set on "collapse" but on "separate". Default: 7.]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_xtable_cellspacing_max" version_id="17" version_string="1.3.0"><![CDATA[Cellspacing max value]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_xtable_cellspacing_max_explain" version_id="17" version_string="1.3.0"><![CDATA[Note: if you want to set some cellspacing, you will need to check if your table doesn't have the css setting "border-collapse" set on "collapse" but on "seperate". Default: 7.]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_xtable_maxheight_percent" version_id="17" version_string="1.3.0"><![CDATA[Table max height in %]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_xtable_maxheight_percent_explain" version_id="17" version_string="1.3.0"><![CDATA[This max height in percentage will be used if an user sets a  bigger height. Default: 100.]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_xtable_maxheight_px" version_id="17" version_string="1.3.0"><![CDATA[Table max height in px]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_xtable_maxheight_px_explain" version_id="17" version_string="1.3.0"><![CDATA[This max height in pixels will be used if an user sets a bigger height. Default: 1000.]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_xtable_maxwidth_percent" version_id="17" version_string="1.3.0"><![CDATA[Table max width in %]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_xtable_maxwidth_percent_explain" version_id="17" version_string="1.3.0"><![CDATA[This max width in percentage will be used if an user sets a  bigger width. Default: 100.]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_xtable_maxwidth_px" version_id="17" version_string="1.3.0"><![CDATA[Table max width in px]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_xtable_maxwidth_px_explain" version_id="17" version_string="1.3.0"><![CDATA[This max width in pixels will be used if an user sets a  bigger width. Default: 800.]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_xtable_minheight_percent" version_id="17" version_string="1.3.0"><![CDATA[Table min height in %]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_xtable_minheight_percent_explain" version_id="17" version_string="1.3.0"><![CDATA[This min height in percent will be used if an user sets a smaller height. Default: 15.]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_xtable_minheight_px" version_id="17" version_string="1.3.0"><![CDATA[Table min height in px]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_xtable_minheight_px_explain" version_id="17" version_string="1.3.0"><![CDATA[This min height in pixels will be used if an user sets a smaller height. Default: 150.]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_xtable_minwidth_percent" version_id="17" version_string="1.3.0"><![CDATA[Table min width in %]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_xtable_minwidth_percent_explain" version_id="17" version_string="1.3.0"><![CDATA[This min width in percent will be used if an user sets a smaller width. Default: 15.]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_xtable_minwidth_px" version_id="17" version_string="1.3.0"><![CDATA[Table min width in px]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_xtable_minwidth_px_explain" version_id="17" version_string="1.3.0"><![CDATA[This min width in pixels will be used if an user sets a smaller width. Default: 50.]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_xtable_tag" version_id="16" version_string="1.2.2"><![CDATA[Table tag]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_xtable_tag_explain" version_id="16" version_string="1.2.2"><![CDATA[If you want to change the tag name for this  bb code, do it here but do it only once. If you change the tag name a few time using it, all previous bb codes won't be able to be parsed. Default is: <b>xtable</b>.]]></phrase>
     <phrase title="option_quattro_fastunlink" version_id="0" version_string="1.0"><![CDATA[Enable fast unlink menu?]]></phrase>
     <phrase title="option_quattro_fastunlink_explain" version_id="0" version_string="1.0"><![CDATA[This option will add a fast menu with an unlink option to the link button]]></phrase>
     <phrase title="option_quattro_frightmode" version_id="0" version_string="1.0"><![CDATA[Enable "Fright" mode?]]></phrase>
@@ -718,12 +840,16 @@ In both methods, the width and the height of the modal window can be set in the 
     <phrase title="option_quattro_xsmilies_slide" version_id="3" version_string="1.0.3"><![CDATA[[Slider Smilies] Number of smilies per slide?]]></phrase>
     <phrase title="option_quattro_xsmilies_slide_explain" version_id="3" version_string="1.0.3"><![CDATA[Select the number of smilies to display per slide.]]></phrase>
     <phrase title="option_tinyquattro_guilty_tags" version_id="4" version_string="1.0.4"><![CDATA[Converters Guily tags]]></phrase>
-    <phrase title="option_tinyquattro_guilty_tags_explain" version_id="4" version_string="1.0.4"><![CDATA[<span style="color:red;font-weight:bolder">DO NOT CHANGE THIS UNLESS TO BE TOLD TO</span><br />
-Enter here the converters  guilty tags. Each tags must be without square brackets ([]) and must be separated with a coma. Default values: left,center,right,b,i,u,s,font,color,size]]></phrase>
+    <phrase title="option_tinyquattro_guilty_tags_explain" version_id="16" version_string="1.2.2"><![CDATA[<span style="color:red;font-weight:bolder">DO NOT CHANGE THIS UNLESS TO BE TOLD TO</span><br />
+Enter here the converters  guilty tags. Each tags must be without square brackets ([]) and must be separated with a coma. Default values: left,center,right,b,i,u,s,font,color,size,bcolor,justify]]></phrase>
     <phrase title="permission_group_sedo_quattro" version_id="1" version_string="1.0.1"><![CDATA[TinyMCE Quattro]]></phrase>
     <phrase title="permission_interface_sedo_quattro" version_id="1" version_string="1.0.1"><![CDATA[TinyMCE Quattro]]></phrase>
     <phrase title="permission_sedo_quattro_display" version_id="1" version_string="1.0.1"><![CDATA[Use the editor]]></phrase>
     <phrase title="quattro_align_justify" version_id="0" version_string="1.0"><![CDATA[Justify align]]></phrase>
+    <phrase title="quattro_embed_media" version_id="16" version_string="1.2.2"><![CDATA[Embed media]]></phrase>
+    <phrase title="quattro_enter_image_url" version_id="16" version_string="1.2.2"><![CDATA[Enter image url]]></phrase>
+    <phrase title="quattro_insert_image" version_id="16" version_string="1.2.2"><![CDATA[Insert image]]></phrase>
+    <phrase title="quattro_no_more_connected" version_id="17" version_string="1.3.0"><![CDATA[You are no more connected. You should log again to avoid to lose your modifications.]]></phrase>
     <phrase title="quattro_rte_mobile_desc" version_id="4" version_string="1.0.4"><![CDATA[Use the rich text editor with <b>your</b> mobile device?]]></phrase>
     <phrase title="quattro_rte_mobile_explain" version_id="4" version_string="1.0.4"><![CDATA[If your mobile device is not compatible with the Rich Text Editor, just uncheck this option.]]></phrase>
     <phrase title="sedo_quattro_characters" version_id="0" version_string="1.0"><![CDATA[Characters: {0}]]></phrase>
@@ -732,6 +858,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_colors_picker" version_id="0" version_string="1.0"><![CDATA[Colors picker]]></phrase>
     <phrase title="sedo_quattro_extra_bbcodes_bcolor" version_id="13" version_string="1.1.6"><![CDATA[Background Color BbCode: [bcolor]]]></phrase>
     <phrase title="sedo_quattro_extra_bbcodes_justify" version_id="13" version_string="1.1.6"><![CDATA[Justify Align BbCode: [justify]]]></phrase>
+    <phrase title="sedo_quattro_extra_bbcodes_xtable" version_id="16" version_string="1.2.2"><![CDATA[Table BbCode: [xtable]]]></phrase>
     <phrase title="sedo_quattro_find" version_id="4" version_string="1.0.4"><![CDATA[Find]]></phrase>
     <phrase title="sedo_quattro_find_and_replace" version_id="4" version_string="1.0.4"><![CDATA[Find and replace]]></phrase>
     <phrase title="sedo_quattro_font_family" version_id="0" version_string="1.0"><![CDATA[Font family]]></phrase>
@@ -976,6 +1103,29 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     </group>
   </style_properties>
   <templates>
+    <template title="quattro_bbcode_xtable" version_id="17" version_string="1.3.0"><![CDATA[<xen:require css="quattro_bbcode_xtable.css" />
+
+<table class="quattro_table" {xen:raw $tagOptions}>{xen:raw $tagContent}</table>]]></template>
+    <template title="quattro_bbcode_xtable.css" version_id="17" version_string="1.3.0"><![CDATA[table.quattro_table{
+border:0;
+border-spacing: 0; *border-collapse: collapse;
+}
+
+table.quattro_table tbody, 
+table.quattro_table thead,
+table.quattro_table tfooter{
+border:0;
+}
+
+table.quattro_table tr{
+border:1px solid grey;
+}
+
+table.quattro_table td, 
+table.quattro_table th,
+table.quattro_table {
+border:1px solid grey;
+}]]></template>
     <template title="quattro_dialog.css" version_id="6" version_string="1.0.6"><![CDATA[.mce-xen-body{
 	width:100%;
 	height:100%;
@@ -1426,15 +1576,15 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 	font-size:10pt;
 	font-style:italic;
 }]]></template>
-    <template title="quattro_dialog_image" version_id="0" version_string="1.0"><![CDATA[<xen:require css="quattro_dialog.css" />
+    <template title="quattro_dialog_image" version_id="16" version_string="1.2.2"><![CDATA[<xen:require css="quattro_dialog.css" />
 <xen:require css="quattro_dialog_image.css" />
 <xen:require js="js/sedo/tinyquattro/templates/image.js" />
 
-<div class="mceTitle">{xen:phrase insert_image}</div>
+<div class="mceTitle">{xen:phrase quattro_insert_image}</div>
 
 <div id="quattro_image" class="mce-xen-content">
 	<dl>
-		<dt>{xen:phrase enter_image_url}</dt>
+		<dt>{xen:phrase quattro_enter_image_url}</dt>
 		<dd><input 	id="ctrl_url"
 				name="url"
 				type="text"
@@ -1511,11 +1661,11 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <template title="quattro_dialog_link.css" version_id="0" version_string="1.0"><![CDATA[.mce-xen-body .mcePanes dt{
 	width:150px;
 }]]></template>
-    <template title="quattro_dialog_media" version_id="7" version_string="1.1.0"><![CDATA[<xen:require css="quattro_dialog.css" />
+    <template title="quattro_dialog_media" version_id="16" version_string="1.2.2"><![CDATA[<xen:require css="quattro_dialog.css" />
 <xen:require css="quattro_dialog_media.css" />
 <xen:require js="js/sedo/tinyquattro/templates/media.js" />
 
-<div class="mceTitle">{xen:phrase embed_media}</div>
+<div class="mceTitle">{xen:phrase quattro_embed_media}</div>
 
 <div id="quattro_media" class="mce-xen-content">
 	<dl class="xenmce_inline">
@@ -5980,7 +6130,7 @@ h6 { font-size: .75em; }
 		</xen:if>
 	</xen:foreach>
 </xen:if>]]></template>
-    <template title="tiny_quattro_js_setup" version_id="13" version_string="1.1.6"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_js_setup" version_id="16" version_string="1.2.2"><![CDATA[<xen:comment>
 	Load Quattro Integration JS files for 1.2
 </xen:comment>
 
@@ -6051,12 +6201,12 @@ h6 { font-size: .75em; }
 				menubar: false,
 				toolbar_items_size: '{$xenOptions.quattro_iconsize}',
 				plugins: [
-				 "advlist autolink lists charmap visualchars fullscreen",
-				 "directionality searchreplace", 
+				 "advlist autolink lists charmap visualchars fullscreen {xen:if "{$xenOptions.quattro_contextmenu}", "contextmenu"}",
+				 "directionality searchreplace {xen:if "{$xenOptions.quattro_extra_bbcodes.xtable}", "table"}", 
 				 "paste textcolor autoresize autosave xenforo"
-				], <xen:comment>TO DO: contextmenu table</xen:comment>
+				],
 				resize: false,
-				object_resizing: false,
+				//object_resizing: false,
 				browser_spellcheck: {$xenOptions.quattro_enable_browser_spellcheck},
 				autoresize_min_height: {$xenOptions.quattro_autoresize_min_height},
 				autoresize_max_height: {$xenOptions.quattro_autoresize_max_height},
@@ -6067,8 +6217,9 @@ h6 { font-size: .75em; }
 				document_base_url: "{xen:jsescape $requestPaths.fullBasePath}",	
 				autosave_ask_before_unload: {$xenOptions.quattro_autosave_ask_before_unload},
 				paste_as_text: {$xenOptions.quattro_paste_as_text},
-				font_size_legacy_values: '9px,10px,12px,15px,18px,22px,26px',
+				font_size_legacy_values: "9px,10px,12px,15px,18px,22px,26px",
 				statusbar: {$xenOptions.quattro_statusbar},
+				contextmenu: "xen_link inserttable | cell row column deletetable",
 				xen_attach: "{$editorOptions.sedo_quattro.attach.type},{$editorOptions.sedo_quattro.attach.id},{$editorOptions.sedo_quattro.attach.hash}",
 				<xen:include template="tiny_quattro_grid" />
 				nonbreaking_force_tab: true

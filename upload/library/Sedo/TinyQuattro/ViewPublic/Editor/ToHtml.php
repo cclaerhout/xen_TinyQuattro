@@ -40,6 +40,14 @@ class Sedo_TinyQuattro_ViewPublic_Editor_ToHtml extends XFCP_Sedo_TinyQuattro_Vi
 		//Get back real HTML, PHP, CODE & QUOTE Bb Codes if they have been modified
 		$parent = $this->_getBackRealTags($parent);
 
+		/* Detect if the user is no more connected */
+		$visitor = XenForo_Visitor::getInstance();
+		$parent['isConnected'] = ($visitor->user_id) ? 1 : 0;
+		if(!$visitor->user_id)
+		{
+			$parent['notConnectedMessage'] = new XenForo_Phrase('quattro_no_more_connected');
+		}
+		
 		return $parent;
 	}
 

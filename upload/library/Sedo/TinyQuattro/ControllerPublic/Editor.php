@@ -1,6 +1,10 @@
 <?php
 class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_ControllerPublic_Editor
 {
+	/**
+	 * Quattro Dialog Builder (TinyMCE-XenForo bridge)
+	 */
+
 	public function actionQuattroDialog()
 	{
 		/*Retrieve JS overlay params*/
@@ -85,7 +89,10 @@ class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_Con
 		
 		return $this->responseView('Sedo_Quattro_ViewPublic_Editor_Dialog', 'quattro_dialog_' . $dialog, $viewParams);	
 	}
-	
+
+	/**
+	 * Get Quattro View Params
+	 */
 	protected function _quattroViewParams($dialog, $viewParams)
 	{
 		if ($dialog == 'media')
@@ -109,7 +116,10 @@ class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_Con
 
 		return $viewParams;
 	}
-	
+
+	/**
+	 * Get Attachments and make them available for the mce overlay
+	 */		
 	protected function _quattroGetAttachments($type, $id, $hash)
 	{
 		$id = filter_var($id, FILTER_VALIDATE_INT);
@@ -185,6 +195,10 @@ class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_Con
 		return $attachments;
 	}
 
+	/**
+	 * Get Models
+	 */
+	 
 	protected function _getPostModel()
 	{
 		return $this->getModelFromCache('XenForo_Model_Post');

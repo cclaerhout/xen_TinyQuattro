@@ -930,6 +930,10 @@
 			if (XenForo.hasResponseError(ajaxData) || typeof(ajaxData.bbCode) === 'undefined') 
 				return;
 
+			if(typeof(ajaxData.isConnected) !== 'undefined' && !ajaxData.isConnected){
+				this.ed.windowManager.alert(ajaxData.notConnectedMessage);
+			}
+
 			$container = $(this.ed.getContainer());
 			$existingTextArea = $(this.ed.getElement());
 			$textContainer = $('<div class="bbCodeEditorContainer" />');
@@ -973,7 +977,11 @@
 		{
 			if (XenForo.hasResponseError(ajaxData) || typeof(ajaxData.html) == 'undefined')
 				return;
-	
+
+			if(typeof(ajaxData.isConnected) !== 'undefined' && !ajaxData.isConnected){
+				this.ed.windowManager.alert(ajaxData.notConnectedMessage);
+			}
+				
 			$container = $(this.ed.getContainer());
 			$existingTextArea = $(this.ed.getElement());
 	
@@ -1373,6 +1381,18 @@
 				icon: 'unlink',
 				cmd: 'unlink',
 				stateSelector: 'a[href]'
+			});
+			
+			/*Context menu*/
+			ed.addMenuItem('xen_link', {
+				name: 'xen_link',
+				icon: 'link',
+				shortcut: 'Ctrl+K',
+				stateSelector: 'a[href]',
+				onclick: $.proxy(this, 'init'),
+				text: xenMCE.Phrases.xen_link_desc,				
+				context: 'insert',
+				prependToContext: true
 			});
 		},
 		init: function(e)

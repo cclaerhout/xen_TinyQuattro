@@ -32,6 +32,14 @@ class Sedo_TinyQuattro_ViewPublic_Editor_ToBbCode extends XFCP_Sedo_TinyQuattro_
 
 		/*Save and return modifications*/
 		$parent['bbCode'] = $content;
+
+		/* Detect if the user is no more connected */
+		$visitor = XenForo_Visitor::getInstance();
+		$parent['isConnected'] = ($visitor->user_id) ? 1 : 0;
+		if(!$visitor->user_id)
+		{
+			$parent['notConnectedMessage'] = new XenForo_Phrase('quattro_no_more_connected');
+		}
 		
 		return $parent;
 	}

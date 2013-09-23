@@ -1,17 +1,35 @@
 <?php
 class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_Renderer_BbCode
 {
+	/**
+	 * Custom MCE tags name
+	 */
+	protected $_mceBackgroundColorTagName = 'bcolor';
+	protected $_mceTableTagName = 'xtable';
+
+	/**
+	 * Extend the class constructor to detect the background color css property
+	 * and to detect any table tag and its children tags
+	 */
+
 	public function __construct(array $options = array())
 	{
+		$xenOptions = XenForo_Application::get('options');
+		
 		if(is_array($this->_cssHandlers) && Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('bcolor'))
 		{
+			$this->_mceBackgroundColorTagName =Sedo_TinyQuattro_Helper_BbCodes::getQuattroBbCodeTagName('bcolor');
 			$this->_cssHandlers += array('background-color' => array('$this', 'handleCssBckgndColor'));
 		}
 		
 		if(	is_array($this->_handlers) 
-			&& Sedo_TinyQuattro_Helper_Quattro::isEnabled()) //only if TinyQuattro in enabled - reason: if other table bbcodes exist don't mess with them
-			//&& Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('table')
+			//only if TinyQuattro in enabled - reason: if other table bbcodes exist don't mess with them
+			&& Sedo_TinyQuattro_Helper_Quattro::isEnabled() 
+			&& Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('xtable')
+		)
 		{
+			$this->_mceTableTagName =Sedo_TinyQuattro_Helper_BbCodes::getQuattroBbCodeTagName('xtable');
+			
 			$this->_handlers['table'] = 	array('filterCallback' => array('$this', 'handleTagMceTable'), 'skipCss' => true);
 			$this->_handlers['thead'] = 	array('filterCallback' => array('$this', 'handleTagMceTable'), 'skipCss' => true);
 			$this->_handlers['tbody'] = 	array('filterCallback' => array('$this', 'handleTagMceTable'), 'skipCss' => true);
@@ -27,11 +45,20 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 		return parent::__construct($options);
 	}
 
+	/**
+	 * Background color css property handler
+	 */
 	public function handleCssBckgndColor($text, $color)
 	{
-		return "[BCOLOR=$color]{$text}[/BCOLOR]";		
+		$tag = $this->_mceBackgroundColorTagName;
+		$tag = strtoupper($tag);
+		
+		return "[$tag=$color]{$text}[/$tag]";		
 	}
 
+	/**
+	 * Extend the XenForo textalign handler to add the justify property
+	 */
 	public function handleCssTextAlign($text, $alignment)
 	{
 		$parentOutput = parent::handleCssTextAlign($text, $alignment);
@@ -45,6 +72,9 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 		return $parentOutput;
 	}	
 
+	/**
+	 * Table tag handler
+	 */
 	public function handleTagMceTable($text, XenForo_Html_Tag $tag)
 	{
 		$tagName = $tag->tagName();
@@ -111,7 +141,8 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 
 		if($outputType == 'normalBB')
 		{
-			$text = '[xtable'.$tagOptions.']'.$text.'[/xtable]';
+			$xtableTag = $this->_mceTableTagName;
+			$text = "[{$xtableTag}{$tagOptions}]{$text}[/{$xtableTag}]";
 		}
 		elseif($outputType == 'specialBB')
 		{
@@ -121,8 +152,26 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 		return $text;	
 	}
 
-	protected $_mceTableAttributes; //CSS+ATTRIBUTES
-	
+	/**
+	 * This variable will be used to stock all the direct and css attributes 
+	 * for the table tags once they have been verified
+	 */
+	protected $_mceTableAttributes;
+
+	/**
+	 * Function to inject attributes in the above variable
+	 */
+	protected function _addMceTableAddAttribute($attribute, $value)
+	{
+		$this->_mceTableAttributes[$attribute] = $value;
+	}
+
+	/**
+	 * This function will get all the attributes for the table tags and
+	 * will return them with the tag option format "=attribute1|attribute2"
+	 *
+	 * It will also allow to do some last modifications on attributes
+	 */	
 	protected function _getMceTableAttributes($tag)
 	{
 		//Execute
@@ -141,27 +190,40 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 			unset($attributes['balign']);
 		}
 		
-		if(!empty($attributes['width']))
+		if(!empty($attributes['width']) || !empty($attributes['height']))
 		{
-			$attributes['width'] = str_replace('px', '', $attributes['width']);
-		}
+			/*
+			 * Uniformize the width & height under the same standard: width x height
+			 * Ie: 200x100, @x100, 100x@, @ being use for "auto"
+			 * This uniformization allows to have another option based on a number
+			 */
+			$width = '@';
+			$height = '@';
+			
+			if(!empty($attributes['width']))
+			{
+				$width = str_replace('px', '', $attributes['width']);
+			}
 		
-		if(!empty($attributes['height']))
-		{
-			$attributes['height'] = str_replace('px', '', $attributes['height']);
-		}
-		
-		if(!empty($attributes['width']) && !empty($attributes['height']))
-		{
-			$attributes['size'] = $attributes['width'].'x'.$attributes['height'];
+			if(!empty($attributes['height']))
+			{
+				$height = str_replace('px', '', $attributes['height']);
+			}
+
 			unset($attributes['width'], $attributes['height']);
+
+			$attributes['size'] = "{$width}x{$height}";
 		}
-		
+
 		//Proceed to options
 		$options = implode('|', $attributes);
 		return "=$options";
 	}
 
+	/**
+	 * Before to get all the table tags attributes, it must be decided which
+	 * attribute is allowed for which tag
+	 */
 	protected function _manageMceTableAttributes($tag)
 	{
 		$tagName = $tag->tagName();
@@ -381,11 +443,11 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 		}
 	}
 
-	protected function _addMceTableAddAttribute($attribute, $value)
-	{
-		$this->_mceTableAttributes[$attribute] = $value;
-	}
-	
+
+	/**
+	 * Once the attribute has been authentified, its value must be checked
+	 * Only after, it will be added to attributes variable under a specified layout
+	 */
 	protected function _checkMceTableAttribute($attribute, $value, $block = false)
 	{
 		if(empty($value))
@@ -501,6 +563,11 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 		}
 	}
 
+	/**
+	 * Table with MCE doesn't seem to use all of this. 
+	 * The table is on the left (default) or at the center or directly float on the left or on the right
+	 * Which been the "bright" option, will not occur and the bleft one should never be used to (default)
+	 */
 	protected function _checkMceTableCssAlign(array $alignRules)
 	{
 		if ($alignRules['margin-left'] == 'auto' && $alignRules['margin-right'] == 'auto')
