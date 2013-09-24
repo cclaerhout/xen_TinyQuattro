@@ -173,8 +173,8 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 		$tagOptions = $tag['option'];
 		
 		$tableOptionsChecker = new Sedo_TinyQuattro_Helper_TableOptions($tagName, $tagOptions, $this->_xenOptionsMceTable);
-		$options = $tableOptionsChecker->getValidOptions();
-				
+		list($attributes, $css, $extraClass) = $tableOptionsChecker->getValidOptions();
+
 		$content = $this->renderSubTree($tag['children'], $rendererStates);
 
 		$slaveTags = array(
@@ -245,7 +245,9 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 
 		$miniParser =  new Sedo_TinyQuattro_Helper_MiniParser($content, $slaveTags, $tag, $miniParserOptions);
 		$content = $miniParser->render();
-		$fallback = "<table class=\"quattro_table\" $options>$content</table>";
+
+		$formattedCss = (empty($css)) ? '' : "style='{$css}'";
+		$fallback = "<table class='quattro_table {$extraClass}' {$attributes} {$formattedCss}>$content</table>";
 
 		if ($this->_view)
 		{
@@ -253,7 +255,13 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 			$template = 
 				$this->_view->createTemplateObject(
 					'quattro_bbcode_xtable', 
-					array('tagContent' => $content, 'tagOptions'  => $options)
+					array(
+						'tagContent' => $content, 
+						'tagOptions'  => $options,
+						'css' => $css,
+						'attributes' => $attributes,
+						'extraClass' => $extraClass
+					)
 				);
 			
 			return $template->render();
@@ -271,9 +279,12 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 		$tagOptions = $tag['option'];
 
 		$tableOptionsChecker = new Sedo_TinyQuattro_Helper_TableOptions($tagName, $tagOptions, $this->_xenOptionsMceTable);
-		$options = $tableOptionsChecker->getValidOptions();
+		list($attributes, $css, $extraClass) = $tableOptionsChecker->getValidOptions();
 		
-		$openingHtmlTag = ($options) ? "<$tagName $options>":"<$tagName>";
+		$formattedClass = (empty($extraClass)) ? '' : "class='{$extraClass}'";
+		$formattedCss = (empty($css)) ? '' : "style='{$css}'";
+
+		$openingHtmlTag = "<{$tagName} {$formattedClass} {$attributes} {$formattedCss}>";
 		$closingHtmlTag = "</$tagName>";
 
 		if(empty($rendererStates['miniParserFormatter']))

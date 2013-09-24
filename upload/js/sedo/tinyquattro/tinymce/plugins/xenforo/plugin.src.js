@@ -539,6 +539,18 @@
 			
 			return $e;
 		},
+		isActiveButton: function(buttonName){
+			var buttonConfig = [];
+			for (var i=1;typeof ed.settings['toolbar'+i] !== 'undefined';i++){
+				buttonConfig = buttonConfig.concat(ed.settings['toolbar'+i].split(' '));
+			}
+
+			if(tinymce.inArray(buttonConfig, buttonName) == -1){
+				return false;
+			}
+					
+			return true;
+		},
 		getButtonByName: function(name, getEl)
 		{
 			var ed = this.getEditor(),	
@@ -1013,6 +1025,23 @@
 			var ed = parent.getEditor(), p = xenMCE.Phrases, settings = xenMCE.Params, un = 'undefined';
 
 			ed.on('BeforeRenderUI', function(e) {
+				/*Delete items from menu if the button is not there*/
+				function deleteMenuItem(item){
+					if(typeof ed.menuItems[item] !== un)
+						delete ed.menuItems[item];
+				}
+
+				if(!parent.isActiveButton('xen_link')){
+					deleteMenuItem('xen_link');
+				}
+
+				if(!parent.isActiveButton('table')){
+					var menuToDelete = ['inserttable', 'cell', 'row', 'column', 'deletetable'];
+					tinymce.each(menuToDelete, function(v){
+						deleteMenuItem(v);
+					});
+				}
+
 				/* Auto translate tooltips based on suffix _desc*/
 				tinymce.each(ed.buttons, function(v, k){
 					var key_desc = k+'_desc';

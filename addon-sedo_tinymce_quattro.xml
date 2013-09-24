@@ -418,6 +418,7 @@ i.mce-i-backcolor
   <email_template_modifications/>
   <optiongroups>
     <group group_id="tiny_quattro" display_order="11111" debug_only="0"/>
+    <group group_id="tiny_quattro_bbcodes" display_order="11113" debug_only="0"/>
     <group group_id="tiny_quattro_paser" display_order="11112" debug_only="0"/>
     <option option_id="quattro_autoresize_max_height" edit_format="spinbox" data_type="integer" can_backup="1">
       <default_value>380</default_value>
@@ -501,13 +502,21 @@ xtable={xen:phrase sedo_quattro_extra_bbcodes_xtable}</edit_format_params>
       <sub_options>bcolor
 justify
 xtable</sub_options>
-      <relation group_id="tiny_quattro" display_order="700"/>
+      <relation group_id="tiny_quattro_bbcodes" display_order="700"/>
     </option>
     <option option_id="quattro_extra_bbcodes_bcolor_tag" edit_format="textbox" data_type="string" can_backup="1">
       <default_value>bcolor</default_value>
       <edit_format_params>size=8</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="710"/>
+      <relation group_id="tiny_quattro_bbcodes" display_order="710"/>
+    </option>
+    <option option_id="quattro_extra_bbcodes_xtable_border_max" edit_format="spinbox" data_type="positive_integer" can_backup="1">
+      <default_value>10</default_value>
+      <edit_format_params>min=0
+max=20
+step=1</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro_bbcodes" display_order="830"/>
     </option>
     <option option_id="quattro_extra_bbcodes_xtable_cellpadding_max" edit_format="spinbox" data_type="positive_integer" can_backup="1">
       <default_value>7</default_value>
@@ -515,7 +524,7 @@ xtable</sub_options>
 max=20
 step=1</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="820"/>
+      <relation group_id="tiny_quattro_bbcodes" display_order="820"/>
     </option>
     <option option_id="quattro_extra_bbcodes_xtable_cellspacing_max" edit_format="spinbox" data_type="positive_integer" can_backup="1">
       <default_value>7</default_value>
@@ -523,7 +532,7 @@ step=1</edit_format_params>
 max=20
 step=1</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="821"/>
+      <relation group_id="tiny_quattro_bbcodes" display_order="821"/>
     </option>
     <option option_id="quattro_extra_bbcodes_xtable_maxheight_percent" edit_format="spinbox" data_type="positive_integer" can_backup="1">
       <default_value>100</default_value>
@@ -531,14 +540,14 @@ step=1</edit_format_params>
 max=100
 step=10</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="812"/>
+      <relation group_id="tiny_quattro_bbcodes" display_order="812"/>
     </option>
     <option option_id="quattro_extra_bbcodes_xtable_maxheight_px" edit_format="spinbox" data_type="positive_integer" can_backup="1">
       <default_value>1000</default_value>
       <edit_format_params>min=100
 step=10</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="804"/>
+      <relation group_id="tiny_quattro_bbcodes" display_order="804"/>
     </option>
     <option option_id="quattro_extra_bbcodes_xtable_maxwidth_percent" edit_format="spinbox" data_type="positive_integer" can_backup="1">
       <default_value>100</default_value>
@@ -546,14 +555,14 @@ step=10</edit_format_params>
 max=100
 step=10</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="808"/>
+      <relation group_id="tiny_quattro_bbcodes" display_order="808"/>
     </option>
     <option option_id="quattro_extra_bbcodes_xtable_maxwidth_px" edit_format="spinbox" data_type="positive_integer" can_backup="1">
       <default_value>800</default_value>
       <edit_format_params>min=0
 step=10</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="800"/>
+      <relation group_id="tiny_quattro_bbcodes" display_order="800"/>
     </option>
     <option option_id="quattro_extra_bbcodes_xtable_minheight_percent" edit_format="spinbox" data_type="positive_integer" can_backup="1">
       <default_value>15</default_value>
@@ -561,14 +570,14 @@ step=10</edit_format_params>
 max=100
 step=5</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="814"/>
+      <relation group_id="tiny_quattro_bbcodes" display_order="814"/>
     </option>
     <option option_id="quattro_extra_bbcodes_xtable_minheight_px" edit_format="spinbox" data_type="positive_integer" can_backup="1">
       <default_value>150</default_value>
       <edit_format_params>min=0
 step=5</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="806"/>
+      <relation group_id="tiny_quattro_bbcodes" display_order="806"/>
     </option>
     <option option_id="quattro_extra_bbcodes_xtable_minwidth_percent" edit_format="spinbox" data_type="positive_integer" can_backup="1">
       <default_value>15</default_value>
@@ -576,20 +585,20 @@ step=5</edit_format_params>
 max=100
 step=5</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="810"/>
+      <relation group_id="tiny_quattro_bbcodes" display_order="810"/>
     </option>
     <option option_id="quattro_extra_bbcodes_xtable_minwidth_px" edit_format="spinbox" data_type="positive_integer" can_backup="1">
       <default_value>50</default_value>
       <edit_format_params>min=0
 step=5</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="802"/>
+      <relation group_id="tiny_quattro_bbcodes" display_order="802"/>
     </option>
     <option option_id="quattro_extra_bbcodes_xtable_tag" edit_format="textbox" data_type="string" can_backup="1">
       <default_value>xtable</default_value>
       <edit_format_params>size=8</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="720"/>
+      <relation group_id="tiny_quattro_bbcodes" display_order="720"/>
     </option>
     <option option_id="quattro_extracolors" edit_format="radio" data_type="boolean" can_backup="1">
       <default_value>1</default_value>
@@ -732,7 +741,9 @@ step=1</edit_format_params>
     </interface_groups>
   </permissions>
   <phrases>
-    <phrase title="option_group_tiny_quattro" version_id="0" version_string="1.0"><![CDATA[TinyQuattro]]></phrase>
+    <phrase title="option_group_tiny_quattro" version_id="0" version_string="1.0"><![CDATA[TinyQuattro - Editor options]]></phrase>
+    <phrase title="option_group_tiny_quattro_bbcodes" version_id="17" version_string="1.3.0"><![CDATA[TinyQuattro - Wysiwyg bb codes]]></phrase>
+    <phrase title="option_group_tiny_quattro_bbcodes_description" version_id="17" version_string="1.3.0"><![CDATA[Options for some Wysiwyg BbCodes provided with TinyQuattro]]></phrase>
     <phrase title="option_group_tiny_quattro_description" version_id="0" version_string="1.0"><![CDATA[Options to customise TinyMCE 4]]></phrase>
     <phrase title="option_group_tiny_quattro_paser" version_id="4" version_string="1.0.4"><![CDATA[TinyQuattro - XenForo parser]]></phrase>
     <phrase title="option_group_tiny_quattro_paser_description" version_id="4" version_string="1.0.4"><![CDATA[These options are made to modify/complete/fix some behaviours of XenForo]]></phrase>
@@ -770,6 +781,8 @@ This patch is enable by default.]]></phrase>
     <phrase title="option_quattro_extra_bbcodes_bcolor_tag" version_id="16" version_string="1.2.2"><![CDATA[Background color tag]]></phrase>
     <phrase title="option_quattro_extra_bbcodes_bcolor_tag_explain" version_id="16" version_string="1.2.2"><![CDATA[If you want to change the tag name for this  bb code, do it here but do it only once. If you change the tag name a few time using it, all previous bb codes won't be able to be parsed. Default is: <b>bcolor</b>.]]></phrase>
     <phrase title="option_quattro_extra_bbcodes_explain" version_id="13" version_string="1.1.6"><![CDATA[These Bb Codes will be added to XenForo (<b>only > 1.2</b>) and will work with their TinyMCE Quattro functions, which means they will have a Wysiwyg output. They should work with the XenForo redactor too, but these functions and their buttons will have to be coded or activated (if someone wants this, feel free to do it, but I will not).]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_xtable_border_max" version_id="17" version_string="1.3.0"><![CDATA[Border max value]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_xtable_border_max_explain" version_id="17" version_string="1.3.0"><![CDATA[Maximum border value. Default: 10.]]></phrase>
     <phrase title="option_quattro_extra_bbcodes_xtable_cellpadding_max" version_id="17" version_string="1.3.0"><![CDATA[Cellpadding max value]]></phrase>
     <phrase title="option_quattro_extra_bbcodes_xtable_cellpadding_max_explain" version_id="17" version_string="1.3.0"><![CDATA[Note: if you want to set some cellpadding, you will need to check if your table doesn't have the css setting "border-collapse" set on "collapse" but on "separate". Default: 7.]]></phrase>
     <phrase title="option_quattro_extra_bbcodes_xtable_cellspacing_max" version_id="17" version_string="1.3.0"><![CDATA[Cellspacing max value]]></phrase>
@@ -901,6 +914,48 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_smilies_desc_full" version_id="12" version_string="1.1.5"><![CDATA[Full description]]></phrase>
     <phrase title="sedo_quattro_smilies_desc_none" version_id="12" version_string="1.1.5"><![CDATA[No description]]></phrase>
     <phrase title="sedo_quattro_specialcharacters" version_id="0" version_string="1.0"><![CDATA[Special characters]]></phrase>
+    <phrase title="sedo_quattro_table_alignment" version_id="17" version_string="1.3.0"><![CDATA[Alignment]]></phrase>
+    <phrase title="sedo_quattro_table_body" version_id="17" version_string="1.3.0"><![CDATA[Body]]></phrase>
+    <phrase title="sedo_quattro_table_border" version_id="17" version_string="1.3.0"><![CDATA[Border]]></phrase>
+    <phrase title="sedo_quattro_table_caption" version_id="17" version_string="1.3.0"><![CDATA[Caption]]></phrase>
+    <phrase title="sedo_quattro_table_cell" version_id="17" version_string="1.3.0"><![CDATA[Cell]]></phrase>
+    <phrase title="sedo_quattro_table_Cellpadding" version_id="17" version_string="1.3.0"><![CDATA[Cell padding]]></phrase>
+    <phrase title="sedo_quattro_table_cellproperties" version_id="17" version_string="1.3.0"><![CDATA[Cell properties]]></phrase>
+    <phrase title="sedo_quattro_table_cellspacing" version_id="17" version_string="1.3.0"><![CDATA[Cell spacing]]></phrase>
+    <phrase title="sedo_quattro_table_celltype" version_id="17" version_string="1.3.0"><![CDATA[Cell type]]></phrase>
+    <phrase title="sedo_quattro_table_center" version_id="17" version_string="1.3.0"><![CDATA[Center]]></phrase>
+    <phrase title="sedo_quattro_table_cols" version_id="17" version_string="1.3.0"><![CDATA[Cols]]></phrase>
+    <phrase title="sedo_quattro_table_column" version_id="17" version_string="1.3.0"><![CDATA[Column]]></phrase>
+    <phrase title="sedo_quattro_table_columngroup" version_id="17" version_string="1.3.0"><![CDATA[Column group]]></phrase>
+    <phrase title="sedo_quattro_table_copyrow" version_id="17" version_string="1.3.0"><![CDATA[Copy row]]></phrase>
+    <phrase title="sedo_quattro_table_cutrow" version_id="17" version_string="1.3.0"><![CDATA[Cut row]]></phrase>
+    <phrase title="sedo_quattro_table_deletecolumn" version_id="17" version_string="1.3.0"><![CDATA[Delete column]]></phrase>
+    <phrase title="sedo_quattro_table_deleterow" version_id="17" version_string="1.3.0"><![CDATA[Delete row]]></phrase>
+    <phrase title="sedo_quattro_table_deletetable" version_id="17" version_string="1.3.0"><![CDATA[Delete table]]></phrase>
+    <phrase title="sedo_quattro_table_footer" version_id="17" version_string="1.3.0"><![CDATA[Footer]]></phrase>
+    <phrase title="sedo_quattro_table_header" version_id="17" version_string="1.3.0"><![CDATA[Header]]></phrase>
+    <phrase title="sedo_quattro_table_headercell" version_id="17" version_string="1.3.0"><![CDATA[Header cell]]></phrase>
+    <phrase title="sedo_quattro_table_height" version_id="17" version_string="1.3.0"><![CDATA[Height]]></phrase>
+    <phrase title="sedo_quattro_table_Insertcolumnafter" version_id="17" version_string="1.3.0"><![CDATA[Insert column after]]></phrase>
+    <phrase title="sedo_quattro_table_insertcolumnbefore" version_id="17" version_string="1.3.0"><![CDATA[Insert column before]]></phrase>
+    <phrase title="sedo_quattro_table_insertrowafter" version_id="17" version_string="1.3.0"><![CDATA[Insert row after]]></phrase>
+    <phrase title="sedo_quattro_table_insertrowbefore" version_id="17" version_string="1.3.0"><![CDATA[Insert row before]]></phrase>
+    <phrase title="sedo_quattro_table_inserttable" version_id="17" version_string="1.3.0"><![CDATA[Insert table]]></phrase>
+    <phrase title="sedo_quattro_table_left" version_id="17" version_string="1.3.0"><![CDATA[Left]]></phrase>
+    <phrase title="sedo_quattro_table_mergecells" version_id="17" version_string="1.3.0"><![CDATA[Merge cells]]></phrase>
+    <phrase title="sedo_quattro_table_none" version_id="17" version_string="1.3.0"><![CDATA[None]]></phrase>
+    <phrase title="sedo_quattro_table_pasterowafter" version_id="17" version_string="1.3.0"><![CDATA[Paste row after]]></phrase>
+    <phrase title="sedo_quattro_table_pasterowbefore" version_id="17" version_string="1.3.0"><![CDATA[Paste row before]]></phrase>
+    <phrase title="sedo_quattro_table_right" version_id="17" version_string="1.3.0"><![CDATA[Right]]></phrase>
+    <phrase title="sedo_quattro_table_row" version_id="17" version_string="1.3.0"><![CDATA[Row]]></phrase>
+    <phrase title="sedo_quattro_table_rowgroup" version_id="17" version_string="1.3.0"><![CDATA[Row group]]></phrase>
+    <phrase title="sedo_quattro_table_rowproperties" version_id="17" version_string="1.3.0"><![CDATA[Row properties]]></phrase>
+    <phrase title="sedo_quattro_table_rows" version_id="17" version_string="1.3.0"><![CDATA[Rows]]></phrase>
+    <phrase title="sedo_quattro_table_rowtype" version_id="17" version_string="1.3.0"><![CDATA[Row type]]></phrase>
+    <phrase title="sedo_quattro_table_scope" version_id="17" version_string="1.3.0"><![CDATA[Scope]]></phrase>
+    <phrase title="sedo_quattro_table_splitcell" version_id="17" version_string="1.3.0"><![CDATA[Split cell]]></phrase>
+    <phrase title="sedo_quattro_table_tableproperties" version_id="17" version_string="1.3.0"><![CDATA[Table properties]]></phrase>
+    <phrase title="sedo_quattro_table_width" version_id="17" version_string="1.3.0"><![CDATA[Width]]></phrase>
     <phrase title="sedo_quattro_whole_words" version_id="4" version_string="1.0.4"><![CDATA[Whole words]]></phrase>
     <phrase title="sedo_quattro_wordcount_characters" version_id="0" version_string="1.0"><![CDATA[Yes - count characters]]></phrase>
     <phrase title="sedo_quattro_wordcount_characterswithwhitespaces" version_id="0" version_string="1.0"><![CDATA[Yes - count characters & white space]]></phrase>
@@ -972,6 +1027,8 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="style_property_tinyquattro_btn_hov_gradient_to_master" version_id="0" version_string="1.0"><![CDATA[Button hover gradient to:]]></phrase>
     <phrase title="style_property_tinyquattro_button_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
     <phrase title="style_property_tinyquattro_button_master" version_id="0" version_string="1.0"><![CDATA[Button]]></phrase>
+    <phrase title="style_property_tinyquattro_flatdesign_description_master" version_id="17" version_string="1.3.0"><![CDATA[This option will disable the background gradient effects. Don't forget, since the XenForo css are heavily cached, you will certainly have to clean your browser cache before to see the modifications.]]></phrase>
+    <phrase title="style_property_tinyquattro_flatdesign_master" version_id="17" version_string="1.3.0"><![CDATA[Flat design]]></phrase>
     <phrase title="style_property_tinyquattro_focus_boder_description_master" version_id="0" version_string="1.0"><![CDATA[The color will be used in many other properties]]></phrase>
     <phrase title="style_property_tinyquattro_focus_boder_master" version_id="0" version_string="1.0"><![CDATA[Border focus]]></phrase>
     <phrase title="style_property_tinyquattro_menuitem_font_disable_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
@@ -1036,11 +1093,11 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
   <route_prefixes/>
   <style_properties>
     <property property_name="tinyquattro_panel_border" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Panel border" description="" css_components="border" scalar_type="" scalar_parameters="" display_order="10000" sub_group=""><![CDATA[{"border-color":"rgb(158, 158, 158)","border-style":"solid","border-width":"0"}]]></property>
-    <property property_name="tinyquattro_panel_background_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Panel background color" description="This color will be also use in different areas of the editor." css_components="" scalar_type="color" scalar_parameters="" display_order="100" sub_group="panel"><![CDATA[#f0f0f0]]></property>
-    <property property_name="tinyquattro_panel_gradient_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Panel gradient from:" description="This color will be also use in different areas of the editor." css_components="" scalar_type="color" scalar_parameters="" display_order="110" sub_group="panel"><![CDATA[#fdfdfd]]></property>
-    <property property_name="tinyquattro_panel_gradient_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Panel gradient to:" description="This color will be also use in different areas of the editor." css_components="" scalar_type="color" scalar_parameters="" display_order="120" sub_group="panel"><![CDATA[#ddd]]></property>
-    <property property_name="tinyquattro_panel_gradient_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[Old IE] Panel gradient from:" description="Type here the hexa color you choose above with the prefix &quot;#ff&quot;. Example for the color &quot;#fdfdfd&quot;, type: #fffdfdfd (#ff+fdfdfd). The ff prefix only means the color will be opaque." css_components="" scalar_type="" scalar_parameters="" display_order="130" sub_group="panel"><![CDATA[#fffdfdfd]]></property>
-    <property property_name="tinyquattro_panel_gradient_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[Old IE] Panel gradient to:" description="Same rules than above." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="140" sub_group="panel"><![CDATA[#ffdddddd]]></property>
+    <property property_name="tinyquattro_panel_background_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Panel background color" description="This color will be also use in different areas of the editor." css_components="" scalar_type="color" scalar_parameters="" display_order="200" sub_group="panel"><![CDATA[#f0f0f0]]></property>
+    <property property_name="tinyquattro_panel_gradient_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Panel gradient from:" description="This color will be also use in different areas of the editor." css_components="" scalar_type="color" scalar_parameters="" display_order="210" sub_group="panel"><![CDATA[#fdfdfd]]></property>
+    <property property_name="tinyquattro_panel_gradient_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Panel gradient to:" description="This color will be also use in different areas of the editor." css_components="" scalar_type="color" scalar_parameters="" display_order="220" sub_group="panel"><![CDATA[#ddd]]></property>
+    <property property_name="tinyquattro_panel_gradient_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[Old IE] Panel gradient from:" description="Type here the hexa color you choose above with the prefix &quot;#ff&quot;. Example for the color &quot;#fdfdfd&quot;, type: #fffdfdfd (#ff+fdfdfd). The ff prefix only means the color will be opaque." css_components="" scalar_type="" scalar_parameters="" display_order="230" sub_group="panel"><![CDATA[#fffdfdfd]]></property>
+    <property property_name="tinyquattro_panel_gradient_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[Old IE] Panel gradient to:" description="Same rules than above." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="240" sub_group="panel"><![CDATA[#ffdddddd]]></property>
     <property property_name="tinyquattro_primary_background_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Primary background color" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="1000" sub_group="primary"><![CDATA[#006dcc]]></property>
     <property property_name="tinyquattro_primary_gradient_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Primary grandient from:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="1010" sub_group="primary"><![CDATA[#08c]]></property>
     <property property_name="tinyquattro_primary_gradient_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Primary grandient to:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="1020" sub_group="primary"><![CDATA[#04c]]></property>
@@ -1053,35 +1110,35 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <property property_name="tinyquattro_primary_hov_grdt_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Primary hover gradient from:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="1130" sub_group="primary_hover"><![CDATA[#ff0077b3]]></property>
     <property property_name="tinyquattro_primary_hov_grdt_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Primary hover gradient to:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="1140" sub_group="primary_hover"><![CDATA[#ff003cb3]]></property>
     <property property_name="tinyquattro_primary_hov_border_color" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Primary hover border &amp; color" description="" css_components="text,border,extra" scalar_type="" scalar_parameters="" display_order="10210" sub_group=""><![CDATA[{"border-color":"#c5c5c5","color":"rgb(255, 255, 255)","extra":"text-shadow: 0 1px 1px rgba(255,255,255,0.75);"}]]></property>
-    <property property_name="tinyquattro_btn_bckg_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button background color" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="200" sub_group="button"><![CDATA[#f0f0f0]]></property>
-    <property property_name="tinyquattro_btn_gradient_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button gradient from:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="210" sub_group="button"><![CDATA[#fff]]></property>
-    <property property_name="tinyquattro_btn_gradient_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button gradient to:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="220" sub_group="button"><![CDATA[#d9d9d9]]></property>
-    <property property_name="tinyquattro_btn_gradient_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button gradient from:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="230" sub_group="button"><![CDATA[#ffffffff]]></property>
-    <property property_name="tinyquattro_btn_gradient_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button gradient to:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="240" sub_group="button"><![CDATA[#ffd9d9d9]]></property>
+    <property property_name="tinyquattro_btn_bckg_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button background color" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="300" sub_group="button"><![CDATA[#f0f0f0]]></property>
+    <property property_name="tinyquattro_btn_gradient_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button gradient from:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="310" sub_group="button"><![CDATA[#fff]]></property>
+    <property property_name="tinyquattro_btn_gradient_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button gradient to:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="320" sub_group="button"><![CDATA[#d9d9d9]]></property>
+    <property property_name="tinyquattro_btn_gradient_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button gradient from:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="330" sub_group="button"><![CDATA[#ffffffff]]></property>
+    <property property_name="tinyquattro_btn_gradient_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button gradient to:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="340" sub_group="button"><![CDATA[#ffd9d9d9]]></property>
     <property property_name="tinyquattro_btn_border_color" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Button border &amp; color" description="" css_components="text,border,extra" scalar_type="" scalar_parameters="" display_order="10040" sub_group=""><![CDATA[{"border-color":"#c5c5c5","border-radius":"3px","border-style":"solid","border-width":"1px","color":"rgb(51, 51, 51)","extra":"text-shadow: 0 1px 1px rgba(255,255,255,0.75);\n-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);\n-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);\nbox-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);"}]]></property>
-    <property property_name="tinyquattro_btn_hov_bckg_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button hover background color" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="400" sub_group="button_hover"><![CDATA[#e3e3e3]]></property>
-    <property property_name="tinyquattro_btn_hov_gradient_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button hover gradient from:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="410" sub_group="button_hover"><![CDATA[#f2f2f2]]></property>
-    <property property_name="tinyquattro_btn_hov_gradient_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button hover gradient to:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="420" sub_group="button_hover"><![CDATA[#ccc]]></property>
-    <property property_name="tinyquattro_btn_hov_gradient_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button hover gradient from:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="430" sub_group="button_hover"><![CDATA[#fff2f2f2]]></property>
-    <property property_name="tinyquattro_btn_hov_gradient_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button hover gradient to:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="440" sub_group="button_hover"><![CDATA[#ffcccccc]]></property>
+    <property property_name="tinyquattro_btn_hov_bckg_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button hover background color" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="500" sub_group="button_hover"><![CDATA[#e3e3e3]]></property>
+    <property property_name="tinyquattro_btn_hov_gradient_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button hover gradient from:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="510" sub_group="button_hover"><![CDATA[#f2f2f2]]></property>
+    <property property_name="tinyquattro_btn_hov_gradient_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button hover gradient to:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="520" sub_group="button_hover"><![CDATA[#ccc]]></property>
+    <property property_name="tinyquattro_btn_hov_gradient_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button hover gradient from:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="530" sub_group="button_hover"><![CDATA[#fff2f2f2]]></property>
+    <property property_name="tinyquattro_btn_hov_gradient_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button hover gradient to:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="540" sub_group="button_hover"><![CDATA[#ffcccccc]]></property>
     <property property_name="tinyquattro_btn_hov_border_color" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Button hover border &amp; color" description="" css_components="text,border,extra" scalar_type="" scalar_parameters="" display_order="10050" sub_group=""><![CDATA[{"border-color":"#c5c5c5","color":"rgb(51, 51, 51)","extra":"text-shadow: 0 1px 1px rgba(255,255,255,0.75);","text-decoration":{"none":"none"}}]]></property>
-    <property property_name="tinyquattro_btn_active_bckg_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button active background color" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="500" sub_group="button_active"><![CDATA[#d6d6d6]]></property>
-    <property property_name="tinyquattro_btn_active_gradient_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button active gradient from:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="510" sub_group="button_active"><![CDATA[#e6e6e6]]></property>
-    <property property_name="tinyquattro_btn_active_gradient_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button active gradient to:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="520" sub_group="button_active"><![CDATA[#bfbfbf]]></property>
-    <property property_name="tinyquattro_btn_active_gradient_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button active gradient from:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="530" sub_group="button_active"><![CDATA[#ffe6e6e6]]></property>
-    <property property_name="tinyquattro_btn_active_gradient_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button active gradient to:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="540" sub_group="button_active"><![CDATA[#ffbfbfbf]]></property>
+    <property property_name="tinyquattro_btn_active_bckg_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button active background color" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="600" sub_group="button_active"><![CDATA[#d6d6d6]]></property>
+    <property property_name="tinyquattro_btn_active_gradient_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button active gradient from:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="610" sub_group="button_active"><![CDATA[#e6e6e6]]></property>
+    <property property_name="tinyquattro_btn_active_gradient_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button active gradient to:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="620" sub_group="button_active"><![CDATA[#bfbfbf]]></property>
+    <property property_name="tinyquattro_btn_active_gradient_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button active gradient from:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="630" sub_group="button_active"><![CDATA[#ffe6e6e6]]></property>
+    <property property_name="tinyquattro_btn_active_gradient_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button active gradient to:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="640" sub_group="button_active"><![CDATA[#ffbfbfbf]]></property>
     <property property_name="tinyquattro_btn_active_border_color" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Button active border &amp; color" description="" css_components="text,border,extra" scalar_type="" scalar_parameters="" display_order="10060" sub_group=""><![CDATA[{"border-color":"#c5c5c5","color":"rgb(51, 51, 51)","extra":"text-shadow: 0 1px 1px rgba(255,255,255,0.75);\n-webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);\n-moz-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);\nbox-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);"}]]></property>
-    <property property_name="tinyquattro_btngrp_hov_bckg_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button group hover background color" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="600" sub_group="button_group_hover"><![CDATA[#e3e3e3]]></property>
-    <property property_name="tinyquattro_btngrp_hov_gradient_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button group hover gradient from:" description="" css_components="text,background,border,layout,extra" scalar_type="color" scalar_parameters="" display_order="610" sub_group="button_group_hover"><![CDATA[#f2f2f2]]></property>
-    <property property_name="tinyquattro_btngrp_hov_gradient_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button group hover gradient to:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="620" sub_group="button_group_hover"><![CDATA[#ccc]]></property>
-    <property property_name="tinyquattro_btngrp_hov_gradient_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button group hover gradient from:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="630" sub_group="button_group_hover"><![CDATA[#fff2f2f2]]></property>
-    <property property_name="tinyquattro_btngrp_hov_gradient_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button group hover gradient to:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="640" sub_group="button_group_hover"><![CDATA[#ffcccccc]]></property>
+    <property property_name="tinyquattro_btngrp_hov_bckg_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button group hover background color" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="700" sub_group="button_group_hover"><![CDATA[#e3e3e3]]></property>
+    <property property_name="tinyquattro_btngrp_hov_gradient_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button group hover gradient from:" description="" css_components="text,background,border,layout,extra" scalar_type="color" scalar_parameters="" display_order="710" sub_group="button_group_hover"><![CDATA[#f2f2f2]]></property>
+    <property property_name="tinyquattro_btngrp_hov_gradient_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button group hover gradient to:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="720" sub_group="button_group_hover"><![CDATA[#ccc]]></property>
+    <property property_name="tinyquattro_btngrp_hov_gradient_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button group hover gradient from:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="730" sub_group="button_group_hover"><![CDATA[#fff2f2f2]]></property>
+    <property property_name="tinyquattro_btngrp_hov_gradient_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button group hover gradient to:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="740" sub_group="button_group_hover"><![CDATA[#ffcccccc]]></property>
     <property property_name="tinyquattro_btngrp_hov_border_color" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Button group hover border &amp; color" description="" css_components="text,border,extra" scalar_type="" scalar_parameters="" display_order="10010" sub_group=""><![CDATA[{"border-color":"#c5c5c5","color":"rgb(51, 51, 51)","extra":"text-shadow: 0 1px 1px rgba(255,255,255,0.75);"}]]></property>
-    <property property_name="tinyquattro_btngrp_active_bckg_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button group active background color" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="700" sub_group="button_group_active"><![CDATA[#d6d6d6]]></property>
-    <property property_name="tinyquattro_btngrp_active_grdt_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button group active gradient from:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="710" sub_group="button_group_active"><![CDATA[#e6e6e6]]></property>
-    <property property_name="tinyquattro_btngrp_active_grdt_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button group active gradient to:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="720" sub_group="button_group_active"><![CDATA[#bfbfbf]]></property>
-    <property property_name="tinyquattro_btngrp_active_grdt_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button group active gradient from:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="730" sub_group="button_group_active"><![CDATA[#ffe6e6e6]]></property>
-    <property property_name="tinyquattro_btngrp_active_grdt_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button group active gradient to:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="740" sub_group="button_group_active"><![CDATA[#ffbfbfbf]]></property>
+    <property property_name="tinyquattro_btngrp_active_bckg_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button group active background color" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="800" sub_group="button_group_active"><![CDATA[#d6d6d6]]></property>
+    <property property_name="tinyquattro_btngrp_active_grdt_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button group active gradient from:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="810" sub_group="button_group_active"><![CDATA[#e6e6e6]]></property>
+    <property property_name="tinyquattro_btngrp_active_grdt_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button group active gradient to:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="820" sub_group="button_group_active"><![CDATA[#bfbfbf]]></property>
+    <property property_name="tinyquattro_btngrp_active_grdt_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button group active gradient from:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="830" sub_group="button_group_active"><![CDATA[#ffe6e6e6]]></property>
+    <property property_name="tinyquattro_btngrp_active_grdt_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button group active gradient to:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="840" sub_group="button_group_active"><![CDATA[#ffbfbfbf]]></property>
     <property property_name="tinyquattro_btngrp_active_border_color" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Button group active border &amp; color" description="" css_components="text,border,extra" scalar_type="" scalar_parameters="" display_order="10020" sub_group=""><![CDATA[{"border-color":"#c5c5c5","color":"rgb(51, 51, 51)","extra":"text-shadow: 0 1px 1px rgba(255,255,255,0.75);\n-webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);\n-moz-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);\nbox-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);"}]]></property>
     <property property_name="tinyquattro_btngrp_disable_border_color" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Button group disable border &amp; color" description="" css_components="text,border,extra" scalar_type="" scalar_parameters="" display_order="10030" sub_group=""><![CDATA[{"border-color":"#c5c5c5","color":"rgb(51, 51, 51)","extra":"text-shadow: 0 1px 1px rgba(255,255,255,0.75);\n-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);\n-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);\nbox-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);"}]]></property>
     <property property_name="tinyquattro_standard_boder" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Border standard" description="This border is used in several elements." css_components="border" scalar_type="" scalar_parameters="" display_order="11000" sub_group=""><![CDATA[{"border-color":"rgb(197, 197, 197)","border-style":"solid","border-width":"1px"}]]></property>
@@ -1089,14 +1146,15 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <property property_name="tinyquattro_win_head" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Window (modal) head" description="" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="20010" sub_group=""><![CDATA[{"background-color":"rgb(252, 250, 250)","border-bottom-color":"#EEE","border-bottom-style":"solid","border-bottom-width":"1px","extra":"position: relative;","padding-bottom":"9px","padding-left":"15px","padding-right":"15px","padding-top":"9px"}]]></property>
     <property property_name="tinyquattro_win_foot" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Window (modal) foot" description="" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="20020" sub_group=""><![CDATA[{"background-color":"rgb(245, 245, 245)","border-top-color":"#DDD","border-top-style":"solid","border-top-width":"1px","extra":"display: block;\n-webkit-box-shadow: inset 0 1px 0 #fff;\n-moz-box-shadow: inset 0 1px 0 #fff;\nbox-shadow: inset 0 1px 0 #fff;"}]]></property>
     <property property_name="tinyquattro_button" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Button" description="" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="20030" sub_group=""><![CDATA[{"color":"#333","extra":"line-height: 20px;\n*line-height: 16px;\ncursor: pointer;\ntext-align: center;\noverflow: visible;\n-webkit-appearance: none;","font-size":"14px","padding-bottom":"4px","padding-left":"10px","padding-right":"10px","padding-top":"4px"}]]></property>
-    <property property_name="tinyquattro_menuitem_font_normal" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Menu item font (normal)" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="50" sub_group="menuitem"><![CDATA[#333]]></property>
-    <property property_name="tinyquattro_menuitem_font_hover" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Menu item font (hover)" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="51" sub_group="menuitem"><![CDATA[#fff]]></property>
-    <property property_name="tinyquattro_menuitem_font_disable" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Menu item font (disable)" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="52" sub_group="menuitem"><![CDATA[#999]]></property>
+    <property property_name="tinyquattro_menuitem_font_normal" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Menu item font (normal)" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="150" sub_group="menuitem"><![CDATA[#333]]></property>
+    <property property_name="tinyquattro_menuitem_font_hover" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Menu item font (hover)" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="151" sub_group="menuitem"><![CDATA[#fff]]></property>
+    <property property_name="tinyquattro_menuitem_font_disable" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Menu item font (disable)" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="152" sub_group="menuitem"><![CDATA[#999]]></property>
     <property property_name="tinyquattro_win" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Window (modal)" description="" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="20000" sub_group=""><![CDATA[{"background-color":"#FFF","border-radius":"6px","extra":"-webkit-box-shadow: 0 3px 7px rgba(0,0,0,0.3);\n-moz-box-shadow: 0 3px 7px rgba(0,0,0,0.3);\nbox-shadow: 0 3px 7px rgba(0,0,0,0.3);\nfilter: progid:DXImageTransform.Microsoft.gradient(enabled = false);\nposition: fixed;\ntop: 0;\nleft: 0;\nopacity: 0;\n-webkit-transition: opacity 150ms ease-in;\ntransition: opacity 150ms ease-in;"}]]></property>
-    <property property_name="tinyquattro_smiliesbtn_width" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies button menu width" description="Default value: 100px" css_components="" scalar_type="number" scalar_parameters="" display_order="10" sub_group="smilies"><![CDATA[100px]]></property>
-    <property property_name="tinyquattro_smiliesbtn_height" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies button menu height" description="Default value: 70px." css_components="" scalar_type="number" scalar_parameters="" display_order="11" sub_group="smilies"><![CDATA[70px]]></property>
-    <property property_name="tinyquattro_smiliespicker_width" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies picker modal width" description="Default value: 380px." css_components="" scalar_type="number" scalar_parameters="" display_order="12" sub_group="smilies"><![CDATA[380px]]></property>
-    <property property_name="tinyquattro_smiliespicker_height" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies picker modal height" description="Default value: 160px." css_components="" scalar_type="number" scalar_parameters="" display_order="13" sub_group="smilies"><![CDATA[160px]]></property>
+    <property property_name="tinyquattro_smiliesbtn_width" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies button menu width" description="Default value: 100px" css_components="" scalar_type="number" scalar_parameters="" display_order="110" sub_group="smilies"><![CDATA[100px]]></property>
+    <property property_name="tinyquattro_smiliesbtn_height" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies button menu height" description="Default value: 70px." css_components="" scalar_type="number" scalar_parameters="" display_order="111" sub_group="smilies"><![CDATA[70px]]></property>
+    <property property_name="tinyquattro_smiliespicker_width" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies picker modal width" description="Default value: 380px." css_components="" scalar_type="number" scalar_parameters="" display_order="112" sub_group="smilies"><![CDATA[380px]]></property>
+    <property property_name="tinyquattro_smiliespicker_height" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies picker modal height" description="Default value: 160px." css_components="" scalar_type="number" scalar_parameters="" display_order="113" sub_group="smilies"><![CDATA[160px]]></property>
+    <property property_name="tinyquattro_flatdesign" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Flat design" description="This option will disable the background gradient effects. Don't forget, since the XenForo css are heavily cached, you will certainly have to clean your browser cache before to see the modifications." css_components="" scalar_type="boolean" scalar_parameters="" display_order="10" sub_group="global"><![CDATA[0]]></property>
     <group group_name="sedo_tinyquattro" display_order="13209">
       <title>TinyMCE Quattro</title>
       <description>Configure the layout of TinyMCE 4</description>
@@ -1105,10 +1163,13 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
   <templates>
     <template title="quattro_bbcode_xtable" version_id="17" version_string="1.3.0"><![CDATA[<xen:require css="quattro_bbcode_xtable.css" />
 
-<table class="quattro_table" {xen:raw $tagOptions}>{xen:raw $tagContent}</table>]]></template>
+<table 	class="quattro_table {$extraClass}" 
+	{$attributes} 
+	{xen:if '{$css}', 'style="{$css}"'}
+	>{xen:raw $tagContent}</table>]]></template>
     <template title="quattro_bbcode_xtable.css" version_id="17" version_string="1.3.0"><![CDATA[table.quattro_table{
-border:0;
-border-spacing: 0; *border-collapse: collapse;
+	border: 1px solid black;
+	//border-spacing: 0; *border-collapse: collapse;
 }
 
 table.quattro_table tbody, 
@@ -1126,19 +1187,21 @@ table.quattro_table th,
 table.quattro_table {
 border:1px solid grey;
 }]]></template>
-    <template title="quattro_dialog.css" version_id="6" version_string="1.0.6"><![CDATA[.mce-xen-body{
+    <template title="quattro_dialog.css" version_id="17" version_string="1.3.0"><![CDATA[.mce-xen-body{
 	width:100%;
 	height:100%;
 	{xen:property tinyquattro_panel_border}
 	background-color: {xen:property tinyquattro_panel_background_color};
-	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
-	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-	background-image: -o-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-	background-image: linear-gradient(to bottom,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_panel_gradient_from_ie}',endColorstr='{xen:property tinyquattro_panel_gradient_to_ie}',GradientType=0);
-	zoom: 1;
+	<xen:if is="!{xen:property tinyquattro_flatdesign}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_panel_gradient_from_ie}',endColorstr='{xen:property tinyquattro_panel_gradient_to_ie}',GradientType=0);
+		zoom: 1;
+	</xen:if>
 }
 
 .mce-xen-body a {
@@ -2433,7 +2496,7 @@ i.mce-i-backcolor
 </xen:if>
 </xen:foreach>
 ]]></template>
-    <template title="tiny_quattro_editor.css" version_id="15" version_string="1.2.1"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_editor.css" version_id="17" version_string="1.3.0"><![CDATA[<xen:comment>
 	ALL EDITOR CSS (EXCEPT IFRAME CONTENT)
 	> IE7 have the same CSS except for buttons.
 	> These main css can be copied to the tiny_quattro_editor_ie7.css, just change the require template (see the last line)
@@ -2740,14 +2803,16 @@ div.mce-tinymce-inline
 {
 	{xen:property tinyquattro_panel_border}
 	background-color: {xen:property tinyquattro_panel_background_color};
-	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
-	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-	background-image: -o-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-	background-image: linear-gradient(to bottom,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_panel_gradient_from_ie}',endColorstr='{xen:property tinyquattro_panel_gradient_to_ie}',GradientType=0);
-	zoom: 1;
+	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_panel_gradient_from_ie}',endColorstr='{xen:property tinyquattro_panel_gradient_to_ie}',GradientType=0);
+		zoom: 1;
+	</xen:if>
 }
 
 .mce-floatpanel
@@ -3145,30 +3210,34 @@ body .mce-abs-layout-item,.mce-abs-end
 	position: relative;
 	{xen:property tinyquattro_btn_border_color}
 	background-color: {xen:property tinyquattro_btn_bckg_color};
-	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_gradient_from}),to({xen:property tinyquattro_btn_gradient_to}));
-	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-	background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-	background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_gradient_to_ie}',GradientType=0);
 	display: inline-block;
 	*display: inline;
-	*zoom: 1;
+	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_gradient_from}),to({xen:property tinyquattro_btn_gradient_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_gradient_to_ie}',GradientType=0);
+		*zoom: 1;
+	</xen:if>
 }
 
 .mce-btn:hover,.mce-btn:focus
 {
 	{xen:property tinyquattro_btn_hov_border_color}
 	background-color: {xen:property tinyquattro_btn_hov_bckg_color};
-	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
-	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_hov_gradient_from}),to({xen:property tinyquattro_btn_hov_gradient_to}));
-	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
-	background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
-	background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_hov_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_hov_gradient_to_ie}',GradientType=0);
-	zoom: 1;
+	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_hov_gradient_from}),to({xen:property tinyquattro_btn_hov_gradient_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_hov_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_hov_gradient_to_ie}',GradientType=0);
+		zoom: 1;
+	</xen:if>
 }
 
 .mce-btn.mce-disabled,.mce-btn.mce-disabled:hover
@@ -3185,16 +3254,18 @@ body .mce-abs-layout-item,.mce-abs-end
 
 .mce-btn.mce-active,.mce-btn.mce-active:hover
 {
-	{xen:property tinyquattro_btn_active_border_color}	
+	{xen:property tinyquattro_btn_active_border_color}
 	background-color: {xen:property tinyquattro_btn_active_bckg_color};
-	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
-	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_active_gradient_from}),to({xen:property tinyquattro_btn_active_gradient_to}));
-	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
-	background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
-	background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_active_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_active_gradient_to_ie}',GradientType=0);
-	zoom: 1;
+	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_active_gradient_from}),to({xen:property tinyquattro_btn_active_gradient_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_active_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_active_gradient_to_ie}',GradientType=0);
+		zoom: 1;
+	</xen:if>
 }
 
 .mce-btn button
@@ -3218,28 +3289,32 @@ body .mce-abs-layout-item,.mce-abs-end
 	{xen:property tinyquattro_primary_border_color}
 	min-width:50px;
 	background-color: {xen:property tinyquattro_primary_background_color};
-	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
-	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_gradient_from}),to({xen:property tinyquattro_primary_gradient_to}));
-	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
-	background-image: -o-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
-	background-image: linear-gradient(to bottom,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_primary_gradient_from_ie}',endColorstr='{xen:property tinyquattro_primary_gradient_to_ie}',GradientType=0);
-	zoom: 1;
+	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_gradient_from}),to({xen:property tinyquattro_primary_gradient_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_primary_gradient_from_ie}',endColorstr='{xen:property tinyquattro_primary_gradient_to_ie}',GradientType=0);
+		zoom: 1;
+	</xen:if>
 }
 
 .mce-primary:hover,.mce-primary:focus
 {
 	{xen:property tinyquattro_primary_hov_border_color}
 	background-color: {xen:property tinyquattro_primary_hover_bck_color};
-	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
-	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_hover_grdt_from}),to({xen:property tinyquattro_primary_hover_grdt_to}));
-	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
-	background-image: -o-linear-gradient(top,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
-	background-image: linear-gradient(to bottom,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_primary_hov_grdt_from_ie}',endColorstr='tinyquattro_primary_hov_grdt_to_ie',GradientType=0);
-	zoom: 1;
+	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_hover_grdt_from}),to({xen:property tinyquattro_primary_hover_grdt_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_primary_hov_grdt_from_ie}',endColorstr='tinyquattro_primary_hov_grdt_to_ie',GradientType=0);
+		zoom: 1;
+	</xen:if>
 }
 
 .mce-primary button
@@ -3326,42 +3401,48 @@ body .mce-abs-layout-item,.mce-abs-end
 {
 	{xen:property tinyquattro_btngrp_hov_border_color}
 	background-color: {xen:property tinyquattro_btngrp_hov_bckg_color};
-	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
-	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btngrp_hov_gradient_from}),to({xen:property tinyquattro_btngrp_hov_gradient_to}));
-	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
-	background-image: -o-linear-gradient(top,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
-	background-image: linear-gradient(to bottom,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btngrp_hov_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btngrp_hov_gradient_to_ie}',GradientType=0);
-	zoom: 1;
+	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btngrp_hov_gradient_from}),to({xen:property tinyquattro_btngrp_hov_gradient_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btngrp_hov_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btngrp_hov_gradient_to_ie}',GradientType=0);
+		zoom: 1;
+	</xen:if>
 }
 
 .mce-btn-group .mce-btn.mce-disabled,.mce-btn-group .mce-btn.mce-disabled:hover
 {
 	{xen:property tinyquattro_btngrp_disable_border_color}
 	background-color: {xen:property tinyquattro_btn_bckg_color};
-	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_gradient_from}),to({xen:property tinyquattro_btn_gradient_to}));
-	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-	background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-	background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_gradient_to_ie}',GradientType=0);
-	zoom: 1;
+	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_gradient_from}),to({xen:property tinyquattro_btn_gradient_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_gradient_to_ie}',GradientType=0);
+		zoom: 1;
+	</xen:if>
 }
 
 .mce-btn-group .mce-btn.mce-active,.mce-btn-group .mce-btn.mce-active:hover,.mce-btn-group .mce-btn:active
 {
 	{xen:property tinyquattro_btngrp_active_border_color}
 	background-color: {xen:property tinyquattro_btngrp_active_bckg_color};
-	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
-	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btngrp_active_grdt_from}),to({xen:property tinyquattro_btngrp_active_grdt_to}));
-	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
-	background-image: -o-linear-gradient(top,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
-	background-image: linear-gradient(to bottom,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btngrp_active_grdt_from_ie}',endColorstr='{xen:property tinyquattro_btngrp_active_grdt_to_ie}',GradientType=0);
-	zoom: 1;
+	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btngrp_active_grdt_from}),to({xen:property tinyquattro_btngrp_active_grdt_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btngrp_active_grdt_from_ie}',endColorstr='{xen:property tinyquattro_btngrp_active_grdt_to_ie}',GradientType=0);
+		zoom: 1;
+	</xen:if>
 }
 
 .mce-btn-group .mce-btn.mce-disabled button
@@ -3415,14 +3496,16 @@ i.mce-i-checkbox
 	-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
 	box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
 	background-color: {xen:property tinyquattro_panel_background_color};
-	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
-	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-	background-image: -o-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-	background-image: linear-gradient(to bottom,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_panel_gradient_from_ie}',endColorstr='{xen:property tinyquattro_panel_gradient_to_ie}',GradientType=0);
-	zoom: 1;
+	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_panel_gradient_from_ie}',endColorstr='{xen:property tinyquattro_panel_gradient_to_ie}',GradientType=0);
+		zoom: 1;
+	</xen:if>
 	text-indent: -10em;
 	*font-size: 0;
 	*line-height: 0;
@@ -3785,14 +3868,16 @@ i.mce-i-checkbox
 	text-decoration: none;
 	color: {xen:property tinyquattro_menuitem_font_hover};
 	background-color: {xen:property tinyquattro_focus_boder.border-color};
-	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
-	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_gradient_from}),to({xen:property tinyquattro_primary_hover_grdt_from}));
-	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
-	background-image: -o-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
-	background-image: linear-gradient(to bottom,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc',endColorstr='{xen:property tinyquattro_primary_hov_grdt_from_ie}',GradientType=0);
-	zoom: 1;
+	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_gradient_from}),to({xen:property tinyquattro_primary_hover_grdt_from}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc',endColorstr='{xen:property tinyquattro_primary_hov_grdt_from_ie}',GradientType=0);
+		zoom: 1;
+	</xen:if>
 }
 
 .mce-menu-item:hover .mce-text,.mce-menu-item.mce-selected .mce-text
@@ -3952,14 +4037,16 @@ i.mce-radio
 	-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
 	box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
 	background-color: {xen:property tinyquattro_panel_background_color};
-	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
-	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-	background-image: -o-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-	background-image: linear-gradient(to bottom,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_panel_gradient_from_ie}',endColorstr='{xen:property tinyquattro_panel_gradient_to_ie}',GradientType=0);
-	zoom: 1;
+	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_panel_gradient_from_ie}',endColorstr='{xen:property tinyquattro_panel_gradient_to_ie}',GradientType=0);
+		zoom: 1;
+	</xen:if>
 }
 
 i.mce-radio:after
@@ -4207,7 +4294,7 @@ i.mce-i-resize
 </xen:comment>
 
 <xen:include template="tiny_quattro_buttons.css" />]]></template>
-    <template title="tiny_quattro_editor_ie7.css" version_id="15" version_string="1.2.1"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_editor_ie7.css" version_id="17" version_string="1.3.0"><![CDATA[<xen:comment>
 	ALL EDITOR CSS (EXCEPT IFRAME CONTENT)
 	> IE7 have the same CSS except for buttons.
 	> These main css can be copied to the tiny_quattro_editor_ie7.css, just change the require template (see the last line)
@@ -4514,14 +4601,16 @@ div.mce-tinymce-inline
 {
 	{xen:property tinyquattro_panel_border}
 	background-color: {xen:property tinyquattro_panel_background_color};
-	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
-	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-	background-image: -o-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-	background-image: linear-gradient(to bottom,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_panel_gradient_from_ie}',endColorstr='{xen:property tinyquattro_panel_gradient_to_ie}',GradientType=0);
-	zoom: 1;
+	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_panel_gradient_from_ie}',endColorstr='{xen:property tinyquattro_panel_gradient_to_ie}',GradientType=0);
+		zoom: 1;
+	</xen:if>
 }
 
 .mce-floatpanel
@@ -4919,30 +5008,34 @@ body .mce-abs-layout-item,.mce-abs-end
 	position: relative;
 	{xen:property tinyquattro_btn_border_color}
 	background-color: {xen:property tinyquattro_btn_bckg_color};
-	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_gradient_from}),to({xen:property tinyquattro_btn_gradient_to}));
-	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-	background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-	background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_gradient_to_ie}',GradientType=0);
 	display: inline-block;
 	*display: inline;
-	*zoom: 1;
+	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_gradient_from}),to({xen:property tinyquattro_btn_gradient_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_gradient_to_ie}',GradientType=0);
+		*zoom: 1;
+	</xen:if>
 }
 
 .mce-btn:hover,.mce-btn:focus
 {
 	{xen:property tinyquattro_btn_hov_border_color}
 	background-color: {xen:property tinyquattro_btn_hov_bckg_color};
-	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
-	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_hov_gradient_from}),to({xen:property tinyquattro_btn_hov_gradient_to}));
-	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
-	background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
-	background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_hov_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_hov_gradient_to_ie}',GradientType=0);
-	zoom: 1;
+	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_hov_gradient_from}),to({xen:property tinyquattro_btn_hov_gradient_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_hov_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_hov_gradient_to_ie}',GradientType=0);
+		zoom: 1;
+	</xen:if>
 }
 
 .mce-btn.mce-disabled,.mce-btn.mce-disabled:hover
@@ -4959,16 +5052,18 @@ body .mce-abs-layout-item,.mce-abs-end
 
 .mce-btn.mce-active,.mce-btn.mce-active:hover
 {
-	{xen:property tinyquattro_btn_active_border_color}	
+	{xen:property tinyquattro_btn_active_border_color}
 	background-color: {xen:property tinyquattro_btn_active_bckg_color};
-	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
-	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_active_gradient_from}),to({xen:property tinyquattro_btn_active_gradient_to}));
-	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
-	background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
-	background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_active_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_active_gradient_to_ie}',GradientType=0);
-	zoom: 1;
+	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_active_gradient_from}),to({xen:property tinyquattro_btn_active_gradient_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_active_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_active_gradient_to_ie}',GradientType=0);
+		zoom: 1;
+	</xen:if>
 }
 
 .mce-btn button
@@ -4992,28 +5087,32 @@ body .mce-abs-layout-item,.mce-abs-end
 	{xen:property tinyquattro_primary_border_color}
 	min-width:50px;
 	background-color: {xen:property tinyquattro_primary_background_color};
-	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
-	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_gradient_from}),to({xen:property tinyquattro_primary_gradient_to}));
-	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
-	background-image: -o-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
-	background-image: linear-gradient(to bottom,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_primary_gradient_from_ie}',endColorstr='{xen:property tinyquattro_primary_gradient_to_ie}',GradientType=0);
-	zoom: 1;
+	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_gradient_from}),to({xen:property tinyquattro_primary_gradient_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_primary_gradient_from_ie}',endColorstr='{xen:property tinyquattro_primary_gradient_to_ie}',GradientType=0);
+		zoom: 1;
+	</xen:if>
 }
 
 .mce-primary:hover,.mce-primary:focus
 {
 	{xen:property tinyquattro_primary_hov_border_color}
 	background-color: {xen:property tinyquattro_primary_hover_bck_color};
-	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
-	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_hover_grdt_from}),to({xen:property tinyquattro_primary_hover_grdt_to}));
-	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
-	background-image: -o-linear-gradient(top,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
-	background-image: linear-gradient(to bottom,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_primary_hov_grdt_from_ie}',endColorstr='tinyquattro_primary_hov_grdt_to_ie',GradientType=0);
-	zoom: 1;
+	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_hover_grdt_from}),to({xen:property tinyquattro_primary_hover_grdt_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_primary_hov_grdt_from_ie}',endColorstr='tinyquattro_primary_hov_grdt_to_ie',GradientType=0);
+		zoom: 1;
+	</xen:if>
 }
 
 .mce-primary button
@@ -5100,42 +5199,48 @@ body .mce-abs-layout-item,.mce-abs-end
 {
 	{xen:property tinyquattro_btngrp_hov_border_color}
 	background-color: {xen:property tinyquattro_btngrp_hov_bckg_color};
-	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
-	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btngrp_hov_gradient_from}),to({xen:property tinyquattro_btngrp_hov_gradient_to}));
-	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
-	background-image: -o-linear-gradient(top,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
-	background-image: linear-gradient(to bottom,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btngrp_hov_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btngrp_hov_gradient_to_ie}',GradientType=0);
-	zoom: 1;
+	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btngrp_hov_gradient_from}),to({xen:property tinyquattro_btngrp_hov_gradient_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btngrp_hov_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btngrp_hov_gradient_to_ie}',GradientType=0);
+		zoom: 1;
+	</xen:if>
 }
 
 .mce-btn-group .mce-btn.mce-disabled,.mce-btn-group .mce-btn.mce-disabled:hover
 {
 	{xen:property tinyquattro_btngrp_disable_border_color}
 	background-color: {xen:property tinyquattro_btn_bckg_color};
-	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_gradient_from}),to({xen:property tinyquattro_btn_gradient_to}));
-	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-	background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-	background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_gradient_to_ie}',GradientType=0);
-	zoom: 1;
+	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_gradient_from}),to({xen:property tinyquattro_btn_gradient_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_gradient_to_ie}',GradientType=0);
+		zoom: 1;
+	</xen:if>
 }
 
 .mce-btn-group .mce-btn.mce-active,.mce-btn-group .mce-btn.mce-active:hover,.mce-btn-group .mce-btn:active
 {
 	{xen:property tinyquattro_btngrp_active_border_color}
 	background-color: {xen:property tinyquattro_btngrp_active_bckg_color};
-	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
-	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btngrp_active_grdt_from}),to({xen:property tinyquattro_btngrp_active_grdt_to}));
-	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
-	background-image: -o-linear-gradient(top,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
-	background-image: linear-gradient(to bottom,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btngrp_active_grdt_from_ie}',endColorstr='{xen:property tinyquattro_btngrp_active_grdt_to_ie}',GradientType=0);
-	zoom: 1;
+	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btngrp_active_grdt_from}),to({xen:property tinyquattro_btngrp_active_grdt_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btngrp_active_grdt_from_ie}',endColorstr='{xen:property tinyquattro_btngrp_active_grdt_to_ie}',GradientType=0);
+		zoom: 1;
+	</xen:if>
 }
 
 .mce-btn-group .mce-btn.mce-disabled button
@@ -5189,14 +5294,16 @@ i.mce-i-checkbox
 	-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
 	box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
 	background-color: {xen:property tinyquattro_panel_background_color};
-	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
-	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-	background-image: -o-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-	background-image: linear-gradient(to bottom,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_panel_gradient_from_ie}',endColorstr='{xen:property tinyquattro_panel_gradient_to_ie}',GradientType=0);
-	zoom: 1;
+	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_panel_gradient_from_ie}',endColorstr='{xen:property tinyquattro_panel_gradient_to_ie}',GradientType=0);
+		zoom: 1;
+	</xen:if>
 	text-indent: -10em;
 	*font-size: 0;
 	*line-height: 0;
@@ -5544,7 +5651,7 @@ i.mce-i-checkbox
 	color: {xen:property tinyquattro_menuitem_font_normal};
 	white-space: nowrap;
 	cursor: pointer;
-	line-height: normal;
+	line-height:normal;
 	border-left:4px solid transparent;
 	margin-bottom:1px
 }
@@ -5559,14 +5666,16 @@ i.mce-i-checkbox
 	text-decoration: none;
 	color: {xen:property tinyquattro_menuitem_font_hover};
 	background-color: {xen:property tinyquattro_focus_boder.border-color};
-	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
-	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_gradient_from}),to({xen:property tinyquattro_primary_hover_grdt_from}));
-	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
-	background-image: -o-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
-	background-image: linear-gradient(to bottom,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc',endColorstr='{xen:property tinyquattro_primary_hov_grdt_from_ie}',GradientType=0);
-	zoom: 1;
+	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_gradient_from}),to({xen:property tinyquattro_primary_hover_grdt_from}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc',endColorstr='{xen:property tinyquattro_primary_hov_grdt_from_ie}',GradientType=0);
+		zoom: 1;
+	</xen:if>
 }
 
 .mce-menu-item:hover .mce-text,.mce-menu-item.mce-selected .mce-text
@@ -5726,14 +5835,16 @@ i.mce-radio
 	-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
 	box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
 	background-color: {xen:property tinyquattro_panel_background_color};
-	background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-	background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
-	background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-	background-image: -o-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-	background-image: linear-gradient(to bottom,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_panel_gradient_from_ie}',endColorstr='{xen:property tinyquattro_panel_gradient_to_ie}',GradientType=0);
-	zoom: 1;
+	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_panel_gradient_from_ie}',endColorstr='{xen:property tinyquattro_panel_gradient_to_ie}',GradientType=0);
+		zoom: 1;
+	</xen:if>
 }
 
 i.mce-radio:after
@@ -6284,7 +6395,7 @@ h6 { font-size: .75em; }
 	smiliesDesc: '{$xenOptions.quattro_smilies_desc}',
 	xenforo_smilies: {xen:helper json, $bbmSmilies},
 	bbmButtons: { <xen:include template="tiny_quattro_custom_buttons" /> }]]></template>
-    <template title="tiny_quattro_phrases" version_id="11" version_string="1.1.4"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_phrases" version_id="17" version_string="1.3.0"><![CDATA[<xen:comment>
 	We are inside a JavaScript file. All phrases must be escaped
 </xen:comment>
 
@@ -6333,6 +6444,50 @@ h6 { font-size: .75em; }
 
 	I18n: {
 		<xen:comment>extend_i18n</xen:comment>
+	<xen:if is="{$xenOptions.quattro_extra_bbcodes.xtable}">
+		"Insert table": "{xen:jsescape {xen:phrase sedo_quattro_table_inserttable}}",
+		"Table properties": "{xen:jsescape {xen:phrase sedo_quattro_table_tableproperties}}",
+		"Delete table": "{xen:jsescape {xen:phrase sedo_quattro_table_deletetable}}",
+		"Cell": "{xen:jsescape {xen:phrase sedo_quattro_table_cell}}",
+		"Row": "{xen:jsescape {xen:phrase sedo_quattro_table_row}}",
+		"Column": "{xen:jsescape {xen:phrase sedo_quattro_table_column}}",
+		"Cell properties": "{xen:jsescape {xen:phrase sedo_quattro_table_cellproperties}}",
+		"Merge cells": "{xen:jsescape {xen:phrase sedo_quattro_table_mergecells}}",
+		"Split cell": "{xen:jsescape {xen:phrase sedo_quattro_table_splitcell}}",
+		"Insert row before": "{xen:jsescape {xen:phrase sedo_quattro_table_insertrowbefore}}",
+		"Insert row after": "{xen:jsescape {xen:phrase sedo_quattro_table_insertrowafter}}",
+		"Delete row": "{xen:jsescape {xen:phrase sedo_quattro_table_deleterow}}",
+		"Row properties": "{xen:jsescape {xen:phrase sedo_quattro_table_rowproperties}}",
+		"Cut row": "{xen:jsescape {xen:phrase sedo_quattro_table_cutrow}}",
+		"Copy row": "{xen:jsescape {xen:phrase sedo_quattro_table_copyrow}}",
+		"Paste row before": "{xen:jsescape {xen:phrase sedo_quattro_table_pasterowbefore}}",
+		"Paste row after": "{xen:jsescape {xen:phrase sedo_quattro_table_pasterowafter}}",
+		"Insert column before": "{xen:jsescape {xen:phrase sedo_quattro_table_insertcolumnbefore}}",
+		"Insert column after": "{xen:jsescape {xen:phrase sedo_quattro_table_Insertcolumnafter}}",
+		"Delete column": "{xen:jsescape {xen:phrase sedo_quattro_table_deletecolumn}}",
+		"Cols": "{xen:jsescape {xen:phrase sedo_quattro_table_cols}}",
+		"Rows": "{xen:jsescape {xen:phrase sedo_quattro_table_rows}}",
+		"Width": "{xen:jsescape {xen:phrase sedo_quattro_table_width}}",
+		"Height": "{xen:jsescape {xen:phrase sedo_quattro_table_height}}",
+		"Cell spacing": "{xen:jsescape {xen:phrase sedo_quattro_table_cellspacing}}",
+		"Cell padding": "{xen:jsescape {xen:phrase sedo_quattro_table_Cellpadding}}",
+		"Border": "{xen:jsescape {xen:phrase sedo_quattro_table_border}}",
+		"Caption": "{xen:jsescape {xen:phrase sedo_quattro_table_caption}}",
+		"None": "{xen:jsescape {xen:phrase sedo_quattro_table_none}}",
+		"Left": "{xen:jsescape {xen:phrase sedo_quattro_table_left}}",
+		"Center": "{xen:jsescape {xen:phrase sedo_quattro_table_center}}",
+		"Right": "{xen:jsescape {xen:phrase sedo_quattro_table_right}}",
+		"Cell type": "{xen:jsescape {xen:phrase sedo_quattro_table_celltype}}",
+		"Scope": "{xen:jsescape {xen:phrase sedo_quattro_table_scope}}",
+		"Alignment": "{xen:jsescape {xen:phrase sedo_quattro_table_alignment}}",
+		"Header cell": "{xen:jsescape {xen:phrase sedo_quattro_table_headercell}}",
+		"Row group": "{xen:jsescape {xen:phrase sedo_quattro_table_rowgroup}}",
+		"Column group": "{xen:jsescape {xen:phrase sedo_quattro_table_columngroup}}",
+		"Row type": "{xen:jsescape {xen:phrase sedo_quattro_table_rowtype}}",
+		"Header": "{xen:jsescape {xen:phrase sedo_quattro_table_header}}",
+		"Body": "{xen:jsescape {xen:phrase sedo_quattro_table_body}}",
+		"Footer": "{xen:jsescape {xen:phrase sedo_quattro_table_footer}}",
+	</xen:if>
 		"Words: {0}": "{xen:jsescape {xen:if "in_array({$xenOptions.quattro_wordcount}, array('char','charwp'))", "{xen:phrase sedo_quattro_characters}", "{xen:phrase sedo_quattro_words}"}}",
 		"Special character": "{xen:jsescape {xen:phrase sedo_quattro_specialcharacters}}",
 		"Smilies picker": "{xen:jsescape {xen:phrase sedo_quattro_smiliespicker}}",

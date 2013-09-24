@@ -176,7 +176,7 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 		$tagOptions = $tag['option'];
 		
 		$tableOptionsChecker = new Sedo_TinyQuattro_Helper_TableOptions($tagName, $tagOptions, $this->_xenOptionsMceTable);
-		$options = $tableOptionsChecker->getValidOptions();
+		list($attributes, $css, $extraClass) = $tableOptionsChecker->getValidOptions();
 				
 		$content = $this->renderSubTree($tag['children'], $rendererStates);
 
@@ -249,8 +249,9 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 		$miniParser =  new Sedo_TinyQuattro_Helper_MiniParser($content, $slaveTags, $tag, $miniParserOptions);
 		$content = $miniParser->render();
 
-		$wysiwygOuput = "<table class=\"quattro_table\" $options>$content</table>";
-
+		$formattedCss = (empty($css)) ? '' : "style='{$css}'";
+		$wysiwygOuput = "<table class='quattro_table {$extraClass}' {$attributes} {$formattedCss}>$content</table>";
+		
 		return $wysiwygOuput;
 	}
 
@@ -263,9 +264,12 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 		$tagOptions = $tag['option'];
 
 		$tableOptionsChecker = new Sedo_TinyQuattro_Helper_TableOptions($tagName, $tagOptions, $this->_xenOptionsMceTable);
-		$options = $tableOptionsChecker->getValidOptions();
+		list($attributes, $css, $extraClass) = $tableOptionsChecker->getValidOptions();
 		
-		$openingHtmlTag = ($options) ? "<$tagName $options>":"<$tagName>";
+		$formattedClass = (empty($extraClass)) ? '' : "class='{$extraClass}'";
+		$formattedCss = (empty($css)) ? '' : "style='{$css}'";
+
+		$openingHtmlTag = "<{$tagName} {$formattedClass} {$attributes} {$formattedCss}>";
 		$closingHtmlTag = "</$tagName>";
 
 		if(empty($rendererStates['miniParserFormatter']))

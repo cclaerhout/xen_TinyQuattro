@@ -87,6 +87,14 @@ class Sedo_TinyQuattro_Installer
 			);
 			self::insertButtons($newButtons, 'default');
 		}
+
+		if(empty($addon) || $addon['version_id'] < 18)
+		{
+			$newButtons = array(
+				'table' => array(248, 248, 2, 0, 'tinymce')
+			);
+			self::insertButtons($newButtons, 'default');
+		}
 	}
 
 	public static function insertButtons(array $buttons, $category, $reset = false)

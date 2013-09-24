@@ -58,6 +58,9 @@ class Sedo_TinyQuattro_Helper_BbCodes
 			'cell' => array(
 				'maxCellpadding'  => $xenOptions->quattro_extra_bbcodes_xtable_cellpadding_max,
 				'maxCellspacing'  => $xenOptions->quattro_extra_bbcodes_xtable_cellspacing_max
+			),
+			'border' => array(
+				'max'  => $xenOptions->quattro_extra_bbcodes_xtable_border_max
 			)
 		);
 	}
