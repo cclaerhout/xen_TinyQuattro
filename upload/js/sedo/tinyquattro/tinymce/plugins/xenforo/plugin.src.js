@@ -1036,7 +1036,7 @@
 				}
 
 				if(!parent.isActiveButton('table')){
-					var menuToDelete = ['inserttable', 'cell', 'row', 'column', 'deletetable'];
+					var menuToDelete = ['inserttable', 'xen_tableskin', 'cell', 'row', 'column', 'deletetable'];
 					tinymce.each(menuToDelete, function(v){
 						deleteMenuItem(v);
 					});
@@ -1304,35 +1304,62 @@
 	*	TinyMCE Table plugin Integration
 	*
 	***/
-	/*
 	tinymce.create(xenPlugin+'.TableIntegration', {
 		TableIntegration: function(parent) 
 		{
-			return false;//WIP
-			
 			this.ed = parent.getEditor();
-			var self = this, ed = this.ed, settings = xenMCE.Params;
+			var self = this, ed = this.ed, settings = xenMCE.Params, un = 'undefined';
 		
-			ed.on('postProcess XenSwitchToBbCode', function(e) {
-				self.EditorContent = e.content;
-				e.content = self.TableToBbCodes();
-			});
+			function addSkin(e, id){
+				var dom = ed.dom, tableElm;
+				tableElm = ed.dom.getParent(ed.selection.getStart(), 'table');
+
+				if(typeof tableElm == un)
+					return;
+					
+				$tableElm = $(tableElm);
+				$tableElm.attr('data-skin', 'skin'+id);
+			}
 			
-			ed.on('beforeSetContent XenSwitchToWysiwyg', function(e) {
-				self.EditorContent = e.content;
-				e.content = self.TableToWysiwyg();
+			function selectedSkin(e){
+				var dom = ed.dom, tableElm, skinId;
+				tableElm = ed.dom.getParent(ed.selection.getStart(), 'table');
+
+				$skins = $(e.control.getEl()).find('.mce-text');
+				$skins.css('font-weight', 'normal');
+				
+				if(typeof tableElm == un)
+					return;
+					
+				$tableElm = $(tableElm);
+				skinId = $tableElm.attr('data-skin');
+				
+				if(typeof skinId == un)
+					return;
+				
+				skinId = parseInt(skinId.replace('skin', ''));
+				
+				if(isNaN(skinId) || skinId > 4)
+					return false;
+
+				$skins.eq(skinId-1).css('font-weight', 'bold');
+			}
+		
+			/*Context menu*/
+			ed.addMenuItem('xen_tableskin', {
+				name: 'xen_tableskin',
+				text: 'Table skins',
+				context: 'table',
+				onShow: selectedSkin,
+				menu: [
+					{text: 'Skin 1', onclick: function(e) { addSkin(e, 1); }},
+					{text: 'Skin 2', onclick: function(e) { addSkin(e, 2); }},
+					{text: 'Skin 3', onclick: function(e) { addSkin(e, 3); }},
+					{text: 'Skin 4', onclick: function(e) { addSkin(e, 4); }}
+				]
 			});
-		},
-		TableToBbCodes: function()
-		{
-			return this.EditorContent;
-		},
-		TableToWysiwyg: function()
-		{
-			return this.EditorContent;
 		}
 	});
-	*/
 
 	/***
 	*	TinyMCE fullscreen plugin modified for XenForo

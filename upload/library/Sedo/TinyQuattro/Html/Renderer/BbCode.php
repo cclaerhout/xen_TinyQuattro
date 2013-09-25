@@ -23,12 +23,17 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 		}
 		
 		if(	is_array($this->_handlers) 
-			//only if TinyQuattro in enabled - reason: if other table bbcodes exist don't mess with them
-			&& Sedo_TinyQuattro_Helper_Quattro::isEnabled() 
-			&& Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('xtable')
+			&&
+			Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('xtable')
+			&&
+			(	$xenOptions->quattro_table_all_editors_activation
+				||
+				Sedo_TinyQuattro_Helper_Quattro::isEnabled()
+			)
 		)
 		{
-			$this->_mceTableTagName =Sedo_TinyQuattro_Helper_BbCodes::getQuattroBbCodeTagName('xtable');
+
+			$this->_mceTableTagName = Sedo_TinyQuattro_Helper_BbCodes::getQuattroBbCodeTagName('xtable');
 			
 			$this->_handlers['table'] = 	array('filterCallback' => array('$this', 'handleTagMceTable'), 'skipCss' => true);
 			$this->_handlers['thead'] = 	array('filterCallback' => array('$this', 'handleTagMceTable'), 'skipCss' => true);
@@ -233,6 +238,10 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 		switch ($tagName)
 		{
 			case 'table': 
+				//Skin
+				$skinValue = ($tag->attribute('data-skin')) ? $tag->attribute('data-skin') : 'default';
+				$this->_checkMceTableAttribute('skin', $skinValue);
+				
 				//Direct attributes first
 				$this->_checkMceTableAttribute('align', $tag->attribute('align'), true); //for block
 				$this->_checkMceTableAttribute('bgcolor', $tag->attribute('bgcolor'));
@@ -607,6 +616,19 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 				if(preg_match($sizePxPercenPattern, $value))
 				{
 					$this->_addMceTableAddAttribute('width', $value);
+				}
+				break;
+			case 'skin':
+				if(preg_match('#^(skin\d{1,2}$)#', $value, $match))
+				{
+					$skin = $match[1];
+					$this->_addMceTableAddAttribute('skin', $skin);
+				}
+				else
+				{
+					//The below function doesn't work here, returns null
+					//$defaultSkin = XenForo_Template_Helper_Core::styleProperty('quattro_table_skin_default');
+					//$this->_addMceTableAddAttribute('skin', $defaultSkin);				
 				}
 				break;
 		}

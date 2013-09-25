@@ -1,1 +1,1 @@
-TinyMCE 4.x for XenForo 1.1.x
+TinyMCE 4.x for XenForo 1.1.x & XenForo 1.2.x

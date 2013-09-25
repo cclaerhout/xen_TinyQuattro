@@ -159,6 +159,9 @@ class Sedo_TinyQuattro_Helper_MiniParser
 				/* To use with the XenForo Wysiwyg mode */
 				$text = preg_replace("#<break />\n#", "<br />", $text);
 			}
+
+
+//			$text = preg_replace("#\n#", "<br />", $text);
 			
 			if(isset($parserOptions['renderStates']) && is_array($parserOptions['renderStates']))
 			{
@@ -448,6 +451,8 @@ class Sedo_TinyQuattro_Helper_MiniParser
 		{
 			return;
 		}
+		
+		$text = nl2br($text);		
 		
 		if(!$this->_mergeAdjacentTextNodes)
 		{

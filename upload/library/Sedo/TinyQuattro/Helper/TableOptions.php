@@ -452,7 +452,7 @@ class Sedo_TinyQuattro_Helper_TableOptions
 				$unit = ($value == 0) ? '' : 'px';
 				
 				$this->_pushMceOption("padding: {$value}{$unit}");
-				$this->_pushMceOption("cellpadding=\"$value\"", 'isAttribute');
+				$this->_pushMceOption("cellpadding={$value}", 'isAttribute');
 				$this->_mceOptionsStack['cellspacing'] = true;
 			}
 			else
@@ -461,7 +461,7 @@ class Sedo_TinyQuattro_Helper_TableOptions
 				$unit = ($value == 0) ? '' : 'px';
 								
 				$this->_pushMceOption("border-spacing: {$value}{$unit}");
-				$this->_pushMceOption("cellspacing=\"$value\"", 'isAttribute');
+				$this->_pushMceOption("cellspacing={$value}", 'isAttribute');
 				$this->_mceOptionsStack['cellpadding'] = true;
 			}
 
@@ -491,7 +491,7 @@ class Sedo_TinyQuattro_Helper_TableOptions
 			}
 			else
 			{
-				$this->_pushMceOption("bgcolor=\"$bgColor\"", 'isAttribute');
+				$this->_pushMceOption("bgcolor={$bgColor}", 'isAttribute');
 			}
 			
 			$this->_mceOptionsStack['bgcolor'] = true;
@@ -517,10 +517,11 @@ class Sedo_TinyQuattro_Helper_TableOptions
 			$params = $this->getMceTableXenOptions('border');
 
 			$value = ($value > $params['max']) ? $params['max'] : $value;
+			$value = (int) $value;
 			$unit = ($value == 0) ? '' : 'px';
 							
 			$this->_pushMceOption("border-width: {$value}{$unit}");
-			$this->_pushMceOption("border=\"{$value}\"", 'isAttribute');
+			$this->_pushMceOption("border={$value}", 'isAttribute');
 			$this->_mceOptionsStack['border'] = true;
 			return true;
 		}
@@ -604,7 +605,7 @@ class Sedo_TinyQuattro_Helper_TableOptions
 			$value = $match[1];
 			/*Checker not really needed here, the regex is enough*/
 
-			$this->_pushMceOption("span=\"$value\"", 'isAttribute');
+			$this->_pushMceOption("span={$value}", 'isAttribute');
 			$this->_mceOptionsStack['span'] = true;
 			return true;
 		}
@@ -627,7 +628,7 @@ class Sedo_TinyQuattro_Helper_TableOptions
 			$value = $match[1];
 			/*Checker not really needed here, the regex is enough*/
 
-			$this->_pushMceOption("colspan=\"$value\"", 'isAttribute');
+			$this->_pushMceOption("colspan={$value}", 'isAttribute');
 			$this->_mceOptionsStack['colspan'] = true;
 			return true;
 		}
@@ -650,7 +651,7 @@ class Sedo_TinyQuattro_Helper_TableOptions
 			$value = $match[1];
 			/*Checker not really needed here, the regex is enough*/
 
-			$this->_pushMceOption("rowspan=\"$value\"", 'isAttribute');
+			$this->_pushMceOption("rowspan={$value}", 'isAttribute');
 			$this->_mceOptionsStack['rowspan'] = true;
 			return true;
 		}
@@ -673,7 +674,7 @@ class Sedo_TinyQuattro_Helper_TableOptions
 			$value = $match[1];
 			/*Checker not really needed here, the regex is enough*/
 
-			$this->_pushMceOption("scope=\"$value\"", 'isAttribute');
+			$this->_pushMceOption("scope={$value}", 'isAttribute');
 			$this->_mceOptionsStack['scope'] = true;
 			return true;
 		}

@@ -1,9 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.3.0" version_id="17" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.3.0" version_id="18" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
   <admin_templates>
+    <template title="style_property_unit_quattro_table"><![CDATA[<xen:require css="style_property_unit_quattro_table.css" />
+
+<input type="hidden" name="checkboxes[]" value="{$property.property_definition_id}" />
+<xen:selectunit name="properties[{$property.property_definition_id}]" inputclass="quattro_center" value="{$property.propertyValueScalar}" label="{$property.title}">	
+	<xen:option value="skin1" label="{xen:phrase sedo_quattro_skin1}" />
+	<xen:option value="skin2" label="{xen:phrase sedo_quattro_skin2}" />
+	<xen:option value="skin3" label="{xen:phrase sedo_quattro_skin3}" />
+	<xen:option value="skin4" label="{xen:phrase sedo_quattro_skin4}" />
+	<xen:explain>{$property.description}</xen:explain>
+	<xen:html><xen:include template="style_property_unit_extra"><xen:set var="$reset">{xen:phrase reset}</xen:set></xen:include></xen:html>
+</xen:selectunit>]]></template>
+    <template title="style_property_unit_quattro_table.css"><![CDATA[select.quattro_center{
+	font-size:15px;
+	color:grey;
+	text-align:center;
+}]]></template>
     <template title="tiny_quattro_buttons_admin.css"><![CDATA[<xen:comment>
 	TINYMCE BUTTONS FOR ALL BROWSERS EXCEPT IE7
 	This css template is a copy from the public template
@@ -502,13 +518,13 @@ xtable={xen:phrase sedo_quattro_extra_bbcodes_xtable}</edit_format_params>
       <sub_options>bcolor
 justify
 xtable</sub_options>
-      <relation group_id="tiny_quattro_bbcodes" display_order="700"/>
+      <relation group_id="tiny_quattro_bbcodes" display_order="100"/>
     </option>
     <option option_id="quattro_extra_bbcodes_bcolor_tag" edit_format="textbox" data_type="string" can_backup="1">
       <default_value>bcolor</default_value>
       <edit_format_params>size=8</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro_bbcodes" display_order="710"/>
+      <relation group_id="tiny_quattro_bbcodes" display_order="110"/>
     </option>
     <option option_id="quattro_extra_bbcodes_xtable_border_max" edit_format="spinbox" data_type="positive_integer" can_backup="1">
       <default_value>10</default_value>
@@ -516,7 +532,7 @@ xtable</sub_options>
 max=20
 step=1</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro_bbcodes" display_order="830"/>
+      <relation group_id="tiny_quattro_bbcodes" display_order="430"/>
     </option>
     <option option_id="quattro_extra_bbcodes_xtable_cellpadding_max" edit_format="spinbox" data_type="positive_integer" can_backup="1">
       <default_value>7</default_value>
@@ -524,7 +540,7 @@ step=1</edit_format_params>
 max=20
 step=1</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro_bbcodes" display_order="820"/>
+      <relation group_id="tiny_quattro_bbcodes" display_order="420"/>
     </option>
     <option option_id="quattro_extra_bbcodes_xtable_cellspacing_max" edit_format="spinbox" data_type="positive_integer" can_backup="1">
       <default_value>7</default_value>
@@ -532,7 +548,7 @@ step=1</edit_format_params>
 max=20
 step=1</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro_bbcodes" display_order="821"/>
+      <relation group_id="tiny_quattro_bbcodes" display_order="421"/>
     </option>
     <option option_id="quattro_extra_bbcodes_xtable_maxheight_percent" edit_format="spinbox" data_type="positive_integer" can_backup="1">
       <default_value>100</default_value>
@@ -540,14 +556,14 @@ step=1</edit_format_params>
 max=100
 step=10</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro_bbcodes" display_order="812"/>
+      <relation group_id="tiny_quattro_bbcodes" display_order="412"/>
     </option>
     <option option_id="quattro_extra_bbcodes_xtable_maxheight_px" edit_format="spinbox" data_type="positive_integer" can_backup="1">
       <default_value>1000</default_value>
       <edit_format_params>min=100
 step=10</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro_bbcodes" display_order="804"/>
+      <relation group_id="tiny_quattro_bbcodes" display_order="404"/>
     </option>
     <option option_id="quattro_extra_bbcodes_xtable_maxwidth_percent" edit_format="spinbox" data_type="positive_integer" can_backup="1">
       <default_value>100</default_value>
@@ -555,14 +571,14 @@ step=10</edit_format_params>
 max=100
 step=10</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro_bbcodes" display_order="808"/>
+      <relation group_id="tiny_quattro_bbcodes" display_order="408"/>
     </option>
     <option option_id="quattro_extra_bbcodes_xtable_maxwidth_px" edit_format="spinbox" data_type="positive_integer" can_backup="1">
       <default_value>800</default_value>
       <edit_format_params>min=0
 step=10</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro_bbcodes" display_order="800"/>
+      <relation group_id="tiny_quattro_bbcodes" display_order="400"/>
     </option>
     <option option_id="quattro_extra_bbcodes_xtable_minheight_percent" edit_format="spinbox" data_type="positive_integer" can_backup="1">
       <default_value>15</default_value>
@@ -570,14 +586,14 @@ step=10</edit_format_params>
 max=100
 step=5</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro_bbcodes" display_order="814"/>
+      <relation group_id="tiny_quattro_bbcodes" display_order="414"/>
     </option>
     <option option_id="quattro_extra_bbcodes_xtable_minheight_px" edit_format="spinbox" data_type="positive_integer" can_backup="1">
       <default_value>150</default_value>
       <edit_format_params>min=0
 step=5</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro_bbcodes" display_order="806"/>
+      <relation group_id="tiny_quattro_bbcodes" display_order="406"/>
     </option>
     <option option_id="quattro_extra_bbcodes_xtable_minwidth_percent" edit_format="spinbox" data_type="positive_integer" can_backup="1">
       <default_value>15</default_value>
@@ -585,20 +601,20 @@ step=5</edit_format_params>
 max=100
 step=5</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro_bbcodes" display_order="810"/>
+      <relation group_id="tiny_quattro_bbcodes" display_order="410"/>
     </option>
     <option option_id="quattro_extra_bbcodes_xtable_minwidth_px" edit_format="spinbox" data_type="positive_integer" can_backup="1">
       <default_value>50</default_value>
       <edit_format_params>min=0
 step=5</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro_bbcodes" display_order="802"/>
+      <relation group_id="tiny_quattro_bbcodes" display_order="402"/>
     </option>
     <option option_id="quattro_extra_bbcodes_xtable_tag" edit_format="textbox" data_type="string" can_backup="1">
       <default_value>xtable</default_value>
       <edit_format_params>size=8</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro_bbcodes" display_order="720"/>
+      <relation group_id="tiny_quattro_bbcodes" display_order="120"/>
     </option>
     <option option_id="quattro_extracolors" edit_format="radio" data_type="boolean" can_backup="1">
       <default_value>1</default_value>
@@ -698,6 +714,12 @@ none={xen:phrase sedo_quattro_smilies_desc_none}</edit_format_params>
 true={xen:phrase yes}</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="400"/>
+    </option>
+    <option option_id="quattro_table_all_editors_activation" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro_bbcodes" display_order="5000"/>
     </option>
     <option option_id="quattro_wordcount" edit_format="select" data_type="string" can_backup="1">
       <default_value>words</default_value>
@@ -846,6 +868,12 @@ This patch is enable by default.]]></phrase>
 In both methods, the width and the height of the modal window can be set in the style properties.]]></phrase>
     <phrase title="option_quattro_statusbar" version_id="0" version_string="1.0"><![CDATA[Display the status bar?]]></phrase>
     <phrase title="option_quattro_statusbar_explain" version_id="0" version_string="1.0"><![CDATA[This option will display a status bar below the editor]]></phrase>
+    <phrase title="option_quattro_table_all_editors_activation" version_id="17" version_string="1.3.0"><![CDATA[[Table bbcode] All editors activation?]]></phrase>
+    <phrase title="option_quattro_table_all_editors_activation_explain" version_id="17" version_string="1.3.0"><![CDATA[If you want to render the table bbcode in other editors (bbcode to html) or if you want to convert this html table to bbcode with other editors, activate this option. But be sure not to have an other wysiwyg table bbcode otherwise there will be a conflict.<br />
+<br />
+One more thing, even if the bbcode is rendered in other editors it doesn't mean there will be special menus to modify your table. These ones will have to be coded or activated. But once activated, this addon "html to bbcode" engine for the table elements should work without any problems.<br />
+<br />
+Default configuration: unchecked.]]></phrase>
     <phrase title="option_quattro_wordcount" version_id="0" version_string="1.0"><![CDATA[Enable word count?]]></phrase>
     <phrase title="option_quattro_wordcount_explain" version_id="0" version_string="1.0"><![CDATA[This option will activate the TinyMCE word count plugin.]]></phrase>
     <phrase title="option_quattro_xsmilies" version_id="3" version_string="1.0.3"><![CDATA[[Menu button] Number of smilies?]]></phrase>
@@ -908,6 +936,10 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_rgb_picker" version_id="0" version_string="1.0"><![CDATA[RGB picker]]></phrase>
     <phrase title="sedo_quattro_select_background_color" version_id="10" version_string="1.1.3"><![CDATA[Select background color]]></phrase>
     <phrase title="sedo_quattro_size" version_id="7" version_string="1.1.0"><![CDATA[Size]]></phrase>
+    <phrase title="sedo_quattro_skin1" version_id="17" version_string="1.3.0"><![CDATA[Skin 1]]></phrase>
+    <phrase title="sedo_quattro_skin2" version_id="17" version_string="1.3.0"><![CDATA[Skin 2]]></phrase>
+    <phrase title="sedo_quattro_skin3" version_id="17" version_string="1.3.0"><![CDATA[Skin 3]]></phrase>
+    <phrase title="sedo_quattro_skin4" version_id="17" version_string="1.3.0"><![CDATA[Skin 4]]></phrase>
     <phrase title="sedo_quattro_small" version_id="0" version_string="1.0"><![CDATA[Small]]></phrase>
     <phrase title="sedo_quattro_smiliespicker" version_id="4" version_string="1.0.4"><![CDATA[Smilies picker]]></phrase>
     <phrase title="sedo_quattro_smilies_desc_bbcode" version_id="12" version_string="1.1.5"><![CDATA[Bb Code description]]></phrase>
@@ -953,6 +985,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_table_rows" version_id="17" version_string="1.3.0"><![CDATA[Rows]]></phrase>
     <phrase title="sedo_quattro_table_rowtype" version_id="17" version_string="1.3.0"><![CDATA[Row type]]></phrase>
     <phrase title="sedo_quattro_table_scope" version_id="17" version_string="1.3.0"><![CDATA[Scope]]></phrase>
+    <phrase title="sedo_quattro_table_skins" version_id="17" version_string="1.3.0"><![CDATA[Table skins]]></phrase>
     <phrase title="sedo_quattro_table_splitcell" version_id="17" version_string="1.3.0"><![CDATA[Split cell]]></phrase>
     <phrase title="sedo_quattro_table_tableproperties" version_id="17" version_string="1.3.0"><![CDATA[Table properties]]></phrase>
     <phrase title="sedo_quattro_table_width" version_id="17" version_string="1.3.0"><![CDATA[Width]]></phrase>
@@ -963,6 +996,76 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_words" version_id="0" version_string="1.0"><![CDATA[Words: {0}]]></phrase>
     <phrase title="style_property_group_sedo_tinyquattro_master" version_id="0" version_string="1.0"><![CDATA[TinyMCE Quattro]]></phrase>
     <phrase title="style_property_group_sedo_tinyquattro_master_desc" version_id="0" version_string="1.0"><![CDATA[Configure the layout of TinyMCE 4]]></phrase>
+    <phrase title="style_property_group_sedo_tinyquattro_table_1_master" version_id="17" version_string="1.3.0"><![CDATA[TinyMCE Quattro - Table bb code (1/2)]]></phrase>
+    <phrase title="style_property_group_sedo_tinyquattro_table_1_master_desc" version_id="17" version_string="1.3.0"><![CDATA[Configure your Wysiwyg table bb code]]></phrase>
+    <phrase title="style_property_group_sedo_tinyquattro_table_2_master" version_id="17" version_string="1.3.0"><![CDATA[TinyMCE Quattro - Table bb code (2/2)]]></phrase>
+    <phrase title="style_property_group_sedo_tinyquattro_table_2_master_desc" version_id="17" version_string="1.3.0"><![CDATA[Configure your Wysiwyg table bb code]]></phrase>
+    <phrase title="style_property_quattro_table_skin1_caption_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the caption html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin1_caption_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 1] Caption]]></phrase>
+    <phrase title="style_property_quattro_table_skin1_table_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the table html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin1_table_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 1] Table]]></phrase>
+    <phrase title="style_property_quattro_table_skin1_tbody_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the tbody html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin1_tbody_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 1] Tbody]]></phrase>
+    <phrase title="style_property_quattro_table_skin1_td_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the TD html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin1_td_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 1] TD]]></phrase>
+    <phrase title="style_property_quattro_table_skin1_tfoot_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the tfooter html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin1_tfoot_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 1] Tfoot]]></phrase>
+    <phrase title="style_property_quattro_table_skin1_thead_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the thead html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin1_thead_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 1] Thead]]></phrase>
+    <phrase title="style_property_quattro_table_skin1_th_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the TH html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin1_th_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 1] TH]]></phrase>
+    <phrase title="style_property_quattro_table_skin1_tr_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the TR html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin1_tr_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 1] TR]]></phrase>
+    <phrase title="style_property_quattro_table_skin2_caption_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the caption html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin2_caption_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 2] Caption]]></phrase>
+    <phrase title="style_property_quattro_table_skin2_table_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the table html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin2_table_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 2] Table]]></phrase>
+    <phrase title="style_property_quattro_table_skin2_tbody_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the tbody html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin2_tbody_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 2] Tbody]]></phrase>
+    <phrase title="style_property_quattro_table_skin2_td_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the TD html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin2_td_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 2] TD]]></phrase>
+    <phrase title="style_property_quattro_table_skin2_tfoot_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the tfooter html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin2_tfoot_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 2] Tfoot]]></phrase>
+    <phrase title="style_property_quattro_table_skin2_thead_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the thead html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin2_thead_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 2] Thead]]></phrase>
+    <phrase title="style_property_quattro_table_skin2_th_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the TH html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin2_th_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 2] TH]]></phrase>
+    <phrase title="style_property_quattro_table_skin2_tr_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the TR html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin2_tr_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 2] TR]]></phrase>
+    <phrase title="style_property_quattro_table_skin3_caption_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the caption html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin3_caption_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 3] Caption]]></phrase>
+    <phrase title="style_property_quattro_table_skin3_table_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the table html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin3_table_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 3] Table]]></phrase>
+    <phrase title="style_property_quattro_table_skin3_tbody_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the tbody html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin3_tbody_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 3] Tbody]]></phrase>
+    <phrase title="style_property_quattro_table_skin3_td_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the TD html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin3_td_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 3] TD]]></phrase>
+    <phrase title="style_property_quattro_table_skin3_tfoot_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the tfooter html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin3_tfoot_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 3] Tfoot]]></phrase>
+    <phrase title="style_property_quattro_table_skin3_thead_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the thead html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin3_thead_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 3] Thead]]></phrase>
+    <phrase title="style_property_quattro_table_skin3_th_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the TH html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin3_th_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 3] TH]]></phrase>
+    <phrase title="style_property_quattro_table_skin3_tr_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the TR html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin3_tr_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 3] TR]]></phrase>
+    <phrase title="style_property_quattro_table_skin4_caption_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the caption html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin4_caption_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 4] Caption]]></phrase>
+    <phrase title="style_property_quattro_table_skin4_table_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the table html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin4_table_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 4] Table]]></phrase>
+    <phrase title="style_property_quattro_table_skin4_tbody_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the tbody html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin4_tbody_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 4] Tbody]]></phrase>
+    <phrase title="style_property_quattro_table_skin4_td_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the TD html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin4_td_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 4] TD]]></phrase>
+    <phrase title="style_property_quattro_table_skin4_tfoot_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the tfooter html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin4_tfoot_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 4] Tfoot]]></phrase>
+    <phrase title="style_property_quattro_table_skin4_thead_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the thead html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin4_thead_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 4] Thead]]></phrase>
+    <phrase title="style_property_quattro_table_skin4_th_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the TH html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin4_th_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 4] TH]]></phrase>
+    <phrase title="style_property_quattro_table_skin4_tr_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the TR html tag. Note: users might override some of them with the bb code options.]]></phrase>
+    <phrase title="style_property_quattro_table_skin4_tr_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 4] TR]]></phrase>
+    <phrase title="style_property_quattro_table_skin_default_description_master" version_id="17" version_string="1.3.0"><![CDATA[Choose here the default skin for your table.]]></phrase>
+    <phrase title="style_property_quattro_table_skin_default_master" version_id="17" version_string="1.3.0"><![CDATA[Default Table skin]]></phrase>
     <phrase title="style_property_tinyquattro_btngrp_active_bckg_color_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
     <phrase title="style_property_tinyquattro_btngrp_active_bckg_color_master" version_id="0" version_string="1.0"><![CDATA[Button group active background color]]></phrase>
     <phrase title="style_property_tinyquattro_btngrp_active_border_color_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
@@ -1155,38 +1258,198 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <property property_name="tinyquattro_smiliespicker_width" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies picker modal width" description="Default value: 380px." css_components="" scalar_type="number" scalar_parameters="" display_order="112" sub_group="smilies"><![CDATA[380px]]></property>
     <property property_name="tinyquattro_smiliespicker_height" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies picker modal height" description="Default value: 160px." css_components="" scalar_type="number" scalar_parameters="" display_order="113" sub_group="smilies"><![CDATA[160px]]></property>
     <property property_name="tinyquattro_flatdesign" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Flat design" description="This option will disable the background gradient effects. Don't forget, since the XenForo css are heavily cached, you will certainly have to clean your browser cache before to see the modifications." css_components="" scalar_type="boolean" scalar_parameters="" display_order="10" sub_group="global"><![CDATA[0]]></property>
-    <group group_name="sedo_tinyquattro" display_order="13209">
+    <property property_name="quattro_table_skin1_table" property_type="css" definition="1" group_name="sedo_tinyquattro_table_1" title="[Skin 1] Table" description="Default style for the table html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="1000" sub_group=""><![CDATA[{"extra":"border-collapse: collapse;"}]]></property>
+    <property property_name="quattro_table_skin2_table" property_type="css" definition="1" group_name="sedo_tinyquattro_table_1" title="[Skin 2] Table" description="Default style for the table html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="2000" sub_group=""><![CDATA[{"background-color":"@primaryLighter","border-color":"rgb(0, 0, 0)","border-style":"solid","border-width":"1px","extra":"border-collapse: collapse;"}]]></property>
+    <property property_name="quattro_table_skin3_table" property_type="css" definition="1" group_name="sedo_tinyquattro_table_2" title="[Skin 3] Table" description="Default style for the table html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="1000" sub_group=""><![CDATA[{"extra":"border-collapse: separate;\nborder-spacing: 3px;"}]]></property>
+    <property property_name="quattro_table_skin4_table" property_type="css" definition="1" group_name="sedo_tinyquattro_table_2" title="[Skin 4] Table" description="Default style for the table html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="2000" sub_group=""><![CDATA[{"border-color":"@primaryDark","border-style":"groove","border-width":"1px","extra":"border-collapse: separate;"}]]></property>
+    <property property_name="quattro_table_skin1_thead" property_type="css" definition="1" group_name="sedo_tinyquattro_table_1" title="[Skin 1] Thead" description="Default style for the thead html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="1010" sub_group=""><![CDATA[{"font-weight":"bold"}]]></property>
+    <property property_name="quattro_table_skin2_thead" property_type="css" definition="1" group_name="sedo_tinyquattro_table_1" title="[Skin 2] Thead" description="Default style for the thead html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="2010" sub_group=""><![CDATA[{"background-color":"@primaryDark","color":"@primaryLightest","font-weight":"bold"}]]></property>
+    <property property_name="quattro_table_skin3_thead" property_type="css" definition="1" group_name="sedo_tinyquattro_table_2" title="[Skin 3] Thead" description="Default style for the thead html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="1010" sub_group=""><![CDATA[{"background-color":"@secondaryMedium","font-weight":"bold"}]]></property>
+    <property property_name="quattro_table_skin4_thead" property_type="css" definition="1" group_name="sedo_tinyquattro_table_2" title="[Skin 4] Thead" description="Default style for the thead html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="2010" sub_group=""><![CDATA[{"color":"@primaryDark","font-weight":"bold"}]]></property>
+    <property property_name="quattro_table_skin1_tbody" property_type="css" definition="1" group_name="sedo_tinyquattro_table_1" title="[Skin 1] Tbody" description="Default style for the tbody html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="1030" sub_group=""><![CDATA[[]]]></property>
+    <property property_name="quattro_table_skin2_tbody" property_type="css" definition="1" group_name="sedo_tinyquattro_table_1" title="[Skin 2] Tbody" description="Default style for the tbody html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="2030" sub_group=""><![CDATA[[]]]></property>
+    <property property_name="quattro_table_skin3_tbody" property_type="css" definition="1" group_name="sedo_tinyquattro_table_2" title="[Skin 3] Tbody" description="Default style for the tbody html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="1030" sub_group=""><![CDATA[{"background-color":"@secondaryLighter"}]]></property>
+    <property property_name="quattro_table_skin4_tbody" property_type="css" definition="1" group_name="sedo_tinyquattro_table_2" title="[Skin 4] Tbody" description="Default style for the tbody html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="2030" sub_group=""><![CDATA[[]]]></property>
+    <property property_name="quattro_table_skin1_tfoot" property_type="css" definition="1" group_name="sedo_tinyquattro_table_1" title="[Skin 1] Tfoot" description="Default style for the tfooter html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="1040" sub_group=""><![CDATA[{"font-weight":"bold"}]]></property>
+    <property property_name="quattro_table_skin2_tfoot" property_type="css" definition="1" group_name="sedo_tinyquattro_table_1" title="[Skin 2] Tfoot" description="Default style for the tfooter html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="2040" sub_group=""><![CDATA[{"background-color":"@primaryDarker","color":"@primaryLightest","font-weight":"bold"}]]></property>
+    <property property_name="quattro_table_skin3_tfoot" property_type="css" definition="1" group_name="sedo_tinyquattro_table_2" title="[Skin 3] Tfoot" description="Default style for the tfooter html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="1040" sub_group=""><![CDATA[{"background-color":"@secondaryMedium","font-weight":"bold"}]]></property>
+    <property property_name="quattro_table_skin4_tfoot" property_type="css" definition="1" group_name="sedo_tinyquattro_table_2" title="[Skin 4] Tfoot" description="Default style for the tfooter html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="2040" sub_group=""><![CDATA[{"color":"@primaryDarker","font-weight":"bold"}]]></property>
+    <property property_name="quattro_table_skin1_tr" property_type="css" definition="1" group_name="sedo_tinyquattro_table_1" title="[Skin 1] TR" description="Default style for the TR html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="1050" sub_group=""><![CDATA[[]]]></property>
+    <property property_name="quattro_table_skin2_tr" property_type="css" definition="1" group_name="sedo_tinyquattro_table_1" title="[Skin 2] TR" description="Default style for the TR html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="2050" sub_group=""><![CDATA[[]]]></property>
+    <property property_name="quattro_table_skin3_tr" property_type="css" definition="1" group_name="sedo_tinyquattro_table_2" title="[Skin 3] TR" description="Default style for the TR html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="1050" sub_group=""><![CDATA[[]]]></property>
+    <property property_name="quattro_table_skin4_tr" property_type="css" definition="1" group_name="sedo_tinyquattro_table_2" title="[Skin 4] TR" description="Default style for the TR html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="2050" sub_group=""><![CDATA[[]]]></property>
+    <property property_name="quattro_table_skin1_th" property_type="css" definition="1" group_name="sedo_tinyquattro_table_1" title="[Skin 1] TH" description="Default style for the TH html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="1060" sub_group=""><![CDATA[[]]]></property>
+    <property property_name="quattro_table_skin2_th" property_type="css" definition="1" group_name="sedo_tinyquattro_table_1" title="[Skin 2] TH" description="Default style for the TH html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="2060" sub_group=""><![CDATA[[]]]></property>
+    <property property_name="quattro_table_skin3_th" property_type="css" definition="1" group_name="sedo_tinyquattro_table_2" title="[Skin 3] TH" description="Default style for the TH html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="1060" sub_group=""><![CDATA[[]]]></property>
+    <property property_name="quattro_table_skin4_th" property_type="css" definition="1" group_name="sedo_tinyquattro_table_2" title="[Skin 4] TH" description="Default style for the TH html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="2060" sub_group=""><![CDATA[[]]]></property>
+    <property property_name="quattro_table_skin1_td" property_type="css" definition="1" group_name="sedo_tinyquattro_table_1" title="[Skin 1] TD" description="Default style for the TD html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="1070" sub_group=""><![CDATA[[]]]></property>
+    <property property_name="quattro_table_skin2_td" property_type="css" definition="1" group_name="sedo_tinyquattro_table_1" title="[Skin 2] TD" description="Default style for the TD html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="2070" sub_group=""><![CDATA[[]]]></property>
+    <property property_name="quattro_table_skin3_td" property_type="css" definition="1" group_name="sedo_tinyquattro_table_2" title="[Skin 3] TD" description="Default style for the TD html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="1070" sub_group=""><![CDATA[[]]]></property>
+    <property property_name="quattro_table_skin4_td" property_type="css" definition="1" group_name="sedo_tinyquattro_table_2" title="[Skin 4] TD" description="Default style for the TD html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="2070" sub_group=""><![CDATA[{"border-color":"@primaryDark","border-style":"solid","border-width":"1px"}]]></property>
+    <property property_name="quattro_table_skin1_caption" property_type="css" definition="1" group_name="sedo_tinyquattro_table_1" title="[Skin 1] Caption" description="Default style for the caption html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="1080" sub_group=""><![CDATA[[]]]></property>
+    <property property_name="quattro_table_skin2_caption" property_type="css" definition="1" group_name="sedo_tinyquattro_table_1" title="[Skin 2] Caption" description="Default style for the caption html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="2070" sub_group=""><![CDATA[[]]]></property>
+    <property property_name="quattro_table_skin3_caption" property_type="css" definition="1" group_name="sedo_tinyquattro_table_2" title="[Skin 3] Caption" description="Default style for the caption html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="1080" sub_group=""><![CDATA[[]]]></property>
+    <property property_name="quattro_table_skin4_caption" property_type="css" definition="1" group_name="sedo_tinyquattro_table_2" title="[Skin 4] Caption" description="Default style for the caption html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="2080" sub_group=""><![CDATA[[]]]></property>
+    <property property_name="quattro_table_skin_default" property_type="scalar" definition="1" group_name="sedo_tinyquattro_table_1" title="Default Table skin" description="Choose here the default skin for your table." css_components="" scalar_type="template" scalar_parameters="style_property_unit_quattro_table" display_order="10" sub_group=""><![CDATA[skin1]]></property>
+    <group group_name="sedo_tinyquattro" display_order="13207">
       <title>TinyMCE Quattro</title>
       <description>Configure the layout of TinyMCE 4</description>
     </group>
+    <group group_name="sedo_tinyquattro_table_1" display_order="13208">
+      <title>TinyMCE Quattro - Table bb code (1/2)</title>
+      <description>Configure your Wysiwyg table bb code</description>
+    </group>
+    <group group_name="sedo_tinyquattro_table_2" display_order="13209">
+      <title>TinyMCE Quattro - Table bb code (2/2)</title>
+      <description>Configure your Wysiwyg table bb code</description>
+    </group>
   </style_properties>
   <templates>
-    <template title="quattro_bbcode_xtable" version_id="17" version_string="1.3.0"><![CDATA[<xen:require css="quattro_bbcode_xtable.css" />
+    <template title="quattro_bbcode_xtable" version_id="17" version_string="1.3.0"><![CDATA[<xen:require css="quattro_bbcode_xtable_auto.css" />
+<xen:require css="quattro_bbcode_xtable_manual.css" />
 
 <table 	class="quattro_table {$extraClass}" 
 	{$attributes} 
 	{xen:if '{$css}', 'style="{$css}"'}
 	>{xen:raw $tagContent}</table>]]></template>
-    <template title="quattro_bbcode_xtable.css" version_id="17" version_string="1.3.0"><![CDATA[table.quattro_table{
-	border: 1px solid black;
-	//border-spacing: 0; *border-collapse: collapse;
-}
+    <template title="quattro_bbcode_xtable_auto.css" version_id="17" version_string="1.3.0"><![CDATA[<xen:comment>Don't edit this template directly, use the style options</xen:comment>
 
-table.quattro_table tbody, 
-table.quattro_table thead,
-table.quattro_table tfooter{
-border:0;
-}
+<xen:comment>Table</xen:comment>
+	table.quattro_table.skin1{
+		{xen:property quattro_table_skin1_table}
+	}
 
-table.quattro_table tr{
-border:1px solid grey;
-}
+	table.quattro_table.skin2{
+		{xen:property quattro_table_skin2_table}
+	}
 
-table.quattro_table td, 
-table.quattro_table th,
-table.quattro_table {
-border:1px solid grey;
-}]]></template>
+	table.quattro_table.skin3{
+		{xen:property quattro_table_skin3_table}
+	}
+
+	table.quattro_table.skin4{
+		{xen:property quattro_table_skin4_table}
+	}
+
+<xen:comment>Thead</xen:comment>
+	table.quattro_table.skin1 thead{
+		{xen:property quattro_table_skin1_thead}
+	}
+
+	table.quattro_table.skin2 thead{
+		{xen:property quattro_table_skin2_thead}
+	}
+
+	table.quattro_table.skin3 thead{
+		{xen:property quattro_table_skin3_thead}
+	}
+
+	table.quattro_table.skin4 thead{
+		{xen:property quattro_table_skin4_thead}
+	}
+
+<xen:comment>Tbody</xen:comment>
+	table.quattro_table.skin1 tbody{
+		{xen:property quattro_table_skin1_tbody}
+	}
+
+	table.quattro_table.skin2 tbody{
+		{xen:property quattro_table_skin2_tbody}
+	}
+
+	table.quattro_table.skin3 tbody{
+		{xen:property quattro_table_skin3_tbody}
+	}
+
+	table.quattro_table.skin4 tbody{
+		{xen:property quattro_table_skin4_tbody}
+	}
+
+<xen:comment>Tfoot</xen:comment>
+	table.quattro_table.skin1 tfoot{
+		{xen:property quattro_table_skin1_tfoot}
+	}
+
+	table.quattro_table.skin2 tfoot{
+		{xen:property quattro_table_skin2_tfoot}
+	}
+
+	table.quattro_table.skin3 tfoot{
+		{xen:property quattro_table_skin3_tfoot}
+	}
+
+	table.quattro_table.skin4 tfoot{
+		{xen:property quattro_table_skin4_tfoot}
+	}
+
+<xen:comment>TR</xen:comment>
+	table.quattro_table.skin1 tr{
+		{xen:property quattro_table_skin1_tr}
+	}
+
+	table.quattro_table.skin2 tr{
+		{xen:property quattro_table_skin2_tr}
+	}
+
+	table.quattro_table.skin3 tr{
+		{xen:property quattro_table_skin3_tr}
+	}
+
+	table.quattro_table.skin4 tr{
+		{xen:property quattro_table_skin4_tr}
+	}
+
+<xen:comment>TH</xen:comment>
+	table.quattro_table.skin1 th{
+		{xen:property quattro_table_skin1_th}
+	}
+
+	table.quattro_table.skin2 th{
+		{xen:property quattro_table_skin2_th}
+	}
+
+	table.quattro_table.skin3 th{
+		{xen:property quattro_table_skin3_th}
+	}
+
+	table.quattro_table.skin4 th{
+		{xen:property quattro_table_skin4_th}
+	}
+
+<xen:comment>TD</xen:comment>
+	table.quattro_table.skin1 td{
+		{xen:property quattro_table_skin1_td}
+	}
+
+	table.quattro_table.skin2 td{
+		{xen:property quattro_table_skin2_td}
+	}
+
+	table.quattro_table.skin3 td{
+		{xen:property quattro_table_skin3_td}
+	}
+
+	table.quattro_table.skin4 td{
+		{xen:property quattro_table_skin4_td}
+	}
+
+<xen:comment>CAPTION</xen:comment>
+	table.quattro_table.skin1 caption{
+		{xen:property quattro_table_skin1_caption}
+	}
+
+	table.quattro_table.skin2 caption{
+		{xen:property quattro_table_skin2_caption}
+	}
+
+	table.quattro_table.skin3 caption{
+		{xen:property quattro_table_skin3_caption}
+	}
+
+	table.quattro_table.skin4 caption{
+		{xen:property quattro_table_skin4_caption}
+	}]]></template>
+    <template title="quattro_bbcode_xtable_manual.css" version_id="17" version_string="1.3.0"><![CDATA[<xen:comment>You can edit this template to customize your table layouts</xen:comment>]]></template>
     <template title="quattro_dialog.css" version_id="17" version_string="1.3.0"><![CDATA[.mce-xen-body{
 	width:100%;
 	height:100%;
@@ -6241,7 +6504,7 @@ h6 { font-size: .75em; }
 		</xen:if>
 	</xen:foreach>
 </xen:if>]]></template>
-    <template title="tiny_quattro_js_setup" version_id="16" version_string="1.2.2"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_js_setup" version_id="17" version_string="1.3.0"><![CDATA[<xen:comment>
 	Load Quattro Integration JS files for 1.2
 </xen:comment>
 
@@ -6330,7 +6593,7 @@ h6 { font-size: .75em; }
 				paste_as_text: {$xenOptions.quattro_paste_as_text},
 				font_size_legacy_values: "9px,10px,12px,15px,18px,22px,26px",
 				statusbar: {$xenOptions.quattro_statusbar},
-				contextmenu: "xen_link inserttable | cell row column deletetable",
+				contextmenu: "xen_link inserttable | cell row column xen_tableskin deletetable",
 				xen_attach: "{$editorOptions.sedo_quattro.attach.type},{$editorOptions.sedo_quattro.attach.id},{$editorOptions.sedo_quattro.attach.hash}",
 				<xen:include template="tiny_quattro_grid" />
 				nonbreaking_force_tab: true
@@ -6487,6 +6750,11 @@ h6 { font-size: .75em; }
 		"Header": "{xen:jsescape {xen:phrase sedo_quattro_table_header}}",
 		"Body": "{xen:jsescape {xen:phrase sedo_quattro_table_body}}",
 		"Footer": "{xen:jsescape {xen:phrase sedo_quattro_table_footer}}",
+		"Table skins": "{xen:jsescape {xen:phrase sedo_quattro_table_skins}}",
+		"Skin 1": "{xen:jsescape {xen:phrase sedo_quattro_skin1}}",
+		"Skin 2": "{xen:jsescape {xen:phrase sedo_quattro_skin2}}",
+		"Skin 3": "{xen:jsescape {xen:phrase sedo_quattro_skin3}}",
+		"Skin 4": "{xen:jsescape {xen:phrase sedo_quattro_skin4}}",
 	</xen:if>
 		"Words: {0}": "{xen:jsescape {xen:if "in_array({$xenOptions.quattro_wordcount}, array('char','charwp'))", "{xen:phrase sedo_quattro_characters}", "{xen:phrase sedo_quattro_words}"}}",
 		"Special character": "{xen:jsescape {xen:phrase sedo_quattro_specialcharacters}}",
@@ -6554,6 +6822,23 @@ h6 { font-size: .75em; }
 $1<xen:include template="quattro_mobile_user_option"></xen:include>
 $1</xen:if>
 $0]]></replace>
+    </modification>
+    <modification template="editor_contents.css" modification_key="quattro_table_basic" description="Display table borders in XenForo official editor (if option activated)" execution_order="10" enabled="1" action="preg_replace">
+      <find><![CDATA[#(^.*$)#s]]></find>
+      <replace><![CDATA[$1
+
+<xen:if is="{$xenOptions.quattro_table_all_editors_activation}">
+	table.quattro_table{
+		border:1px solid black;
+		border-collapse: collapse;
+	}
+
+	table.quattro_table tr,
+	table.quattro_table td,
+	table.quattro_table th{
+		border:1px solid black;
+	}
+</xen:if>]]></replace>
     </modification>
   </public_template_modifications>
   <bb_code_media_sites/>

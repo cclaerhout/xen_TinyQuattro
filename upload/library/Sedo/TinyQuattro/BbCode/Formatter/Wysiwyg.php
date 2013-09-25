@@ -8,16 +8,22 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 	protected $_mceTableTagName = 'xtable';
 
 	/**
+	 * Table default skin
+	 */
+	protected $_mceTableDefaultSkin = 'skin1';
+	
+	/**
 	 * Xen Options for MCE Table
 	 */
 	protected $_xenOptionsMceTable;
-	
+
 	/**
 	 * Extend tags
 	 */
 	public function getTags()
 	{
 		$parentTags = parent::getTags();
+		$xenOptions = XenForo_Application::get('options');
 		
 		if(is_array($parentTags))
 		{
@@ -46,13 +52,21 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 				);			
 			}
 			
-			if(Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('xtable'))
+			if(	Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('xtable')
+				&&
+				(	$xenOptions->quattro_table_all_editors_activation
+					||
+					Sedo_TinyQuattro_Helper_Quattro::isEnabled()
+				)
+			)
 			{
 				$this->_preloadMceTemplates[] = 'quattro_bbcode_xtable';
 				
 				$tableTag = Sedo_TinyQuattro_Helper_BbCodes::getQuattroBbCodeTagName('xtable');
 				$this->_mceTableTagName =  $tableTag; 
-				
+
+				$this->_mceTableDefaultSkin = XenForo_Template_Helper_Core::styleProperty('quattro_table_skin_default');
+
 				$parentTags += array(
 					$tableTag => array(
 						'callback' => array($this, 'renderTagSedoXtable'),
@@ -249,8 +263,20 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 		$miniParser =  new Sedo_TinyQuattro_Helper_MiniParser($content, $slaveTags, $tag, $miniParserOptions);
 		$content = $miniParser->render();
 
+		/*In the wysiwyg formatter, we don't use the class, but the data-style to get the skin (easier to manage in the javascript)*/
+		if(preg_match('#skin\d{1,2}#', $extraClass, $match))
+		{
+			$skin = $match[0];
+			$extraClass = str_replace($skin, '', $extraClass);
+			
+		}
+		else
+		{
+			$skin = $this->_mceTableDefaultSkin;
+		}
+
 		$formattedCss = (empty($css)) ? '' : "style='{$css}'";
-		$wysiwygOuput = "<table class='quattro_table {$extraClass}' {$attributes} {$formattedCss}>$content</table>";
+		$wysiwygOuput = "<table class='quattro_table {$extraClass}' {$attributes} {$formattedCss} data-skin='{$skin}'>{$content}</table>";
 		
 		return $wysiwygOuput;
 	}
@@ -279,6 +305,13 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 				Disable with the XenForo wysiwyg formatter (use the mini parser formatter)
 			**/
 			$content = $this->renderSubTree($tag['children'], $rendererStates);
+			
+			if(empty($content))
+			{
+				//Will avoid tags to be "eaten" (MCE does it automatically, not Redactor)
+				$content="&nbsp;";
+			}
+			
 			return $this->_wrapInHtml($openingHtmlTag, $closingHtmlTag, $content);
 		}
 		else
@@ -287,6 +320,13 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 				We're using the formatter of the Miniparser - the "wrapInHtml" function is here public
 			**/
 			$content = $parentClass->renderSubTree($tag['children'], $rendererStates);
+
+			if(empty($content))
+			{
+				//Will avoid tags to be "eaten" (MCE does it automatically, not Redactor)
+				$content="&nbsp;";			
+			}
+			
 			return $parentClass->wrapInHtml($openingHtmlTag, $closingHtmlTag, $content);
 		}
 	}

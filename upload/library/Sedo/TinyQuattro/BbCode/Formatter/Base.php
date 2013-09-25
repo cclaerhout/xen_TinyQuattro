@@ -8,6 +8,11 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 	protected $_mceTableTagName = 'xtable';
 
 	/**
+	 * Table default skin
+	 */
+	protected $_mceTableDefaultSkin = 'skin1';
+
+	/**
 	 * Xen Options for MCE Table
 	 */
 	protected $_xenOptionsMceTable;
@@ -51,8 +56,10 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 				$this->_preloadMceTemplates[] = 'quattro_bbcode_xtable';
 				
 				$tableTag = Sedo_TinyQuattro_Helper_BbCodes::getQuattroBbCodeTagName('xtable');
-				$this->_mceTableTagName =  $tableTag; 
-				
+				$this->_mceTableTagName = $tableTag; 
+
+				$this->_mceTableDefaultSkin = XenForo_Template_Helper_Core::styleProperty('quattro_table_skin_default');
+
 				$parentTags += array(
 					$tableTag => array(
 						'callback' => array($this, 'renderTagSedoXtable'),
@@ -246,8 +253,13 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 		$miniParser =  new Sedo_TinyQuattro_Helper_MiniParser($content, $slaveTags, $tag, $miniParserOptions);
 		$content = $miniParser->render();
 
+		if(!preg_match('#skin\d{1,2}#', $extraClass, $match))
+		{
+			$extraClass .= " $this->_mceTableDefaultSkin";
+		}
+
 		$formattedCss = (empty($css)) ? '' : "style='{$css}'";
-		$fallback = "<table class='quattro_table {$extraClass}' {$attributes} {$formattedCss}>$content</table>";
+		$fallback = "<table class='quattro_table {$extraClass}' {$attributes} {$formattedCss}>{$content}</table>";
 
 		if ($this->_view)
 		{
@@ -294,6 +306,13 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 				Disable with the XenForo wysiwyg formatter (use the mini parser formatter)
 			**/
 			$content = $this->renderSubTree($tag['children'], $rendererStates);
+
+			if(empty($content))
+			{
+				//Should not be needed with recent browsers but not sure with old ie
+				$content="&nbsp;";			
+			}
+
 			return $this->_wrapInHtml($openingHtmlTag, $closingHtmlTag, $content);
 		}
 		else
@@ -302,6 +321,13 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 				We're using the formatter of the Miniparser - the "wrapInHtml" function is here public
 			**/
 			$content = $parentClass->renderSubTree($tag['children'], $rendererStates);
+
+			if(empty($content))
+			{
+				//Should not be needed with recent browsers but not sure with old ie
+				$content="&nbsp;";			
+			}
+			
 			return $parentClass->wrapInHtml($openingHtmlTag, $closingHtmlTag, $content);
 		}
 	}
