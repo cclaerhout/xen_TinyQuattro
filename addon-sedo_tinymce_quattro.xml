@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.3.0" version_id="18" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.3.1" version_id="19" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -1257,7 +1257,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <property property_name="tinyquattro_smiliesbtn_height" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies button menu height" description="Default value: 70px." css_components="" scalar_type="number" scalar_parameters="" display_order="111" sub_group="smilies"><![CDATA[70px]]></property>
     <property property_name="tinyquattro_smiliespicker_width" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies picker modal width" description="Default value: 380px." css_components="" scalar_type="number" scalar_parameters="" display_order="112" sub_group="smilies"><![CDATA[380px]]></property>
     <property property_name="tinyquattro_smiliespicker_height" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies picker modal height" description="Default value: 160px." css_components="" scalar_type="number" scalar_parameters="" display_order="113" sub_group="smilies"><![CDATA[160px]]></property>
-    <property property_name="tinyquattro_flatdesign" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Flat design" description="This option will disable the background gradient effects. Don't forget, since the XenForo css are heavily cached, you will certainly have to clean your browser cache before to see the modifications." css_components="" scalar_type="boolean" scalar_parameters="" display_order="10" sub_group="global"><![CDATA[0]]></property>
+    <property property_name="tinyquattro_flatdesign" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Flat design" description="This option will disable the background gradient effects. Don't forget, since the XenForo css are heavily cached, you will certainly have to clean your browser cache before to see the modifications." css_components="" scalar_type="boolean" scalar_parameters="" display_order="10" sub_group="global"><![CDATA[1]]></property>
     <property property_name="quattro_table_skin1_table" property_type="css" definition="1" group_name="sedo_tinyquattro_table_1" title="[Skin 1] Table" description="Default style for the table html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="1000" sub_group=""><![CDATA[{"extra":"border-collapse: collapse;"}]]></property>
     <property property_name="quattro_table_skin2_table" property_type="css" definition="1" group_name="sedo_tinyquattro_table_1" title="[Skin 2] Table" description="Default style for the table html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="2000" sub_group=""><![CDATA[{"background-color":"@primaryLighter","border-color":"rgb(0, 0, 0)","border-style":"solid","border-width":"1px","extra":"border-collapse: collapse;"}]]></property>
     <property property_name="quattro_table_skin3_table" property_type="css" definition="1" group_name="sedo_tinyquattro_table_2" title="[Skin 3] Table" description="Default style for the table html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="1000" sub_group=""><![CDATA[{"extra":"border-collapse: separate;\nborder-spacing: 3px;"}]]></property>
@@ -2759,7 +2759,7 @@ i.mce-i-backcolor
 </xen:if>
 </xen:foreach>
 ]]></template>
-    <template title="tiny_quattro_editor.css" version_id="17" version_string="1.3.0"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_editor.css" version_id="18" version_string="1.3.0"><![CDATA[<xen:comment>
 	ALL EDITOR CSS (EXCEPT IFRAME CONTENT)
 	> IE7 have the same CSS except for buttons.
 	> These main css can be copied to the tiny_quattro_editor_ie7.css, just change the require template (see the last line)
@@ -3066,7 +3066,7 @@ div.mce-tinymce-inline
 {
 	{xen:property tinyquattro_panel_border}
 	background-color: {xen:property tinyquattro_panel_background_color};
-	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+	<xen:if is="!{xen:property tinyquattro_flatdesign}">
 		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
 		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
 		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
@@ -3475,7 +3475,7 @@ body .mce-abs-layout-item,.mce-abs-end
 	background-color: {xen:property tinyquattro_btn_bckg_color};
 	display: inline-block;
 	*display: inline;
-	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+	<xen:if is="!{xen:property tinyquattro_flatdesign}">
 		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
 		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_gradient_from}),to({xen:property tinyquattro_btn_gradient_to}));
 		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
@@ -3491,7 +3491,7 @@ body .mce-abs-layout-item,.mce-abs-end
 {
 	{xen:property tinyquattro_btn_hov_border_color}
 	background-color: {xen:property tinyquattro_btn_hov_bckg_color};
-	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+	<xen:if is="!{xen:property tinyquattro_flatdesign}">
 		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
 		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_hov_gradient_from}),to({xen:property tinyquattro_btn_hov_gradient_to}));
 		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
@@ -3519,7 +3519,7 @@ body .mce-abs-layout-item,.mce-abs-end
 {
 	{xen:property tinyquattro_btn_active_border_color}
 	background-color: {xen:property tinyquattro_btn_active_bckg_color};
-	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+	<xen:if is="!{xen:property tinyquattro_flatdesign}">
 		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
 		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_active_gradient_from}),to({xen:property tinyquattro_btn_active_gradient_to}));
 		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
@@ -3552,7 +3552,7 @@ body .mce-abs-layout-item,.mce-abs-end
 	{xen:property tinyquattro_primary_border_color}
 	min-width:50px;
 	background-color: {xen:property tinyquattro_primary_background_color};
-	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+	<xen:if is="!{xen:property tinyquattro_flatdesign}">
 		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
 		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_gradient_from}),to({xen:property tinyquattro_primary_gradient_to}));
 		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
@@ -3568,7 +3568,7 @@ body .mce-abs-layout-item,.mce-abs-end
 {
 	{xen:property tinyquattro_primary_hov_border_color}
 	background-color: {xen:property tinyquattro_primary_hover_bck_color};
-	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+	<xen:if is="!{xen:property tinyquattro_flatdesign}">
 		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
 		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_hover_grdt_from}),to({xen:property tinyquattro_primary_hover_grdt_to}));
 		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
@@ -3664,7 +3664,7 @@ body .mce-abs-layout-item,.mce-abs-end
 {
 	{xen:property tinyquattro_btngrp_hov_border_color}
 	background-color: {xen:property tinyquattro_btngrp_hov_bckg_color};
-	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+	<xen:if is="!{xen:property tinyquattro_flatdesign}">
 		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
 		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btngrp_hov_gradient_from}),to({xen:property tinyquattro_btngrp_hov_gradient_to}));
 		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
@@ -3680,7 +3680,7 @@ body .mce-abs-layout-item,.mce-abs-end
 {
 	{xen:property tinyquattro_btngrp_disable_border_color}
 	background-color: {xen:property tinyquattro_btn_bckg_color};
-	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+	<xen:if is="!{xen:property tinyquattro_flatdesign}">
 		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
 		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_gradient_from}),to({xen:property tinyquattro_btn_gradient_to}));
 		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
@@ -3696,7 +3696,7 @@ body .mce-abs-layout-item,.mce-abs-end
 {
 	{xen:property tinyquattro_btngrp_active_border_color}
 	background-color: {xen:property tinyquattro_btngrp_active_bckg_color};
-	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+	<xen:if is="!{xen:property tinyquattro_flatdesign}">
 		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
 		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btngrp_active_grdt_from}),to({xen:property tinyquattro_btngrp_active_grdt_to}));
 		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
@@ -3759,7 +3759,7 @@ i.mce-i-checkbox
 	-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
 	box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
 	background-color: {xen:property tinyquattro_panel_background_color};
-	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+	<xen:if is="!{xen:property tinyquattro_flatdesign}">
 		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
 		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
 		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
@@ -4131,7 +4131,7 @@ i.mce-i-checkbox
 	text-decoration: none;
 	color: {xen:property tinyquattro_menuitem_font_hover};
 	background-color: {xen:property tinyquattro_focus_boder.border-color};
-	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+	<xen:if is="!{xen:property tinyquattro_flatdesign}">
 		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
 		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_gradient_from}),to({xen:property tinyquattro_primary_hover_grdt_from}));
 		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
@@ -4300,7 +4300,7 @@ i.mce-radio
 	-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
 	box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
 	background-color: {xen:property tinyquattro_panel_background_color};
-	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
+	<xen:if is="!{xen:property tinyquattro_flatdesign}">
 		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
 		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
 		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
@@ -6792,19 +6792,7 @@ h6 { font-size: .75em; }
     <modification template="editor" modification_key="quattro_editor" description="Quattro Editor Loader" execution_order="10" enabled="1" action="str_replace">
       <find><![CDATA[<xen:include template="editor_js_setup" />]]></find>
       <replace><![CDATA[<xen:if is="{$loadQuattro}">
-	<xen:if is="!{$visitor.miu_rte_reverse}">
 		<xen:include template="tiny_quattro_js_setup" />
-	<xen:else />
-<xen:require js="js/sedo/tinyquattro/tinymce/tinymce.min.js" />
-		<div 	class="miu_trigger"
-			data-load="{xen:phrase loading}"
-			data-src="mce4"
-			data-cName="{$controllerName} "
-			data-cAction="{$controllerAction} "
-			data-vName="{$viewName}"
-			data-stopsafe="{$xenOptions.markitup_integration_debug_dynamicmce_error}"
-		><a href="javascript:">{xen:phrase use_rich_text_editor}</a></div>
-	</xen:if>
 <xen:else />
 		<xen:include template="editor_js_setup" />
 </xen:if>]]></replace>
