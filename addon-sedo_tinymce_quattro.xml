@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.3.1" version_id="19" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.4.0" version_id="20" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -469,7 +469,7 @@ true={xen:phrase yes}</edit_format_params>
       <edit_format_params>min=10
 step=5</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="100"/>
+      <relation group_id="tiny_quattro" display_order="105"/>
     </option>
     <option option_id="quattro_autosave_retention" edit_format="spinbox" data_type="integer" can_backup="1">
       <default_value>20</default_value>
@@ -721,6 +721,13 @@ true={xen:phrase yes}</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro_bbcodes" display_order="5000"/>
     </option>
+    <option option_id="quattro_usertagging" edit_format="radio" data_type="string" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params>0={xen:phrase no}
+1={xen:phrase yes}</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="700"/>
+    </option>
     <option option_id="quattro_wordcount" edit_format="select" data_type="string" can_backup="1">
       <default_value>words</default_value>
       <edit_format_params>no={xen:phrase no}
@@ -729,6 +736,13 @@ char={xen:phrase sedo_quattro_wordcount_characters}
 charwp={xen:phrase sedo_quattro_wordcount_characterswithwhitespaces}</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="420"/>
+    </option>
+    <option option_id="quattro_xendraft" edit_format="radio" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params>0={xen:phrase no}
+1={xen:phrase yes}</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="100"/>
     </option>
     <option option_id="quattro_xsmilies" edit_format="spinbox" data_type="integer" can_backup="1">
       <default_value>12</default_value>
@@ -874,8 +888,22 @@ In both methods, the width and the height of the modal window can be set in the 
 One more thing, even if the bbcode is rendered in other editors it doesn't mean there will be special menus to modify your table. These ones will have to be coded or activated. But once activated, this addon "html to bbcode" engine for the table elements should work without any problems.<br />
 <br />
 Default configuration: unchecked.]]></phrase>
+    <phrase title="option_quattro_usertagging" version_id="19" version_string="1.3.1"><![CDATA[XenForo user tagging integration]]></phrase>
+    <phrase title="option_quattro_usertagging_explain" version_id="19" version_string="1.3.1"><![CDATA[<b>Requires XenForo 1.2 or above</b> - This option will activate the XenForo tagging functionality with TinyMCE.<br />
+<br />
+If you have already installed the extension <a href="http://xenforo.com/community/resources/386" target="_blank">Tag Me</a>, do not activate this option. The Tag Me addon has been created by <a href="http://xenforo.com/community/resources/authors/2880" target="_blank">xfrocks</a> and provided advanced functionalities. <br />
+<br />
+Default: no.]]></phrase>
     <phrase title="option_quattro_wordcount" version_id="0" version_string="1.0"><![CDATA[Enable word count?]]></phrase>
     <phrase title="option_quattro_wordcount_explain" version_id="0" version_string="1.0"><![CDATA[This option will activate the TinyMCE word count plugin.]]></phrase>
+    <phrase title="option_quattro_xendraft" version_id="19" version_string="1.3.1"><![CDATA[XenForo drafts integration]]></phrase>
+    <phrase title="option_quattro_xendraft_explain" version_id="19" version_string="1.3.1"><![CDATA[If you prefer to use the XenForo drafts system instead of the TinyMCE autosave plugin, select "yes". The first one is saving drafts in the database, the second in in the browser memory. The XenForo drafts system must have of course been activated in the XenForo options.<br />
+<br />
+If you activate this option <b>AND</b> the  XenForo page the editor is loading on is compatible with the XenForo drafts system, then the TinyMCE autosave plugin will be disabled. The draft button will look the same but will not work the same way. Clicking on it will display a menu to save or delete the draft from the database. But you can't manually get the draft back. You will have to reload the page.<br />
+<br />
+If the  XenForo page the editor is loading on is NOT compatible with the XenForo drafts system, then the TinyMCE autosave plugin will be loaded as usual with the settings you would have configured below.<br />
+<br />
+Default value: "no".]]></phrase>
     <phrase title="option_quattro_xsmilies" version_id="3" version_string="1.0.3"><![CDATA[[Menu button] Number of smilies?]]></phrase>
     <phrase title="option_quattro_xsmilies_explain" version_id="0" version_string="1.0"><![CDATA[Select here the number of smilies you would like to display in the button menu. Set 0 if you want to display all of them.]]></phrase>
     <phrase title="option_quattro_xsmilies_slide" version_id="3" version_string="1.0.3"><![CDATA[[Slider Smilies] Number of smilies per slide?]]></phrase>
@@ -1066,32 +1094,12 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="style_property_quattro_table_skin4_tr_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 4] TR]]></phrase>
     <phrase title="style_property_quattro_table_skin_default_description_master" version_id="17" version_string="1.3.0"><![CDATA[Choose here the default skin for your table.]]></phrase>
     <phrase title="style_property_quattro_table_skin_default_master" version_id="17" version_string="1.3.0"><![CDATA[Default Table skin]]></phrase>
-    <phrase title="style_property_tinyquattro_btngrp_active_bckg_color_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
-    <phrase title="style_property_tinyquattro_btngrp_active_bckg_color_master" version_id="0" version_string="1.0"><![CDATA[Button group active background color]]></phrase>
     <phrase title="style_property_tinyquattro_btngrp_active_border_color_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
     <phrase title="style_property_tinyquattro_btngrp_active_border_color_master" version_id="0" version_string="1.0"><![CDATA[Button group active border & color]]></phrase>
-    <phrase title="style_property_tinyquattro_btngrp_active_grdt_from_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
-    <phrase title="style_property_tinyquattro_btngrp_active_grdt_from_ie_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
-    <phrase title="style_property_tinyquattro_btngrp_active_grdt_from_ie_master" version_id="0" version_string="1.0"><![CDATA[[IE] Button group active gradient from:]]></phrase>
-    <phrase title="style_property_tinyquattro_btngrp_active_grdt_from_master" version_id="0" version_string="1.0"><![CDATA[Button group active gradient from:]]></phrase>
-    <phrase title="style_property_tinyquattro_btngrp_active_grdt_to_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
-    <phrase title="style_property_tinyquattro_btngrp_active_grdt_to_ie_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
-    <phrase title="style_property_tinyquattro_btngrp_active_grdt_to_ie_master" version_id="0" version_string="1.0"><![CDATA[[IE] Button group active gradient to:]]></phrase>
-    <phrase title="style_property_tinyquattro_btngrp_active_grdt_to_master" version_id="0" version_string="1.0"><![CDATA[Button group active gradient to:]]></phrase>
     <phrase title="style_property_tinyquattro_btngrp_disable_border_color_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
     <phrase title="style_property_tinyquattro_btngrp_disable_border_color_master" version_id="0" version_string="1.0"><![CDATA[Button group disable border & color]]></phrase>
-    <phrase title="style_property_tinyquattro_btngrp_hov_bckg_color_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
-    <phrase title="style_property_tinyquattro_btngrp_hov_bckg_color_master" version_id="0" version_string="1.0"><![CDATA[Button group hover background color]]></phrase>
     <phrase title="style_property_tinyquattro_btngrp_hov_border_color_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
     <phrase title="style_property_tinyquattro_btngrp_hov_border_color_master" version_id="0" version_string="1.0"><![CDATA[Button group hover border & color]]></phrase>
-    <phrase title="style_property_tinyquattro_btngrp_hov_gradient_from_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
-    <phrase title="style_property_tinyquattro_btngrp_hov_gradient_from_ie_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
-    <phrase title="style_property_tinyquattro_btngrp_hov_gradient_from_ie_master" version_id="0" version_string="1.0"><![CDATA[[IE] Button group hover gradient from:]]></phrase>
-    <phrase title="style_property_tinyquattro_btngrp_hov_gradient_from_master" version_id="0" version_string="1.0"><![CDATA[Button group hover gradient from:]]></phrase>
-    <phrase title="style_property_tinyquattro_btngrp_hov_gradient_to_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
-    <phrase title="style_property_tinyquattro_btngrp_hov_gradient_to_ie_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
-    <phrase title="style_property_tinyquattro_btngrp_hov_gradient_to_ie_master" version_id="0" version_string="1.0"><![CDATA[[IE] Button group hover gradient to:]]></phrase>
-    <phrase title="style_property_tinyquattro_btngrp_hov_gradient_to_master" version_id="0" version_string="1.0"><![CDATA[Button group hover gradient to:]]></phrase>
     <phrase title="style_property_tinyquattro_btn_active_bckg_color_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
     <phrase title="style_property_tinyquattro_btn_active_bckg_color_master" version_id="0" version_string="1.0"><![CDATA[Button active background color]]></phrase>
     <phrase title="style_property_tinyquattro_btn_active_border_color_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
@@ -1130,7 +1138,11 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="style_property_tinyquattro_btn_hov_gradient_to_master" version_id="0" version_string="1.0"><![CDATA[Button hover gradient to:]]></phrase>
     <phrase title="style_property_tinyquattro_button_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
     <phrase title="style_property_tinyquattro_button_master" version_id="0" version_string="1.0"><![CDATA[Button]]></phrase>
-    <phrase title="style_property_tinyquattro_flatdesign_description_master" version_id="17" version_string="1.3.0"><![CDATA[This option will disable the background gradient effects. Don't forget, since the XenForo css are heavily cached, you will certainly have to clean your browser cache before to see the modifications.]]></phrase>
+    <phrase title="style_property_tinyquattro_css_integration_description_master" version_id="19" version_string="1.3.1"><![CDATA[This addon has the TinyMCE css integrated with XenForo. It allows you to configure all the style properties of this page. If you prefer to use the MCE direct css files, uncheck this option.]]></phrase>
+    <phrase title="style_property_tinyquattro_css_integration_master" version_id="19" version_string="1.3.1"><![CDATA[Official Css Integration]]></phrase>
+    <phrase title="style_property_tinyquattro_css_skin_description_master" version_id="19" version_string="1.3.1"><![CDATA[Only works if the above option is unchecked. Default skin name: lightgray  (must match the foldername of the skin). You can create another skin with the TinyMCE skin creator tool (http://skin.tinymce.com).]]></phrase>
+    <phrase title="style_property_tinyquattro_css_skin_master" version_id="19" version_string="1.3.1"><![CDATA[TinyMCE skin name]]></phrase>
+    <phrase title="style_property_tinyquattro_flatdesign_description_master" version_id="19" version_string="1.3.1"><![CDATA[This option will disable the background gradient effects. It requires the Official Css Integration.]]></phrase>
     <phrase title="style_property_tinyquattro_flatdesign_master" version_id="17" version_string="1.3.0"><![CDATA[Flat design]]></phrase>
     <phrase title="style_property_tinyquattro_focus_boder_description_master" version_id="0" version_string="1.0"><![CDATA[The color will be used in many other properties]]></phrase>
     <phrase title="style_property_tinyquattro_focus_boder_master" version_id="0" version_string="1.0"><![CDATA[Border focus]]></phrase>
@@ -1152,6 +1164,12 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="style_property_tinyquattro_panel_gradient_to_ie_description_master" version_id="0" version_string="1.0"><![CDATA[Same rules than above.]]></phrase>
     <phrase title="style_property_tinyquattro_panel_gradient_to_ie_master" version_id="0" version_string="1.0"><![CDATA[[Old IE] Panel gradient to:]]></phrase>
     <phrase title="style_property_tinyquattro_panel_gradient_to_master" version_id="0" version_string="1.0"><![CDATA[Panel gradient to:]]></phrase>
+    <phrase title="style_property_tinyquattro_primary_active_bck_color_description_master" version_id="19" version_string="1.3.1"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_primary_active_bck_color_master" version_id="19" version_string="1.3.1"><![CDATA[Button group hover background color]]></phrase>
+    <phrase title="style_property_tinyquattro_primary_active_gradient_from_description_master" version_id="19" version_string="1.3.1"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_primary_active_gradient_from_master" version_id="19" version_string="1.3.1"><![CDATA[Primary active gradient from:]]></phrase>
+    <phrase title="style_property_tinyquattro_primary_active_gradient_to_description_master" version_id="19" version_string="1.3.1"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_primary_active_gradient_to_master" version_id="19" version_string="1.3.1"><![CDATA[Primary active gradient to:]]></phrase>
     <phrase title="style_property_tinyquattro_primary_background_color_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
     <phrase title="style_property_tinyquattro_primary_background_color_master" version_id="0" version_string="1.0"><![CDATA[Primary background color]]></phrase>
     <phrase title="style_property_tinyquattro_primary_border_color_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
@@ -1176,6 +1194,10 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="style_property_tinyquattro_primary_hov_grdt_from_ie_master" version_id="0" version_string="1.0"><![CDATA[[IE] Primary hover gradient from:]]></phrase>
     <phrase title="style_property_tinyquattro_primary_hov_grdt_to_ie_description_master" version_id="0" version_string="1.0"><![CDATA[]]></phrase>
     <phrase title="style_property_tinyquattro_primary_hov_grdt_to_ie_master" version_id="0" version_string="1.0"><![CDATA[[IE] Primary hover gradient to:]]></phrase>
+    <phrase title="style_property_tinyquattro_prm_active_gradient_from_ie_description_master" version_id="19" version_string="1.3.1"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_prm_active_gradient_from_ie_master" version_id="19" version_string="1.3.1"><![CDATA[[IE] Primary active gradient from:]]></phrase>
+    <phrase title="style_property_tinyquattro_prm_active_gradient_to_ie_description_master" version_id="19" version_string="1.3.1"><![CDATA[]]></phrase>
+    <phrase title="style_property_tinyquattro_prm_active_gradient_to_ie_master" version_id="19" version_string="1.3.1"><![CDATA[[IE] Primary active gradient to:]]></phrase>
     <phrase title="style_property_tinyquattro_smiliesbtn_height_description_master" version_id="4" version_string="1.0.4"><![CDATA[Default value: 70px.]]></phrase>
     <phrase title="style_property_tinyquattro_smiliesbtn_height_master" version_id="3" version_string="1.0.3"><![CDATA[Smilies button menu height]]></phrase>
     <phrase title="style_property_tinyquattro_smiliesbtn_width_description_master" version_id="2" version_string="1.0.2"><![CDATA[Default value: 100px]]></phrase>
@@ -1196,68 +1218,63 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
   <route_prefixes/>
   <style_properties>
     <property property_name="tinyquattro_panel_border" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Panel border" description="" css_components="border" scalar_type="" scalar_parameters="" display_order="10000" sub_group=""><![CDATA[{"border-color":"rgb(158, 158, 158)","border-style":"solid","border-width":"0"}]]></property>
-    <property property_name="tinyquattro_panel_background_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Panel background color" description="This color will be also use in different areas of the editor." css_components="" scalar_type="color" scalar_parameters="" display_order="200" sub_group="panel"><![CDATA[#f0f0f0]]></property>
-    <property property_name="tinyquattro_panel_gradient_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Panel gradient from:" description="This color will be also use in different areas of the editor." css_components="" scalar_type="color" scalar_parameters="" display_order="210" sub_group="panel"><![CDATA[#fdfdfd]]></property>
-    <property property_name="tinyquattro_panel_gradient_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Panel gradient to:" description="This color will be also use in different areas of the editor." css_components="" scalar_type="color" scalar_parameters="" display_order="220" sub_group="panel"><![CDATA[#ddd]]></property>
-    <property property_name="tinyquattro_panel_gradient_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[Old IE] Panel gradient from:" description="Type here the hexa color you choose above with the prefix &quot;#ff&quot;. Example for the color &quot;#fdfdfd&quot;, type: #fffdfdfd (#ff+fdfdfd). The ff prefix only means the color will be opaque." css_components="" scalar_type="" scalar_parameters="" display_order="230" sub_group="panel"><![CDATA[#fffdfdfd]]></property>
-    <property property_name="tinyquattro_panel_gradient_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[Old IE] Panel gradient to:" description="Same rules than above." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="240" sub_group="panel"><![CDATA[#ffdddddd]]></property>
-    <property property_name="tinyquattro_primary_background_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Primary background color" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="1000" sub_group="primary"><![CDATA[#006dcc]]></property>
-    <property property_name="tinyquattro_primary_gradient_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Primary grandient from:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="1010" sub_group="primary"><![CDATA[#08c]]></property>
-    <property property_name="tinyquattro_primary_gradient_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Primary grandient to:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="1020" sub_group="primary"><![CDATA[#04c]]></property>
-    <property property_name="tinyquattro_primary_gradient_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[Old IE] Primary gradient from:" description="" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="1030" sub_group="primary"><![CDATA[#ff0088cc]]></property>
-    <property property_name="tinyquattro_primary_gradient_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[Old IE] Primary gradient to:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="1040" sub_group="primary"><![CDATA[#ff0044cc]]></property>
-    <property property_name="tinyquattro_primary_border_color" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Primary border &amp; color" description="" css_components="text,border,extra" scalar_type="" scalar_parameters="" display_order="10200" sub_group=""><![CDATA[{"border-color":"#c5c5c5","color":"rgb(255, 255, 255)","extra":"text-shadow: 0 1px 1px rgba(255,255,255,0.75);"}]]></property>
+    <property property_name="tinyquattro_panel_background_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Panel background color" description="This color will be also use in different areas of the editor." css_components="" scalar_type="color" scalar_parameters="" display_order="300" sub_group="panel"><![CDATA[#f0f0f0]]></property>
+    <property property_name="tinyquattro_panel_gradient_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Panel gradient from:" description="This color will be also use in different areas of the editor." css_components="" scalar_type="color" scalar_parameters="" display_order="310" sub_group="panel"><![CDATA[#fdfdfd]]></property>
+    <property property_name="tinyquattro_panel_gradient_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Panel gradient to:" description="This color will be also use in different areas of the editor." css_components="" scalar_type="color" scalar_parameters="" display_order="320" sub_group="panel"><![CDATA[#ddd]]></property>
+    <property property_name="tinyquattro_panel_gradient_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[Old IE] Panel gradient from:" description="Type here the hexa color you choose above with the prefix &quot;#ff&quot;. Example for the color &quot;#fdfdfd&quot;, type: #fffdfdfd (#ff+fdfdfd). The ff prefix only means the color will be opaque." css_components="" scalar_type="" scalar_parameters="" display_order="330" sub_group="panel"><![CDATA[#fffdfdfd]]></property>
+    <property property_name="tinyquattro_panel_gradient_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[Old IE] Panel gradient to:" description="Same rules than above." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="340" sub_group="panel"><![CDATA[#ffdddddd]]></property>
+    <property property_name="tinyquattro_primary_background_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Primary background color" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="1200" sub_group="primary"><![CDATA[#006dcc]]></property>
+    <property property_name="tinyquattro_primary_gradient_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Primary grandient from:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="1210" sub_group="primary"><![CDATA[#08c]]></property>
+    <property property_name="tinyquattro_primary_gradient_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Primary grandient to:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="1220" sub_group="primary"><![CDATA[#04c]]></property>
+    <property property_name="tinyquattro_primary_gradient_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[Old IE] Primary gradient from:" description="" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="1230" sub_group="primary"><![CDATA[#ff0088cc]]></property>
+    <property property_name="tinyquattro_primary_gradient_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[Old IE] Primary gradient to:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="1240" sub_group="primary"><![CDATA[#ff0044cc]]></property>
+    <property property_name="tinyquattro_primary_border_color" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Primary border &amp; color" description="" css_components="text,border,extra" scalar_type="" scalar_parameters="" display_order="10200" sub_group=""><![CDATA[{"border-bottom-color":"rgba(0,0,0,0.25)","border-color":"#b1b1b1","border-left-color":"rgba(0,0,0,0.25)","border-right-color":"rgba(0,0,0,0.1)","border-style":"solid","border-top-color":"rgba(0,0,0,0.1)","border-width":"1px","color":"#fff"}]]></property>
     <property property_name="tinyquattro_primary_hover_bck_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Primary hover background color" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="1100" sub_group="primary_hover"><![CDATA[#005fb3]]></property>
     <property property_name="tinyquattro_primary_hover_grdt_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Primary hover grandient from:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="1110" sub_group="primary_hover"><![CDATA[#0077b3]]></property>
     <property property_name="tinyquattro_primary_hover_grdt_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Primary hover grandient to:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="1120" sub_group="primary_hover"><![CDATA[#003cb3]]></property>
     <property property_name="tinyquattro_primary_hov_grdt_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Primary hover gradient from:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="1130" sub_group="primary_hover"><![CDATA[#ff0077b3]]></property>
     <property property_name="tinyquattro_primary_hov_grdt_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Primary hover gradient to:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="1140" sub_group="primary_hover"><![CDATA[#ff003cb3]]></property>
-    <property property_name="tinyquattro_primary_hov_border_color" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Primary hover border &amp; color" description="" css_components="text,border,extra" scalar_type="" scalar_parameters="" display_order="10210" sub_group=""><![CDATA[{"border-color":"#c5c5c5","color":"rgb(255, 255, 255)","extra":"text-shadow: 0 1px 1px rgba(255,255,255,0.75);"}]]></property>
-    <property property_name="tinyquattro_btn_bckg_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button background color" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="300" sub_group="button"><![CDATA[#f0f0f0]]></property>
-    <property property_name="tinyquattro_btn_gradient_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button gradient from:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="310" sub_group="button"><![CDATA[#fff]]></property>
-    <property property_name="tinyquattro_btn_gradient_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button gradient to:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="320" sub_group="button"><![CDATA[#d9d9d9]]></property>
-    <property property_name="tinyquattro_btn_gradient_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button gradient from:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="330" sub_group="button"><![CDATA[#ffffffff]]></property>
-    <property property_name="tinyquattro_btn_gradient_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button gradient to:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="340" sub_group="button"><![CDATA[#ffd9d9d9]]></property>
-    <property property_name="tinyquattro_btn_border_color" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Button border &amp; color" description="" css_components="text,border,extra" scalar_type="" scalar_parameters="" display_order="10040" sub_group=""><![CDATA[{"border-color":"#c5c5c5","border-radius":"3px","border-style":"solid","border-width":"1px","color":"rgb(51, 51, 51)","extra":"text-shadow: 0 1px 1px rgba(255,255,255,0.75);\n-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);\n-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);\nbox-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);"}]]></property>
+    <property property_name="tinyquattro_primary_hov_border_color" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Primary hover border &amp; color" description="" css_components="text,border,extra" scalar_type="" scalar_parameters="" display_order="10210" sub_group=""><![CDATA[[]]]></property>
+    <property property_name="tinyquattro_btn_bckg_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button background color" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="400" sub_group="button"><![CDATA[#f0f0f0]]></property>
+    <property property_name="tinyquattro_btn_gradient_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button gradient from:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="410" sub_group="button"><![CDATA[#fff]]></property>
+    <property property_name="tinyquattro_btn_gradient_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button gradient to:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="420" sub_group="button"><![CDATA[#d9d9d9]]></property>
+    <property property_name="tinyquattro_btn_gradient_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button gradient from:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="430" sub_group="button"><![CDATA[#ffffffff]]></property>
+    <property property_name="tinyquattro_btn_gradient_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button gradient to:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="440" sub_group="button"><![CDATA[#ffd9d9d9]]></property>
+    <property property_name="tinyquattro_btn_border_color" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Button border &amp; color" description="" css_components="text,border,extra" scalar_type="" scalar_parameters="" display_order="10040" sub_group=""><![CDATA[{"border-color":"#b1b1b1","border-radius":"3px","border-style":"solid","border-width":"1px","extra":"text-shadow: 0 1px 1px rgba(255,255,255,0.75);\n-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);\n-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);\nbox-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);"}]]></property>
     <property property_name="tinyquattro_btn_hov_bckg_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button hover background color" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="500" sub_group="button_hover"><![CDATA[#e3e3e3]]></property>
     <property property_name="tinyquattro_btn_hov_gradient_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button hover gradient from:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="510" sub_group="button_hover"><![CDATA[#f2f2f2]]></property>
     <property property_name="tinyquattro_btn_hov_gradient_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button hover gradient to:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="520" sub_group="button_hover"><![CDATA[#ccc]]></property>
     <property property_name="tinyquattro_btn_hov_gradient_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button hover gradient from:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="530" sub_group="button_hover"><![CDATA[#fff2f2f2]]></property>
     <property property_name="tinyquattro_btn_hov_gradient_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button hover gradient to:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="540" sub_group="button_hover"><![CDATA[#ffcccccc]]></property>
-    <property property_name="tinyquattro_btn_hov_border_color" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Button hover border &amp; color" description="" css_components="text,border,extra" scalar_type="" scalar_parameters="" display_order="10050" sub_group=""><![CDATA[{"border-color":"#c5c5c5","color":"rgb(51, 51, 51)","extra":"text-shadow: 0 1px 1px rgba(255,255,255,0.75);","text-decoration":{"none":"none"}}]]></property>
+    <property property_name="tinyquattro_btn_hov_border_color" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Button hover border &amp; color" description="" css_components="text,border,extra" scalar_type="" scalar_parameters="" display_order="10050" sub_group=""><![CDATA[{"color":"rgb(51, 51, 51)"}]]></property>
     <property property_name="tinyquattro_btn_active_bckg_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button active background color" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="600" sub_group="button_active"><![CDATA[#d6d6d6]]></property>
     <property property_name="tinyquattro_btn_active_gradient_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button active gradient from:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="610" sub_group="button_active"><![CDATA[#e6e6e6]]></property>
-    <property property_name="tinyquattro_btn_active_gradient_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button active gradient to:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="620" sub_group="button_active"><![CDATA[#bfbfbf]]></property>
+    <property property_name="tinyquattro_btn_active_gradient_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button active gradient to:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="620" sub_group="button_active"><![CDATA[rgb(192, 192, 192)]]></property>
     <property property_name="tinyquattro_btn_active_gradient_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button active gradient from:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="630" sub_group="button_active"><![CDATA[#ffe6e6e6]]></property>
-    <property property_name="tinyquattro_btn_active_gradient_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button active gradient to:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="640" sub_group="button_active"><![CDATA[#ffbfbfbf]]></property>
-    <property property_name="tinyquattro_btn_active_border_color" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Button active border &amp; color" description="" css_components="text,border,extra" scalar_type="" scalar_parameters="" display_order="10060" sub_group=""><![CDATA[{"border-color":"#c5c5c5","color":"rgb(51, 51, 51)","extra":"text-shadow: 0 1px 1px rgba(255,255,255,0.75);\n-webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);\n-moz-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);\nbox-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);"}]]></property>
-    <property property_name="tinyquattro_btngrp_hov_bckg_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button group hover background color" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="700" sub_group="button_group_hover"><![CDATA[#e3e3e3]]></property>
-    <property property_name="tinyquattro_btngrp_hov_gradient_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button group hover gradient from:" description="" css_components="text,background,border,layout,extra" scalar_type="color" scalar_parameters="" display_order="710" sub_group="button_group_hover"><![CDATA[#f2f2f2]]></property>
-    <property property_name="tinyquattro_btngrp_hov_gradient_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button group hover gradient to:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="720" sub_group="button_group_hover"><![CDATA[#ccc]]></property>
-    <property property_name="tinyquattro_btngrp_hov_gradient_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button group hover gradient from:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="730" sub_group="button_group_hover"><![CDATA[#fff2f2f2]]></property>
-    <property property_name="tinyquattro_btngrp_hov_gradient_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button group hover gradient to:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="740" sub_group="button_group_hover"><![CDATA[#ffcccccc]]></property>
+    <property property_name="tinyquattro_btn_active_gradient_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button active gradient to:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="640" sub_group="button_active"><![CDATA[#ffc0c0c0]]></property>
+    <property property_name="tinyquattro_btn_active_border_color" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Button active border &amp; color" description="" css_components="text,border,extra" scalar_type="" scalar_parameters="" display_order="10060" sub_group=""><![CDATA[{"extra":"-webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);\n-moz-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);\nbox-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);"}]]></property>
+    <property property_name="tinyquattro_primary_active_bck_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button group hover background color" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="700" sub_group="primary_active"><![CDATA[#005299]]></property>
+    <property property_name="tinyquattro_primary_active_gradient_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Primary active gradient from:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="710" sub_group="primary_active"><![CDATA[rgb(0, 102, 153)]]></property>
+    <property property_name="tinyquattro_primary_active_gradient_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Primary active gradient to:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="720" sub_group="primary_active"><![CDATA[rgb(0, 51, 153)]]></property>
+    <property property_name="tinyquattro_prm_active_gradient_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Primary active gradient from:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="730" sub_group="primary_active"><![CDATA[#ff006699]]></property>
+    <property property_name="tinyquattro_prm_active_gradient_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Primary active gradient to:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="740" sub_group="primary_active"><![CDATA[#ff003399]]></property>
     <property property_name="tinyquattro_btngrp_hov_border_color" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Button group hover border &amp; color" description="" css_components="text,border,extra" scalar_type="" scalar_parameters="" display_order="10010" sub_group=""><![CDATA[{"border-color":"#c5c5c5","color":"rgb(51, 51, 51)","extra":"text-shadow: 0 1px 1px rgba(255,255,255,0.75);"}]]></property>
-    <property property_name="tinyquattro_btngrp_active_bckg_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button group active background color" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="800" sub_group="button_group_active"><![CDATA[#d6d6d6]]></property>
-    <property property_name="tinyquattro_btngrp_active_grdt_from" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button group active gradient from:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="810" sub_group="button_group_active"><![CDATA[#e6e6e6]]></property>
-    <property property_name="tinyquattro_btngrp_active_grdt_to" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Button group active gradient to:" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="820" sub_group="button_group_active"><![CDATA[#bfbfbf]]></property>
-    <property property_name="tinyquattro_btngrp_active_grdt_from_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button group active gradient from:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="830" sub_group="button_group_active"><![CDATA[#ffe6e6e6]]></property>
-    <property property_name="tinyquattro_btngrp_active_grdt_to_ie" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="[IE] Button group active gradient to:" description="" css_components="" scalar_type="" scalar_parameters="" display_order="840" sub_group="button_group_active"><![CDATA[#ffbfbfbf]]></property>
     <property property_name="tinyquattro_btngrp_active_border_color" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Button group active border &amp; color" description="" css_components="text,border,extra" scalar_type="" scalar_parameters="" display_order="10020" sub_group=""><![CDATA[{"border-color":"#c5c5c5","color":"rgb(51, 51, 51)","extra":"text-shadow: 0 1px 1px rgba(255,255,255,0.75);\n-webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);\n-moz-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);\nbox-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);"}]]></property>
     <property property_name="tinyquattro_btngrp_disable_border_color" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Button group disable border &amp; color" description="" css_components="text,border,extra" scalar_type="" scalar_parameters="" display_order="10030" sub_group=""><![CDATA[{"border-color":"#c5c5c5","color":"rgb(51, 51, 51)","extra":"text-shadow: 0 1px 1px rgba(255,255,255,0.75);\n-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);\n-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);\nbox-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);"}]]></property>
     <property property_name="tinyquattro_standard_boder" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Border standard" description="This border is used in several elements." css_components="border" scalar_type="" scalar_parameters="" display_order="11000" sub_group=""><![CDATA[{"border-color":"rgb(197, 197, 197)","border-style":"solid","border-width":"1px"}]]></property>
     <property property_name="tinyquattro_focus_boder" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Border focus" description="The color will be used in many other properties" css_components="border" scalar_type="" scalar_parameters="" display_order="11010" sub_group=""><![CDATA[{"border-color":"rgba(82, 168, 236, 0.38)","border-style":"solid","border-width":"1px"}]]></property>
-    <property property_name="tinyquattro_win_head" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Window (modal) head" description="" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="20010" sub_group=""><![CDATA[{"background-color":"rgb(252, 250, 250)","border-bottom-color":"#EEE","border-bottom-style":"solid","border-bottom-width":"1px","extra":"position: relative;","padding-bottom":"9px","padding-left":"15px","padding-right":"15px","padding-top":"9px"}]]></property>
-    <property property_name="tinyquattro_win_foot" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Window (modal) foot" description="" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="20020" sub_group=""><![CDATA[{"background-color":"rgb(245, 245, 245)","border-top-color":"#DDD","border-top-style":"solid","border-top-width":"1px","extra":"display: block;\n-webkit-box-shadow: inset 0 1px 0 #fff;\n-moz-box-shadow: inset 0 1px 0 #fff;\nbox-shadow: inset 0 1px 0 #fff;"}]]></property>
+    <property property_name="tinyquattro_win_head" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Window (modal) head" description="" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="20010" sub_group=""><![CDATA[{"background-color":"rgb(252, 250, 250)","border-bottom-color":"#c5c5c5","border-bottom-style":"solid","border-bottom-width":"1px","extra":"position: relative;","padding-bottom":"9px","padding-left":"15px","padding-right":"15px","padding-top":"9px"}]]></property>
+    <property property_name="tinyquattro_win_foot" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Window (modal) foot" description="" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="20020" sub_group=""><![CDATA[{"background-color":"#fff","border-bottom-left-radius":"6px","border-bottom-right-radius":"6px","border-top-color":"#c5c5c5","border-top-left-radius":"0","border-top-right-radius":"0","border-top-style":"solid","border-top-width":"1px","extra":"display: block;\n-webkit-border-radius: 0 0 6px 6px;\n-moz-border-radius: 0 0 6px 6px;"}]]></property>
     <property property_name="tinyquattro_button" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Button" description="" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="20030" sub_group=""><![CDATA[{"color":"#333","extra":"line-height: 20px;\n*line-height: 16px;\ncursor: pointer;\ntext-align: center;\noverflow: visible;\n-webkit-appearance: none;","font-size":"14px","padding-bottom":"4px","padding-left":"10px","padding-right":"10px","padding-top":"4px"}]]></property>
-    <property property_name="tinyquattro_menuitem_font_normal" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Menu item font (normal)" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="150" sub_group="menuitem"><![CDATA[#333]]></property>
-    <property property_name="tinyquattro_menuitem_font_hover" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Menu item font (hover)" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="151" sub_group="menuitem"><![CDATA[#fff]]></property>
-    <property property_name="tinyquattro_menuitem_font_disable" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Menu item font (disable)" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="152" sub_group="menuitem"><![CDATA[#999]]></property>
-    <property property_name="tinyquattro_win" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Window (modal)" description="" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="20000" sub_group=""><![CDATA[{"background-color":"#FFF","border-radius":"6px","extra":"-webkit-box-shadow: 0 3px 7px rgba(0,0,0,0.3);\n-moz-box-shadow: 0 3px 7px rgba(0,0,0,0.3);\nbox-shadow: 0 3px 7px rgba(0,0,0,0.3);\nfilter: progid:DXImageTransform.Microsoft.gradient(enabled = false);\nposition: fixed;\ntop: 0;\nleft: 0;\nopacity: 0;\n-webkit-transition: opacity 150ms ease-in;\ntransition: opacity 150ms ease-in;"}]]></property>
-    <property property_name="tinyquattro_smiliesbtn_width" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies button menu width" description="Default value: 100px" css_components="" scalar_type="number" scalar_parameters="" display_order="110" sub_group="smilies"><![CDATA[100px]]></property>
-    <property property_name="tinyquattro_smiliesbtn_height" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies button menu height" description="Default value: 70px." css_components="" scalar_type="number" scalar_parameters="" display_order="111" sub_group="smilies"><![CDATA[70px]]></property>
-    <property property_name="tinyquattro_smiliespicker_width" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies picker modal width" description="Default value: 380px." css_components="" scalar_type="number" scalar_parameters="" display_order="112" sub_group="smilies"><![CDATA[380px]]></property>
-    <property property_name="tinyquattro_smiliespicker_height" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies picker modal height" description="Default value: 160px." css_components="" scalar_type="number" scalar_parameters="" display_order="113" sub_group="smilies"><![CDATA[160px]]></property>
-    <property property_name="tinyquattro_flatdesign" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Flat design" description="This option will disable the background gradient effects. Don't forget, since the XenForo css are heavily cached, you will certainly have to clean your browser cache before to see the modifications." css_components="" scalar_type="boolean" scalar_parameters="" display_order="10" sub_group="global"><![CDATA[1]]></property>
+    <property property_name="tinyquattro_menuitem_font_normal" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Menu item font (normal)" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="250" sub_group="menuitem"><![CDATA[#333]]></property>
+    <property property_name="tinyquattro_menuitem_font_hover" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Menu item font (hover)" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="251" sub_group="menuitem"><![CDATA[#fff]]></property>
+    <property property_name="tinyquattro_menuitem_font_disable" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Menu item font (disable)" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="252" sub_group="menuitem"><![CDATA[#999]]></property>
+    <property property_name="tinyquattro_win" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Window (modal)" description="" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="20000" sub_group=""><![CDATA[{"background-color":"#fff","border-radius":"6px","extra":"-webkit-box-shadow: 0 3px 7px rgba(0,0,0,0.3);\n-moz-box-shadow: 0 3px 7px rgba(0,0,0,0.3);\nbox-shadow: 0 3px 7px rgba(0,0,0,0.3);\nfilter: progid:DXImageTransform.Microsoft.gradient(enabled = false);\nposition: fixed;\ntop: 0;\nleft: 0;\nopacity: 0;\n-webkit-transition: opacity 150ms ease-in;\ntransition: opacity 150ms ease-in;"}]]></property>
+    <property property_name="tinyquattro_smiliesbtn_width" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies button menu width" description="Default value: 100px" css_components="" scalar_type="number" scalar_parameters="" display_order="210" sub_group="smilies"><![CDATA[100px]]></property>
+    <property property_name="tinyquattro_smiliesbtn_height" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies button menu height" description="Default value: 70px." css_components="" scalar_type="number" scalar_parameters="" display_order="211" sub_group="smilies"><![CDATA[70px]]></property>
+    <property property_name="tinyquattro_smiliespicker_width" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies picker modal width" description="Default value: 380px." css_components="" scalar_type="number" scalar_parameters="" display_order="212" sub_group="smilies"><![CDATA[380px]]></property>
+    <property property_name="tinyquattro_smiliespicker_height" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies picker modal height" description="Default value: 160px." css_components="" scalar_type="number" scalar_parameters="" display_order="213" sub_group="smilies"><![CDATA[160px]]></property>
+    <property property_name="tinyquattro_flatdesign" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Flat design" description="This option will disable the background gradient effects. It requires the Official Css Integration." css_components="" scalar_type="boolean" scalar_parameters="" display_order="100" sub_group="design"><![CDATA[0]]></property>
     <property property_name="quattro_table_skin1_table" property_type="css" definition="1" group_name="sedo_tinyquattro_table_1" title="[Skin 1] Table" description="Default style for the table html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="1000" sub_group=""><![CDATA[{"extra":"border-collapse: collapse;"}]]></property>
     <property property_name="quattro_table_skin2_table" property_type="css" definition="1" group_name="sedo_tinyquattro_table_1" title="[Skin 2] Table" description="Default style for the table html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="2000" sub_group=""><![CDATA[{"background-color":"@primaryLighter","border-color":"rgb(0, 0, 0)","border-style":"solid","border-width":"1px","extra":"border-collapse: collapse;"}]]></property>
     <property property_name="quattro_table_skin3_table" property_type="css" definition="1" group_name="sedo_tinyquattro_table_2" title="[Skin 3] Table" description="Default style for the table html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="1000" sub_group=""><![CDATA[{"extra":"border-collapse: separate;\nborder-spacing: 3px;"}]]></property>
@@ -1291,6 +1308,8 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <property property_name="quattro_table_skin3_caption" property_type="css" definition="1" group_name="sedo_tinyquattro_table_2" title="[Skin 3] Caption" description="Default style for the caption html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="1080" sub_group=""><![CDATA[[]]]></property>
     <property property_name="quattro_table_skin4_caption" property_type="css" definition="1" group_name="sedo_tinyquattro_table_2" title="[Skin 4] Caption" description="Default style for the caption html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="2080" sub_group=""><![CDATA[[]]]></property>
     <property property_name="quattro_table_skin_default" property_type="scalar" definition="1" group_name="sedo_tinyquattro_table_1" title="Default Table skin" description="Choose here the default skin for your table." css_components="" scalar_type="template" scalar_parameters="style_property_unit_quattro_table" display_order="10" sub_group=""><![CDATA[skin1]]></property>
+    <property property_name="tinyquattro_css_integration" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Official Css Integration" description="This addon has the TinyMCE css integrated with XenForo. It allows you to configure all the style properties of this page. If you prefer to use the MCE direct css files, uncheck this option." css_components="" scalar_type="boolean" scalar_parameters="" display_order="10" sub_group="global"><![CDATA[1]]></property>
+    <property property_name="tinyquattro_css_skin" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="TinyMCE skin name" description="Only works if the above option is unchecked. Default skin name: lightgray  (must match the foldername of the skin). You can create another skin with the TinyMCE skin creator tool (http://skin.tinymce.com)." css_components="" scalar_type="" scalar_parameters="" display_order="30" sub_group="global"><![CDATA[lightgray]]></property>
     <group group_name="sedo_tinyquattro" display_order="13207">
       <title>TinyMCE Quattro</title>
       <description>Configure the layout of TinyMCE 4</description>
@@ -2068,7 +2087,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 			<p class="hint">{xen:phrase quattro_rte_mobile_explain}</p>
 		</label>
 	</li>]]></template>
-    <template title="tiny_quattro_buttons.css" version_id="9" version_string="1.1.2"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_buttons.css" version_id="19" version_string="1.3.1"><![CDATA[<xen:comment>
 	TINYMCE BUTTONS FOR ALL BROWSERS EXCEPT IE7
 </xen:comment>
 
@@ -2407,57 +2426,8 @@ i.mce-i-backcolor
 	text-shadow: none;
 	background: #BBB;
 }
-
-<xen:comment>
-	Buttons - XenForo config
-</xen:comment>
-
-@font-face
-{
-	font-family:'xenforo-small';
-	src:url('styles/sedo/tinyquattro/fonts/xenforo-small.eot');
-	src:	url('styles/sedo/tinyquattro/fonts/xenforo-small.eot?#iefix') format('embedded-opentype'),
-		url('styles/sedo/tinyquattro/fonts/xenforo-small.svg#icomoon') format('svg'),
-		url('styles/sedo/tinyquattro/fonts/xenforo-small.woff') format('woff'),
-		url('styles/sedo/tinyquattro/fonts/xenforo-small.ttf') format('truetype');
-	font-weight:normal;
-	font-style:normal;
-}
-
-
-@font-face
-{
-	font-family:'xenforo';
-	src:url('styles/sedo/tinyquattro/fonts/xenforo.eot');
-	src:	url('styles/sedo/tinyquattro/fonts/xenforo.eot?#iefix') format('embedded-opentype'),
-		url('styles/sedo/tinyquattro/fonts/xenforo.svg#icomoon') format('svg'),
-		url('styles/sedo/tinyquattro/fonts/xenforo.woff') format('woff'),
-		url('styles/sedo/tinyquattro/fonts/xenforo.ttf') format('truetype');
-	font-weight:normal;
-	font-style:normal;
-}
-
-.mce-xenforo-icons
-{
-	font-family: 'xenforo',Arial;
-}
-
-.mce-btn-small .mce-xenforo-icons
-{
-	font-family: 'xenforo-small',Arial;
-}
-
-
-<xen:comment>Original icon set</xen:comment>
-.mce-i-xen_nonbreaking:before		{ content: "\e025"; }
-
-<xen:comment>XenForo icon set</xen:comment>
-.mce-i-xen_switch:before		{ content: "\e01a"; }
-.mce-i-xen_code:before			{ content: "\e000"; }
-.mce-i-xen_quote:before			{ content: "\e009"; }
-.mce-i-xen_smilies_picker:before	{ content: "\e035"; }
 ]]></template>
-    <template title="tiny_quattro_buttons_ie7.css" version_id="9" version_string="1.1.2"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_buttons_ie7.css" version_id="19" version_string="1.3.1"><![CDATA[<xen:comment>
 	TINYMCE BUTTONS FOR IE7
 </xen:comment>
 
@@ -2681,55 +2651,1674 @@ i.mce-i-backcolor
 	background: #BBB
 }
 
-<xen:comment>
-	Buttons - XenForo config
-</xen:comment>
 
-@font-face
-{
-	font-family:'xenforo-small';
-	src:url('styles/sedo/tinyquattro/fonts/xenforo-small.eot');
-	src:	url('styles/sedo/tinyquattro/fonts/xenforo-small.eot?#iefix') format('embedded-opentype'),
-		url('styles/sedo/tinyquattro/fonts/xenforo-small.svg#icomoon') format('svg'),
-		url('styles/sedo/tinyquattro/fonts/xenforo-small.woff') format('woff'),
-		url('styles/sedo/tinyquattro/fonts/xenforo-small.ttf') format('truetype');
-	font-weight:normal;
-	font-style:normal
-}
-
-
-@font-face
-{
-	font-family:'xenforo';
-	src:url('styles/sedo/tinyquattro/fonts/xenforo.eot');
-	src:	url('styles/sedo/tinyquattro/fonts/xenforo.eot?#iefix') format('embedded-opentype'),
-		url('styles/sedo/tinyquattro/fonts/xenforo.svg#icomoon') format('svg'),
-		url('styles/sedo/tinyquattro/fonts/xenforo.woff') format('woff'),
-		url('styles/sedo/tinyquattro/fonts/xenforo.ttf') format('truetype');
-	font-weight:normal;
-	font-style:normal
-}
-
-.mce-xenforo-icons
-{
-	font-family: 'xenforo'
-}
-
-.mce-btn-small .mce-xenforo-icons
-{
-	font-family: 'xenforo-small'
-}
-
-<xen:comment>Original icon set</xen:comment>
-.mce-i-xen_nonbreaking:before		{ -ie7-icon: "\e025"; }
-
-<xen:comment>XenForo icon set</xen:comment>
-.mce-i-xen_switch:before		{ -ie7-icon: "\e01a"; }
-.mce-i-xen_code:before			{ -ie7-icon: "\e000"; }
-.mce-i-xen_quote:before			{ -ie7-icon: "\e009"; }
-.mce-i-xen_smilies_picker:before	{ -ie7-icon: "\e035"; }
 
 ]]></template>
+    <template title="tiny_quattro_common_css.css" version_id="19" version_string="1.3.1"><![CDATA[<xen:comment>
+	 GLOBAL CSS
+</xen:comment>
+
+.mce-container,.mce-container *,.mce-widget,.mce-widget *
+{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	vertical-align: top;
+	background: transparent;
+	text-decoration: none;
+	color:#333;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 14px;
+	text-shadow: none;
+	float: none;
+	position: static;
+	width: auto;
+	height: auto;
+	white-space: nowrap;
+	cursor: inherit;
+	-webkit-tap-highlight-color: transparent;
+	line-height:normal;
+	font-weight:normal;
+	text-align:left;
+	-moz-box-sizing:content-box;
+	-webkit-box-sizing:content-box;
+	box-sizing:content-box;
+	direction:ltr
+}
+
+.mce-widget button {
+	-moz-box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	box-sizing:border-box
+}
+
+.mce-container *[unselectable]
+{
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+.mce-container ::-webkit-scrollbar
+{
+	width: 8px;
+	height: 8px;
+	-webkit-border-radius: 4px;
+}
+
+.mce-container ::-webkit-scrollbar-track,.mce-container ::-webkit-scrollbar-track-piece
+{
+	background-color: transparent;
+}
+
+.mce-container ::-webkit-scrollbar-thumb
+{
+	background-color: rgba(53,57,71,0.3);
+	width: 6px;
+	height: 6px;
+	-webkit-border-radius: 4px;
+}
+
+.mce-fade
+{
+	opacity: 0;
+	-webkit-transition: opacity .15s linear;
+	transition: opacity .15s linear;
+}
+
+.mce-fade.mce-in
+{
+	opacity: 1;
+}
+
+.mce-tinymce
+{
+	visibility: visible!important;
+	position: relative;
+}
+
+.mce-fullscreen
+{
+	border: 0;
+	padding: 0;
+	margin: 0;
+	overflow: hidden !important;
+	height: 100%;
+	z-index: 10000;
+}
+
+div.mce-fullscreen
+{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: auto;
+}
+
+.mce-tinymce
+{
+	display: block;
+	-webkit-border-radius:2px;
+	-moz-border-radius:2px;
+	border-radius: 2px;
+}
+
+.mce-wordcount
+{
+	position:absolute;
+	top:0;
+	right:0;
+	padding: 8px 20px 8px 8px;
+}
+
+div.mce-edit-area
+{
+	background: #FFF;
+	filter: none;
+}
+
+.mce-statusbar
+{
+	position: relative;
+}
+
+.mce-statusbar .mce-container-body
+{
+	position: relative;
+}
+
+.mce-fullscreen .mce-resizehandle
+{
+	display: none;
+}
+
+.mce-charmap
+{
+	border-collapse: collapse;
+}
+
+.mce-charmap td
+{
+	{xen:property tinyquattro_standard_boder}
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+	vertical-align: middle;
+	padding: 2px;
+	cursor: default;
+}
+
+.mce-charmap td:hover
+{
+	background: {xen:property tinyquattro_btn_gradient_to};
+}
+
+.mce-grid td div
+{
+	border:1px solid #d6d6d6;
+	width:12px;
+	height:12px;
+	margin:2px;
+	cursor:pointer
+}
+
+.mce-grid
+{
+	border-spacing: 2px;
+	border-collapse: separate;
+}
+
+.mce-grid a
+{
+	display: block;
+	border: 1px solid transparent;
+}
+
+.mce-grid a:hover
+{
+	border-color:{xen:property tinyquattro_standard_boder.border-color};
+}
+
+.mce-grid-border
+{
+	margin: 0 4px 0 4px;
+}
+
+.mce-grid-border a
+{
+	border-color:#d6d6d6;
+	width: 13px;
+	height: 13px;
+}
+
+.mce-grid-border a:hover,.mce-grid-border a.mce-active
+{
+	border-color:{xen:property tinyquattro_standard_boder.border-color};
+	background:#c8def4
+}
+
+.mce-text-center
+{
+	text-align: center;
+}
+
+div.mce-tinymce-inline
+{
+	width: 100%;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+
+.mce-container,.mce-container-body
+{
+	display: block;
+}
+
+.mce-autoscroll
+{
+	overflow: hidden;
+}
+
+.mce-scrollbar
+{
+	position: absolute;
+	width: 7px;
+	height: 100%;
+	top: 2px;
+	right: 2px;
+	opacity: .4;
+	filter: alpha(opacity=40);
+	zoom: 1;
+}
+
+.mce-scrollbar-h
+{
+	top: auto;
+	right: auto;
+	left: 2px;
+	bottom: 2px;
+	width: 100%;
+	height: 7px;
+}
+
+.mce-scrollbar-thumb
+{
+	position: absolute;
+	background-color: #000;
+	border: 1px solid #888;
+	border-color: rgba(85,85,85,0.6);
+	width: 5px;
+	height: 100%;
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+}
+
+.mce-scrollbar-h .mce-scrollbar-thumb
+{
+	width: 100%;
+	height: 5px;
+}
+
+.mce-scrollbar:hover,.mce-scrollbar.mce-active
+{
+	background-color: #AAA;
+	opacity: .6;
+	filter: alpha(opacity=60);
+	zoom: 1;
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+}
+
+.mce-scroll
+{
+	position: relative;
+}
+
+.mce-panel
+{
+	{xen:property tinyquattro_panel_border}
+	background-color: {xen:property tinyquattro_panel_background_color};
+	<xen:if is="!{xen:property tinyquattro_flatdesign}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_panel_gradient_from_ie}',endColorstr='{xen:property tinyquattro_panel_gradient_to_ie}',GradientType=0);
+		zoom: 1;
+	</xen:if>
+}
+
+.mce-floatpanel
+{
+	position:absolute;
+	-webkit-box-shadow:0 5px 10px rgba(0,0,0,0.2);
+	-moz-box-shadow:0 5px 10px rgba(0,0,0,0.2);
+	box-shadow:0 5px 10px rgba(0,0,0,0.2)
+}
+
+.mce-floatpanel.mce-fixed
+{
+	position:fixed
+}
+
+.mce-floatpanel .mce-arrow,.mce-floatpanel .mce-arrow:after
+{
+	position: absolute;
+	display: block;
+	width: 0;
+	height: 0;
+	border-color: transparent;
+	border-style: solid;
+}
+
+.mce-floatpanel .mce-arrow
+{
+	border-width: 11px;
+}
+
+.mce-floatpanel .mce-arrow:after
+{
+	border-width: 10px;
+	content: "";
+}
+
+.mce-floatpanel.mce-popover
+{
+	top: 0;
+	left: 0;
+	background: #fff;
+	border:1px solid #000;
+	border:1px solid rgba(0,0,0,0.25);
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	-webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+	-moz-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+	box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+
+.mce-floatpanel.mce-popover.mce-bottom
+{
+	margin-top: 10px;
+}
+
+.mce-floatpanel.mce-popover.mce-bottom>.mce-arrow
+{
+	left: 50%;
+	margin-left: -11px;
+	border-top-width: 0;
+	border-bottom-color:#000;
+	border-bottom-color: rgba(0,0,0,0.25);
+	top: -11px;
+}
+
+.mce-floatpanel.mce-popover.mce-bottom>.mce-arrow:after
+{
+	top: 1px;
+	margin-left: -10px;
+	border-top-width: 0;
+	border-bottom-color: #fff;
+}
+
+.mce-floatpanel.mce-popover.mce-bottom.mce-start
+{
+	margin-left: -22px;
+}
+
+.mce-floatpanel.mce-popover.mce-bottom.mce-start>.mce-arrow
+{
+	left: 20px;
+}
+
+.mce-floatpanel.mce-popover.mce-bottom.mce-end
+{
+	margin-left: 22px;
+}
+
+.mce-floatpanel.mce-popover.mce-bottom.mce-end>.mce-arrow
+{
+	right: 10px;
+	left: auto;
+}
+
+.mce-fullscreen
+{
+	border: 0;
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+	background:#fff;
+	height: 100%;
+}
+
+div.mce-fullscreen
+{
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+
+#mce-modal-block
+{
+	opacity: 0;
+	filter: alpha(opacity=0);
+	zoom: 1;
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: #000;
+}
+
+#mce-modal-block.mce-in
+{
+	opacity: .3;
+	filter: alpha(opacity=30);
+	zoom: 1;
+}
+
+.mce-window-move
+{
+	cursor: move;
+}
+
+.mce-window
+{
+	{xen:property tinyquattro_win}
+}
+
+.mce-window.mce-in
+{
+	opacity: 1;
+}
+
+.mce-window-head
+{
+	{xen:property tinyquattro_win_head}
+}
+
+.mce-window-head .mce-close
+{
+	position: absolute;
+	right: 15px;
+	top: 9px;
+	font-size: 20px;
+	font-weight: bold;
+	line-height: 20px;
+	color:#858585;
+	cursor: pointer;
+	height: 20px;
+	overflow: hidden;
+}
+
+.mce-close:hover
+{
+	color:#adadad
+}
+
+.mce-window-head .mce-title
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	line-height: 20px;
+	font-size: 20px;
+	font-weight: bold;
+	text-rendering: optimizelegibility;
+	padding-right: 10px;
+}
+
+.mce-window .mce-container-body
+{
+	display: block;
+}
+
+.mce-foot
+{
+	{xen:property tinyquattro_win_foot}
+}
+
+.mce-window-head .mce-dragh
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	cursor: move;
+	width: 90%;
+	height: 100%;
+}
+
+.mce-window iframe
+{
+	width: 100%;
+	height: 100%;
+}
+
+.mce-window.mce-fullscreen,.mce-window.mce-fullscreen .mce-foot
+{
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+}
+
+.mce-abs-layout
+{
+	position: relative;
+}
+
+body .mce-abs-layout-item,.mce-abs-end
+{
+	position: absolute;
+}
+
+.mce-abs-end
+{
+	width: 1px;
+	height: 1px;
+}
+
+.mce-container-body.mce-abs-layout
+{
+	overflow: hidden;
+}
+
+.mce-tooltip
+{
+	position: absolute;
+	padding: 5px;
+	opacity: .8;
+	filter: alpha(opacity=80);
+	zoom: 1;
+}
+
+.mce-tooltip-inner
+{
+	font-size: 11px;
+	background-color: #000;
+	color: #fff;
+	max-width: 200px;
+	padding: 5px 8px 4px 8px;
+	text-align: center;
+	white-space: normal;
+}
+
+.mce-tooltip-inner
+{
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.mce-tooltip-inner
+{
+	-webkit-box-shadow: 0 0 5px #000;
+	-moz-box-shadow: 0 0 5px #000;
+	box-shadow: 0 0 5px #000;
+}
+
+.mce-tooltip-arrow
+{
+	position: absolute;
+	width: 0;
+	height: 0;
+	line-height: 0;
+	border: 5px dashed #000;
+}
+
+.mce-tooltip-arrow-n
+{
+	border-bottom-color: #000;
+}
+
+.mce-tooltip-arrow-s
+{
+	border-top-color: #000;
+}
+
+.mce-tooltip-arrow-e
+{
+	border-left-color: #000;
+}
+
+.mce-tooltip-arrow-w
+{
+	border-right-color: #000;
+}
+
+.mce-tooltip-nw,.mce-tooltip-sw
+{
+	margin-left:-14px
+}
+
+.mce-tooltip-n .mce-tooltip-arrow
+{
+	top: 0;
+	left: 50%;
+	margin-left: -5px;
+	border-bottom-style: solid;
+	border-top: 0;
+	border-left-color: transparent;
+	border-right-color: transparent;
+}
+
+.mce-tooltip-nw .mce-tooltip-arrow
+{
+	top: 0;
+	left: 10px;
+	border-bottom-style: solid;
+	border-top: 0;
+	border-left-color: transparent;
+	border-right-color: transparent;
+}
+
+.mce-tooltip-ne .mce-tooltip-arrow
+{
+	top: 0;
+	right: 10px;
+	border-bottom-style: solid;
+	border-top: 0;
+	border-left-color: transparent;
+	border-right-color: transparent;
+}
+
+.mce-tooltip-s .mce-tooltip-arrow
+{
+	bottom: 0;
+	left: 50%;
+	margin-left: -5px;
+	border-top-style: solid;
+	border-bottom: 0;
+	border-left-color: transparent;
+	border-right-color: transparent;
+}
+
+.mce-tooltip-sw .mce-tooltip-arrow
+{
+	bottom: 0;
+	left: 10px;
+	border-top-style: solid;
+	border-bottom: 0;
+	border-left-color: transparent;
+	border-right-color: transparent;
+}
+
+.mce-tooltip-se .mce-tooltip-arrow
+{
+	bottom: 0;
+	right: 10px;
+	border-top-style: solid;
+	border-bottom: 0;
+	border-left-color: transparent;
+	border-right-color: transparent;
+}
+
+.mce-tooltip-e .mce-tooltip-arrow
+{
+	right: 0;
+	top: 50%;
+	margin-top: -5px;
+	border-left-style: solid;
+	border-right: 0;
+	border-top-color: transparent;
+	border-bottom-color: transparent;
+}
+
+.mce-tooltip-w .mce-tooltip-arrow
+{
+	left: 0;
+	top: 50%;
+	margin-top: -5px;
+	border-right-style: solid;
+	border-left: none;
+	border-top-color: transparent;
+	border-bottom-color: transparent;
+}
+
+.mce-btn
+{
+	position: relative;
+	{xen:property tinyquattro_btn_border_color}
+	background-color: {xen:property tinyquattro_btn_bckg_color};
+	display: inline-block;
+	*display: inline;
+	<xen:if is="!{xen:property tinyquattro_flatdesign}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_gradient_from}),to({xen:property tinyquattro_btn_gradient_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_gradient_to_ie}',GradientType=0);
+		*zoom: 1;
+	</xen:if>
+}
+
+.mce-btn:hover,.mce-btn:focus
+{
+	{xen:property tinyquattro_btn_hov_border_color}
+	background-color: {xen:property tinyquattro_btn_hov_bckg_color};
+	<xen:if is="!{xen:property tinyquattro_flatdesign}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_hov_gradient_from}),to({xen:property tinyquattro_btn_hov_gradient_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_hov_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_hov_gradient_to_ie}',GradientType=0);
+		zoom: 1;
+	</xen:if>
+}
+
+.mce-btn.mce-disabled button,.mce-btn.mce-disabled:hover button {
+	cursor:default;
+	-webkit-box-shadow:none;
+	-moz-box-shadow:none;
+	box-shadow:none;
+	opacity:.4;
+	filter:alpha(opacity=40);
+	zoom:1
+}
+
+.mce-btn.mce-active,.mce-btn.mce-active:hover,.mce-btn:not(.mce-disabled):active
+{
+	{xen:property tinyquattro_btn_active_border_color}
+	background-color: {xen:property tinyquattro_btn_active_bckg_color};
+	<xen:if is="!{xen:property tinyquattro_flatdesign}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_active_gradient_from}),to({xen:property tinyquattro_btn_active_gradient_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_active_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_active_gradient_to_ie}',GradientType=0);
+		zoom: 1;
+	</xen:if>
+}
+
+.mce-btn button
+{
+	{xen:property tinyquattro_button}
+}
+
+.mce-btn button::-moz-focus-inner
+{
+	border: 0;
+	padding: 0;
+}
+
+.mce-btn i
+{
+	text-shadow: 1px 1px #fff;
+}
+
+.mce-primary
+{
+	{xen:property tinyquattro_primary_border_color}
+	min-width:50px;
+	background-color: {xen:property tinyquattro_primary_background_color};
+	<xen:if is="!{xen:property tinyquattro_flatdesign}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_gradient_from}),to({xen:property tinyquattro_primary_gradient_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_primary_gradient_from_ie}',endColorstr='{xen:property tinyquattro_primary_gradient_to_ie}',GradientType=0);
+		zoom: 1;
+	</xen:if>
+}
+
+.mce-primary:hover,.mce-primary:focus
+{
+	{xen:property tinyquattro_primary_hov_border_color}
+	background-color: {xen:property tinyquattro_primary_hover_bck_color};
+	<xen:if is="!{xen:property tinyquattro_flatdesign}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_hover_grdt_from}),to({xen:property tinyquattro_primary_hover_grdt_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_primary_hov_grdt_from_ie}',endColorstr='tinyquattro_primary_hov_grdt_to_ie',GradientType=0);
+		zoom: 1;
+	</xen:if>
+}
+
+.mce-primary.mce-disabled button,.mce-primary.mce-disabled:hover button
+{
+	cursor:default;
+	-webkit-box-shadow:none;
+	-moz-box-shadow:none;
+	box-shadow:none;
+	opacity:.4;
+	filter:alpha(opacity=40);
+	zoom:1
+}
+
+.mce-primary.mce-active,.mce-primary.mce-active:hover,.mce-primary:not(.mce-disabled):active
+{
+	background-color:{xen:property tinyquattro_primary_active_bck_color};
+	-webkit-box-shadow:inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
+	-moz-box-shadow:inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
+	box-shadow:inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
+
+	<xen:if is="!{xen:property tinyquattro_flatdesign}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_active_gradient_from},{xen:property tinyquattro_primary_active_gradient_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_active_gradient_from}),to({xen:property tinyquattro_primary_active_gradient_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_active_gradient_from},{xen:property tinyquattro_primary_active_gradient_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_primary_active_gradient_from},{xen:property tinyquattro_primary_active_gradient_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_primary_active_gradient_from},{xen:property tinyquattro_primary_active_gradient_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_prm_active_gradient_from_ie}',endColorstr='{xen:property tinyquattro_prm_active_gradient_to_ie}',GradientType=0);
+		*zoom: 1;
+	</xen:if>
+}
+
+.mce-primary button,.mce-primary button i
+{
+	color:{xen:property tinyquattro_primary_border_color.color};
+	text-shadow:1px 1px #333
+}
+
+.mce-btn-large button
+{
+	padding: 9px 14px;
+	font-size: 16px;
+	line-height: normal;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.mce-btn-large i
+{
+	margin-top: 2px;
+}
+
+.mce-btn-small button
+{
+	padding: 3px 5px;
+	font-size: 12px;
+	line-height: 17px;
+}
+
+.mce-btn-small i
+{
+	margin-top: 0;
+}
+
+.mce-btn .mce-caret
+{
+	margin-top: 8px;
+	*margin-top: 6px;
+	margin-left: 0;
+}
+
+.mce-btn-small .mce-caret
+{
+	margin-top: 6px;
+	*margin-top: 4px;
+	margin-left: 0;
+}
+
+.mce-caret
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	width: 0;
+	height: 0;
+	vertical-align: top;
+	border-top:4px solid #333;
+	border-right: 4px solid transparent;
+	border-left: 4px solid transparent;
+	content: "";
+}
+
+.mce-disabled .mce-caret
+{
+	border-top-color:#aaa
+}
+
+.mce-caret.mce-up
+{
+	border-bottom:4px solid #333;
+	border-top: 0;
+}
+
+.mce-btn-group .mce-btn
+{
+	border-width: 1px 0 1px 0;
+	margin: 0;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+}
+
+
+.mce-btn-group .mce-first
+{
+	border-left: 1px solid {xen:property tinyquattro_standard_boder.border-color};
+	border-left:1px solid rgba(0,0,0,0.25);
+	-webkit-border-radius: 3px 0 0 3px;
+	-moz-border-radius: 3px 0 0 3px;
+	border-radius: 3px 0 0 3px;
+}
+
+.mce-btn-group .mce-last
+{
+	border-right: 1px solid {xen:property tinyquattro_standard_boder.border-color};
+	border-right:1px solid rgba(0,0,0,0.1);
+	-webkit-border-radius: 0 3px 3px 0;
+	-moz-border-radius: 0 3px 3px 0;
+	border-radius: 0 3px 3px 0;
+}
+
+.mce-btn-group .mce-first.mce-last
+{
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.mce-btn-group .mce-btn.mce-flow-layout-item
+{
+	margin: 0;
+}
+
+.mce-checkbox
+{
+	cursor: pointer;
+}
+
+i.mce-i-checkbox
+{
+	margin: 0 3px 0 0;
+	{xen:property tinyquattro_standard_boder}
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+	-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+	box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+	background-color: {xen:property tinyquattro_panel_background_color};
+	<xen:if is="!{xen:property tinyquattro_flatdesign}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_gradient_from}),to({xen:property tinyquattro_btn_gradient_to}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_gradient_to_ie}',GradientType=0);
+		*zoom: 1;
+	</xen:if>
+	text-indent: -10em;
+	*font-size: 0;
+	*line-height: 0;
+	*text-indent: 0;
+	overflow:hidden
+}
+
+.mce-checked i.mce-i-checkbox
+{
+	color:#333;
+	font-size: 16px;
+	line-height: 16px;
+	text-indent: 0;
+}
+
+.mce-checkbox:focus i.mce-i-checkbox,.mce-checkbox.mce-focus i.mce-i-checkbox
+{
+	{xen:property tinyquattro_focus_boder}
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
+	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
+	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
+}
+
+.mce-checkbox.mce-disabled .mce-label,.mce-checkbox.mce-disabled i.mce-i-checkbox {
+	color:#acacac
+}
+
+.mce-colorbutton .mce-ico
+{
+	position: relative;
+}
+
+.mce-colorbutton-grid
+{
+	margin: 4px;
+}
+
+.mce-colorbutton button
+{
+	padding-right:4px
+}
+
+.mce-colorbutton .mce-preview
+{
+	padding-right:3px;
+	display:block;
+	position:absolute;
+	left:50%;
+	top:50%;
+	margin-left:-14px;
+	margin-top:7px;
+	background:gray;
+	width:13px;
+	height:2px;
+	overflow:hidden
+}
+
+.mce-colorbutton.mce-btn-small .mce-preview
+{
+	margin-left:-17px;
+	padding-right:0;
+	width:16px
+}
+
+.mce-colorbutton .mce-open
+{
+	padding-left:4px;
+	border-left:1px solid transparent;
+	border-right:1px solid transparent
+}
+
+.mce-colorbutton:hover .mce-open
+{
+	border-left-color:#bdbdbd;
+	border-right-color:#bdbdbd
+}
+
+.mce-combobox
+{
+	display:inline-block;
+	*display:inline;
+	*zoom:1;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	border-radius:3px;
+	-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,0.075);
+	-moz-box-shadow:inset 0 1px 1px rgba(0,0,0,0.075);
+	box-shadow:inset 0 1px 1px rgba(0,0,0,0.075)
+}
+
+.mce-combobox input
+{
+	border:1px solid #c5c5c5;
+	border-right-color:#c5c5c5;
+	height:28px
+}
+
+.mce-combobox.mce-disabled input 
+{
+	color:#adadad
+}
+.mce-combobox.mce-has-open input
+{
+	-webkit-border-radius: 4px 0 0 4px;
+	-moz-border-radius: 4px 0 0 4px;
+	border-radius: 4px 0 0 4px;
+}
+
+.mce-combobox .mce-btn
+{
+	border-left: 0;
+	-webkit-border-radius: 0 4px 4px 0;
+	-moz-border-radius: 0 4px 4px 0;
+	border-radius: 0 4px 4px 0;
+}
+
+.mce-combobox button
+{
+	padding-right: 8px;
+	padding-left: 8px;
+}
+
+.mce-combobox.mce-disabled .mce-btn button
+{
+	cursor:default;
+	-webkit-box-shadow:none;
+	-moz-box-shadow:none;
+	box-shadow:none;
+	opacity:.4;
+	filter:alpha(opacity=40);
+	zoom:1
+}
+
+.mce-path
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	padding: 8px;
+	white-space: normal;
+}
+
+.mce-path .mce-txt
+{
+	display: inline-block;
+	padding-right: 3px;
+}
+
+.mce-path .mce-path-body
+{
+	display: inline-block;
+}
+
+.mce-path-item
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	cursor: pointer;
+	color:#333
+}
+
+.mce-path-item:hover
+{
+	text-decoration: underline;
+}
+
+.mce-path-item:focus
+{
+	background:#666;
+	color:#fff
+}
+
+.mce-path .mce-divider
+{
+	display: inline;
+}
+
+.mce-fieldset
+{
+	border: 0 solid #9e9e9e;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.mce-fieldset>.mce-container-body
+{
+	margin-top: -15px;
+}
+
+.mce-fieldset-title
+{
+	margin-left: 5px;
+	padding: 0 5px 0 5px;
+}
+
+.mce-fit-layout
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+}
+
+.mce-fit-layout-item
+{
+	position: absolute;
+}
+
+.mce-flow-layout-item
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+}
+
+.mce-flow-layout-item
+{
+	margin: 2px 0 2px 2px;
+}
+
+.mce-flow-layout-item.mce-last
+{
+	margin-right: 2px;
+}
+
+.mce-flow-layout
+{
+	white-space: normal;
+}
+
+.mce-tinymce-inline .mce-flow-layout
+{
+	white-space: nowrap;
+}
+
+.mce-iframe
+{
+	border: 0 solid #9e9e9e;
+	width: 100%;
+	height: 100%;
+}
+
+.mce-label
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	text-shadow: 0 1px 1px rgba(255,255,255,0.75);
+	border:0;
+	overflow: hidden;
+}
+
+.mce-label.mce-autoscroll
+{
+	overflow: auto;
+}
+
+.mce-label-disabled .mce-text
+{
+	color:#aaa
+}
+
+.mce-label.mce-multiline
+{
+	white-space: pre-wrap;
+}
+
+.mce-menubar .mce-menubtn
+{
+	border-color: transparent;
+	background: transparent;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	filter: none;
+}
+
+.mce-menubar
+{
+	border:1px solid #c4c4c4
+}
+
+.mce-menubar .mce-menubtn button
+{
+	color:#333
+}
+
+.mce-menubar .mce-caret
+{
+	border-top-color:#333
+}
+
+.mce-menubar .mce-menubtn:hover,.mce-menubar .mce-menubtn.mce-active,.mce-menubar .mce-menubtn:focus
+{
+	border-color: transparent;
+	background:#e6e6e6;
+	filter:none;
+	-webkit-box-shadow:none;
+	-moz-box-shadow:none;
+	box-shadow:none
+}
+
+.mce-menubtn.mce-disabled span
+{
+	color:#aaa
+}
+
+.mce-menubtn span
+{
+	color:#333;
+	margin-right:2px;
+	line-height:20px;
+	*line-height:16px
+}
+
+.mce-menubtn.mce-btn-small span
+{
+	font-size:12px;
+	line-height:15px;
+	*line-height:16px
+}
+
+.mce-menubtn.mce-fixed-width span
+{
+	display:inline-block;
+	overflow-x:hidden;
+	text-overflow:ellipsis;
+	width:90px
+}
+
+.mce-menubtn.mce-fixed-width.mce-btn-small span
+{
+	width:70px
+}
+
+.mce-listbox button
+{
+	text-align: left;
+	padding-right: 20px;
+	position: relative;
+}
+
+.mce-listbox .mce-caret
+{
+	position: absolute;
+	margin-top: -2px;
+	right: 8px;
+	top: 50%;
+}
+
+.mce-menu-item
+{
+	display: block;
+	padding:6px 15px 6px 12px;
+	clear: both;
+	font-weight: normal;
+	line-height: 20px;
+	color: {xen:property tinyquattro_menuitem_font_normal};
+	white-space: nowrap;
+	cursor: pointer;
+	line-height:normal;
+	border-left:4px solid transparent;
+	margin-bottom:1px
+}
+
+.mce-menu-item-normal.mce-active .mce-text 
+{
+	color:#333
+}
+
+.mce-menu-item-normal.mce-active:hover .mce-text,.mce-menu-item-normal.mce-active:hover .mce-ico 
+{
+	color:#fff
+}
+
+.mce-menu-item:hover,.mce-menu-item.mce-selected,.mce-menu-item:focus
+{
+	text-decoration: none;
+	color: {xen:property tinyquattro_menuitem_font_hover};
+	background-color: {xen:property tinyquattro_focus_boder.border-color};
+	<xen:if is="!{xen:property tinyquattro_flatdesign}">
+		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
+		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_gradient_from}),to({xen:property tinyquattro_primary_hover_grdt_from}));
+		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
+		background-image: -o-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
+		background-image: linear-gradient(to bottom,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc',endColorstr='{xen:property tinyquattro_primary_hov_grdt_from_ie}',GradientType=0);
+		zoom: 1;
+	</xen:if>
+}
+
+.mce-menu-item .mce-ico,.mce-menu-item .mce-text
+{
+	color:#333
+}
+.mce-menu-item.mce-disabled .mce-text,.mce-menu-item.mce-disabled .mce-ico
+{
+	color:#adadad
+}
+
+.mce-menu-item:hover .mce-text,.mce-menu-item.mce-selected .mce-text
+{
+	color: {xen:property tinyquattro_menuitem_font_hover};
+}
+
+.mce-menu-item:hover .mce-ico,.mce-menu-item.mce-selected .mce-ico,.mce-menu-item:focus .mce-ico
+{
+	color: {xen:property tinyquattro_menuitem_font_hover};
+}
+
+.mce-menu-item.mce-disabled:hover
+{
+	background:#ccc;
+}
+
+.mce-menu-shortcut
+{
+	display: inline-block;
+	color:#adadad
+}
+
+.mce-menu-shortcut
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	padding:0 15px 0 20px;
+}
+
+.mce-menu-item:hover .mce-menu-shortcut,.mce-menu-item.mce-selected .mce-menu-shortcut,.mce-menu-item:focus .mce-menu-shortcut
+{
+	color:#fff
+}
+
+.mce-menu-item .mce-caret
+{
+	margin-top: 4px;
+	*margin-top: 3px;
+	margin-right: 6px;
+	border-top: 4px solid transparent;
+	border-bottom: 4px solid transparent;
+	border-left: 4px solid #333;
+}
+
+.mce-menu-item.mce-selected .mce-caret,.mce-menu-item:focus .mce-caret,.mce-menu-item:hover .mce-caret
+{
+	border-left-color:#fff
+}
+
+.mce-menu-align .mce-menu-shortcut
+{
+	*margin-top: -2px;
+}
+
+.mce-menu-align .mce-menu-shortcut,.mce-menu-align .mce-caret
+{
+	position: absolute;
+	right: 0;
+}
+
+.mce-menu-item-sep,.mce-menu-item-sep:hover
+{
+	border:0;
+	padding: 0;
+	height: 1px;
+	margin: 9px 1px;
+	overflow: hidden;
+	background:#cbcbcb;
+	border-bottom:1px solid #fff;
+	cursor: default;
+	filter: none;
+}
+
+.mce-menu-item.mce-active i
+{
+	visibility: visible;
+}
+
+.mce-menu-item-normal.mce-active
+{
+	background-color:#c8def4
+}
+
+.mce-menu-item-preview.mce-active
+{
+	border-left:5px solid #aaa
+}
+
+.mce-menu
+{
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+	background:#fff;
+	z-index: 1000;
+	padding: 5px 0 5px 0;
+	margin: 2px 0 0;
+	min-width: 160px;
+	border:1px solid #989898;
+	border: 1px solid rgba(0,0,0,0.2);
+	z-index: 1002;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	-webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+	-moz-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+	box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+	max-height:400px;
+	overflow:auto;
+	overflow-x:hidden;
+}
+
+.mce-menu i
+{
+	display: none;
+}
+
+.mce-menu-has-icons i
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+}
+
+.mce-menu-sub-tr-tl
+{
+	margin:-6px 0 0 -1px
+}
+
+.mce-menu-sub-br-bl
+{
+	margin:6px 0 0 -1px
+}
+
+.mce-menu-sub-tl-tr
+{
+	margin:-6px 0 0 1px
+}
+
+.mce-menu-sub-bl-br
+{
+	margin:6px 0 0 1px
+}
+
+.mce-container-body .mce-resizehandle
+{
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	width: 16px;
+	height: 16px;
+	visibility: visible;
+	cursor: s-resize;
+	margin: 0;
+}
+
+.mce-container-body .mce-resizehandle-both
+{
+	cursor:se-resize
+}
+
+i.mce-i-resize
+{
+	color:#000
+}
+
+.mce-spacer
+{
+	visibility: hidden;
+}
+
+.mce-splitbtn .mce-open
+{
+	border-left: 1px solid transparent;
+	border-right: 1px solid transparent;
+}
+
+.mce-splitbtn:hover .mce-open
+{
+	border-left-color:#bdbdbd;
+	border-right-color:#bdbdbd
+}
+
+.mce-splitbtn button
+{
+	padding-right: 4px;
+}
+
+.mce-splitbtn .mce-open
+{
+	padding-left: 4px;
+}
+
+.mce-splitbtn .mce-open.mce-active
+{
+	-webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
+	-moz-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
+	box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
+}
+
+.mce-stack-layout-item
+{
+	display: block;
+}
+
+.mce-tabs
+{
+	display: block;
+	border-bottom: 1px solid {xen:property tinyquattro_standard_boder.border-color};
+}
+
+.mce-tab
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	border: 1px solid {xen:property tinyquattro_standard_boder.border-color};
+	border-width:0 1px 0 0;
+	background: #e3e3e3;
+	padding: 8px;
+	text-shadow: 0 1px 1px rgba(255,255,255,0.75);
+	height: 13px;
+	cursor: pointer;
+}
+
+.mce-tab:hover
+{
+	background: {xen:property tinyquattro_panel_gradient_from};
+}
+
+.mce-tab.mce-active
+{
+	background: {xen:property tinyquattro_panel_gradient_from};
+	border-bottom-color: transparent;
+	margin-bottom: -1px;
+	height: 14px;
+}
+
+.mce-textbox
+{
+	background:#fff;
+	{xen:property tinyquattro_standard_boder}
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+	display: inline-block;
+	-webkit-transition: border linear .2s,box-shadow linear .2s;
+	transition: border linear .2s,box-shadow linear .2s;
+	height: 28px;
+	resize: none;
+	padding: 0 4px 0 4px;
+	white-space:pre-wrap;
+	*white-space:pre;
+	color:#333
+}
+
+.mce-textbox:focus,.mce-textbox.mce-focus
+{
+	border-color: {xen:property tinyquattro_focus_boder.border-color};
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
+	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
+	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
+}
+
+.mce-placeholder .mce-textbox
+{
+	color: #aaa;
+}
+
+.mce-textbox.mce-multiline
+{
+	padding: 4px;
+}
+
+.mce-textbox.mce-disabled 
+{
+	color:#adadad
+}
+
+.mce-throbber
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	opacity: .6;
+	filter: alpha(opacity=60);
+	zoom: 1;
+	background: #fff url('styles/sedo/tinyquattro/img/loader.gif') no-repeat center center;
+}]]></template>
     <template title="tiny_quattro_custom_buttons" version_id="10" version_string="1.1.3"><![CDATA[<xen:foreach loop="$customQuattroButtonsJs" value="$button" i="$i" count="$total">
 <xen:set var="$coma">{xen:if '{$i} != {$total}', ','}</xen:set>
 
@@ -2759,1715 +4348,37 @@ i.mce-i-backcolor
 </xen:if>
 </xen:foreach>
 ]]></template>
-    <template title="tiny_quattro_editor.css" version_id="18" version_string="1.3.0"><![CDATA[<xen:comment>
-	ALL EDITOR CSS (EXCEPT IFRAME CONTENT)
-	> IE7 have the same CSS except for buttons.
-	> These main css can be copied to the tiny_quattro_editor_ie7.css, just change the require template (see the last line)
-	> Why this?  
-		1) conditionals don't work here
-		2) buttons css must be included in the main css (using another css template with <xen:require> will create problems (can be solved with !important, but let's avoid this)
-		3) modifications should be easier to make like this
-</xen:comment>
-
-<xen:comment>
-	 GLOBAL CSS
-</xen:comment>
-
-.mce-container,.mce-container *,.mce-widget,.mce-widget *
-{
-	margin: 0;
-	padding: 0;
-	border: 0;
-	outline: 0;
-	vertical-align: top;
-	background: transparent;
-	text-decoration: none;
-	color: #000;
-	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-	font-size: 14px;
-	text-shadow: none;
-	float: none;
-	position: static;
-	width: auto;
-	height: auto;
-	white-space: nowrap;
-	cursor: inherit;
-	-webkit-tap-highlight-color: transparent;
-	line-height:normal;
-	font-weight:normal;
-	text-align:left;
-	-moz-box-sizing:content-box;
-	-webkit-box-sizing:content-box;
-	box-sizing:content-box
-}
-
-.mce-widget button {
-	-moz-box-sizing:border-box;
-	-webkit-box-sizing:border-box;
-	box-sizing:border-box
-}
-
-.mce-container *[unselectable]
-{
-	-moz-user-select: none;
-	-webkit-user-select: none;
-	-o-user-select: none;
-	user-select: none;
-}
-
-.mce-container ::-webkit-scrollbar
-{
-	width: 8px;
-	height: 8px;
-	-webkit-border-radius: 4px;
-}
-
-.mce-container ::-webkit-scrollbar-track,.mce-container ::-webkit-scrollbar-track-piece
-{
-	background-color: transparent;
-}
-
-.mce-container ::-webkit-scrollbar-thumb
-{
-	background-color: rgba(53,57,71,0.3);
-	width: 6px;
-	height: 6px;
-	-webkit-border-radius: 4px;
-}
-
-.mce-fade
-{
-	opacity: 0;
-	-webkit-transition: opacity .15s linear;
-	transition: opacity .15s linear;
-}
-
-.mce-fade.mce-in
-{
-	opacity: 1;
-}
-
-.mce-tinymce
-{
-	visibility: visible!important;
-	position: relative;
-}
-
-.mce-fullscreen
-{
-	border: 0;
-	padding: 0;
-	margin: 0;
-	overflow: hidden !important;
-	background: #FFF;
-	height: 100%;
-	z-index: 10000;
-}
-
-div.mce-fullscreen
-{
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: auto;
-}
-
-.mce-tinymce
-{
-	display: block;
-	border-radius: 2px;
-}
-
-.mce-wordcount
-{
-	position:absolute;
-	top:0;
-	right:0;
-	padding: 8px 20px 8px 8px;
-}
-
-.mce-edit-area
-{
-	background: #FFF;
-	filter: none;
-	margin-right:1px; <xen:comment>Fix for Chrome with QuickReply</xen:comment>
-}
-
-.mce-statusbar
-{
-	position: relative;
-}
-
-.mce-statusbar .mce-container-body
-{
-	position: relative;
-}
-
-.mce-fullscreen .mce-resizehandle
-{
-	display: none;
-}
-
-.mce-charmap
-{
-	border-collapse: collapse;
-}
-
-.mce-charmap td
-{
-	{xen:property tinyquattro_standard_boder}
-	width: 20px;
-	height: 20px;
-	line-height: 20px;
-	text-align: center;
-	vertical-align: middle;
-	padding: 2px;
-	cursor: default;
-}
-
-.mce-charmap td:hover
-{
-	background: {xen:property tinyquattro_btn_gradient_to};
-}
-
-.mce-grid td div {
-	border:1px solid #808080;
-	width:12px;
-	height:12px;
-	margin:2px;
-	cursor:pointer
-}
-.mce-grid td div:hover {
-	border-color:black
-}
-.mce-grid td div:focus {
-	border-color:#59a5e1;
-	outline:1px solid rgba(82,168,236,0.8);
-	border-color:rgba(82,168,236,0.8)
-}
-
-.mce-grid
-{
-	border-spacing: 2px;
-	border-collapse: separate;
-}
-
-.mce-grid a
-{
-	display: block;
-	border: 1px solid transparent;
-}
-
-.mce-grid a:hover
-{
-	border-color:{xen:property tinyquattro_standard_boder.border-color};
-}
-
-.mce-grid-border
-{
-	margin: 0 4px 0 4px;
-}
-
-.mce-grid-border a
-{
-	border-color: #e8e8e8;
-	width: 13px;
-	height: 13px;
-}
-
-.mce-grid-border a:hover,.mce-grid-border a.mce-active
-{
-	border-color: #c4daff;
-	background: #deeafa;
-}
-
-.mce-text-center
-{
-	text-align: center;
-}
-
-div.mce-tinymce-inline
-{
-	width: 100%;
-	-webkit-box-shadow: none;
-	-moz-box-shadow: none;
-	box-shadow: none;
-}
-
-.mce-container,.mce-container-body
-{
-	display: block;
-}
-
-.mce-autoscroll
-{
-	overflow: hidden;
-}
-
-.mce-scrollbar
-{
-	position: absolute;
-	width: 7px;
-	height: 100%;
-	top: 2px;
-	right: 2px;
-	opacity: .4;
-	filter: alpha(opacity=40);
-	zoom: 1;
-}
-
-.mce-scrollbar-h
-{
-	top: auto;
-	right: auto;
-	left: 2px;
-	bottom: 2px;
-	width: 100%;
-	height: 7px;
-}
-
-.mce-scrollbar-thumb
-{
-	position: absolute;
-	background-color: #000;
-	border: 1px solid #888;
-	border-color: rgba(85,85,85,0.6);
-	width: 5px;
-	height: 100%;
-	-webkit-border-radius: 7px;
-	-moz-border-radius: 7px;
-	border-radius: 7px;
-}
-
-.mce-scrollbar-h .mce-scrollbar-thumb
-{
-	width: 100%;
-	height: 5px;
-}
-
-.mce-scrollbar:hover,.mce-scrollbar.mce-active
-{
-	background-color: #AAA;
-	opacity: .6;
-	filter: alpha(opacity=60);
-	zoom: 1;
-	-webkit-border-radius: 7px;
-	-moz-border-radius: 7px;
-	border-radius: 7px;
-}
-
-.mce-scroll
-{
-	position: relative;
-}
-
-.mce-panel
-{
-	{xen:property tinyquattro_panel_border}
-	background-color: {xen:property tinyquattro_panel_background_color};
-	<xen:if is="!{xen:property tinyquattro_flatdesign}">
-		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
-		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-		background-image: -o-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-		background-image: linear-gradient(to bottom,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-		background-repeat: repeat-x;
-		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_panel_gradient_from_ie}',endColorstr='{xen:property tinyquattro_panel_gradient_to_ie}',GradientType=0);
-		zoom: 1;
-	</xen:if>
-}
-
-.mce-floatpanel
-{
-	position: absolute;
-	-webkit-box-shadow: #ccc 5px 5px 5px;
-	-moz-box-shadow: #ccc 5px 5px 5px;
-	box-shadow: #ccc 5px 5px 5px;
-}
-
-.mce-floatpanel.mce-fixed {
-	position:fixed
-}
-
-.mce-floatpanel .mce-arrow,.mce-floatpanel .mce-arrow:after
-{
-	position: absolute;
-	display: block;
-	width: 0;
-	height: 0;
-	border-color: transparent;
-	border-style: solid;
-}
-
-.mce-floatpanel .mce-arrow
-{
-	border-width: 11px;
-}
-
-.mce-floatpanel .mce-arrow:after
-{
-	border-width: 10px;
-	content: "";
-}
-
-.mce-floatpanel.mce-popover
-{
-	top: 0;
-	left: 0;
-	background: #fff;
-	-webkit-background-clip: padding-box;
-	-moz-background-clip: padding;
-	background-clip: padding-box;
-	border: 1px solid #ccc;
-	border: 1px solid rgba(0,0,0,0.2);
-	-webkit-border-radius: 6px;
-	-moz-border-radius: 6px;
-	border-radius: 6px;
-	-webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-	-moz-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-	box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-}
-
-.mce-floatpanel.mce-popover.mce-bottom
-{
-	margin-top: 10px;
-}
-
-.mce-floatpanel.mce-popover.mce-bottom>.mce-arrow
-{
-	left: 50%;
-	margin-left: -11px;
-	border-top-width: 0;
-	border-bottom-color: #999;
-	border-bottom-color: rgba(0,0,0,0.25);
-	top: -11px;
-}
-
-.mce-floatpanel.mce-popover.mce-bottom>.mce-arrow:after
-{
-	top: 1px;
-	margin-left: -10px;
-	border-top-width: 0;
-	border-bottom-color: #fff;
-}
-
-.mce-floatpanel.mce-popover.mce-bottom.mce-start
-{
-	margin-left: -22px;
-}
-
-.mce-floatpanel.mce-popover.mce-bottom.mce-start>.mce-arrow
-{
-	left: 20px;
-}
-
-.mce-floatpanel.mce-popover.mce-bottom.mce-end
-{
-	margin-left: 22px;
-}
-
-.mce-floatpanel.mce-popover.mce-bottom.mce-end>.mce-arrow
-{
-	right: 10px;
-	left: auto;
-}
-
-.mce-fullscreen
-{
-	border: 0;
-	padding: 0;
-	margin: 0;
-	overflow: hidden;
-	background: #FFF;
-	height: 100%;
-}
-
-div.mce-fullscreen
-{
-	position: fixed;
-	top: 0;
-	left: 0;
-}
-
-#mce-modal-block
-{
-	opacity: 0;
-	filter: alpha(opacity=0);
-	zoom: 1;
-	position: fixed;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	background: #000;
-}
-
-#mce-modal-block.mce-in
-{
-	opacity: .3;
-	filter: alpha(opacity=30);
-	zoom: 1;
-}
-
-.mce-window-move
-{
-	cursor: move;
-}
-
-.mce-window
-{
-	{xen:property tinyquattro_win}
-}
-
-.mce-window.mce-in
-{
-	opacity: 1;
-}
-
-.mce-window-head
-{
-	{xen:property tinyquattro_win_head}
-}
-
-.mce-window-head .mce-close
-{
-	position: absolute;
-	right: 15px;
-	top: 9px;
-	font-size: 20px;
-	font-weight: bold;
-	line-height: 20px;
-	color: #CCC;
-	text-shadow: 0 1px 0 white;
-	cursor: pointer;
-	height: 20px;
-	overflow: hidden;
-}
-
-.mce-close:hover
-{
-	color: #AAA;
-}
-
-.mce-window-head .mce-title
-{
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
-	line-height: 20px;
-	font-size: 20px;
-	font-weight: bold;
-	text-rendering: optimizelegibility;
-	padding-right: 10px;
-}
-
-.mce-window .mce-container-body
-{
-	display: block;
-}
-
-.mce-foot
-{
-	{xen:property tinyquattro_win_foot}
-}
-
-.mce-window-head .mce-dragh
-{
-	position: absolute;
-	top: 0;
-	left: 0;
-	cursor: move;
-	width: 90%;
-	height: 100%;
-}
-
-.mce-window iframe
-{
-	width: 100%;
-	height: 100%;
-}
-
-.mce-window.mce-fullscreen,.mce-window.mce-fullscreen .mce-foot
-{
-	-webkit-border-radius: 0;
-	-moz-border-radius: 0;
-	border-radius: 0;
-}
-
-.mce-abs-layout
-{
-	position: relative;
-}
-
-body .mce-abs-layout-item,.mce-abs-end
-{
-	position: absolute;
-}
-
-.mce-abs-end
-{
-	width: 1px;
-	height: 1px;
-}
-
-.mce-container-body.mce-abs-layout
-{
-	overflow: hidden;
-}
-
-.mce-tooltip
-{
-	position: absolute;
-	padding: 5px;
-	opacity: .8;
-	filter: alpha(opacity=80);
-	zoom: 1;
-}
-
-.mce-tooltip-inner
-{
-	font-size: 11px;
-	background-color: #000;
-	color: #fff;
-	max-width: 200px;
-	padding: 5px 8px 4px 8px;
-	text-align: center;
-	white-space: normal;
-}
-
-.mce-tooltip-inner
-{
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-}
-
-.mce-tooltip-inner
-{
-	-webkit-box-shadow: 0 0 5px #000;
-	-moz-box-shadow: 0 0 5px #000;
-	box-shadow: 0 0 5px #000;
-}
-
-.mce-tooltip-arrow
-{
-	position: absolute;
-	width: 0;
-	height: 0;
-	line-height: 0;
-	border: 5px dashed #000;
-}
-
-.mce-tooltip-arrow-n
-{
-	border-bottom-color: #000;
-}
-
-.mce-tooltip-arrow-s
-{
-	border-top-color: #000;
-}
-
-.mce-tooltip-arrow-e
-{
-	border-left-color: #000;
-}
-
-.mce-tooltip-arrow-w
-{
-	border-right-color: #000;
-}
-
-.mce-tooltip-nw,.mce-tooltip-sw 
-{
-	margin-left:-14px
-}
-
-.mce-tooltip-n .mce-tooltip-arrow
-{
-	top: 0;
-	left: 50%;
-	margin-left: -5px;
-	border-bottom-style: solid;
-	border-top: 0;
-	border-left-color: transparent;
-	border-right-color: transparent;
-}
-
-.mce-tooltip-nw .mce-tooltip-arrow
-{
-	top: 0;
-	left: 10px;
-	border-bottom-style: solid;
-	border-top: 0;
-	border-left-color: transparent;
-	border-right-color: transparent;
-}
-
-.mce-tooltip-ne .mce-tooltip-arrow
-{
-	top: 0;
-	right: 10px;
-	border-bottom-style: solid;
-	border-top: 0;
-	border-left-color: transparent;
-	border-right-color: transparent;
-}
-
-.mce-tooltip-s .mce-tooltip-arrow
-{
-	bottom: 0;
-	left: 50%;
-	margin-left: -5px;
-	border-top-style: solid;
-	border-bottom: 0;
-	border-left-color: transparent;
-	border-right-color: transparent;
-}
-
-.mce-tooltip-sw .mce-tooltip-arrow
-{
-	bottom: 0;
-	left: 10px;
-	border-top-style: solid;
-	border-bottom: 0;
-	border-left-color: transparent;
-	border-right-color: transparent;
-}
-
-.mce-tooltip-se .mce-tooltip-arrow
-{
-	bottom: 0;
-	right: 10px;
-	border-top-style: solid;
-	border-bottom: 0;
-	border-left-color: transparent;
-	border-right-color: transparent;
-}
-
-.mce-tooltip-e .mce-tooltip-arrow
-{
-	right: 0;
-	top: 50%;
-	margin-top: -5px;
-	border-left-style: solid;
-	border-right: 0;
-	border-top-color: transparent;
-	border-bottom-color: transparent;
-}
-
-.mce-tooltip-w .mce-tooltip-arrow
-{
-	left: 0;
-	top: 50%;
-	margin-top: -5px;
-	border-right-style: solid;
-	border-left: none;
-	border-top-color: transparent;
-	border-bottom-color: transparent;
-}
-
-.mce-btn
-{
-	position: relative;
-	{xen:property tinyquattro_btn_border_color}
-	background-color: {xen:property tinyquattro_btn_bckg_color};
-	display: inline-block;
-	*display: inline;
-	<xen:if is="!{xen:property tinyquattro_flatdesign}">
-		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_gradient_from}),to({xen:property tinyquattro_btn_gradient_to}));
-		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-		background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-		background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-		background-repeat: repeat-x;
-		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_gradient_to_ie}',GradientType=0);
-		*zoom: 1;
-	</xen:if>
-}
-
-.mce-btn:hover,.mce-btn:focus
-{
-	{xen:property tinyquattro_btn_hov_border_color}
-	background-color: {xen:property tinyquattro_btn_hov_bckg_color};
-	<xen:if is="!{xen:property tinyquattro_flatdesign}">
-		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
-		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_hov_gradient_from}),to({xen:property tinyquattro_btn_hov_gradient_to}));
-		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
-		background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
-		background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
-		background-repeat: repeat-x;
-		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_hov_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_hov_gradient_to_ie}',GradientType=0);
-		zoom: 1;
-	</xen:if>
-}
-
-.mce-btn.mce-disabled,.mce-btn.mce-disabled:hover
-{
-	cursor: default;
-	background-image: none;
-	-webkit-box-shadow: none;
-	-moz-box-shadow: none;
-	box-shadow: none;
-	opacity: .65;
-	filter: alpha(opacity=65);
-	zoom: 1;
-}
-
-.mce-btn.mce-active,.mce-btn.mce-active:hover
-{
-	{xen:property tinyquattro_btn_active_border_color}
-	background-color: {xen:property tinyquattro_btn_active_bckg_color};
-	<xen:if is="!{xen:property tinyquattro_flatdesign}">
-		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
-		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_active_gradient_from}),to({xen:property tinyquattro_btn_active_gradient_to}));
-		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
-		background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
-		background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
-		background-repeat: repeat-x;
-		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_active_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_active_gradient_to_ie}',GradientType=0);
-		zoom: 1;
-	</xen:if>
-}
-
-.mce-btn button
-{
-	{xen:property tinyquattro_button}
-}
-
-.mce-btn button::-moz-focus-inner
-{
-	border: 0;
-	padding: 0;
-}
-
-.mce-btn i
-{
-	text-shadow: 1px 1px #fff;
-}
-
-.mce-primary
-{
-	{xen:property tinyquattro_primary_border_color}
-	min-width:50px;
-	background-color: {xen:property tinyquattro_primary_background_color};
-	<xen:if is="!{xen:property tinyquattro_flatdesign}">
-		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
-		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_gradient_from}),to({xen:property tinyquattro_primary_gradient_to}));
-		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
-		background-image: -o-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
-		background-image: linear-gradient(to bottom,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
-		background-repeat: repeat-x;
-		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_primary_gradient_from_ie}',endColorstr='{xen:property tinyquattro_primary_gradient_to_ie}',GradientType=0);
-		zoom: 1;
-	</xen:if>
-}
-
-.mce-primary:hover,.mce-primary:focus
-{
-	{xen:property tinyquattro_primary_hov_border_color}
-	background-color: {xen:property tinyquattro_primary_hover_bck_color};
-	<xen:if is="!{xen:property tinyquattro_flatdesign}">
-		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
-		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_hover_grdt_from}),to({xen:property tinyquattro_primary_hover_grdt_to}));
-		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
-		background-image: -o-linear-gradient(top,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
-		background-image: linear-gradient(to bottom,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
-		background-repeat: repeat-x;
-		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_primary_hov_grdt_from_ie}',endColorstr='tinyquattro_primary_hov_grdt_to_ie',GradientType=0);
-		zoom: 1;
-	</xen:if>
-}
-
-.mce-primary button
-{
-	color: {xen:property tinyquattro_primary_border_color.color};
-}
-
-.mce-btn-large button
-{
-	padding: 9px 14px;
-	font-size: 16px;
-	line-height: normal;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-}
-
-.mce-btn-large i
-{
-	margin-top: 2px;
-}
-
-.mce-btn-small button
-{
-	padding: 3px 5px;
-	font-size: 12px;
-	line-height: 17px;
-}
-
-.mce-btn-small i
-{
-	margin-top: 0;
-}
-
-.mce-btn .mce-caret
-{
-	margin-top: 8px;
-	*margin-top: 6px;
-	margin-left: 0;
-}
-
-.mce-btn-small .mce-caret
-{
-	margin-top: 6px;
-	*margin-top: 4px;
-	margin-left: 0;
-}
-
-.mce-caret
-{
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
-	width: 0;
-	height: 0;
-	vertical-align: top;
-	border-top: 4px solid #444;
-	border-right: 4px solid transparent;
-	border-left: 4px solid transparent;
-	content: "";
-}
-
-.mce-disabled .mce-caret
-{
-	border-top-color: #999;
-}
-
-.mce-caret.mce-up
-{
-	border-bottom: 4px solid #444;
-	border-top: 0;
-}
-
-.mce-btn-group .mce-btn
-{
-	border-width: 1px 0 1px 0;
-	margin: 0;
-	-webkit-border-radius: 0;
-	-moz-border-radius: 0;
-	border-radius: 0;
-}
-
-.mce-btn-group .mce-btn:hover,.mce-btn-group .mce-btn:focus
-{
-	{xen:property tinyquattro_btngrp_hov_border_color}
-	background-color: {xen:property tinyquattro_btngrp_hov_bckg_color};
-	<xen:if is="!{xen:property tinyquattro_flatdesign}">
-		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
-		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btngrp_hov_gradient_from}),to({xen:property tinyquattro_btngrp_hov_gradient_to}));
-		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
-		background-image: -o-linear-gradient(top,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
-		background-image: linear-gradient(to bottom,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
-		background-repeat: repeat-x;
-		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btngrp_hov_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btngrp_hov_gradient_to_ie}',GradientType=0);
-		zoom: 1;
-	</xen:if>
-}
-
-.mce-btn-group .mce-btn.mce-disabled,.mce-btn-group .mce-btn.mce-disabled:hover
-{
-	{xen:property tinyquattro_btngrp_disable_border_color}
-	background-color: {xen:property tinyquattro_btn_bckg_color};
-	<xen:if is="!{xen:property tinyquattro_flatdesign}">
-		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_gradient_from}),to({xen:property tinyquattro_btn_gradient_to}));
-		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-		background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-		background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-		background-repeat: repeat-x;
-		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_gradient_to_ie}',GradientType=0);
-		zoom: 1;
-	</xen:if>
-}
-
-.mce-btn-group .mce-btn.mce-active,.mce-btn-group .mce-btn.mce-active:hover,.mce-btn-group .mce-btn:active
-{
-	{xen:property tinyquattro_btngrp_active_border_color}
-	background-color: {xen:property tinyquattro_btngrp_active_bckg_color};
-	<xen:if is="!{xen:property tinyquattro_flatdesign}">
-		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
-		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btngrp_active_grdt_from}),to({xen:property tinyquattro_btngrp_active_grdt_to}));
-		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
-		background-image: -o-linear-gradient(top,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
-		background-image: linear-gradient(to bottom,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
-		background-repeat: repeat-x;
-		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btngrp_active_grdt_from_ie}',endColorstr='{xen:property tinyquattro_btngrp_active_grdt_to_ie}',GradientType=0);
-		zoom: 1;
-	</xen:if>
-}
-
-.mce-btn-group .mce-btn.mce-disabled button
-{
-	opacity: .65;
-	filter: alpha(opacity=65);
-	zoom: 1;
-}
-
-.mce-btn-group .mce-first
-{
-	border-left: 1px solid {xen:property tinyquattro_standard_boder.border-color};
-	-webkit-border-radius: 3px 0 0 3px;
-	-moz-border-radius: 3px 0 0 3px;
-	border-radius: 3px 0 0 3px;
-}
-
-.mce-btn-group .mce-last
-{
-	border-right: 1px solid {xen:property tinyquattro_standard_boder.border-color};
-	-webkit-border-radius: 0 3px 3px 0;
-	-moz-border-radius: 0 3px 3px 0;
-	border-radius: 0 3px 3px 0;
-}
-
-.mce-btn-group .mce-first.mce-last
-{
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-}
-
-.mce-btn-group .mce-btn.mce-flow-layout-item
-{
-	margin: 0;
-}
-
-.mce-checkbox
-{
-	cursor: pointer;
-}
-
-i.mce-i-checkbox
-{
-	margin: 0 3px 0 0;
-	{xen:property tinyquattro_standard_boder}
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
-	-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
-	box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
-	background-color: {xen:property tinyquattro_panel_background_color};
-	<xen:if is="!{xen:property tinyquattro_flatdesign}">
-		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
-		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-		background-image: -o-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-		background-image: linear-gradient(to bottom,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-		background-repeat: repeat-x;
-		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_panel_gradient_from_ie}',endColorstr='{xen:property tinyquattro_panel_gradient_to_ie}',GradientType=0);
-		zoom: 1;
-	</xen:if>
-	text-indent: -10em;
-	*font-size: 0;
-	*line-height: 0;
-	*text-indent: 0;
-}
-
-.mce-checked i.mce-i-checkbox
-{
-	color: #000;
-	font-size: 16px;
-	line-height: 16px;
-	text-indent: 0;
-}
-
-.mce-checkbox:focus i.mce-i-checkbox
-{
-	{xen:property tinyquattro_focus_boder}
-	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
-	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
-	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
-}
-
-.mce-colorbutton .mce-ico
-{
-	position: relative;
-}
-
-.mce-colorpicker
-{
-	background: #FFF;
-}
-
-.mce-colorbutton-grid
-{
-	margin: 4px;
-}
-
-.mce-colorbutton button {
-	padding-right:4px
-}
-
-.mce-colorbutton .mce-preview 
-{
-	padding-right:3px;
-	display:block;
-	position:absolute;
-	left:50%;
-	top:50%;
-	margin-left:-14px;
-	margin-top:7px;
-	background:gray;
-	width:13px;
-	height:2px;
-	overflow:hidden
-}
-
-.mce-colorbutton.mce-btn-small .mce-preview
-{
-	margin-left:-17px;
-	padding-right:0;
-	width:16px
-}
-
-.mce-colorbutton .mce-open
-{
-	padding-left:4px;
-	border-left:1px solid transparent;
-	border-right:1px solid transparent
-}
-
-.mce-colorbutton:hover .mce-open
-{
-	border-left-color:#c5c5c5;
-	border-right-color:#c5c5c5
-}
-
-.mce-combobox
-{
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	width: 100px;
-	-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
-	-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
-	box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
-}
-
-.mce-combobox input
-{
-	border: 1px solid {xen:property tinyquattro_standard_boder.border-color};
-	border-right-color: rgba(0,0,0,0.15);
-	height: 28px;
-}
-
-.mce-combobox.mce-has-open input
-{
-	-webkit-border-radius: 4px 0 0 4px;
-	-moz-border-radius: 4px 0 0 4px;
-	border-radius: 4px 0 0 4px;
-}
-
-.mce-combobox .mce-btn
-{
-	border-left: 0;
-	-webkit-border-radius: 0 4px 4px 0;
-	-moz-border-radius: 0 4px 4px 0;
-	border-radius: 0 4px 4px 0;
-}
-
-.mce-combobox button
-{
-	padding-right: 8px;
-	padding-left: 8px;
-}
-
-.mce-combobox *:focus
-{
-	border-color: {xen:property tinyquattro_focus_boder.border-color};
-	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
-	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
-	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
-}
-
-.mce-path
-{
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
-	padding: 8px;
-	white-space: normal;
-}
-
-.mce-path .mce-txt
-{
-	display: inline-block;
-	padding-right: 3px;
-}
-
-.mce-path .mce-path-body
-{
-	display: inline-block;
-}
-
-.mce-path-item
-{
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
-	cursor: pointer;
-	color: #000;
-}
-
-.mce-path-item:hover
-{
-	text-decoration: underline;
-}
-
-.mce-path-item:focus
-{
-	background: gray;
-	color: white;
-}
-
-.mce-path .mce-divider
-{
-	display: inline;
-}
-
-.mce-fieldset
-{
-	border: 0 solid #9e9e9e;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-}
-
-.mce-fieldset>.mce-container-body
-{
-	margin-top: -15px;
-}
-
-.mce-fieldset-title
-{
-	margin-left: 5px;
-	padding: 0 5px 0 5px;
-}
-
-.mce-fit-layout
-{
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
-}
-
-.mce-fit-layout-item
-{
-	position: absolute;
-}
-
-.mce-flow-layout-item
-{
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
-}
-
-.mce-flow-layout-item
-{
-	margin: 2px 0 2px 2px;
-}
-
-.mce-flow-layout-item.mce-last
-{
-	margin-right: 2px;
-}
-
-.mce-flow-layout
-{
-	white-space: normal;
-}
-
-.mce-tinymce-inline .mce-flow-layout {
-	white-space: nowrap;
-}
-
-.mce-iframe
-{
-	border: 0 solid {xen:property tinyquattro_standard_boder.border-color};
-	width: 100%;
-	height: 100%;
-}
-
-.mce-label
-{
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
-	text-shadow: 0 1px 1px rgba(255,255,255,0.75);
-	border: 0 solid {xen:property tinyquattro_standard_boder.border-color};
-	overflow: hidden;
-}
-
-.mce-label.mce-autoscroll
-{
-	overflow: auto;
-}
-
-.mce-label-disabled .mce-text
-{
-	color: #999;
-}
-
-.mce-label.mce-multiline
-{
-	white-space: pre-wrap;
-}
-
-.mce-menubar .mce-menubtn
-{
-	border-color: transparent;
-	background: transparent;
-	-webkit-border-radius: 0;
-	-moz-border-radius: 0;
-	border-radius: 0;
-	-webkit-box-shadow: none;
-	-moz-box-shadow: none;
-	box-shadow: none;
-	filter: none;
-}
-
-.mce-menubar
-{
-	border: 1px solid {xen:property tinyquattro_panel_gradient_to};
-}
-
-.mce-menubar .mce-menubtn button
-{
-	color: #000;
-}
-
-.mce-menubar .mce-menubtn:hover,.mce-menubar .mce-menubtn.mce-active,.mce-menubar .mce-menubtn:focus
-{
-	border-color: transparent;
-	background: {xen:property tinyquattro_panel_gradient_to};
-	filter: none;
-}
-
-.mce-menubtn.mce-disabled span
-{
-	color: #999;
-}
-
-.mce-menubtn span
-{
-	margin-right:2px;
-	line-height:20px;
-	*line-height:16px
-}
-
-.mce-menubtn.mce-btn-small span
-{
-	font-size:12px;
-	line-height:15px;
-	*line-height:16px
-}
-
-.mce-menubtn.mce-fixed-width span
-{
-	display:inline-block;
-	overflow-x:hidden;
-	text-overflow:ellipsis;
-	width:90px
-}
-
-.mce-menubtn.mce-fixed-width.mce-btn-small span
-{
-	width:70px
-}
-
-.mce-listbox button
-{
-	text-align: left;
-	padding-right: 20px;
-	position: relative;
-}
-
-.mce-listbox .mce-caret
-{
-	position: absolute;
-	margin-top: -2px;
-	right: 8px;
-	top: 50%;
-}
-
-.mce-menu-item
-{
-	display: block;
-	padding:6px 15px 6px 12px;
-	clear: both;
-	font-weight: normal;
-	line-height: 20px;
-	color: {xen:property tinyquattro_menuitem_font_normal};
-	white-space: nowrap;
-	cursor: pointer;
-	line-height:normal;
-	border-left:4px solid transparent;
-	margin-bottom:1px
-}
-
-.mce-menu-item.mce-disabled .mce-text
-{
-	color: {xen:property tinyquattro_menuitem_font_disable};
-}
-
-.mce-menu-item:hover,.mce-menu-item.mce-selected,.mce-menu-item:focus
-{
-	text-decoration: none;
-	color: {xen:property tinyquattro_menuitem_font_hover};
-	background-color: {xen:property tinyquattro_focus_boder.border-color};
-	<xen:if is="!{xen:property tinyquattro_flatdesign}">
-		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
-		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_gradient_from}),to({xen:property tinyquattro_primary_hover_grdt_from}));
-		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
-		background-image: -o-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
-		background-image: linear-gradient(to bottom,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
-		background-repeat: repeat-x;
-		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc',endColorstr='{xen:property tinyquattro_primary_hov_grdt_from_ie}',GradientType=0);
-		zoom: 1;
-	</xen:if>
-}
-
-.mce-menu-item:hover .mce-text,.mce-menu-item.mce-selected .mce-text
-{
-	color: {xen:property tinyquattro_menuitem_font_hover};
-}
-
-.mce-menu-item:hover .mce-ico,.mce-menu-item.mce-selected .mce-ico,.mce-menu-item:focus .mce-ico
-{
-	color: {xen:property tinyquattro_menuitem_font_hover};
-}
-
-.mce-menu-item.mce-disabled:hover {
-	background:#CCC; <xen:comment>4.0.1 check if color needs to be integrated</xen:comment>
-}
-
-.mce-menu-shortcut
-{
-	display: inline-block;
-	color: #999;
-}
-
-.mce-menu-shortcut
-{
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
-	padding:0 15px 0 20px;
-}
-
-.mce-menu-item .mce-caret
-{
-	margin-top: 4px;
-	*margin-top: 3px;
-	margin-right: 6px;
-	border-top: 4px solid transparent;
-	border-bottom: 4px solid transparent;
-	border-left: 4px solid #666;
-}
-
-.mce-menu-item.mce-selected .mce-caret,.mce-menu-item:focus .mce-caret
-{
-	border-left-color: #FFF;
-}
-
-.mce-menu-align .mce-menu-shortcut
-{
-	*margin-top: -2px;
-}
-
-.mce-menu-align .mce-menu-shortcut,.mce-menu-align .mce-caret
-{
-	position: absolute;
-	right: 0;
-}
-
-.mce-menu-item-sep,.mce-menu-item-sep:hover
-{
-	padding: 0;
-	height: 1px;
-	margin: 9px 1px;
-	overflow: hidden;
-	background: #e5e5e5;
-	border-bottom: 1px solid white;
-	cursor: default;
-	filter: none;
-}
-
-.mce-menu-item.mce-active i
-{
-	visibility: visible;
-}
-
-.mce-menu-item.mce-active
-{
-	background-color: #c8def4;
-	outline: 1px solid {xen:property tinyquattro_standard_boder.border-color};
-}
-
-.mce-menu-item-preview.mce-active {
-	border-left:5px solid #aaa;
-	background-color:transparent;
-	outline:0;
-}
-
-.mce-menu-item-checkbox.mce-active
-{
-	background-color: #FFF;
-	outline: 0;
-}
-
-.mce-menu
-{
-	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-	background: transparent;
-	z-index: 1000;
-	padding: 5px 0 5px 0;
-	margin: 2px 0 0;
-	min-width: 160px;
-	background: #FFF;
-	border: 1px solid #CCC;
-	border: 1px solid rgba(0,0,0,0.2);
-	z-index: 1002;
-	-webkit-border-radius: 6px;
-	-moz-border-radius: 6px;
-	border-radius: 6px;
-	-webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-	-moz-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-	box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-	max-height:400px;
-	overflow:auto;
-	overflow-x:hidden;
-}
-
-.mce-menu i
-{
-	display: none;
-}
-
-.mce-menu-has-icons i
-{
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
-}
-
-.mce-menu-sub-tr-tl
-{
-	margin:-6px 0 0 -1px
-}
-
-.mce-menu-sub-br-bl
-{
-	margin:6px 0 0 -1px
-}
-
-.mce-menu-sub-tl-tr
-{
-	margin:-6px 0 0 1px
-}
-
-.mce-menu-sub-bl-br
-{
-	margin:6px 0 0 1px
-}
-
-i.mce-radio
-{
-	padding: 1px;
-	margin: 0 3px 0 0;
-	background-color: #fafafa;
-	border: 1px solid #cacece;
-	-webkit-border-radius: 8px;
-	-moz-border-radius: 8px;
-	border-radius: 8px;
-	-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
-	-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
-	box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
-	background-color: {xen:property tinyquattro_panel_background_color};
-	<xen:if is="!{xen:property tinyquattro_flatdesign}">
-		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
-		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-		background-image: -o-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-		background-image: linear-gradient(to bottom,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-		background-repeat: repeat-x;
-		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_panel_gradient_from_ie}',endColorstr='{xen:property tinyquattro_panel_gradient_to_ie}',GradientType=0);
-		zoom: 1;
-	</xen:if>
-}
-
-i.mce-radio:after
-{
-	font-family: Arial;
-	font-size: 12px;
-	color: #000;
-	content: '\25cf';
-}
-
-.mce-container-body .mce-resizehandle
-{
-	position: absolute;
-	right: 0;
-	bottom: 0;
-	width: 16px;
-	height: 16px;
-	visibility: visible;
-	cursor: s-resize;
-	margin: 0;
-}
-
-.mce-container-body .mce-resizehandle-both
-{
-	cursor:se-resize
-}
-
-i.mce-i-resize
-{
-	color: #000;
-}
-
-.mce-spacer
-{
-	visibility: hidden;
-}
-
-.mce-splitbtn .mce-open
-{
-	border-left: 1px solid transparent;
-	border-right: 1px solid transparent;
-}
-
-.mce-splitbtn:hover .mce-open
-{
-	border-left-color: {xen:property tinyquattro_standard_boder.border-color};
-	border-right-color: {xen:property tinyquattro_standard_boder.border-color};
-}
-
-.mce-splitbtn button
-{
-	padding-right: 4px;
-}
-
-.mce-splitbtn .mce-open
-{
-	padding-left: 4px;
-}
-
-.mce-splitbtn .mce-open.mce-active
-{
-	-webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
-	-moz-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
-	box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
-}
-
-.mce-stack-layout-item
-{
-	display: block;
-}
-
-.mce-tabs
-{
-	display: block;
-	border-bottom: 1px solid #ccc;
-}
-
-.mce-tab
-{
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
-	border: 1px solid #ccc;
-	border-width: 1px 1px 0 0;
-	background: #e3e3e3;
-	padding: 8px;
-	text-shadow: 0 1px 1px rgba(255,255,255,0.75);
-	height: 13px;
-	cursor: pointer;
-}
-
-.mce-tab:hover
-{
-	background: {xen:property tinyquattro_panel_gradient_from};
-}
-
-.mce-tab.mce-active
-{
-	background: {xen:property tinyquattro_panel_gradient_from};
-	border-bottom-color: transparent;
-	margin-bottom: -1px;
-	height: 14px;
-}
-
-.mce-textbox
-{
-	background: #FFF;
-	{xen:property tinyquattro_standard_boder}
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-	display: inline-block;
-	-webkit-transition: border linear .2s,box-shadow linear .2s;
-	transition: border linear .2s,box-shadow linear .2s;
-	height: 28px;
-	resize: none;
-	padding: 0 4px 0 4px;
-	white-space:pre-wrap;
-	*white-space:pre;
-	color:#000
-}
-
-.mce-textbox:focus
-{
-	border-color: {xen:property tinyquattro_focus_boder.border-color};
-	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
-	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
-	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
-}
-
-.mce-placeholder .mce-textbox
-{
-	color: #aaa;
-}
-
-.mce-textbox.mce-multiline
-{
-	padding: 4px;
-}
-
-.mce-throbber
-{
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	opacity: .6;
-	filter: alpha(opacity=60);
-	zoom: 1;
-	background: #fff url('styles/sedo/tinyquattro/img/loader.gif') no-repeat center center;
-}
-
-
-<xen:comment>
+    <template title="tiny_quattro_editor.css" version_id="19" version_string="1.3.1"><![CDATA[<xen:comment>Official css for all browsers (XenForo integration)</xen:comment>
+<xen:if is="{xen:property tinyquattro_css_integration}">
+	<xen:include template="tiny_quattro_common_css.css" />
+</xen:if>
+
+<xen:comment>XenForo Framework CSS</xen:comment>
+<xen:include template="tiny_quattro_framework.css" />
+
+<xen:comment>Buttons CSS for all browsers but IE7</xen:comment>
+<xen:if is="{xen:property tinyquattro_css_integration}">
+	<xen:include template="tiny_quattro_buttons.css" />
+</xen:if>
+<xen:include template="tiny_quattro_xenbuttons.css" />
+
+<xen:edithint template="tiny_quattro_iframe.css" />]]></template>
+    <template title="tiny_quattro_editor_ie7.css" version_id="19" version_string="1.3.1"><![CDATA[<xen:comment>Official css for all browsers (XenForo integration)</xen:comment>
+<xen:if is="{xen:property tinyquattro_css_integration}">
+	<xen:include template="tiny_quattro_common_css.css" />
+</xen:if>
+
+<xen:comment>XenForo Framework CSS</xen:comment>
+<xen:include template="tiny_quattro_framework.css" />
+
+<xen:comment>Buttons CSS FOR IE7</xen:comment>
+<xen:if is="{xen:property tinyquattro_css_integration}">
+	<xen:include template="tiny_quattro_buttons_ie7.css" />
+</xen:if>
+<xen:include template="tiny_quattro_xenbuttons_ie7.css" />
+
+<xen:edithint template="tiny_quattro_iframe.css" />]]></template>
+    <template title="tiny_quattro_framework.css" version_id="19" version_string="1.3.1"><![CDATA[<xen:comment>
 	XenForo Framework addons
 </xen:comment>
 
@@ -4476,7 +4387,7 @@ i.mce-i-resize
 	padding-right:2px;
 }
 
-.mceAdvPicker{
+.mce-container .mceAdvPicker{
 	position: relative;
 	text-align: center;
 	margin: 0 8px;
@@ -4485,7 +4396,7 @@ i.mce-i-resize
 	cursor: pointer;
 }
 
-.mceAdvPicker:hover{
+.mce-container .mceAdvPicker:hover{
 	background-color:black;
 	color:white;
 }
@@ -4500,7 +4411,7 @@ i.mce-i-resize
 	overflow-y:auto;
 }
 
-.mce-xen-font-size{
+.mce-container .mce-xen-font-size{
 	text-align:center;
 }
 
@@ -4523,7 +4434,7 @@ i.mce-i-resize
 
 <xen:include template="tiny_quattro_smilies.css" />
 
-.mceQuattroSmilieBlock{
+.mce-container .mceQuattroSmilieBlock{
 	width: {xen:property tinyquattro_smiliesbtn_width};
 	white-space: normal;
 	text-align: center;
@@ -4532,1829 +4443,44 @@ i.mce-i-resize
 	overflow:auto;
 }
 
-.mceQuattroSmilieBlockFull{
+.mce-container .mceQuattroSmilieBlockFull{
 	width: {xen:property tinyquattro_smiliespicker_width};
 	height: {xen:property tinyquattro_smiliespicker_height};
 	white-space: normal;
 	overflow:auto;
 }
 
-.mceQuattroSmilieBlock a,
-.mceQuattroSmilieBlockFull a{
+.mce-container .mceQuattroSmilieBlock a,
+.mce-container .mceQuattroSmilieBlockFull a{
 	white-space: normal;
 }
 
-.mceQuattroSmilieBlock > img,
-.mceQuattroSmilieBlockFull > img,
-.mceQuattroSmilie{
+.mce-container .mceQuattroSmilieBlock > img,
+.mce-container .mceQuattroSmilieBlockFull > img,
+.mce-container .mceQuattroSmilie{
 	margin:2px;
 	cursor: pointer;
 }
 
-<xen:comment>
-	BUTTONS: DON'T MOVE THIS INCLUDE.
-	It must be at the last line
-</xen:comment>
-
-<xen:include template="tiny_quattro_buttons.css" />]]></template>
-    <template title="tiny_quattro_editor_ie7.css" version_id="17" version_string="1.3.0"><![CDATA[<xen:comment>
-	ALL EDITOR CSS (EXCEPT IFRAME CONTENT)
-	> IE7 have the same CSS except for buttons.
-	> These main css can be copied to the tiny_quattro_editor_ie7.css, just change the require template (see the last line)
-	> Why this?  
-		1) conditionals don't work here
-		2) buttons css must be included in the main css (using another css template with <xen:require> will create problems (can be solved with !important, but let's avoid this)
-		3) modifications should be easier to make like this
-</xen:comment>
-
-<xen:comment>
-	 GLOBAL CSS
-</xen:comment>
-
-.mce-container,.mce-container *,.mce-widget,.mce-widget *
-{
-	margin: 0;
-	padding: 0;
-	border: 0;
-	outline: 0;
-	vertical-align: top;
-	background: transparent;
-	text-decoration: none;
-	color: #000;
-	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-	font-size: 14px;
-	text-shadow: none;
-	float: none;
-	position: static;
-	width: auto;
-	height: auto;
-	white-space: nowrap;
-	cursor: inherit;
-	-webkit-tap-highlight-color: transparent;
-	line-height:normal;
-	font-weight:normal;
-	text-align:left;
-	-moz-box-sizing:content-box;
-	-webkit-box-sizing:content-box;
-	box-sizing:content-box
-}
-
-.mce-widget button {
-	-moz-box-sizing:border-box;
-	-webkit-box-sizing:border-box;
-	box-sizing:border-box
-}
-
-.mce-container *[unselectable]
-{
-	-moz-user-select: none;
-	-webkit-user-select: none;
-	-o-user-select: none;
-	user-select: none;
-}
-
-.mce-container ::-webkit-scrollbar
-{
-	width: 8px;
-	height: 8px;
-	-webkit-border-radius: 4px;
-}
-
-.mce-container ::-webkit-scrollbar-track,.mce-container ::-webkit-scrollbar-track-piece
-{
-	background-color: transparent;
-}
-
-.mce-container ::-webkit-scrollbar-thumb
-{
-	background-color: rgba(53,57,71,0.3);
-	width: 6px;
-	height: 6px;
-	-webkit-border-radius: 4px;
-}
-
-.mce-fade
-{
-	opacity: 0;
-	-webkit-transition: opacity .15s linear;
-	transition: opacity .15s linear;
-}
-
-.mce-fade.mce-in
-{
-	opacity: 1;
-}
-
-.mce-tinymce
-{
-	visibility: visible!important;
-	position: relative;
-}
-
-.mce-fullscreen
-{
-	border: 0;
-	padding: 0;
-	margin: 0;
-	overflow: hidden !important;
-	background: #FFF;
-	height: 100%;
-	z-index: 10000;
-}
-
-div.mce-fullscreen
-{
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: auto;
-}
-
-.mce-tinymce
-{
-	display: block;
-	border-radius: 2px;
-}
-
-.mce-wordcount
-{
-	position:absolute;
-	top:0;
-	right:0;
-	padding: 8px 20px 8px 8px;
-}
-
+<xen:comment>Fix for Chrome with QuickReply</xen:comment>
 .mce-edit-area
 {
-	background: #FFF;
-	filter: none;
-	margin-right:1px; <xen:comment>Fix for Chrome with QuickReply</xen:comment>
+	margin-right:1px !important;
 }
 
-.mce-statusbar
-{
-	position: relative;
-}
 
-.mce-statusbar .mce-container-body
-{
-	position: relative;
-}
-
-.mce-fullscreen .mce-resizehandle
-{
-	display: none;
-}
-
-.mce-charmap
-{
-	border-collapse: collapse;
-}
-
-.mce-charmap td
-{
-	{xen:property tinyquattro_standard_boder}
-	width: 20px;
-	height: 20px;
-	line-height: 20px;
-	text-align: center;
-	vertical-align: middle;
-	padding: 2px;
-	cursor: default;
-}
-
-.mce-charmap td:hover
-{
-	background: {xen:property tinyquattro_btn_gradient_to};
-}
-
+<xen:comment>Color picker old style (get back layout before 4.0.7 version)</xen:comment>
 .mce-grid td div {
-	border:1px solid #808080;
-	width:12px;
-	height:12px;
-	margin:2px;
-	cursor:pointer
+	border-color: #808080 !important;
 }
 .mce-grid td div:hover {
-	border-color:black
+	border-color:black !important;
 }
 .mce-grid td div:focus {
-	border-color:#59a5e1;
+	border-color:#59a5e1 !important;
 	outline:1px solid rgba(82,168,236,0.8);
-	border-color:rgba(82,168,236,0.8)
-}
-
-.mce-grid
-{
-	border-spacing: 2px;
-	border-collapse: separate;
-}
-
-.mce-grid a
-{
-	display: block;
-	border: 1px solid transparent;
-}
-
-.mce-grid a:hover
-{
-	border-color:{xen:property tinyquattro_standard_boder.border-color};
-}
-
-.mce-grid-border
-{
-	margin: 0 4px 0 4px;
-}
-
-.mce-grid-border a
-{
-	border-color: #e8e8e8;
-	width: 13px;
-	height: 13px;
-}
-
-.mce-grid-border a:hover,.mce-grid-border a.mce-active
-{
-	border-color: #c4daff;
-	background: #deeafa;
-}
-
-.mce-text-center
-{
-	text-align: center;
-}
-
-div.mce-tinymce-inline
-{
-	width: 100%;
-	-webkit-box-shadow: none;
-	-moz-box-shadow: none;
-	box-shadow: none;
-}
-
-.mce-container,.mce-container-body
-{
-	display: block;
-}
-
-.mce-autoscroll
-{
-	overflow: hidden;
-}
-
-.mce-scrollbar
-{
-	position: absolute;
-	width: 7px;
-	height: 100%;
-	top: 2px;
-	right: 2px;
-	opacity: .4;
-	filter: alpha(opacity=40);
-	zoom: 1;
-}
-
-.mce-scrollbar-h
-{
-	top: auto;
-	right: auto;
-	left: 2px;
-	bottom: 2px;
-	width: 100%;
-	height: 7px;
-}
-
-.mce-scrollbar-thumb
-{
-	position: absolute;
-	background-color: #000;
-	border: 1px solid #888;
-	border-color: rgba(85,85,85,0.6);
-	width: 5px;
-	height: 100%;
-	-webkit-border-radius: 7px;
-	-moz-border-radius: 7px;
-	border-radius: 7px;
-}
-
-.mce-scrollbar-h .mce-scrollbar-thumb
-{
-	width: 100%;
-	height: 5px;
-}
-
-.mce-scrollbar:hover,.mce-scrollbar.mce-active
-{
-	background-color: #AAA;
-	opacity: .6;
-	filter: alpha(opacity=60);
-	zoom: 1;
-	-webkit-border-radius: 7px;
-	-moz-border-radius: 7px;
-	border-radius: 7px;
-}
-
-.mce-scroll
-{
-	position: relative;
-}
-
-.mce-panel
-{
-	{xen:property tinyquattro_panel_border}
-	background-color: {xen:property tinyquattro_panel_background_color};
-	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
-		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
-		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-		background-image: -o-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-		background-image: linear-gradient(to bottom,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-		background-repeat: repeat-x;
-		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_panel_gradient_from_ie}',endColorstr='{xen:property tinyquattro_panel_gradient_to_ie}',GradientType=0);
-		zoom: 1;
-	</xen:if>
-}
-
-.mce-floatpanel
-{
-	position: absolute;
-	-webkit-box-shadow: #ccc 5px 5px 5px;
-	-moz-box-shadow: #ccc 5px 5px 5px;
-	box-shadow: #ccc 5px 5px 5px;
-}
-
-.mce-floatpanel.mce-fixed {
-	position:fixed
-}
-
-.mce-floatpanel .mce-arrow,.mce-floatpanel .mce-arrow:after
-{
-	position: absolute;
-	display: block;
-	width: 0;
-	height: 0;
-	border-color: transparent;
-	border-style: solid;
-}
-
-.mce-floatpanel .mce-arrow
-{
-	border-width: 11px;
-}
-
-.mce-floatpanel .mce-arrow:after
-{
-	border-width: 10px;
-	content: "";
-}
-
-.mce-floatpanel.mce-popover
-{
-	top: 0;
-	left: 0;
-	background: #fff;
-	-webkit-background-clip: padding-box;
-	-moz-background-clip: padding;
-	background-clip: padding-box;
-	border: 1px solid #ccc;
-	border: 1px solid rgba(0,0,0,0.2);
-	-webkit-border-radius: 6px;
-	-moz-border-radius: 6px;
-	border-radius: 6px;
-	-webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-	-moz-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-	box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-}
-
-.mce-floatpanel.mce-popover.mce-bottom
-{
-	margin-top: 10px;
-}
-
-.mce-floatpanel.mce-popover.mce-bottom>.mce-arrow
-{
-	left: 50%;
-	margin-left: -11px;
-	border-top-width: 0;
-	border-bottom-color: #999;
-	border-bottom-color: rgba(0,0,0,0.25);
-	top: -11px;
-}
-
-.mce-floatpanel.mce-popover.mce-bottom>.mce-arrow:after
-{
-	top: 1px;
-	margin-left: -10px;
-	border-top-width: 0;
-	border-bottom-color: #fff;
-}
-
-.mce-floatpanel.mce-popover.mce-bottom.mce-start
-{
-	margin-left: -22px;
-}
-
-.mce-floatpanel.mce-popover.mce-bottom.mce-start>.mce-arrow
-{
-	left: 20px;
-}
-
-.mce-floatpanel.mce-popover.mce-bottom.mce-end
-{
-	margin-left: 22px;
-}
-
-.mce-floatpanel.mce-popover.mce-bottom.mce-end>.mce-arrow
-{
-	right: 10px;
-	left: auto;
-}
-
-.mce-fullscreen
-{
-	border: 0;
-	padding: 0;
-	margin: 0;
-	overflow: hidden;
-	background: #FFF;
-	height: 100%;
-}
-
-div.mce-fullscreen
-{
-	position: fixed;
-	top: 0;
-	left: 0;
-}
-
-#mce-modal-block
-{
-	opacity: 0;
-	filter: alpha(opacity=0);
-	zoom: 1;
-	position: fixed;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	background: #000;
-}
-
-#mce-modal-block.mce-in
-{
-	opacity: .3;
-	filter: alpha(opacity=30);
-	zoom: 1;
-}
-
-.mce-window-move
-{
-	cursor: move;
-}
-
-.mce-window
-{
-	{xen:property tinyquattro_win}
-}
-
-.mce-window.mce-in
-{
-	opacity: 1;
-}
-
-.mce-window-head
-{
-	{xen:property tinyquattro_win_head}
-}
-
-.mce-window-head .mce-close
-{
-	position: absolute;
-	right: 15px;
-	top: 9px;
-	font-size: 20px;
-	font-weight: bold;
-	line-height: 20px;
-	color: #CCC;
-	text-shadow: 0 1px 0 white;
-	cursor: pointer;
-	height: 20px;
-	overflow: hidden;
-}
-
-.mce-close:hover
-{
-	color: #AAA;
-}
-
-.mce-window-head .mce-title
-{
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
-	line-height: 20px;
-	font-size: 20px;
-	font-weight: bold;
-	text-rendering: optimizelegibility;
-	padding-right: 10px;
-}
-
-.mce-window .mce-container-body
-{
-	display: block;
-}
-
-.mce-foot
-{
-	{xen:property tinyquattro_win_foot}
-}
-
-.mce-window-head .mce-dragh
-{
-	position: absolute;
-	top: 0;
-	left: 0;
-	cursor: move;
-	width: 90%;
-	height: 100%;
-}
-
-.mce-window iframe
-{
-	width: 100%;
-	height: 100%;
-}
-
-.mce-window.mce-fullscreen,.mce-window.mce-fullscreen .mce-foot
-{
-	-webkit-border-radius: 0;
-	-moz-border-radius: 0;
-	border-radius: 0;
-}
-
-.mce-abs-layout
-{
-	position: relative;
-}
-
-body .mce-abs-layout-item,.mce-abs-end
-{
-	position: absolute;
-}
-
-.mce-abs-end
-{
-	width: 1px;
-	height: 1px;
-}
-
-.mce-container-body.mce-abs-layout
-{
-	overflow: hidden;
-}
-
-.mce-tooltip
-{
-	position: absolute;
-	padding: 5px;
-	opacity: .8;
-	filter: alpha(opacity=80);
-	zoom: 1;
-}
-
-.mce-tooltip-inner
-{
-	font-size: 11px;
-	background-color: #000;
-	color: #fff;
-	max-width: 200px;
-	padding: 5px 8px 4px 8px;
-	text-align: center;
-	white-space: normal;
-}
-
-.mce-tooltip-inner
-{
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-}
-
-.mce-tooltip-inner
-{
-	-webkit-box-shadow: 0 0 5px #000;
-	-moz-box-shadow: 0 0 5px #000;
-	box-shadow: 0 0 5px #000;
-}
-
-.mce-tooltip-arrow
-{
-	position: absolute;
-	width: 0;
-	height: 0;
-	line-height: 0;
-	border: 5px dashed #000;
-}
-
-.mce-tooltip-arrow-n
-{
-	border-bottom-color: #000;
-}
-
-.mce-tooltip-arrow-s
-{
-	border-top-color: #000;
-}
-
-.mce-tooltip-arrow-e
-{
-	border-left-color: #000;
-}
-
-.mce-tooltip-arrow-w
-{
-	border-right-color: #000;
-}
-
-.mce-tooltip-nw,.mce-tooltip-sw 
-{
-	margin-left:-14px
-}
-
-.mce-tooltip-n .mce-tooltip-arrow
-{
-	top: 0;
-	left: 50%;
-	margin-left: -5px;
-	border-bottom-style: solid;
-	border-top: 0;
-	border-left-color: transparent;
-	border-right-color: transparent;
-}
-
-.mce-tooltip-nw .mce-tooltip-arrow
-{
-	top: 0;
-	left: 10px;
-	border-bottom-style: solid;
-	border-top: 0;
-	border-left-color: transparent;
-	border-right-color: transparent;
-}
-
-.mce-tooltip-ne .mce-tooltip-arrow
-{
-	top: 0;
-	right: 10px;
-	border-bottom-style: solid;
-	border-top: 0;
-	border-left-color: transparent;
-	border-right-color: transparent;
-}
-
-.mce-tooltip-s .mce-tooltip-arrow
-{
-	bottom: 0;
-	left: 50%;
-	margin-left: -5px;
-	border-top-style: solid;
-	border-bottom: 0;
-	border-left-color: transparent;
-	border-right-color: transparent;
-}
-
-.mce-tooltip-sw .mce-tooltip-arrow
-{
-	bottom: 0;
-	left: 10px;
-	border-top-style: solid;
-	border-bottom: 0;
-	border-left-color: transparent;
-	border-right-color: transparent;
-}
-
-.mce-tooltip-se .mce-tooltip-arrow
-{
-	bottom: 0;
-	right: 10px;
-	border-top-style: solid;
-	border-bottom: 0;
-	border-left-color: transparent;
-	border-right-color: transparent;
-}
-
-.mce-tooltip-e .mce-tooltip-arrow
-{
-	right: 0;
-	top: 50%;
-	margin-top: -5px;
-	border-left-style: solid;
-	border-right: 0;
-	border-top-color: transparent;
-	border-bottom-color: transparent;
-}
-
-.mce-tooltip-w .mce-tooltip-arrow
-{
-	left: 0;
-	top: 50%;
-	margin-top: -5px;
-	border-right-style: solid;
-	border-left: none;
-	border-top-color: transparent;
-	border-bottom-color: transparent;
-}
-
-.mce-btn
-{
-	position: relative;
-	{xen:property tinyquattro_btn_border_color}
-	background-color: {xen:property tinyquattro_btn_bckg_color};
-	display: inline-block;
-	*display: inline;
-	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
-		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_gradient_from}),to({xen:property tinyquattro_btn_gradient_to}));
-		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-		background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-		background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-		background-repeat: repeat-x;
-		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_gradient_to_ie}',GradientType=0);
-		*zoom: 1;
-	</xen:if>
-}
-
-.mce-btn:hover,.mce-btn:focus
-{
-	{xen:property tinyquattro_btn_hov_border_color}
-	background-color: {xen:property tinyquattro_btn_hov_bckg_color};
-	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
-		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
-		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_hov_gradient_from}),to({xen:property tinyquattro_btn_hov_gradient_to}));
-		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
-		background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
-		background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_hov_gradient_from},{xen:property tinyquattro_btn_hov_gradient_to});
-		background-repeat: repeat-x;
-		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_hov_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_hov_gradient_to_ie}',GradientType=0);
-		zoom: 1;
-	</xen:if>
-}
-
-.mce-btn.mce-disabled,.mce-btn.mce-disabled:hover
-{
-	cursor: default;
-	background-image: none;
-	-webkit-box-shadow: none;
-	-moz-box-shadow: none;
-	box-shadow: none;
-	opacity: .65;
-	filter: alpha(opacity=65);
-	zoom: 1;
-}
-
-.mce-btn.mce-active,.mce-btn.mce-active:hover
-{
-	{xen:property tinyquattro_btn_active_border_color}
-	background-color: {xen:property tinyquattro_btn_active_bckg_color};
-	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
-		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
-		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_active_gradient_from}),to({xen:property tinyquattro_btn_active_gradient_to}));
-		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
-		background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
-		background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_active_gradient_from},{xen:property tinyquattro_btn_active_gradient_to});
-		background-repeat: repeat-x;
-		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_active_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_active_gradient_to_ie}',GradientType=0);
-		zoom: 1;
-	</xen:if>
-}
-
-.mce-btn button
-{
-	{xen:property tinyquattro_button}
-}
-
-.mce-btn button::-moz-focus-inner
-{
-	border: 0;
-	padding: 0;
-}
-
-.mce-btn i
-{
-	text-shadow: 1px 1px #fff;
-}
-
-.mce-primary
-{
-	{xen:property tinyquattro_primary_border_color}
-	min-width:50px;
-	background-color: {xen:property tinyquattro_primary_background_color};
-	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
-		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
-		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_gradient_from}),to({xen:property tinyquattro_primary_gradient_to}));
-		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
-		background-image: -o-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
-		background-image: linear-gradient(to bottom,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_gradient_to});
-		background-repeat: repeat-x;
-		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_primary_gradient_from_ie}',endColorstr='{xen:property tinyquattro_primary_gradient_to_ie}',GradientType=0);
-		zoom: 1;
-	</xen:if>
-}
-
-.mce-primary:hover,.mce-primary:focus
-{
-	{xen:property tinyquattro_primary_hov_border_color}
-	background-color: {xen:property tinyquattro_primary_hover_bck_color};
-	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
-		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
-		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_hover_grdt_from}),to({xen:property tinyquattro_primary_hover_grdt_to}));
-		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
-		background-image: -o-linear-gradient(top,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
-		background-image: linear-gradient(to bottom,{xen:property tinyquattro_primary_hover_grdt_from},{xen:property tinyquattro_primary_hover_grdt_to});
-		background-repeat: repeat-x;
-		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_primary_hov_grdt_from_ie}',endColorstr='tinyquattro_primary_hov_grdt_to_ie',GradientType=0);
-		zoom: 1;
-	</xen:if>
-}
-
-.mce-primary button
-{
-	color: {xen:property tinyquattro_primary_border_color.color};
-}
-
-.mce-btn-large button
-{
-	padding: 9px 14px;
-	font-size: 16px;
-	line-height: normal;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-}
-
-.mce-btn-large i
-{
-	margin-top: 2px;
-}
-
-.mce-btn-small button
-{
-	padding: 3px 5px;
-	font-size: 12px;
-	line-height: 17px;
-}
-
-.mce-btn-small i
-{
-	margin-top: 0;
-}
-
-.mce-btn .mce-caret
-{
-	margin-top: 8px;
-	*margin-top: 6px;
-	margin-left: 0;
-}
-
-.mce-btn-small .mce-caret
-{
-	margin-top: 6px;
-	*margin-top: 4px;
-	margin-left: 0;
-}
-
-.mce-caret
-{
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
-	width: 0;
-	height: 0;
-	vertical-align: top;
-	border-top: 4px solid #444;
-	border-right: 4px solid transparent;
-	border-left: 4px solid transparent;
-	content: "";
-}
-
-.mce-disabled .mce-caret
-{
-	border-top-color: #999;
-}
-
-.mce-caret.mce-up
-{
-	border-bottom: 4px solid #444;
-	border-top: 0;
-}
-
-.mce-btn-group .mce-btn
-{
-	border-width: 1px 0 1px 0;
-	margin: 0;
-	-webkit-border-radius: 0;
-	-moz-border-radius: 0;
-	border-radius: 0;
-}
-
-.mce-btn-group .mce-btn:hover,.mce-btn-group .mce-btn:focus
-{
-	{xen:property tinyquattro_btngrp_hov_border_color}
-	background-color: {xen:property tinyquattro_btngrp_hov_bckg_color};
-	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
-		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
-		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btngrp_hov_gradient_from}),to({xen:property tinyquattro_btngrp_hov_gradient_to}));
-		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
-		background-image: -o-linear-gradient(top,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
-		background-image: linear-gradient(to bottom,{xen:property tinyquattro_btngrp_hov_gradient_from},{xen:property tinyquattro_btngrp_hov_gradient_to});
-		background-repeat: repeat-x;
-		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btngrp_hov_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btngrp_hov_gradient_to_ie}',GradientType=0);
-		zoom: 1;
-	</xen:if>
-}
-
-.mce-btn-group .mce-btn.mce-disabled,.mce-btn-group .mce-btn.mce-disabled:hover
-{
-	{xen:property tinyquattro_btngrp_disable_border_color}
-	background-color: {xen:property tinyquattro_btn_bckg_color};
-	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
-		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btn_gradient_from}),to({xen:property tinyquattro_btn_gradient_to}));
-		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-		background-image: -o-linear-gradient(top,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-		background-image: linear-gradient(to bottom,{xen:property tinyquattro_btn_gradient_from},{xen:property tinyquattro_btn_gradient_to});
-		background-repeat: repeat-x;
-		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btn_gradient_from_ie}',endColorstr='{xen:property tinyquattro_btn_gradient_to_ie}',GradientType=0);
-		zoom: 1;
-	</xen:if>
-}
-
-.mce-btn-group .mce-btn.mce-active,.mce-btn-group .mce-btn.mce-active:hover,.mce-btn-group .mce-btn:active
-{
-	{xen:property tinyquattro_btngrp_active_border_color}
-	background-color: {xen:property tinyquattro_btngrp_active_bckg_color};
-	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
-		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
-		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_btngrp_active_grdt_from}),to({xen:property tinyquattro_btngrp_active_grdt_to}));
-		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
-		background-image: -o-linear-gradient(top,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
-		background-image: linear-gradient(to bottom,{xen:property tinyquattro_btngrp_active_grdt_from},{xen:property tinyquattro_btngrp_active_grdt_to});
-		background-repeat: repeat-x;
-		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_btngrp_active_grdt_from_ie}',endColorstr='{xen:property tinyquattro_btngrp_active_grdt_to_ie}',GradientType=0);
-		zoom: 1;
-	</xen:if>
-}
-
-.mce-btn-group .mce-btn.mce-disabled button
-{
-	opacity: .65;
-	filter: alpha(opacity=65);
-	zoom: 1;
-}
-
-.mce-btn-group .mce-first
-{
-	border-left: 1px solid {xen:property tinyquattro_standard_boder.border-color};
-	-webkit-border-radius: 3px 0 0 3px;
-	-moz-border-radius: 3px 0 0 3px;
-	border-radius: 3px 0 0 3px;
-}
-
-.mce-btn-group .mce-last
-{
-	border-right: 1px solid {xen:property tinyquattro_standard_boder.border-color};
-	-webkit-border-radius: 0 3px 3px 0;
-	-moz-border-radius: 0 3px 3px 0;
-	border-radius: 0 3px 3px 0;
-}
-
-.mce-btn-group .mce-first.mce-last
-{
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-}
-
-.mce-btn-group .mce-btn.mce-flow-layout-item
-{
-	margin: 0;
-}
-
-.mce-checkbox
-{
-	cursor: pointer;
-}
-
-i.mce-i-checkbox
-{
-	margin: 0 3px 0 0;
-	{xen:property tinyquattro_standard_boder}
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
-	-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
-	box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
-	background-color: {xen:property tinyquattro_panel_background_color};
-	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
-		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
-		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-		background-image: -o-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-		background-image: linear-gradient(to bottom,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-		background-repeat: repeat-x;
-		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_panel_gradient_from_ie}',endColorstr='{xen:property tinyquattro_panel_gradient_to_ie}',GradientType=0);
-		zoom: 1;
-	</xen:if>
-	text-indent: -10em;
-	*font-size: 0;
-	*line-height: 0;
-	*text-indent: 0;
-}
-
-.mce-checked i.mce-i-checkbox
-{
-	color: #000;
-	font-size: 16px;
-	line-height: 16px;
-	text-indent: 0;
-}
-
-.mce-checkbox:focus i.mce-i-checkbox
-{
-	{xen:property tinyquattro_focus_boder}
-	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
-	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
-	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
-}
-
-.mce-colorbutton .mce-ico
-{
-	position: relative;
-}
-
-.mce-colorpicker
-{
-	background: #FFF;
-}
-
-.mce-colorbutton-grid
-{
-	margin: 4px;
-}
-
-.mce-colorbutton button {
-	padding-right:4px
-}
-
-.mce-colorbutton .mce-preview 
-{
-	padding-right:3px;
-	display:block;
-	position:absolute;
-	left:50%;
-	top:50%;
-	margin-left:-14px;
-	margin-top:7px;
-	background:gray;
-	width:13px;
-	height:2px;
-	overflow:hidden
-}
-
-.mce-colorbutton.mce-btn-small .mce-preview
-{
-	margin-left:-17px;
-	padding-right:0;
-	width:16px
-}
-
-.mce-colorbutton .mce-open
-{
-	padding-left:4px;
-	border-left:1px solid transparent;
-	border-right:1px solid transparent
-}
-
-.mce-colorbutton:hover .mce-open
-{
-	border-left-color:#c5c5c5;
-	border-right-color:#c5c5c5
-}
-
-.mce-combobox
-{
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	width: 100px;
-	-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
-	-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
-	box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
-}
-
-.mce-combobox input
-{
-	border: 1px solid {xen:property tinyquattro_standard_boder.border-color};
-	border-right-color: rgba(0,0,0,0.15);
-	height: 28px;
-}
-
-.mce-combobox.mce-has-open input
-{
-	-webkit-border-radius: 4px 0 0 4px;
-	-moz-border-radius: 4px 0 0 4px;
-	border-radius: 4px 0 0 4px;
-}
-
-.mce-combobox .mce-btn
-{
-	border-left: 0;
-	-webkit-border-radius: 0 4px 4px 0;
-	-moz-border-radius: 0 4px 4px 0;
-	border-radius: 0 4px 4px 0;
-}
-
-.mce-combobox button
-{
-	padding-right: 8px;
-	padding-left: 8px;
-}
-
-.mce-combobox *:focus
-{
-	border-color: {xen:property tinyquattro_focus_boder.border-color};
-	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
-	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
-	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
-}
-
-.mce-path
-{
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
-	padding: 8px;
-	white-space: normal;
-}
-
-.mce-path .mce-txt
-{
-	display: inline-block;
-	padding-right: 3px;
-}
-
-.mce-path .mce-path-body
-{
-	display: inline-block;
-}
-
-.mce-path-item
-{
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
-	cursor: pointer;
-	color: #000;
-}
-
-.mce-path-item:hover
-{
-	text-decoration: underline;
-}
-
-.mce-path-item:focus
-{
-	background: gray;
-	color: white;
-}
-
-.mce-path .mce-divider
-{
-	display: inline;
-}
-
-.mce-fieldset
-{
-	border: 0 solid #9e9e9e;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-}
-
-.mce-fieldset>.mce-container-body
-{
-	margin-top: -15px;
-}
-
-.mce-fieldset-title
-{
-	margin-left: 5px;
-	padding: 0 5px 0 5px;
-}
-
-.mce-fit-layout
-{
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
-}
-
-.mce-fit-layout-item
-{
-	position: absolute;
-}
-
-.mce-flow-layout-item
-{
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
-}
-
-.mce-flow-layout-item
-{
-	margin: 2px 0 2px 2px;
-}
-
-.mce-flow-layout-item.mce-last
-{
-	margin-right: 2px;
-}
-
-.mce-flow-layout
-{
-	white-space: normal;
-}
-
-.mce-tinymce-inline .mce-flow-layout {
-	white-space: nowrap;
-}
-
-.mce-iframe
-{
-	border: 0 solid {xen:property tinyquattro_standard_boder.border-color};
-	width: 100%;
-	height: 100%;
-}
-
-.mce-label
-{
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
-	text-shadow: 0 1px 1px rgba(255,255,255,0.75);
-	border: 0 solid {xen:property tinyquattro_standard_boder.border-color};
-	overflow: hidden;
-}
-
-.mce-label.mce-autoscroll
-{
-	overflow: auto;
-}
-
-.mce-label-disabled .mce-text
-{
-	color: #999;
-}
-
-.mce-label.mce-multiline
-{
-	white-space: pre-wrap;
-}
-
-.mce-menubar .mce-menubtn
-{
-	border-color: transparent;
-	background: transparent;
-	-webkit-border-radius: 0;
-	-moz-border-radius: 0;
-	border-radius: 0;
-	-webkit-box-shadow: none;
-	-moz-box-shadow: none;
-	box-shadow: none;
-	filter: none;
-}
-
-.mce-menubar
-{
-	border: 1px solid {xen:property tinyquattro_panel_gradient_to};
-}
-
-.mce-menubar .mce-menubtn button
-{
-	color: #000;
-}
-
-.mce-menubar .mce-menubtn:hover,.mce-menubar .mce-menubtn.mce-active,.mce-menubar .mce-menubtn:focus
-{
-	border-color: transparent;
-	background: {xen:property tinyquattro_panel_gradient_to};
-	filter: none;
-}
-
-.mce-menubtn.mce-disabled span
-{
-	color: #999;
-}
-
-.mce-menubtn span
-{
-	margin-right:2px;
-	line-height:20px;
-	*line-height:16px
-}
-
-.mce-menubtn.mce-btn-small span
-{
-	font-size:12px;
-	line-height:15px;
-	*line-height:16px
-}
-
-.mce-menubtn.mce-fixed-width span
-{
-	display:inline-block;
-	overflow-x:hidden;
-	text-overflow:ellipsis;
-	width:90px
-}
-
-.mce-menubtn.mce-fixed-width.mce-btn-small span
-{
-	width:70px
-}
-
-.mce-listbox button
-{
-	text-align: left;
-	padding-right: 20px;
-	position: relative;
-}
-
-.mce-listbox .mce-caret
-{
-	position: absolute;
-	margin-top: -2px;
-	right: 8px;
-	top: 50%;
-}
-
-.mce-menu-item
-{
-	display: block;
-	padding:6px 15px 6px 12px;
-	clear: both;
-	font-weight: normal;
-	line-height: 20px;
-	color: {xen:property tinyquattro_menuitem_font_normal};
-	white-space: nowrap;
-	cursor: pointer;
-	line-height:normal;
-	border-left:4px solid transparent;
-	margin-bottom:1px
-}
-
-.mce-menu-item.mce-disabled .mce-text
-{
-	color: {xen:property tinyquattro_menuitem_font_disable};
-}
-
-.mce-menu-item:hover,.mce-menu-item.mce-selected,.mce-menu-item:focus
-{
-	text-decoration: none;
-	color: {xen:property tinyquattro_menuitem_font_hover};
-	background-color: {xen:property tinyquattro_focus_boder.border-color};
-	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
-		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
-		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_primary_gradient_from}),to({xen:property tinyquattro_primary_hover_grdt_from}));
-		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
-		background-image: -o-linear-gradient(top,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
-		background-image: linear-gradient(to bottom,{xen:property tinyquattro_primary_gradient_from},{xen:property tinyquattro_primary_hover_grdt_from});
-		background-repeat: repeat-x;
-		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc',endColorstr='{xen:property tinyquattro_primary_hov_grdt_from_ie}',GradientType=0);
-		zoom: 1;
-	</xen:if>
-}
-
-.mce-menu-item:hover .mce-text,.mce-menu-item.mce-selected .mce-text
-{
-	color: {xen:property tinyquattro_menuitem_font_hover};
-}
-
-.mce-menu-item:hover .mce-ico,.mce-menu-item.mce-selected .mce-ico,.mce-menu-item:focus .mce-ico
-{
-	color: {xen:property tinyquattro_menuitem_font_hover};
-}
-
-.mce-menu-item.mce-disabled:hover {
-	background:#CCC; <xen:comment>4.0.1 check if color needs to be integrated</xen:comment>
-}
-
-.mce-menu-shortcut
-{
-	display: inline-block;
-	color: #999;
-}
-
-.mce-menu-shortcut
-{
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
-	padding:0 15px 0 20px;
-}
-
-.mce-menu-item .mce-caret
-{
-	margin-top: 4px;
-	*margin-top: 3px;
-	margin-right: 6px;
-	border-top: 4px solid transparent;
-	border-bottom: 4px solid transparent;
-	border-left: 4px solid #666;
-}
-
-.mce-menu-item.mce-selected .mce-caret,.mce-menu-item:focus .mce-caret
-{
-	border-left-color: #FFF;
-}
-
-.mce-menu-align .mce-menu-shortcut
-{
-	*margin-top: -2px;
-}
-
-.mce-menu-align .mce-menu-shortcut,.mce-menu-align .mce-caret
-{
-	position: absolute;
-	right: 0;
-}
-
-.mce-menu-item-sep,.mce-menu-item-sep:hover
-{
-	padding: 0;
-	height: 1px;
-	margin: 9px 1px;
-	overflow: hidden;
-	background: #e5e5e5;
-	border-bottom: 1px solid white;
-	cursor: default;
-	filter: none;
-}
-
-.mce-menu-item.mce-active i
-{
-	visibility: visible;
-}
-
-.mce-menu-item.mce-active
-{
-	background-color: #c8def4;
-	outline: 1px solid {xen:property tinyquattro_standard_boder.border-color};
-}
-
-.mce-menu-item-preview.mce-active {
-	border-left:5px solid #aaa;
-	background-color:transparent;
-	outline:0;
-}
-
-.mce-menu-item-checkbox.mce-active
-{
-	background-color: #FFF;
-	outline: 0;
-}
-
-.mce-menu
-{
-	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-	background: transparent;
-	z-index: 1000;
-	padding: 5px 0 5px 0;
-	margin: 2px 0 0;
-	min-width: 160px;
-	background: #FFF;
-	border: 1px solid #CCC;
-	border: 1px solid rgba(0,0,0,0.2);
-	z-index: 1002;
-	-webkit-border-radius: 6px;
-	-moz-border-radius: 6px;
-	border-radius: 6px;
-	-webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-	-moz-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-	box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-	max-height:400px;
-	overflow:auto;
-	overflow-x:hidden;
-}
-
-.mce-menu i
-{
-	display: none;
-}
-
-.mce-menu-has-icons i
-{
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
-}
-
-.mce-menu-sub-tr-tl
-{
-	margin:-6px 0 0 -1px
-}
-
-.mce-menu-sub-br-bl
-{
-	margin:6px 0 0 -1px
-}
-
-.mce-menu-sub-tl-tr
-{
-	margin:-6px 0 0 1px
-}
-
-.mce-menu-sub-bl-br
-{
-	margin:6px 0 0 1px
-}
-
-i.mce-radio
-{
-	padding: 1px;
-	margin: 0 3px 0 0;
-	background-color: #fafafa;
-	border: 1px solid #cacece;
-	-webkit-border-radius: 8px;
-	-moz-border-radius: 8px;
-	border-radius: 8px;
-	-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
-	-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
-	box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
-	background-color: {xen:property tinyquattro_panel_background_color};
-	<xen:if is="!{xen:property 'tinyquattro_flatdesign'}">
-		background-image: -moz-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-		background-image: -webkit-gradient(linear,0 0,0 100%,from({xen:property tinyquattro_panel_gradient_from}),to({xen:property tinyquattro_panel_gradient_to}));
-		background-image: -webkit-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-		background-image: -o-linear-gradient(top,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-		background-image: linear-gradient(to bottom,{xen:property tinyquattro_panel_gradient_from},{xen:property tinyquattro_panel_gradient_to});
-		background-repeat: repeat-x;
-		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='{xen:property tinyquattro_panel_gradient_from_ie}',endColorstr='{xen:property tinyquattro_panel_gradient_to_ie}',GradientType=0);
-		zoom: 1;
-	</xen:if>
-}
-
-i.mce-radio:after
-{
-	font-family: Arial;
-	font-size: 12px;
-	color: #000;
-	content: '\25cf';
-}
-
-.mce-container-body .mce-resizehandle
-{
-	position: absolute;
-	right: 0;
-	bottom: 0;
-	width: 16px;
-	height: 16px;
-	visibility: visible;
-	cursor: s-resize;
-	margin: 0;
-}
-
-.mce-container-body .mce-resizehandle-both
-{
-	cursor:se-resize
-}
-
-i.mce-i-resize
-{
-	color: #000;
-}
-
-.mce-spacer
-{
-	visibility: hidden;
-}
-
-.mce-splitbtn .mce-open
-{
-	border-left: 1px solid transparent;
-	border-right: 1px solid transparent;
-}
-
-.mce-splitbtn:hover .mce-open
-{
-	border-left-color: {xen:property tinyquattro_standard_boder.border-color};
-	border-right-color: {xen:property tinyquattro_standard_boder.border-color};
-}
-
-.mce-splitbtn button
-{
-	padding-right: 4px;
-}
-
-.mce-splitbtn .mce-open
-{
-	padding-left: 4px;
-}
-
-.mce-splitbtn .mce-open.mce-active
-{
-	-webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
-	-moz-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
-	box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
-}
-
-.mce-stack-layout-item
-{
-	display: block;
-}
-
-.mce-tabs
-{
-	display: block;
-	border-bottom: 1px solid #ccc;
-}
-
-.mce-tab
-{
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
-	border: 1px solid #ccc;
-	border-width: 1px 1px 0 0;
-	background: #e3e3e3;
-	padding: 8px;
-	text-shadow: 0 1px 1px rgba(255,255,255,0.75);
-	height: 13px;
-	cursor: pointer;
-}
-
-.mce-tab:hover
-{
-	background: {xen:property tinyquattro_panel_gradient_from};
-}
-
-.mce-tab.mce-active
-{
-	background: {xen:property tinyquattro_panel_gradient_from};
-	border-bottom-color: transparent;
-	margin-bottom: -1px;
-	height: 14px;
-}
-
-.mce-textbox
-{
-	background: #FFF;
-	{xen:property tinyquattro_standard_boder}
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-	display: inline-block;
-	-webkit-transition: border linear .2s,box-shadow linear .2s;
-	transition: border linear .2s,box-shadow linear .2s;
-	height: 28px;
-	resize: none;
-	padding: 0 4px 0 4px;
-	white-space:pre-wrap;
-	*white-space:pre;
-	color:#000
-}
-
-.mce-textbox:focus
-{
-	border-color: {xen:property tinyquattro_focus_boder.border-color};
-	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
-	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
-	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px {xen:property tinyquattro_focus_boder.border-color};
-}
-
-.mce-placeholder .mce-textbox
-{
-	color: #aaa;
-}
-
-.mce-textbox.mce-multiline
-{
-	padding: 4px;
-}
-
-.mce-throbber
-{
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	opacity: .6;
-	filter: alpha(opacity=60);
-	zoom: 1;
-	background: #fff url('styles/sedo/tinyquattro/img/loader.gif') no-repeat center center;
-}
-
-
-<xen:comment>
-	XenForo Framework addons
-</xen:comment>
-
-#mce-top-right{
-	float:right;
-	padding-right:2px;
-}
-
-.mceAdvPicker{
-	position: relative;
-	text-align: center;
-	margin: 0 8px;
-	top: -3px;
-	font-size:10pt;
-	cursor: pointer;
-}
-
-.mceAdvPicker:hover{
-	background-color:black;
-	color:white;
-}
-
-.mce-xen-font-size-menu{
-	min-width:130px;
-}
-
-.mce-xen-font-size-menu .mce-container-body{
-	width:150px;
-	height:80px;
-	overflow-y:auto;
-}
-
-.mce-xen-font-size{
-	text-align:center;
-}
-
-.mce-xen-font-family-menu .mce-container-body{
-	width:180px;
-	height:80px;
-	overflow-y:auto;
-}
-
-<xen:comment>
-	/*Normal Icons can still work*/
-	.mce-ico.mce-i-xen_switch {
-		background: url('{xen:property imagePath}/xenforo/xenforo-ui-sprite.png') no-repeat scroll -144px 0 ;
-	}
-</xen:comment>
-
-<xen:comment>
-	XenForo Smilies
-</xen:comment>
-
-<xen:include template="tiny_quattro_smilies.css" />
-
-.mceQuattroSmilieBlock{
-	width: {xen:property tinyquattro_smiliesbtn_width};
-	white-space: normal;
-	text-align: center;
-	padding:5px;
-	height: {xen:property tinyquattro_smiliesbtn_height};
-	overflow:auto;
-}
-
-.mceQuattroSmilieBlockFull{
-	width: {xen:property tinyquattro_smiliespicker_width};
-	height: {xen:property tinyquattro_smiliespicker_height};
-	white-space: normal;
-	overflow:auto;
-}
-
-.mceQuattroSmilieBlock a,
-.mceQuattroSmilieBlockFull a{
-	white-space: normal;
-}
-
-.mceQuattroSmilieBlock > img,
-.mceQuattroSmilieBlockFull > img,
-.mceQuattroSmilie{
-	margin:2px;
-	cursor: pointer;
-}
-
-<xen:comment>
-	BUTTONS: DON'T MOVE THIS INCLUDE.
-	It must be at the last line
-</xen:comment>
-
-<xen:include template="tiny_quattro_buttons_ie7.css" />]]></template>
+	border-color:rgba(82,168,236,0.8) !important;
+}]]></template>
     <template title="tiny_quattro_grid" version_id="6" version_string="1.0.6"><![CDATA[<xen:if is="{$quattroGrid}">
 	<xen:foreach loop="$quattroGrid" value="$buttons" key="$key">
 		toolbar{$key}: "{$buttons}",
@@ -6504,7 +4630,7 @@ h6 { font-size: .75em; }
 		</xen:if>
 	</xen:foreach>
 </xen:if>]]></template>
-    <template title="tiny_quattro_js_setup" version_id="17" version_string="1.3.0"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_js_setup" version_id="19" version_string="1.3.1"><![CDATA[<xen:comment>
 	Load Quattro Integration JS files for 1.2
 </xen:comment>
 
@@ -6519,7 +4645,7 @@ h6 { font-size: .75em; }
 	<xen:require js="js/sedo/tinyquattro/tinymce/tinymce.min.js" />
 
 <xen:comment>
-	Load Custom Buttons CSS
+	Load MCE CSS && Custom Buttons CSS
 </xen:comment>
 	<xen:if is="{$visitor.getBrowser.IEis} != 7">
 		<xen:require css="tiny_quattro_editor.css" />
@@ -6564,20 +4690,23 @@ h6 { font-size: .75em; }
 	{
 		$editor.css('visibility', '').show();
 		
+		var hasDraft = ($editor.data('auto-save-url')),
+		autosave = {xen:if "{$xenOptions.quattro_xendraft}", "(hasDraft) ? '':'autosave '", "'autosave '"};
+		
 		if (window.tinyMCE)
 		{
 			config = {
 				selector: "#"+$editor.attr('id'),
 				theme: "modern",
 				language: "xen",
-				skin: false,
+				skin: '{xen:if "{xen:property tinyquattro_css_integration}", "false", "{xen:property tinyquattro_css_skin}"}',
 				content_css: "css.php?style={xen:urlencode $visitorStyle.style_id}&css=tiny_quattro_iframe&d={xen:urlencode $visitorStyle.last_modified_date}",
 				menubar: false,
 				toolbar_items_size: '{$xenOptions.quattro_iconsize}',
 				plugins: [
 				 "advlist autolink lists charmap visualchars fullscreen {xen:if "{$xenOptions.quattro_contextmenu}", "contextmenu"}",
-				 "directionality searchreplace {xen:if "{$xenOptions.quattro_extra_bbcodes.xtable}", "table"}", 
-				 "paste textcolor autoresize autosave xenforo"
+				 "directionality searchreplace {xen:if "{$xenOptions.quattro_extra_bbcodes.xtable}", "table"}{xen:if "{$xenOptions.quattro_usertagging}", " xen_tagging"}", 
+				 autosave+"paste textcolor autoresize xenforo"
 				],
 				resize: false,
 				//object_resizing: false,
@@ -6631,12 +4760,9 @@ h6 { font-size: .75em; }
 
 </script>
 
-<xen:edithint template="tiny_quattro_iframe.css" />
-<xen:edithint template="tiny_quattro_buttons.css" />
-<xen:edithint template="tiny_quattro_buttons_ie7.css" />
 <xen:edithint template="tiny_quattro_custom_buttons" />
-]]></template>
-    <template title="tiny_quattro_params" version_id="12" version_string="1.1.5"><![CDATA[<xen:comment>
+<xen:edithint template="tiny_quattro_iframe.css" />]]></template>
+    <template title="tiny_quattro_params" version_id="19" version_string="1.3.1"><![CDATA[<xen:comment>
 	We are inside a JavaScript file. All phrases must be escaped
 </xen:comment>
 	<xen:comment>extend</xen:comment>
@@ -6657,8 +4783,9 @@ h6 { font-size: .75em; }
 	xSmilies: {$xenOptions.quattro_xsmilies},
 	smiliesDesc: '{$xenOptions.quattro_smilies_desc}',
 	xenforo_smilies: {xen:helper json, $bbmSmilies},
+	xendraft: {$xenOptions.quattro_xendraft},
 	bbmButtons: { <xen:include template="tiny_quattro_custom_buttons" /> }]]></template>
-    <template title="tiny_quattro_phrases" version_id="17" version_string="1.3.0"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_phrases" version_id="19" version_string="1.3.1"><![CDATA[<xen:comment>
 	We are inside a JavaScript file. All phrases must be escaped
 </xen:comment>
 
@@ -6674,6 +4801,7 @@ h6 { font-size: .75em; }
 	cancel: "{xen:jsescape {xen:phrase cancel}}",
 	switch_text: ["{xen:jsescape {xen:phrase use_bb_code_editor}}", "{xen:jsescape {xen:phrase use_rich_text_editor}}"],
 	unlink: "{xen:jsescape {xen:phrase unlink}}",
+	draft: { save: "{xen:jsescape {xen:phrase save_draft}}", delete: "{xen:jsescape {xen:phrase delete_draft}}", saved: "{xen:jsescape {xen:phrase draft_saved}}", deleted: "{xen:jsescape {xen:phrase draft_deleted}}"},
 
 	<xen:comment>autotranslation</xen:comment>
 	alignleft_desc: "{xen:jsescape {xen:phrase align_left}}",
@@ -6773,9 +4901,7 @@ h6 { font-size: .75em; }
 		"Replace all": "{xen:jsescape {xen:phrase sedo_quattro_replace_all}}",
 		"Prev": "{xen:jsescape {xen:phrase sedo_quattro_prev}}",
 		"Next": "{xen:jsescape {xen:phrase sedo_quattro_next}}"
-	}
-
-]]></template>
+	}]]></template>
     <template title="tiny_quattro_smilies.css" version_id="0" version_string="1.0"><![CDATA[<xen:if is="{$smilieSprites}">
 	<xen:foreach loop="{$smilieSprites}" key="{$smilieId}" value="{$smilieSprite}">
 		<xen:if is="{$smilieSprite.sprite_css}">
@@ -6787,9 +4913,105 @@ h6 { font-size: .75em; }
 </xen:if>
 
 ]]></template>
+    <template title="tiny_quattro_xenbuttons.css" version_id="19" version_string="1.3.1"><![CDATA[<xen:comment>
+	Buttons - XenForo config
+</xen:comment>
+
+@font-face
+{
+	font-family:'xenforo-small';
+	src:url('styles/sedo/tinyquattro/fonts/xenforo-small.eot');
+	src:	url('styles/sedo/tinyquattro/fonts/xenforo-small.eot?#iefix') format('embedded-opentype'),
+		url('styles/sedo/tinyquattro/fonts/xenforo-small.svg#icomoon') format('svg'),
+		url('styles/sedo/tinyquattro/fonts/xenforo-small.woff') format('woff'),
+		url('styles/sedo/tinyquattro/fonts/xenforo-small.ttf') format('truetype');
+	font-weight:normal;
+	font-style:normal;
+}
+
+
+@font-face
+{
+	font-family:'xenforo';
+	src:url('styles/sedo/tinyquattro/fonts/xenforo.eot');
+	src:	url('styles/sedo/tinyquattro/fonts/xenforo.eot?#iefix') format('embedded-opentype'),
+		url('styles/sedo/tinyquattro/fonts/xenforo.svg#icomoon') format('svg'),
+		url('styles/sedo/tinyquattro/fonts/xenforo.woff') format('woff'),
+		url('styles/sedo/tinyquattro/fonts/xenforo.ttf') format('truetype');
+	font-weight:normal;
+	font-style:normal;
+}
+
+.mce-xenforo-icons
+{
+	font-family: 'xenforo',Arial !important;
+}
+
+.mce-btn-small .mce-xenforo-icons
+{
+	font-family: 'xenforo-small',Arial !important;
+}
+
+
+<xen:comment>Original icon set</xen:comment>
+.mce-i-xen_nonbreaking:before		{ content: "\e025"; }
+
+<xen:comment>XenForo icon set</xen:comment>
+.mce-i-xen_switch:before		{ content: "\e01a"; }
+.mce-i-xen_code:before			{ content: "\e000"; }
+.mce-i-xen_quote:before			{ content: "\e009"; }
+.mce-i-xen_smilies_picker:before	{ content: "\e035"; }
+]]></template>
+    <template title="tiny_quattro_xenbuttons_ie7.css" version_id="19" version_string="1.3.1"><![CDATA[<xen:comment>
+	Buttons - XenForo config
+</xen:comment>
+
+@font-face
+{
+	font-family:'xenforo-small';
+	src:url('styles/sedo/tinyquattro/fonts/xenforo-small.eot');
+	src:	url('styles/sedo/tinyquattro/fonts/xenforo-small.eot?#iefix') format('embedded-opentype'),
+		url('styles/sedo/tinyquattro/fonts/xenforo-small.svg#icomoon') format('svg'),
+		url('styles/sedo/tinyquattro/fonts/xenforo-small.woff') format('woff'),
+		url('styles/sedo/tinyquattro/fonts/xenforo-small.ttf') format('truetype');
+	font-weight:normal;
+	font-style:normal
+}
+
+
+@font-face
+{
+	font-family:'xenforo';
+	src:url('styles/sedo/tinyquattro/fonts/xenforo.eot');
+	src:	url('styles/sedo/tinyquattro/fonts/xenforo.eot?#iefix') format('embedded-opentype'),
+		url('styles/sedo/tinyquattro/fonts/xenforo.svg#icomoon') format('svg'),
+		url('styles/sedo/tinyquattro/fonts/xenforo.woff') format('woff'),
+		url('styles/sedo/tinyquattro/fonts/xenforo.ttf') format('truetype');
+	font-weight:normal;
+	font-style:normal
+}
+
+.mce-xenforo-icons
+{
+	font-family: 'xenforo' !important;
+}
+
+.mce-btn-small .mce-xenforo-icons
+{
+	font-family: 'xenforo-small' !important;
+}
+
+<xen:comment>Original icon set</xen:comment>
+.mce-i-xen_nonbreaking:before		{ -ie7-icon: "\e025"; }
+
+<xen:comment>XenForo icon set</xen:comment>
+.mce-i-xen_switch:before		{ -ie7-icon: "\e01a"; }
+.mce-i-xen_code:before			{ -ie7-icon: "\e000"; }
+.mce-i-xen_quote:before			{ -ie7-icon: "\e009"; }
+.mce-i-xen_smilies_picker:before	{ -ie7-icon: "\e035"; }]]></template>
   </templates>
   <public_template_modifications>
-    <modification template="editor" modification_key="quattro_editor" description="Quattro Editor Loader" execution_order="10" enabled="1" action="str_replace">
+    <modification template="editor" modification_key="quattro_editor" description="Quattro Editor Loader" execution_order="20" enabled="1" action="str_replace">
       <find><![CDATA[<xen:include template="editor_js_setup" />]]></find>
       <replace><![CDATA[<xen:if is="{$loadQuattro}">
 		<xen:include template="tiny_quattro_js_setup" />

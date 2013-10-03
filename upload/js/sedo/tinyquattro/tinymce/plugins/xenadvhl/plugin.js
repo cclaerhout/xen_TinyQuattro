@@ -40,7 +40,7 @@ tinymce.PluginManager.add('xenadvhl', function(ed) {
 		_removeHighlight();
 	});
 
-	ed.on('SaveContent XenSwitchToBbCode', function(e) {
+	ed.on('SaveContent XenSwitchToBbCode SavingXenDraft', function(e) {
 		_removeHighlight();
 		e.content = ed.getContent();
 	});

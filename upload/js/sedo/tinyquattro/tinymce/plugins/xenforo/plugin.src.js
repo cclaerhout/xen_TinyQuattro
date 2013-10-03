@@ -67,6 +67,12 @@
 			if(typeof ed === 'undefined'){
 				ed = tinymce.activeEditor;
 			}
+
+			ed.on('init', function(e) {
+				$(ed.getElement()).data('mce4', true);
+			});
+			
+			this.$textarea = $(ed.getElement());
 			
 			/* Get Editor */
 			this.getEditor = function (){ return ed; };
@@ -591,6 +597,22 @@
 			
 			return result;
 		},
+		getPathEl: function(jquery)
+		{
+			var ed = this.getEditor(),
+			statusbar = ed.theme.panel && ed.theme.panel.find('#statusbar')[0];
+			
+			if(statusbar){
+				var path = statusbar.find('.path');
+						
+				if(typeof path[0] !== 'undefined'){
+					var el = path[0].getEl();
+					return (jquery == true) ? $(el) : el;
+				}
+			}
+			
+			return false;
+		},
 		getButtonsByProperty: function(prop, val, jQueryEl)
 		{
 			var ed = this.getEditor(),	
@@ -649,7 +671,7 @@
 			tinymce.each(text.split(/\|/), function(text, i) {
 				dataVal = (typeof bakeData[i] !== un) ? bakeData[i] : '';
 
-				if(typeof css === un)
+				if(typeof css === un || css == null)
 					return items.push({ text: text, value: dataVal } );
 
 				var baker = { 
@@ -1883,4 +1905,174 @@
 			}
 		}
 	});
+	
+	/***
+	*	XenForo Draft Integration
+	*	Independent plugin
+	***/
+	tinymce.create(xenPlugin+'.XenDraft', {
+		XenDraft: function(parent) 
+		{
+			//Only compatible with XenForo 1.2.x
+			if(xenMCE.Params.oldXen)
+				return false;
+
+			this.ed = parent.getEditor();
+			this.draftText = xenMCE.Phrases.draft;
+			this.$textarea = parent.$textarea;
+			this.autoSaveUrl = this.$textarea.data('auto-save-url');
+
+			var 	src = this, 
+				ed = this.ed,
+				un = 'undefined',
+				linkButtonExtra = {},
+				dfm = 'Draft mode: ',
+				rd = 'restoredraft';
+
+			if(!this.autoSaveUrl || !xenMCE.Params.xendraft){
+				console.info(dfm+'Mce');
+				return;
+			}
+
+			/*The xendraft system has been found, disable the autosave plugin*/
+			console.info(dfm+'Xen');
+			
+			var menuItems = parent.buildMenuItems(
+						src.draftText.save+'|'+src.draftText.delete,
+						'saveDraft|deleteDraft',
+						null,
+						'xen_draft'
+					);
+			
+			var menuAction = function(e){
+				src.saveDraft(true, (e.control.settings.value == 'deleteDraft'))
+			}
+			
+			ed.on('BeforeRenderUI', function(e) {
+				if(!parent.isActiveButton(rd)){
+					return false;
+				}
+				
+				ed.addButton(rd, {
+					name: rd,
+					title: src.draftText.save,
+					type: "menubutton",
+					menu: menuItems,
+					onselect: menuAction
+				});
+			});
+			
+			ed.on('init', function(e) {
+				src.pathEl = parent.getPathEl(true);
+				src.initAutoSave();
+			});
+			
+			ed.addCommand('xenDraftSave', function() {
+				src.saveDraft(true);				
+			});
+
+			ed.addCommand('xenDraftDelete', function() {
+				src.saveDraft(true, true);
+			});
+		},
+		initAutoSave: function()
+		{
+			var 	self = this, 
+				$form = $(this.ed.getContainer()).parents('form'),
+				options = self.$textarea.data('options'),
+				content = this.ed.getContent();
+
+			if (!$form.length)
+				return;
+
+			this.lastAutoSaveContent = content;
+
+			var interval = setInterval(function() {
+				if (!self.$textarea.data('mce4')){
+					clearInterval(interval);
+					return;
+				}
+
+				self.saveDraft();
+			}, (options.autoSaveFrequency || 60) * 1000);
+		},
+		saveDraft: function(forceUpdate, deleteDraft)
+		{
+			var 	self = this, 
+				$form = $(this.ed.getContainer()).parents('form'),
+				wmn = this.ed.windowManager,
+				args = {content: this.ed.getContent()},
+				content = '';
+
+			this.ed.fire('SavingXenDraft', args);
+			content = args.content;
+				
+			if (!deleteDraft && !forceUpdate && content == this.lastAutoSaveContent)
+			{
+				return false;
+			}
+
+			this.lastAutoSaveContent = content;
+
+			var e = $.Event('BbCodeWysiwygEditorAutoSave');
+				e.editor = this;
+				e.content = content;
+				e.deleteDraft = deleteDraft;
+			
+			$form.trigger(e);
+			
+			if (e.isDefaultPrevented())
+				return false;
+
+			if (this.autoSaveRunning)
+				return false;
+			
+			this.autoSaveRunning = true;
+
+			XenForo.ajax(
+				this.autoSaveUrl,
+				$form.serialize() + (deleteDraft ? '&delete_draft=1' : ''),
+				function(ajaxData) {
+					var e = $.Event('BbCodeWysiwygEditorAutoSaveComplete');
+					e.ajaxData = ajaxData;
+					$form.trigger(e);
+
+					if (!e.isDefaultPrevented()) {
+						var notice;
+
+						if (ajaxData.draftSaved) {
+							notice = self.draftText.saved;
+						} else if (ajaxData.draftDeleted) {
+							notice = self.draftText.deleted;
+						}
+
+						if(!notice)
+							return;
+							
+						if (forceUpdate || deleteDraft) {
+							wmn.alert(notice);
+							return;
+						}
+						
+						if(self.pathEl == false){
+							console.log(self.draftText.saved);
+							return;
+						}
+						
+						$path = self.pathEl;
+						
+						$('<div class="draftNotice"><span>'+notice+'</span></div>')
+							.insertAfter($path)
+							.css({display:'inline-block', padding: '8px'})
+							.finish().hide().fadeIn().delay(2000).fadeOut();
+					}
+				},
+				{global: false}
+			).complete(function() {
+				self.autoSaveRunning = false;
+			});
+
+			return true;
+		}
+	});	
 })();
