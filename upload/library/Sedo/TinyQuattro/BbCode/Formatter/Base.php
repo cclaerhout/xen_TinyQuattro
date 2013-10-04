@@ -269,7 +269,6 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 					'quattro_bbcode_xtable', 
 					array(
 						'tagContent' => $content, 
-						'tagOptions'  => $options,
 						'css' => $css,
 						'attributes' => $attributes,
 						'extraClass' => $extraClass
