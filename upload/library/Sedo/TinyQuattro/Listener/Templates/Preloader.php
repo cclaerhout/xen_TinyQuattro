@@ -32,6 +32,7 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 				$params += array(
 					'loadQuattro' => self::_checkQuattroPermissions(), 	//quattro param
 					'quattroIntegration' => self::_quattroIntegration(),	//quattro integration js (for 1.2)
+					'quattroExtraPlugins' => self::_quattroExtraPlugins(),	//quattro param
 					'quattroGrid' => array(), 				//default bbm param
 					'customQuattroButtonsCss' => array(), 			//default bbm param
 					'customQuattroButtonsJs' => array(), 				//default bbm param
@@ -85,6 +86,35 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 		}
 		
 		return self::$QuattroPerms;
+	}
+
+	protected static function _quattroExtraPlugins()
+	{
+		$options = XenForo_Application::get('options');
+		$plugins = array();
+		
+		if(!empty($options->quattro_extra_bbcodes['xtable']))
+		{
+			$plugins[] = 'table';
+		}
+
+		if(!empty($options->quattro_usertagging))
+		{
+			$plugins[] = 'xen_tagging';
+		}
+
+		if(!empty($options->quattro_contextmenu))
+		{
+			$plugins[] = 'contextmenu';
+		}
+
+		if(!empty($options->quattro_xendropping))
+		{
+			$plugins[] = 'xen_dropping';
+		}
+
+		$plugins = implode(' ', $plugins);
+		return $plugins;
 	}
 	
 	protected static function _showWysiwyg()

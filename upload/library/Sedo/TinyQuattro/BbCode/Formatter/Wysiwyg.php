@@ -122,66 +122,6 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 	}
 
 	/**
-	 * Extend XenForo functions to check if a text has been parsed with the mini parser
-	 * If yes, use the slave tags rules from the renderStates
-	 */
-	protected $_mceSlaveTags = false;
-	protected $_miniParserNoHtmlspecialchars = false;
-
-	public function renderSubTree(array $tree, array $rendererStates)
-	{
-		$this->_mceSlaveTags = false;
-		$this->_miniParserNoHtmlspecialchars = false;
-		
-		if(!empty($rendererStates['miniParser']) && !empty($rendererStates['miniParserTagRules']))
-		{
-			$this->_mceSlaveTags = $rendererStates['miniParserTagRules'];
-		}
-		
-		if(!empty($rendererStates['miniParserNoHtmlspecialchars']))
-		{
-			$this->_miniParserNoHtmlspecialchars = true;
-		}
-		
-		return parent::renderSubTree($tree, $rendererStates);
-	}
-
-	protected function _getTagRule($tagName)
-	{
-		if(empty($this->_mceSlaveTags))
-		{
-			return parent::_getTagRule($tagName);
-		}
-		
-		$tagName = strtolower($tagName);
-
-		if (!empty($this->_mceSlaveTags[$tagName]) && is_array($this->_mceSlaveTags[$tagName]))
-		{
-			return $this->_mceSlaveTags[$tagName];
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	public function replaceSmiliesInText($text, $escapeCallback = '')
-	{
-		if($this->_miniParserNoHtmlspecialchars)
-		{
-			/***
-				Ugly workaround that will disable the Htmlspecialchars function
-				Will only work if the smilies are not disable
-				
-				Disable with the XenForo wysiwyg formatter (use the mini parser formatter)
-			**/
-			return parent::replaceSmiliesInText($text, false);
-		}
-
-		return parent::replaceSmiliesInText($text, $escapeCallback);
-	}
-
-	/**
 	 * Mce Table Master Bb Code Renderer
 	 */
 	public function renderTagSedoXtable(array $tag, array $rendererStates)
@@ -298,37 +238,18 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 		$openingHtmlTag = "<{$tagName} {$formattedClass} {$attributes} {$formattedCss}>";
 		$closingHtmlTag = "</$tagName>";
 
-		if(empty($rendererStates['miniParserFormatter']))
-		{
-			/***
-				We're using the XenForo formatter, so the $parentClass is $this
-				Disable with the XenForo wysiwyg formatter (use the mini parser formatter)
-			**/
-			$content = $this->renderSubTree($tag['children'], $rendererStates);
-			
-			if(empty($content))
-			{
-				//Will avoid tags to be "eaten" (MCE does it automatically, not Redactor)
-				$content="&nbsp;";
-			}
-			
-			return $this->_wrapInHtml($openingHtmlTag, $closingHtmlTag, $content);
-		}
-		else
-		{
-			/***
-				We're using the formatter of the Miniparser - the "wrapInHtml" function is here public
-			**/
-			$content = $parentClass->renderSubTree($tag['children'], $rendererStates);
+		/***
+			We're using the formatter of the Miniparser - the "wrapInHtml" function is here public
+		**/
+		$content = $parentClass->renderSubTree($tag['children'], $rendererStates);
 
-			if(empty($content))
-			{
-				//Will avoid tags to be "eaten" (MCE does it automatically, not Redactor)
-				$content="&nbsp;";			
-			}
-			
-			return $parentClass->wrapInHtml($openingHtmlTag, $closingHtmlTag, $content);
+		if(empty($content))
+		{
+			//Will avoid tags to be "eaten" (MCE does it automatically, not Redactor)
+			$content="&nbsp;";			
 		}
+			
+		return $parentClass->wrapInHtml($openingHtmlTag, $closingHtmlTag, $content);
 	}
 }
 //Zend_Debug::dump($parent);
