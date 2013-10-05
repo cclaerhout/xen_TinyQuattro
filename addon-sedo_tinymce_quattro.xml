@@ -751,6 +751,13 @@ charwp={xen:phrase sedo_quattro_wordcount_characterswithwhitespaces}</edit_forma
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="710"/>
     </option>
+    <option option_id="quattro_xenpaste_dataimg_upload" edit_format="radio" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params>0={xen:phrase no}
+1={xen:phrase yes}</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="730"/>
+    </option>
     <option option_id="quattro_xsmilies" edit_format="spinbox" data_type="integer" can_backup="1">
       <default_value>12</default_value>
       <edit_format_params>min=0
@@ -912,7 +919,15 @@ If the  XenForo page the editor is loading on is NOT compatible with the XenForo
 <br />
 Default value: "no".]]></phrase>
     <phrase title="option_quattro_xendropping" version_id="20" version_string="1.4.0"><![CDATA[XenForo drag & drop upload integration]]></phrase>
-    <phrase title="option_quattro_xendropping_explain" version_id="20" version_string="1.4.0"><![CDATA[<b>Requires XenForo 1.2 or above</b> - This option will activate the XenForo drag  & drop upload function for TinyMCE.<br />]]></phrase>
+    <phrase title="option_quattro_xendropping_explain" version_id="21" version_string="1.4.1"><![CDATA[<b>Requires XenForo 1.2 or above</b> - This option will activate the XenForo drag  & drop upload function for TinyMCE.<br />
+<br />
+Default: no.]]></phrase>
+    <phrase title="option_quattro_xenpaste_dataimg_upload" version_id="21" version_string="1.4.1"><![CDATA[XenForo paste & upload image integration]]></phrase>
+    <phrase title="option_quattro_xenpaste_dataimg_upload_explain" version_id="21" version_string="1.4.1"><![CDATA[<b>Requires XenForo 1.2 or above</b> - This option will activate theXenForo paste & upload image function for TinyMCE. How does  it work: when you copy an image on your computer (ctrl+c) then paste it (ctrl+v) inside the editor, the image will be displayed (by default TinyMCE prevents local images to be displayed) and uploaded.<br />
+.<br />
+This function doesn't work if the paste mode "plain text" is enable.<br />
+<br />
+Default: no.]]></phrase>
     <phrase title="option_quattro_xsmilies" version_id="3" version_string="1.0.3"><![CDATA[[Menu button] Number of smilies?]]></phrase>
     <phrase title="option_quattro_xsmilies_explain" version_id="0" version_string="1.0"><![CDATA[Select here the number of smilies you would like to display in the button menu. Set 0 if you want to display all of them.]]></phrase>
     <phrase title="option_quattro_xsmilies_slide" version_id="3" version_string="1.0.3"><![CDATA[[Slider Smilies] Number of smilies per slide?]]></phrase>

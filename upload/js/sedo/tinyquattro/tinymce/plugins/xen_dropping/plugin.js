@@ -18,7 +18,7 @@ tinymce.create('tinymce.plugins.xen_dropping',
 			return;
 
 		$droparea = $('<div class="quattro_editor_drop" />');
-		console.log(this.editor);
+
 		var 	self = this,
 			dragOverTimeout = function() { $droparea.removeClass('hover'); },
 			$uploader = this.$container.closest('form').find('.AttachmentUploader'),

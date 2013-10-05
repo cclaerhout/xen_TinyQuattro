@@ -113,6 +113,11 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 			$plugins[] = 'xen_dropping';
 		}
 
+		if(!empty($options->quattro_xenpaste_dataimg_upload))
+		{
+			$plugins[] = 'xen_paste_img';
+		}
+
 		$plugins = implode(' ', $plugins);
 		return $plugins;
 	}
