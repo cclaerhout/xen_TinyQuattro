@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.4.1" version_id="21" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.4.2" version_id="22" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -4688,7 +4688,7 @@ h6 { font-size: .75em; }
 		</xen:if>
 	</xen:foreach>
 </xen:if>]]></template>
-    <template title="tiny_quattro_js_setup" version_id="20" version_string="1.4.0"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_js_setup" version_id="21" version_string="1.4.1"><![CDATA[<xen:comment>
 	Load Quattro Integration JS files for 1.2
 </xen:comment>
 
@@ -4762,7 +4762,7 @@ h6 { font-size: .75em; }
 				menubar: false,
 				toolbar_items_size: '{$xenOptions.quattro_iconsize}',
 				plugins: [
-				 "advlist autolink lists charmap visualchars fullscreen",
+				 "advlist lists charmap visualchars fullscreen",
 				 "directionality searchreplace {$quattroExtraPlugins}", 
 				 autosave+"paste textcolor autoresize xenforo"
 				],

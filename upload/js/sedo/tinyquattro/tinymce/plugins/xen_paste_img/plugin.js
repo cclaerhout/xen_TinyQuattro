@@ -10,12 +10,23 @@ tinymce.create('tinymce.plugins.xen_paste_img',
 			self.$textarea = $(editor.getElement());
 			self.$container = $(editor.getContainer());
 			self.$editor = $(editor.getBody());
-			
-			var 	tag = $(e.content).prop('tagName');
+
+			var pasteContent = e.content;
+			if(!pasteContent.match(/^<img[^>]+?src="data:[^>]+;base64,[^>]+?>$/i)){
+				return;
+			}
+
+      			try
+      			{
+				var $pasteContent = $(pasteContent);
+      			}
+      			catch (e) { return; }
+
+			var 	tag = $pasteContent.prop('tagName');
 				if(!tag || tag.toLowerCase() != 'img')
 					return;
 
-			var 	src = $(e.content).attr('src'),
+			var 	src = $pasteContent.attr('src'),
 				regex = /^data:image\/([a-z0-9_-]+);([a-z0-9_-]+),([\W\w]+)$/i,
 				matches = src.match(regex);
 
