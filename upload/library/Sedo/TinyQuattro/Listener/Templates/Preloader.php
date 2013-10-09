@@ -115,7 +115,7 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 
 		if(!empty($options->quattro_xenpaste_dataimg_upload))
 		{
-			$plugins[] = 'xen_paste_img';
+			//$plugins[] = 'xen_paste_img'; // buggy: http://www.tinymce.com/develop/bugtracker_view.php?id=6367
 		}
 
 		$plugins = implode(' ', $plugins);

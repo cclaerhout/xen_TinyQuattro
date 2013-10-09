@@ -160,13 +160,10 @@ class Sedo_TinyQuattro_Helper_MiniParser
 				$text = preg_replace("#<break />\n#", "<br />", $text);
 			}
 
-
-//			$text = preg_replace("#\n#", "<br />", $text);
-			
 			if(isset($parserOptions['renderStates']) && is_array($parserOptions['renderStates']))
 			{
 				$this->_renderStates = $parserOptions['renderStates'];
-			}			
+			}
 		}
 
 		$this->_matches = $this->_getMatchesFromSplitRegex($text);
@@ -451,8 +448,17 @@ class Sedo_TinyQuattro_Helper_MiniParser
 		{
 			return;
 		}
-		
-		$text = nl2br($text);		
+
+
+		if(preg_match('#(.*)(<break-start />)(.*)\2\n(.*)#siu', $text, $patch))
+		{
+			//Fix for lists - confirmation needed
+			$text = $patch[1].$patch[3].nl2br($patch[4]);
+		}
+		else
+		{
+			$text = nl2br($text);
+		}
 		
 		if(!$this->_mergeAdjacentTextNodes)
 		{
