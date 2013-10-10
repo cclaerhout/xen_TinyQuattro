@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.5.0" version_id="23" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.5.1" version_id="24" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -1215,7 +1215,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <property property_name="quattro_table_skin4_caption" property_type="css" definition="1" group_name="sedo_tinyquattro_table_2" title="[Skin 4] Caption" description="Default style for the caption html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="2080" sub_group=""><![CDATA[[]]]></property>
     <property property_name="quattro_table_skin_default" property_type="scalar" definition="1" group_name="sedo_tinyquattro_table_1" title="Default Table skin" description="Choose here the default skin for your table." css_components="" scalar_type="template" scalar_parameters="style_property_unit_quattro_table" display_order="10" sub_group=""><![CDATA[skin1]]></property>
     <property property_name="tinyquattro_css_integration" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="XenForo Style Properties Integration" description="This addon has some TinyMCE css integrated with the XenForo Properties.If you prefer to use the MCE direct css files, uncheck this option. The style properties of this page will not work anymore." css_components="" scalar_type="boolean" scalar_parameters="" display_order="10" sub_group="global"><![CDATA[1]]></property>
-    <property property_name="tinyquattro_css_skin" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="TinyMCE skin name" description="Only works if the above option is unchecked. Default skin name: lightgray  (must match the foldername of the skin). You can create another skin with the TinyMCE skin creator tool (http://skin.tinymce.com)." css_components="" scalar_type="" scalar_parameters="" display_order="30" sub_group="global"><![CDATA[xenmce]]></property>
+    <property property_name="tinyquattro_css_skin" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="TinyMCE skin name" description="Only works if the above option is unchecked. Default skin name: lightgray  (must match the foldername of the skin). You can create another skin with the TinyMCE skin creator tool (http://skin.tinymce.com)." css_components="" scalar_type="" scalar_parameters="" display_order="30" sub_group="global"><![CDATA[ lightgray]]></property>
     <property property_name="quattroDark" property_type="scalar" definition="1" group_name="color" title="quattroDark" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="27800001" sub_group="quattro"><![CDATA[@primaryDark]]></property>
     <property property_name="quattroLighterStill" property_type="scalar" definition="1" group_name="color" title="quattroLighterStill" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="27800006" sub_group="quattro"><![CDATA[@primaryLighterStill]]></property>
     <property property_name="quattroLightish" property_type="scalar" definition="1" group_name="color" title="quattroLightish" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="27800003" sub_group="quattro"><![CDATA[@primaryLightish]]></property>
@@ -2568,7 +2568,7 @@ i.mce-i-backcolor
 
 
 ]]></template>
-    <template title="tiny_quattro_common_css.css" version_id="22" version_string="1.4.2"><![CDATA[<xen:set var="$_mcePrimaryDark">{xen:property quattroDark}</xen:set>
+    <template title="tiny_quattro_common_css.css" version_id="23" version_string="1.5.0"><![CDATA[<xen:set var="$_mcePrimaryDark">{xen:property quattroDark}</xen:set>
 <xen:set var="$_mcePrimaryLightish">{xen:property quattroLightish}</xen:set>
 <xen:set var="$_mcePrimaryLight">{xen:property quattroLight}</xen:set>
 <xen:set var="$_mcePrimaryLighter">{xen:property quattroLighter}</xen:set>
@@ -2802,7 +2802,14 @@ div.mce-edit-area {
 	text-align:center
 }
 div.mce-tinymce-inline {
-	width:100%
+	width:100%;
+	-webkit-box-shadow:none;
+	-moz-box-shadow:none;
+	box-shadow:none
+}
+.mce-rtl .mce-wordcount {
+	left:0;
+	right:auto
 }
 .mce-container,.mce-container-body {
 	display:block
@@ -2885,14 +2892,19 @@ div.mce-tinymce-inline {
 	content:""
 }
 .mce-floatpanel.mce-popover {
-	top:0;
-	left:0;
-	background:{$_mcePrimaryLightest};
-	border:1px solid #000;
-	border:1px solid rgba(0,0,0,0.25);
+	filter:progid:DXImageTransform.Microsoft.gradient(enabled = false);
+	background:transparent;
 	-webkit-border-radius:6px;
 	-moz-border-radius:6px;
-	border-radius:6px
+	border-radius:6px;
+	-webkit-box-shadow:0 5px 10px rgba(0,0,0,0.2);
+	-moz-box-shadow:0 5px 10px rgba(0,0,0,0.2);
+	box-shadow:0 5px 10px rgba(0,0,0,0.2);
+	top:0;
+	left:0;
+	background:#fff;
+	border:1px solid #9e9e9e; //to check
+	border:1px solid rgba(0,0,0,0.25)
 }
 .mce-floatpanel.mce-popover.mce-bottom {
 	margin-top:10px
@@ -2994,9 +3006,6 @@ div.mce-fullscreen {
 	color:{$mceWindowHeadCloseHover}
 }
 .mce-window-head .mce-title {
-	display:inline-block;
-	*display:inline;
-	*zoom:1;
 	line-height:20px;
 	font-size:20px;
 	font-weight:bold;
@@ -3030,6 +3039,19 @@ div.mce-fullscreen {
 	-webkit-border-radius:0;
 	-moz-border-radius:0;
 	border-radius:0
+}
+.mce-rtl .mce-window-head .mce-close {
+	position:absolute;
+	right:auto;
+	left:15px
+}
+.mce-rtl .mce-window-head .mce-dragh {
+	left:auto;
+	right:0
+}
+.mce-rtl .mce-window-head .mce-title {
+	direction:rtl;
+	text-align:right
 }
 .mce-abs-layout {
 	position:relative
@@ -3186,13 +3208,22 @@ body .mce-abs-layout-item,.mce-abs-end {
 	filter:alpha(opacity=40);
 	zoom:1
 }
-.mce-btn.mce-active,.mce-btn.mce-active:hover,.mce-btn:not(.mce-disabled):active {
+.mce-btn.mce-active,.mce-btn.mce-active:hover {
 	<xen:if is="!{xen:property tinyquattro_flatdesign}">
 		{xen:helper playwithcolors, '{$mceBtnActiveGradientFrom}', 'gradient', '{$mceBtnActiveGradientTo}', '{$mceBtnActiveGradientFallback}'}
 	<xen:else />
 		background-color:{$mceBtnActiveGradientFallback};
 	</xen:if>	
 }
+
+.mce-btn:not(.mce-disabled):active {
+	<xen:if is="!{xen:property tinyquattro_flatdesign}">
+		{xen:helper playwithcolors, '{$mceBtnActiveGradientFrom}', 'gradient', '{$mceBtnActiveGradientTo}', '{$mceBtnActiveGradientFallback}'}
+	<xen:else />
+		background-color:{$mceBtnActiveGradientFallback};
+	</xen:if>
+}
+
 .mce-btn button {
 	padding:4px 10px;
 	font-size:14px;
@@ -3298,6 +3329,9 @@ body .mce-abs-layout-item,.mce-abs-end {
 	border-bottom:4px solid {$mceText};
 	border-top:0
 }
+.mce-rtl .mce-btn button {
+	direction:rtl
+}
 .mce-btn-group .mce-btn {
 	border-width:1px 0 1px 0;
 	margin:0;
@@ -3359,6 +3393,13 @@ i.mce-i-checkbox {
 .mce-checkbox.mce-disabled .mce-label,.mce-checkbox.mce-disabled i.mce-i-checkbox {
 	color:{$mceCheckBoxDisable}
 }
+.mce-rtl .mce-checkbox {
+	direction:rtl;
+	text-align:right
+}
+.mce-rtl i.mce-i-checkbox {
+	margin:0 0 0 3px
+}
 .mce-colorbutton .mce-ico {
 	position:relative
 }
@@ -3395,13 +3436,37 @@ i.mce-i-checkbox {
 	border-left-color:{$_mcePrimaryLighter};
 	border-right-color:{$_mcePrimaryLighter}
 }
+.mce-rtl .mce-colorbutton {
+	direction:rtl
+}
+.mce-rtl .mce-colorbutton .mce-preview {
+	margin-left:0;
+	padding-right:0;
+	padding-left:3px;
+	margin-right:-14px
+}
+.mce-rtl .mce-colorbutton.mce-btn-small .mce-preview {
+	margin-left:0;
+	padding-right:0;
+	margin-right:-17px;
+	padding-left:0
+}
+.mce-rtl .mce-colorbutton button {
+	padding-right:10px;
+	padding-left:10px
+}
+.mce-rtl .mce-colorbutton .mce-open {
+	padding-left:4px;
+	padding-right:4px
+}
 .mce-combobox {
 	display:inline-block;
 	*display:inline;
 	*zoom:1;
 	-webkit-border-radius:3px;
 	-moz-border-radius:3px;
-	border-radius:3px
+	border-radius:3px;
+	*height:32px
 }
 .mce-combobox input {
 	border:1px solid {$_mcePrimaryLight};
@@ -3462,6 +3527,12 @@ i.mce-i-checkbox {
 .mce-path .mce-divider {
 	display:inline
 }
+.mce-disabled .mce-path-item {
+	color:#aaa
+}
+.mce-rtl .mce-path {
+	direction:rtl
+}
 .mce-fieldset {
 	border:0 solid {$mcePanelBorder};
 	-webkit-border-radius:3px;
@@ -3500,6 +3571,16 @@ i.mce-i-checkbox {
 .mce-tinymce-inline .mce-flow-layout {
 	white-space:nowrap
 }
+.mce-rtl .mce-flow-layout {
+	text-align:right;
+	direction:rtl
+}
+.mce-rtl .mce-flow-layout-item {
+	margin:2px 2px 2px 0
+}
+.mce-rtl .mce-flow-layout-item.mce-last {
+	margin-left:2px
+}
 .mce-iframe {
 	border:0 solid {$_mcePrimaryLighter};
 	width:100%;
@@ -3516,11 +3597,15 @@ i.mce-i-checkbox {
 .mce-label.mce-autoscroll {
 	overflow:auto
 }
-.mce-label-disabled .mce-text {
+.mce-label-disabled.mce-text {
 	color:{$mceBorderColor}
 }
 .mce-label.mce-multiline {
 	white-space:pre-wrap
+}
+.mce-rtl .mce-label {
+	text-align:right;
+	direction:rtl
 }
 .mce-menubar .mce-menubtn {
 	border-color:transparent;
@@ -3567,6 +3652,10 @@ i.mce-i-checkbox {
 .mce-menubtn.mce-fixed-width.mce-btn-small span {
 	width:70px
 }
+.mce-rtl .mce-menubtn button {
+	direction:rtl;
+	text-align:right
+}
 .mce-listbox button {
 	text-align:left;
 	padding-right:20px;
@@ -3577,6 +3666,14 @@ i.mce-i-checkbox {
 	margin-top:-2px;
 	right:8px;
 	top:50%
+}
+.mce-rtl .mce-listbox .mce-caret {
+	right:auto;
+	left:8px
+}
+.mce-rtl .mce-listbox button {
+	padding-right:10px;
+	padding-left:20px
 }
 .mce-menu-item {
 	display:block;
@@ -3655,7 +3752,7 @@ i.mce-i-checkbox {
 		background:{$mceMenuItHvrGradientFallback};
 	</xen:if>		
 }
-.mce-menu-item-sep,.mce-menu-item-sep:hover {
+div.mce-menu-item-sep,.mce-menu-item-sep:hover {
 	border:0;
 	padding:0;
 	height:1px;
@@ -3666,7 +3763,29 @@ i.mce-i-checkbox {
 	cursor:default;
 	filter:none
 }
+.mce-rtl .mce-menu-item {
+	text-align:right;
+	direction:rtl;
+	padding:6px 12px 6px 15px
+}
+.mce-menu-align.mce-rtl .mce-menu-shortcut,.mce-menu-align.mce-rtl .mce-caret {
+	right:auto;
+	left:0
+}
+.mce-rtl .mce-menu-item .mce-caret {
+	margin-left:6px;
+	margin-right:0;
+	border-right:4px solid #333;
+	border-left:0
+}
+.mce-rtl .mce-menu-item.mce-selected .mce-caret,.mce-rtl .mce-menu-item:focus .mce-caret,.mce-rtl .mce-menu-item:hover .mce-caret {
+	border-left-color:transparent;
+	border-right-color:#fff
+}
 .mce-menu {
+	position:absolute;
+	left:0;
+	top:0;
 	filter:progid:DXImageTransform.Microsoft.gradient(enabled = false);
 	background:transparent;
 	z-index:1000;
@@ -3688,8 +3807,7 @@ i.mce-i-checkbox {
 }
 .mce-menu-has-icons i {
 	display:inline-block;
-	*display:inline;
-	*zoom:1
+	*display:inline
 }
 .mce-menu-sub-tr-tl {
 	margin:-6px 0 0 -1px
@@ -3736,6 +3854,23 @@ i.mce-i-resize {
 .mce-splitbtn .mce-open {
 	padding-left:4px
 }
+.mce-splitbtn .mce-open.mce-active {
+	-webkit-box-shadow:inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
+	-moz-box-shadow:inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
+	box-shadow:inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05)
+}
+.mce-rtl .mce-splitbtn {
+	direction:rtl;
+	text-align:right
+}
+.mce-rtl .mce-splitbtn button {
+	padding-right:10px;
+	padding-left:10px
+}
+.mce-rtl .mce-splitbtn .mce-open {
+	padding-left:4px;
+	padding-right:4px
+}
 .mce-stack-layout-item {
 	display:block
 }
@@ -3764,6 +3899,13 @@ i.mce-i-resize {
 	margin-bottom:-1px;
 	height:14px
 }
+.mce-rtl .mce-tabs {
+	text-align:right;
+	direction:rtl
+}
+.mce-rtl .mce-tab {
+	border-width:0 0 0 1px
+}
 .mce-textbox {
 	background:{$mceTextboxBackground};
 	border:1px solid {$_mcePrimaryLight};
@@ -3791,6 +3933,10 @@ i.mce-i-resize {
 }
 .mce-textbox.mce-disabled {
 	color:{$mceTextboxDisable}
+}
+.mce-rtl .mce-textbox {
+	text-align:right;
+	direction:rtl
 }
 .mce-throbber {
 	position:absolute;
@@ -3999,10 +4145,8 @@ i.mce-i-resize {
 	.mce-tinymce .quattro_editor_drop.hover {
 		display: block;
 	}]]></template>
-    <template title="tiny_quattro_grid" version_id="6" version_string="1.0.6"><![CDATA[<xen:if is="{$quattroGrid}">
-	<xen:foreach loop="$quattroGrid" value="$buttons" key="$key">
-		toolbar{$key}: "{$buttons}",
-	</xen:foreach>
+    <template title="tiny_quattro_grid" version_id="23" version_string="1.5.0"><![CDATA[<xen:if is="{$quattroGrid}">
+	<xen:foreach loop="$quattroGrid" value="$buttons" key="$key">toolbar{$key}: "{$buttons}", </xen:foreach>
 <xen:else />
 	<xen:comment>Default Fallback</xen:comment>
 	toolbar1: "removeformat undo redo pastetext restoredraft | xen_fontfamily xen_fontsize forecolor backcolor |  bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | fullscreen xen_switch",
@@ -4148,49 +4292,37 @@ h6 { font-size: .75em; }
 		</xen:if>
 	</xen:foreach>
 </xen:if>]]></template>
-    <template title="tiny_quattro_js_setup" version_id="22" version_string="1.4.2"><![CDATA[<xen:comment>
-	Load Quattro Integration JS files for 1.2
-</xen:comment>
-
+    <template title="tiny_quattro_js_setup" version_id="23" version_string="1.5.0"><![CDATA[<xen:comment>Load Quattro Integration JS files for 1.2</xen:comment>
 	<xen:if is="{$quattroIntegration}">
 		<xen:require js="js/sedo/tinyquattro/integration/retro_quickreply.js" />
 	</xen:if>
 
-<xen:comment>
-	Load MCE4 main JS
-</xen:comment>
-
+<xen:comment>Load MCE4 main JS</xen:comment>
 	<xen:require js="js/sedo/tinyquattro/tinymce/tinymce.min.js" />
+	
 
-<xen:comment>
-	Load MCE CSS && Custom Buttons CSS
-</xen:comment>
+<xen:comment>Load MCE CSS && Custom Buttons CSS</xen:comment>
 	<xen:if is="{$visitor.getBrowser.IEis} != 7">
 		<xen:require css="tiny_quattro_editor.css" />
-		<style type="text/css">
-			<xen:foreach loop="$customQuattroButtonsCss" value="$button">
-				.mce-i-{$button.buttonCode}:before	{ content: "\{$button.iconCode}"; }
-			</xen:foreach>
-		</style>
+		<xen:set var="$mceCss">
+			<xen:foreach loop="$customQuattroButtonsCss" value="$button">.mce-i-{$button.buttonCode}:before {content:"\{$button.iconCode}";} </xen:foreach>
+		</xen:set>
 	<xen:else />
 		<xen:require css="tiny_quattro_editor_ie7.css" />
-		<style type="text/css">
-			<xen:foreach loop="$customQuattroButtonsCss" value="$button">
-				.mce-i-{$button.buttonCode}	{ -ie7-icon: "\{$button.iconCode}"; }
-			</xen:foreach>
-		</style>
+		<xen:set var="$mceCss">
+			<xen:foreach loop="$customQuattroButtonsCss" value="$button">.mce-i-{$button.buttonCode} {-ie7-icon:"\{$button.iconCode}";} </xen:foreach>
+		</xen:set>
 	</xen:if>
 
-<xen:comment>
-	MCE Configuration
-</xen:comment>
+<style type="text/css">{xen:raw $mceCss}</style>
+
+<xen:comment>MCE Configuration</xen:comment>
 
 <script>
 <xen:hook name="quattro_js_setup" params="{xen:array 'editorId={$editorId}'}">
 
 !function($, window, document, _undefined)
 {
-
 	if(typeof xenMCE === 'undefined') xenMCE = {};
 
 	<xen:hook name="quattro_phrases" params="{xen:array 'editorId={$editorId}'}">
@@ -4201,20 +4333,20 @@ h6 { font-size: .75em; }
 		xenMCE.Params = {<xen:include template="tiny_quattro_params" />}
 	</xen:hook>
 
-	var $editor = $("#{xen:jsescape $editorId}_html").hide();
-	console.info('XenForo editor %s, %o', '{xen:jsescape {$editorId}}', $editor);
-		
 	$(function()
 	{
-		$editor.css('visibility', '').show();
+		var editorId ='{xen:jsescape $editorId}_html',
+		editorEl = document.getElementById(editorId), <xen:comment>jQuery workaround</xen:comment>
+		$editor = $(editorEl);
+		console.info('XenForo editor %s, %o', '{xen:jsescape {$editorId}}', $editor); 
 		
 		var hasDraft = ($editor.data('auto-save-url')),
 		autosave = {xen:if "{$xenOptions.quattro_xendraft}", "(hasDraft) ? '':'autosave '", "'autosave '"};
-		
-		if (window.tinyMCE)
+	
+		if (window.tinyMCE) 
 		{
 			config = {
-				selector: "#"+$editor.attr('id'),
+				selector: "#"+editorId,
 				theme: "modern",
 				language: "xen",
 				skin: {xen:if "{xen:property tinyquattro_css_integration}", "false", "'{xen:property tinyquattro_css_skin}'"},
@@ -4259,17 +4391,24 @@ h6 { font-size: .75em; }
 					config.wordcount_cleanregex = /\n/g;
 				</xen:if>
 			</xen:if>
-			
-			tinymce.init(config);
+
+			$editor.data('editorActivated', true).addClass('mceQuattro').show();
 			xenMCE.defaultConfig = config;
+			
+			<xen:comment>
+				Don'use the classic loader - it will fail on pages with several editors
+				Other solution use jquery.tinymce.min.js & $editor.tinymce(config). Since
+				the below method seems to work, let's avoid this extra of 4ko
+				P.S: The selector must use an id and not a class otherwise the config
+				init will be applied several times. Mce doesn't like that.
+			</xen:comment>
+				var ed = new tinymce.Editor(editorId, config, tinymce.EditorManager);
+				ed.render();				
 		}
 		else
 		{
 			<xen:if is="!{$message}">$editor.after($('<input type="hidden" name="_xfRteFailed" value="1" />'));</xen:if>
 		}
-
-		$editor.data('editorActivated', true);
-		$editor.addClass('mceQuattro');
 	});
 }
 (jQuery, this, document);
