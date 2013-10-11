@@ -89,6 +89,7 @@
 			{
 				if (editor.execCommand)
 				{
+					editor = tinyMCE.activeEditor;
 					editor.execCommand('mceInsertContent', false, html);
 				}
 				else
