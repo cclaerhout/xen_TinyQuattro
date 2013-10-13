@@ -55,6 +55,7 @@
 				xenMCE.lazyLoad = true;
 				loader = 'jquery';
 				config.script_url = baseUrl+'js/sedo/tinyquattro/tinymce/tinymce.min.js';
+				console.info('Mce JS location: '+config.script_url);
 			}else{
 				loader = 'mce';
 				config.selector = '#'+editorId;
