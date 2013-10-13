@@ -73,6 +73,7 @@
 			});
 			
 			this.$textarea = $(ed.getElement());
+			this.isOldXen = xenMCE.Params.oldXen;
 			
 			/* Get Editor */
 			this.getEditor = function (){ return ed; };
@@ -1117,9 +1118,9 @@
 		{
 			var ed = parent.getEditor(), Factory = tinymce.ui.Factory, menuSize, menuFam, un = 'undefined',
 			sizeClass = 'xen-font-size', fontFamily = 'font-family',  famClass = 'xen-'+fontFamily, p = xenMCE.Phrases, 
-			fontSizeText = '', fontSizeValues, oldXen = xenMCE.Params.oldXen;
+			fontSizeText = '', fontSizeValues;
 
-			if(oldXen === true){
+			if(parent.isOldXen === true){
 				fontSizeValues = 'xx-small|x-small|small|medium|large|x-large|xx-large'; //for Xen 1.1
 			} else {
 				fontSizeValues = '9px|10px|12px|15px|18px|22px|26px'; //for Xen 1.2
@@ -1279,24 +1280,30 @@
 	tinymce.create(xenPlugin+'.jQueryToolsFix', {
 		jQueryToolsFix: function(parent) 
 		{
-			var ed = parent.getEditor(), settings = xenMCE.Params;
+			var ed = parent.getEditor(), settings = xenMCE.Params, inlineEd = 'InlineMessageEditor';
 
 			/* 2013/08/28: fix for the autoresize plugin needed with the overlay and with some browsers (IE, Chrome) */
 			ed.on('postrender', function(e) { //other event possible: focus
 				$container = $(ed.getContainer());
-				if($container.parents('form').hasClass('InlineMessageEditor')){
+				if($container.parents('form').hasClass(inlineEd)){
 					tinyMCE.activeEditor.execCommand('mceAutoResize', false, e);
 				}
 			});
 
+			if(!parent.isOldXen){
+				return false;
+			}
+
 			/* 2013/08/28: These two fixes don't seem to be needed anymore. I'm going to wait a little then I will exclude them (just need to comment) from the minify version*/
 			ed.on('postrender', function(e) {
 				var doc = ed.getDoc();
-		
-				if (!tinymce.isIE) {
+				$form = $(ed.getContainer()).parents('form');
+				
+				if (!tinymce.isIE && $form.hasClass(inlineEd)) {
 					try {
-						if (!ed.settings.readonly)
+						if (!ed.settings.readonly){
 							doc.designMode = 'On';
+						}
 					} catch (ex) {
 						// Will fail on Gecko if the editor is placed in an hidden container element
 						// The design mode will be set ones the editor is focused
@@ -1305,6 +1312,7 @@
 			});
 
 			if(settings.geckoFullfix){
+				var originalBeforeLoadFct = XenForo._overlayConfig.onBeforeLoad;
 				XenForo._overlayConfig.onBeforeLoad = function(e){
 					if(window.tinyMCE && tinymce.isGecko && $(this.getTrigger()).hasClass('edit')){
 						$mceTextarea = $(tinyMCE.activeEditor.getElement());
@@ -1316,6 +1324,9 @@
 							tinyMCE.activeEditor.focus();
 						}
 					};
+					if(typeof originalBeforeLoadFct === 'function'){
+						originalBeforeLoadFct(e);
+					}
 				};
 			}
 		}
@@ -1914,7 +1925,7 @@
 		XenDraft: function(parent) 
 		{
 			//Only compatible with XenForo 1.2.x
-			if(xenMCE.Params.oldXen)
+			if(parent.isOldXen)
 				return false;
 
 			this.ed = parent.getEditor();

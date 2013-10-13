@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.5.2" version_id="25" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.6.0" version_id="25" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -646,7 +646,7 @@ step=5</edit_format_params>
       <relation group_id="tiny_quattro" display_order="20"/>
     </option>
     <option option_id="quattro_geckofullfix" edit_format="onoff" data_type="boolean" can_backup="1">
-      <default_value>1</default_value>
+      <default_value>0</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="9900"/>
@@ -663,6 +663,12 @@ step=5</edit_format_params>
 small={xen:phrase sedo_quattro_small}</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="1"/>
+    </option>
+    <option option_id="quattro_noattach_img" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="5010"/>
     </option>
     <option option_id="quattro_parser_bb_to_wysiwyg" edit_format="onoff" data_type="boolean" can_backup="1">
       <default_value>1</default_value>
@@ -861,11 +867,13 @@ This patch is enable by default.]]></phrase>
     <phrase title="option_quattro_frightmode" version_id="0" version_string="1.0"><![CDATA[Enable "Fright" mode?]]></phrase>
     <phrase title="option_quattro_frightmode_explain" version_id="0" version_string="1.0"><![CDATA[The fright mode will make some buttons float on the right of the editor]]></phrase>
     <phrase title="option_quattro_geckofullfix" version_id="0" version_string="1.0"><![CDATA[[DEBUG] Firefox full overlay fix]]></phrase>
-    <phrase title="option_quattro_geckofullfix_explain" version_id="0" version_string="1.0"><![CDATA[If you see any problems with TinyMCE  once loaded in an overlay, enable this option. This will modify the XenForo Overlay (provided by jQueryTools) configuration.]]></phrase>
+    <phrase title="option_quattro_geckofullfix_explain" version_id="24" version_string="1.5.1"><![CDATA[If you see any problems with TinyMCE  once loaded in an overlay, enable this option. This will modify the XenForo Overlay (provided by jQueryTools) configuration. This is not needed with XenForo 1.2.]]></phrase>
     <phrase title="option_quattro_hidepath" version_id="0" version_string="1.0"><![CDATA[Hide path?]]></phrase>
     <phrase title="option_quattro_hidepath_explain" version_id="0" version_string="1.0"><![CDATA[This will hide the html path inside the status bar.]]></phrase>
     <phrase title="option_quattro_iconsize" version_id="0" version_string="1.0"><![CDATA[Buttons size:]]></phrase>
     <phrase title="option_quattro_iconsize_explain" version_id="0" version_string="1.0"><![CDATA[Select here if the size of your buttons]]></phrase>
+    <phrase title="option_quattro_noattach_img" version_id="24" version_string="1.5.1"><![CDATA["No Attachment" editors - Force image insertion]]></phrase>
+    <phrase title="option_quattro_noattach_img_explain" version_id="24" version_string="1.5.1"><![CDATA[With the last version of the XenForo Resources Manager, it can have several editors on the same page. By default the attachment manager will only allow you to load an image inside the main editor. Other editors have the class "No Attachment" that  prevents them to have any image inserted. With this addon, images can be inserted in all editors by default. But inserted attachments will not be in the "view" so will be displayed as an "attachment" (the image will not display. A solution to bypass this is to insert the link of the image between the Bb Code image. If you want to use this workaround, activate this option.]]></phrase>
     <phrase title="option_quattro_parser_bb_to_wysiwyg" version_id="4" version_string="1.0.4"><![CDATA[Activate the BbCode > Wysiwyg HTML Parser Patch?]]></phrase>
     <phrase title="option_quattro_parser_bb_to_wysiwyg_explain" version_id="4" version_string="1.0.4"><![CDATA[This option will activate some fixes when you <span style="text-decoration:underline">edit </span> a message with the RTE editor and when you <span style="text-decoration:underline">toggle</span> the Bb Code editor to the RTE editor. <br />
  <br />
@@ -1042,6 +1050,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_table_splitcell" version_id="17" version_string="1.3.0"><![CDATA[Split cell]]></phrase>
     <phrase title="sedo_quattro_table_tableproperties" version_id="17" version_string="1.3.0"><![CDATA[Table properties]]></phrase>
     <phrase title="sedo_quattro_table_width" version_id="17" version_string="1.3.0"><![CDATA[Width]]></phrase>
+    <phrase title="sedo_quattro_titleismissing" version_id="24" version_string="1.5.1"><![CDATA[Title is missing]]></phrase>
     <phrase title="sedo_quattro_whole_words" version_id="4" version_string="1.0.4"><![CDATA[Whole words]]></phrase>
     <phrase title="sedo_quattro_wordcount_characters" version_id="0" version_string="1.0"><![CDATA[Yes - count characters]]></phrase>
     <phrase title="sedo_quattro_wordcount_characterswithwhitespaces" version_id="0" version_string="1.0"><![CDATA[Yes - count characters & white space]]></phrase>
@@ -4292,14 +4301,15 @@ h6 { font-size: .75em; }
 		</xen:if>
 	</xen:foreach>
 </xen:if>]]></template>
-    <template title="tiny_quattro_js_setup" version_id="23" version_string="1.5.0"><![CDATA[<xen:comment>Load Quattro Integration JS files for 1.2</xen:comment>
+    <template title="tiny_quattro_js_setup" version_id="24" version_string="1.5.1"><![CDATA[<xen:comment>Load Quattro Integration JS files for 1.2</xen:comment>
 	<xen:if is="{$quattroIntegration}">
 		<xen:require js="js/sedo/tinyquattro/integration/retro_quickreply.js" />
 	</xen:if>
 
 <xen:comment>Load MCE4 main JS</xen:comment>
+	<xen:require js="js/sedo/tinyquattro/tinymce/jquery.tinymce.min.js" />
 	<xen:require js="js/sedo/tinyquattro/tinymce/tinymce.min.js" />
-	
+	<xen:require js="js/sedo/tinyquattro/integration/loader.min.js" />
 
 <xen:comment>Load MCE CSS && Custom Buttons CSS</xen:comment>
 	<xen:if is="{$visitor.getBrowser.IEis} != 7">
@@ -4321,8 +4331,6 @@ h6 { font-size: .75em; }
 <script>
 <xen:hook name="quattro_js_setup" params="{xen:array 'editorId={$editorId}'}">
 
-!function($, window, document, _undefined)
-{
 	if(typeof xenMCE === 'undefined') xenMCE = {};
 
 	<xen:hook name="quattro_phrases" params="{xen:array 'editorId={$editorId}'}">
@@ -4333,95 +4341,44 @@ h6 { font-size: .75em; }
 		xenMCE.Params = {<xen:include template="tiny_quattro_params" />}
 	</xen:hook>
 
-	$(function()
-	{
-		var editorId ='{xen:jsescape $editorId}_html',
-		editorEl = document.getElementById(editorId), <xen:comment>jQuery workaround</xen:comment>
-		$editor = $(editorEl);
-		console.info('XenForo editor %s, %o', '{xen:jsescape {$editorId}}', $editor); 
-		
-		var hasDraft = ($editor.data('auto-save-url')),
-		autosave = {xen:if "{$xenOptions.quattro_xendraft}", "(hasDraft) ? '':'autosave '", "'autosave '"};
-	
-		if (window.tinyMCE) 
-		{
-			config = {
-				selector: "#"+editorId,
-				theme: "modern",
-				language: "xen",
-				skin: {xen:if "{xen:property tinyquattro_css_integration}", "false", "'{xen:property tinyquattro_css_skin}'"},
-				content_css: "css.php?style={xen:urlencode $visitorStyle.style_id}&css=tiny_quattro_iframe&d={xen:urlencode $visitorStyle.last_modified_date}",
-				menubar: false,
-				toolbar_items_size: '{$xenOptions.quattro_iconsize}',
-				plugins: [
-				 "advlist lists charmap visualchars fullscreen",
-				 "directionality searchreplace {$quattroExtraPlugins}", 
-				 autosave+"paste textcolor autoresize xenforo"
-				],
-				resize: false,
-				//object_resizing: false,
-				browser_spellcheck: {$xenOptions.quattro_enable_browser_spellcheck},
-				autoresize_min_height: {$xenOptions.quattro_autoresize_min_height},
-				autoresize_max_height: {$xenOptions.quattro_autoresize_max_height},
-				autosave_interval: '{$xenOptions.quattro_autosave_interval}s',
-				autosave_retention: '{$xenOptions.quattro_autosave_retention}m',
-				autosave_restore_when_empty: {$xenOptions.quattro_autosave_autorestore},
-				directionality: '{$visitorLanguage.text_direction}',<xen:comment>Must be set by a BM</xen:comment>
-				document_base_url: "{xen:jsescape $requestPaths.fullBasePath}",	
-				autosave_ask_before_unload: {$xenOptions.quattro_autosave_ask_before_unload},
-				paste_as_text: {$xenOptions.quattro_paste_as_text},
-				font_size_legacy_values: "9px,10px,12px,15px,18px,22px,26px",
-				statusbar: {$xenOptions.quattro_statusbar},
-				contextmenu: "xen_link inserttable | cell row column xen_tableskin deletetable",
-				xen_attach: "{$editorOptions.sedo_quattro.attach.type},{$editorOptions.sedo_quattro.attach.id},{$editorOptions.sedo_quattro.attach.hash}",
-				<xen:include template="tiny_quattro_grid" />
-				nonbreaking_force_tab: true
-			};
-
-			<xen:if is="{$xenOptions.quattro_wordcount} != 'no'">
-				config.plugins.push('wordcount');
-
-				<xen:if is="{$xenOptions.quattro_wordcount} == 'char'">
-					config.wordcount_countregex = /\S/g;
-					config.wordcount_cleanregex = '';
-				</xen:if>
-
-				<xen:if is="{$xenOptions.quattro_wordcount} == 'charwp'">
-					config.wordcount_countregex = /(\S|\b[\u0020]\b)/g;
-					config.wordcount_cleanregex = /\n/g;
-				</xen:if>
-			</xen:if>
-
-			$editor.data('editorActivated', true).addClass('mceQuattro').show();
-			xenMCE.defaultConfig = config;
-			
-			<xen:comment>
-				Don'use the classic loader - it will fail on pages with several editors
-				Other solution use jquery.tinymce.min.js & $editor.tinymce(config). Since
-				the below method seems to work, let's avoid this extra of 4ko
-				P.S: The selector must use an id and not a class otherwise the config
-				init will be applied several times. Mce doesn't like that.
-			</xen:comment>
-				var ed = new tinymce.Editor(editorId, config, tinymce.EditorManager);
-				ed.render();				
-		}
-		else
-		{
-			<xen:if is="!{$message}">$editor.after($('<input type="hidden" name="_xfRteFailed" value="1" />'));</xen:if>
-		}
-	});
-}
-(jQuery, this, document);
-
+	xenMCE.defaultConfig = {
+		theme: "modern",
+		language: "xen",
+		skin: {xen:if "{xen:property tinyquattro_css_integration}", "false", "'{xen:property tinyquattro_css_skin}'"},
+		content_css: "css.php?style={xen:urlencode $visitorStyle.style_id}&css=tiny_quattro_iframe&d={xen:urlencode $visitorStyle.last_modified_date}",
+		menubar: false,
+		toolbar_items_size: '{$xenOptions.quattro_iconsize}',
+		plugins: [
+		 "advlist lists charmap visualchars fullscreen",
+		 "directionality searchreplace {$quattroExtraPlugins}", 
+		 "paste textcolor autoresize xenforo"
+		],
+		resize: false,
+		//object_resizing: false,
+		browser_spellcheck: {$xenOptions.quattro_enable_browser_spellcheck},
+		autoresize_min_height: {$xenOptions.quattro_autoresize_min_height},
+		autoresize_max_height: {$xenOptions.quattro_autoresize_max_height},
+		autosave_interval: '{$xenOptions.quattro_autosave_interval}s',
+		autosave_retention: '{$xenOptions.quattro_autosave_retention}m',
+		autosave_restore_when_empty: {$xenOptions.quattro_autosave_autorestore},
+		directionality: '{$visitorLanguage.text_direction}',<xen:comment>Must be set by a BM</xen:comment>
+		document_base_url: "{xen:jsescape $requestPaths.fullBasePath}",	
+		autosave_ask_before_unload: {$xenOptions.quattro_autosave_ask_before_unload},
+		paste_as_text: {$xenOptions.quattro_paste_as_text},
+		font_size_legacy_values: "9px,10px,12px,15px,18px,22px,26px",
+		statusbar: {$xenOptions.quattro_statusbar},
+		contextmenu: "xen_link inserttable | cell row column xen_tableskin deletetable",
+		xen_attach: "{$editorOptions.sedo_quattro.attach.type},{$editorOptions.sedo_quattro.attach.id},{$editorOptions.sedo_quattro.attach.hash}",
+		<xen:include template="tiny_quattro_grid" />
+		nonbreaking_force_tab: true
+	};
 </xen:hook>
-
 </script>
 
 <xen:edithint template="tiny_quattro_custom_buttons" />
 <xen:edithint template="tiny_quattro_iframe.css" />
-<xen:edithint template="tiny_quattro_framework.css" />
-]]></template>
-    <template title="tiny_quattro_params" version_id="19" version_string="1.3.1"><![CDATA[<xen:comment>
+<xen:edithint template="tiny_quattro_framework.css" />]]></template>
+    <template title="tiny_quattro_params" version_id="24" version_string="1.5.1"><![CDATA[<xen:comment>
 	We are inside a JavaScript file. All phrases must be escaped
 </xen:comment>
 	<xen:comment>extend</xen:comment>
@@ -4443,6 +4400,7 @@ h6 { font-size: .75em; }
 	smiliesDesc: '{$xenOptions.quattro_smilies_desc}',
 	xenforo_smilies: {xen:helper json, $bbmSmilies},
 	xendraft: {$xenOptions.quattro_xendraft},
+	xenwordcount: "{$xenOptions.quattro_wordcount}",
 	bbmButtons: { <xen:include template="tiny_quattro_custom_buttons" /> }]]></template>
     <template title="tiny_quattro_phrases" version_id="20" version_string="1.4.0"><![CDATA[<xen:comment>
 	We are inside a JavaScript file. All phrases must be escaped

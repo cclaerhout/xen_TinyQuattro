@@ -21,6 +21,16 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 		   	case 'editor':
    				$visitor = XenForo_Visitor::getInstance();
 
+				//NoAttachment editors detection
+				if(	isset($params['editorOptions']) 
+					&& isset($params['editorOptions']['extraClass'])
+					&& strpos('NoAttachment', $params['editorOptions']['extraClass']) !== false
+					&& XenForo_Application::get('options')->get('quattro_noattach_img')
+				)
+				{
+					$params['editorOptions']['extraClass'] .= ' ImgFallback';
+				}
+
 				if(!$visitor->enable_rte)
 				{
 					break;

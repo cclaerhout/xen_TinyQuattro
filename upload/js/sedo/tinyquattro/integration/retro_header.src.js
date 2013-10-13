@@ -31,27 +31,105 @@
 	/**************************************************************************
 			OVERRIDE THE XENFORO FUNCTION "getEditorInForm"
 	**************************************************************************/
-	XenForo.getEditorInForm = function(form)
+	XenForo.getEditorInForm = function(form, extraConstraints, $lastFocusedElement, enableExtraConstraints)
 	{
-		var $form = $(form),
-			$textarea = $form.find('textarea.MessageEditor');
+		/**
+		 *  To be able to use  $lastFocusedElement & keep compatibility with XenForo it should 
+		 *  be in thrid position. Since extraContraints might mess the below detection method,
+		 *  they will be disable by default and can only be enable with a fourth argurment
+		 **/
+		if(!enableExtraConstraints){
+			extraConstraints = '';
+		}
 
-		if ($textarea.length)
-		{
-			if ($textarea.prop('disabled'))
-			{
-				return $form.find('.bbCodeEditorContainer textarea');
-			}
-			else if (window.tinyMCE && $textarea.attr('id') && tinyMCE.editors[$textarea.attr('id')])
-			{
-				return tinyMCE.editors[$textarea.attr('id')];
-			}
-			else
-			{
-				return $textarea;
+		/**
+		 *  MessageEditor is used for original loaded ediors (exit Toggled editors)
+		 *  .bbCodeEditorContainer textarea is to catch Toggled BbCode editors
+		 **/
+		$form = $(form);
+		$messageEditors = $form.find('textarea.MessageEditor' + (extraConstraints || ''));
+		$bbCodeEditors = $form.find('.bbCodeEditorContainer textarea' + (extraConstraints || ''));
+		$allEditors = $messageEditors.add($bbCodeEditors);
+		
+		/*There must be at least one message editor in the form*/
+		if($messageEditors.length == 0){
+			return false;
+		}
+
+		/*The first message editor will be the fallback*/
+		$messageEditor = $messageEditors.eq(0);
+		$bbCodesBbCodeEditor = $bbCodeEditors.eq(0);
+
+		/**
+		 * Let's find if one of the message editors or bbCode editors 
+		 * belongs to the $lastFocusedElement
+		 **/
+		if($lastFocusedElement && $lastFocusedElement.length){
+			var validFocus = false;
+			$allEditors.each(function(){
+				if($(this).attr('id') == $lastFocusedElement.attr('id')){
+					validFocus = $(this);
+					return;
+				}
+			});
+			
+			if(validFocus) {
+				/**
+				 *	The lastFocusedElement is valid
+				 *	Let's focus it again if users need to insert several attachments
+				 *	Then let's return it
+				 **/
+				validFocus.focus();
+				//console.log('Editor from focus');
+				return validFocus;
 			}
 		}
-		return false;
+	
+		/**
+		 * MCE Section
+		 **/		
+		if(window.tinyMCE){
+			var 	activeEditor = tinyMCE.activeEditor,
+				$mceTextarea = $(activeEditor.getElement()),
+				mceTextareaId = $mceTextarea.attr('id'),
+				mceIsValid = false;
+				
+				$messageEditors.each(function(){
+					if($(this).attr('id') == mceTextareaId){
+						mceIsValid = true;
+						return;
+					}
+				});
+
+			if(activeEditor && mceIsValid && !$mceTextarea.attr('disabled')){
+				//console.log('MCE active');
+				return tinyMCE.activeEditor;
+			}else{
+				/*With old browser it could be possible that the activeEditor is lost (not sure)*/
+				var messageEditorId = $messageEditor.attr('id');
+				if(	messageEditorId 
+					&& typeof tinyMCE.editors[messageEditorId] !== 'undefined'
+					&& !$messageEditor.attr('disabled')
+				)
+				{
+					//console.log('MCE Fallback');
+					return tinyMCE.editors[messageEditorId];
+				}
+			}
+		}
+		
+		if($messageEditor.attr('disabled')){
+			/*.attr is used to maintain a compatibily with XenForo 1.1.x */
+			if(!$bbCodesBbCodeEditor.length){
+				return false;
+			}
+			
+			//console.log('Bbcode Fallback');
+			return $bbCodesBbCodeEditor;
+		}
+
+		//console.log('Editor Fallback');		
+		return $messageEditor;
 	};
 
 	/**************************************************************************
@@ -61,13 +139,21 @@
 	
 	XenForo.AttachmentInserter = function($trigger)
 	{
+		var $lastFocusedElement = false;
+		
+		$trigger.hover(function(e){
+			$lastFocusedElement = $(document.activeElement);
+		});
+
 		$trigger.click(function(e)
 		{
 			var $attachment = $trigger.closest('.AttachedFile').find('.Thumbnail a'),
 				attachmentId = $attachment.data('attachmentid'),
 			 	editor,
 				bbcode,
+				imgBbcode,
 				html,
+				baseUrl = XenForo._baseUrl,
 				thumb = $attachment.find('img').attr('src'),
 				img = $attachment.attr('href');
 
@@ -76,26 +162,33 @@
 			if ($trigger.attr('name') == 'thumb')
 			{
 				bbcode = '[ATTACH]' + attachmentId + '[/ATTACH] ';
+				imgBbcode = '[img]'+baseUrl+thumb+'[/img]';
 				html = '<img src="' + thumb + '" class="attachThumb bbCodeImage" alt="attachThumb' + attachmentId + '" /> ';
 			}
 			else
 			{
 				bbcode = '[ATTACH=full]' + attachmentId + '[/ATTACH] ';
+				imgBbcode = '[img]'+baseUrl+img+'[/img]';
 				html = '<img src="' + img + '" class="attachFull bbCodeImage" alt="attachFull' + attachmentId + '" /> ';
 			}
 
-			var editor = XenForo.getEditorInForm($trigger.closest('form'));
-			if (editor)
-			{
-				if (editor.execCommand)
-				{
-					editor = tinyMCE.activeEditor;
-					editor.execCommand('mceInsertContent', false, html);
+			//Don't specify extraConstraints, it will mess the detection method, check the .NoAttachment after
+			editor = XenForo.getEditorInForm($trigger.closest('form'), '', $lastFocusedElement);
+
+			function activateImgFallback($textarea, output){
+				if($textarea.hasClass('NoAttachment') && $textarea.hasClass('ImgFallback')){
+					return imgBbcode;
 				}
-				else
-				{
-					editor.val(editor.val() + bbcode);
-				}
+				return output;
+			}
+
+			if (editor.execCommand && window.tinyMCE) {
+				$textarea = $(editor.getElement());
+				html = activateImgFallback($textarea, html)
+				editor.execCommand('mceInsertContent', false, html);
+			}else{
+				bbcode = activateImgFallback(editor, bbcode)
+				editor.val(editor.val() + bbcode);
 			}
 		});
 	};
@@ -134,7 +227,7 @@
 
 				if (attachmentId)
 				{
-					var editor = XenForo.getEditorInForm($trigger.closest('form'));
+					var editor = XenForo.getEditorInForm($trigger.closest('form'), ':not(.NoAttachment)', false, true);
 					if (typeof editor.getBody() !== 'undefined')
 					{
 						$(editor.getBody()).find('img[alt=attachFull' + attachmentId + '], img[alt=attachThumb' + attachmentId + ']').remove(); //TODO
