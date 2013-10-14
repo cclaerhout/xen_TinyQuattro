@@ -4301,7 +4301,7 @@ h6 { font-size: .75em; }
 		</xen:if>
 	</xen:foreach>
 </xen:if>]]></template>
-    <template title="tiny_quattro_js_setup" version_id="24" version_string="1.5.1"><![CDATA[<xen:comment>Load Quattro Integration JS files for 1.2</xen:comment>
+    <template title="tiny_quattro_js_setup" version_id="25" version_string="1.6.0"><![CDATA[<xen:comment>Load Quattro Integration JS files for 1.2</xen:comment>
 	<xen:if is="{$quattroIntegration}">
 		<xen:require js="js/sedo/tinyquattro/integration/retro_quickreply.js" />
 	</xen:if>
@@ -4378,7 +4378,7 @@ h6 { font-size: .75em; }
 <xen:edithint template="tiny_quattro_custom_buttons" />
 <xen:edithint template="tiny_quattro_iframe.css" />
 <xen:edithint template="tiny_quattro_framework.css" />]]></template>
-    <template title="tiny_quattro_params" version_id="24" version_string="1.5.1"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_params" version_id="25" version_string="1.6.0"><![CDATA[<xen:comment>
 	We are inside a JavaScript file. All phrases must be escaped
 </xen:comment>
 	<xen:comment>extend</xen:comment>
