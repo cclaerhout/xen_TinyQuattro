@@ -1,7 +1,7 @@
 /** @param {jQuery} $ jQuery Object */
-!function($, window, document, _undefined)
+!function($, window, document, undefined)
 {
-	if(typeof xenMCE === 'undefined') xenMCE = {};
+	if(typeof xenMCE === undefined) xenMCE = {};
 
 	xenMCE.BbCodeWysiwygEditor = function($editor) { 
 		var self = this;
@@ -9,16 +9,23 @@
 		setTimeout(function(){self.__construct($editor)}, 0);
 	};
 
-	/*Let's detect if MCE is loaded as soon as possible*/
-	if (typeof tinymce === 'undefined'){
-		xenMCE.lazyLoad = true;
-	}
+	/**
+	 *  Let's detect if MCE is loaded on dom ready
+	 *  Edit: let's also check if there's no RTE editor
+	 * 	 Reason: in some very unlikely occasions (two pages open using the lazyloader)
+	 *	 tinymce will be considered in the window... 
+	 **/
+	$(function() {
+		if (!window.tinymce || $('textarea.BbCodeWysiwygEditor').length == 0){
+			xenMCE.lazyLoad = 1;
+		}
+	});
 
 	xenMCE.BbCodeWysiwygEditor.prototype =
 	{
 		__construct: function($editor)
 		{
-			var 	editorId = $editor.attr('id'),
+			var editorId = $editor.attr('id'),
 				params = xenMCE.Params,
 				config = xenMCE.defaultConfig,
 				hasDraft = ($editor.data('auto-save-url')),
@@ -45,17 +52,20 @@
 			}
 
 			if (xenMCE.lazyLoad) {
-				console.info('MCE Lazyloader');
+				config.script_url = baseUrl+'js/sedo/tinyquattro/tinymce/tinymce.min.js';
+				console.info('MCE Lazyloader - Url: ', config.script_url);
 				
-				//The jQuery Mce Lazy Loader will not start if the script if found, let's trick him
-				if(typeof tinymce !== 'undefined'){
+				/**
+				 *  The jQuery Mce Lazy Loader will not start if the script if found, let's trick him
+				 *  Edit: but let's trick him only once... otherwise if a second overlay is loaded, it
+				 *  will fail
+				 **/
+				if(typeof tinymce !== undefined && xenMCE.lazyLoad == 1){
 					delete window['tinymce']
 				}
-				
-				xenMCE.lazyLoad = true;
+
+				xenMCE.lazyLoad ++;
 				loader = 'jquery';
-				config.script_url = baseUrl+'js/sedo/tinyquattro/tinymce/tinymce.min.js';
-				console.info('Mce JS location: '+config.script_url);
 			}else{
 				loader = 'mce';
 				config.selector = '#'+editorId;
@@ -83,4 +93,4 @@
 	
 	XenForo.register('textarea.BbCodeWysiwygEditor', 'xenMCE.BbCodeWysiwygEditor');
 }
-(jQuery, this, document);
+(jQuery, this, document, 'undefined');
