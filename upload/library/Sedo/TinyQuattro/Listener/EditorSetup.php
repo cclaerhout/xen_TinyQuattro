@@ -5,7 +5,7 @@ class Sedo_TinyQuattro_Listener_EditorSetup
 	{
 		$viewParams = $view->getParams();
 		$hash = $type = $id = '';
-		
+
 		if(!empty($viewParams['forum']['node_id']))
 		{
 			$type = 'newThread';
@@ -24,6 +24,20 @@ class Sedo_TinyQuattro_Listener_EditorSetup
 			$id = $viewParams['post']['post_id'];
 		}
 
+		if(!empty($viewParams['resource']))
+		{
+			if(!empty($viewParams['resource']['resource_id']))
+			{
+				$id = $viewParams['resource']['resource_id'];
+				$type = 'resource';
+			}
+			elseif(isset($viewParams['resource']['resource_category_id']))
+			{
+				$id = $viewParams['resource']['resource_category_id'];
+				$type = 'newResource';
+			}
+		}
+		
 		if(!empty($viewParams['attachmentParams']['hash']))
 		{
 			$hash = $viewParams['attachmentParams']['hash'];
@@ -45,3 +59,4 @@ class Sedo_TinyQuattro_Listener_EditorSetup
 		}
 	}
 }
+//Zend_Debug::dump($abc);

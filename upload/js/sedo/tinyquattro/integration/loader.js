@@ -25,6 +25,9 @@
 	{
 		__construct: function($editor)
 		{
+			//Let's mark the editor as failed by default, let's take back this after it has been loaded
+			$editor.show().after($('<input type="hidden" name="_xfRteFailed" value="1" />'));
+			
 			var editorId = $editor.attr('id'),
 				params = xenMCE.Params,
 				config = xenMCE.defaultConfig,
@@ -71,8 +74,39 @@
 				config.selector = '#'+editorId;
 			}
 
-			$editor.data('editorActivated', true).addClass('mceQuattro').show();
-	
+			/**
+			 *  Hook for setup config (The Javascript files will be executed after MCE is loaded)
+			 *  This hook can be extented with xenMCE.onSetup. Just create it before to call this 
+			 *  Javascript and push a function like below.
+			 **/
+			if(typeof xenMCE.onSetup === undefined) xenMCE.onSetup = [];
+			
+			var tagEditor = function tagEditor(ed){
+				ed.on('init', function(e) {
+					//Tag the textarea
+					$textarea = $(ed.getElement())
+							.data('editorActivated', true)
+							.addClass('mceQuattro')
+							.hide(); //Should not be needed
+					
+					//Remove the XenForo Failure detection
+					$textarea.siblings('input[name="_xfRteFailed"]').remove();
+					
+					//Display the editor
+					ed.show(); //Should not be needed
+				});
+			};
+			
+			xenMCE.onSetup.push(tagEditor);
+
+			config.setup = function(ed) {
+				$.each(xenMCE.onSetup, function(){
+					//Load all functions
+					this(ed);
+				});
+			};
+
+			//Loader selection
 			if(loader == 'jquery'){
 				$editor.tinymce(config);		
 			}else{
@@ -81,13 +115,6 @@
 			}
 			
 			console.info('XenForo editor %s, %o', editorId, $editor);
-		
-			setTimeout(function(){
-				if(!$editor.prev().hasClass('mce-tinymce')){
-					console.info('MCE failed');
-					$editor.show().after($('<input type="hidden" name="_xfRteFailed" value="1" />'));
-				}
-			}, 3000);	
 		}
 	};
 	

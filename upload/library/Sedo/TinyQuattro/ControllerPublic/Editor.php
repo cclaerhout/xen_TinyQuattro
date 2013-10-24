@@ -124,7 +124,7 @@ class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_Con
 	{
 		$id = filter_var($id, FILTER_VALIDATE_INT);
 
-		if(!in_array($type, array('newThread', 'newPost', 'edit')) || !$id)
+		if(!in_array($type, array('newThread', 'newPost', 'edit', 'resource', 'newResource')) || !$id)
 		{
 			return array();
 		}
@@ -179,7 +179,7 @@ class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_Con
 
 			if (!$this->_getForumModel()->canPostThreadInForum($forum, $errorPhraseKey))
 			{
-				//Not needed - just keep the same logic as above
+				//Just keep the same logic as above
 				return array();
 			}
 
@@ -190,6 +190,45 @@ class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_Con
 			), null, null, $attachmentHash);
 			
 			$attachments = !empty($attachmentParams['attachments']) ? $attachmentParams['attachments'] : array();
+		}
+		elseif($type == 'resource')
+		{
+			$resourceId = $id;
+			$attachmentHash = $hash;
+			
+			$fetchOptions = array('join' => XenResource_Model_Resource::FETCH_DESCRIPTION);
+
+			list($resource, $category) = $this->_getResourceHelper()->assertResourceValidAndViewable($resourceId, $fetchOptions);
+
+			if (!$this->_getResourceModel()->canEditResource($resource, $category, $errorPhraseKey))
+			{
+				return array();
+			}
+
+			$attachmentModel = $this->_getAttachmentModel();
+			$attachments = $attachmentModel->getAttachmentsByContentId('resource_update', $resource['description_update_id']);
+			$attachments = $attachmentModel->prepareAttachments($attachments);
+			
+			$tempAttachments = $attachmentModel->prepareAttachments(
+				$attachmentModel->getAttachmentsByTempHash($attachmentHash)
+			);
+			$attachments = array_merge($attachments, $tempAttachments);
+		}
+		elseif($type == 'newResource')
+		{
+			$categoryId = $id;
+			$attachmentHash = $hash;
+		
+			$category = $this->_getResourceHelper()->assertCategoryValidAndViewable($categoryId);
+			if (!$category['allowResource'])
+			{
+				return array();
+			}
+
+			$attachmentModel = $this->_getAttachmentModel();
+			$attachments = $attachmentModel->prepareAttachments(
+				$attachmentModel->getAttachmentsByTempHash($attachmentHash)
+			);
 		}
 
 		return $attachments;
@@ -217,6 +256,16 @@ class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_Con
 	protected function _getAttachmentModel()
 	{
 		return $this->getModelFromCache('XenForo_Model_Attachment');
+	}
+
+	protected function _getResourceModel()
+	{
+		return $this->getModelFromCache('XenResource_Model_Resource');
+	}
+
+	protected function _getResourceHelper()
+	{
+		return $this->getHelper('XenResource_ControllerHelper_Resource');
 	}
 }
 //Zend_Debug::dump($abc);
