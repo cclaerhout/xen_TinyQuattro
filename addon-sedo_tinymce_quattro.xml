@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.6.1" version_id="26" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.6.2" version_id="27" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -484,7 +484,7 @@ step=5</edit_format_params>
       <edit_format_params>0={xen:phrase no}
 1={xen:phrase yes}</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="600"/>
+      <relation group_id="tiny_quattro" display_order="60"/>
     </option>
     <option option_id="quattro_converter_bb_to_html" edit_format="onoff" data_type="boolean" can_backup="1">
       <default_value>0</default_value>
@@ -699,7 +699,13 @@ small={xen:phrase sedo_quattro_small}</edit_format_params>
       <edit_format_params>false={xen:phrase no}
 true={xen:phrase yes}</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="60"/>
+      <relation group_id="tiny_quattro" display_order="700"/>
+    </option>
+    <option option_id="quattro_retain_style_properties" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value>none</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="710"/>
     </option>
     <option option_id="quattro_smilies_desc" edit_format="select" data_type="string" can_backup="1">
       <default_value>full</default_value>
@@ -733,7 +739,7 @@ true={xen:phrase yes}</edit_format_params>
       <edit_format_params>0={xen:phrase no}
 1={xen:phrase yes}</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="700"/>
+      <relation group_id="tiny_quattro" display_order="4000"/>
     </option>
     <option option_id="quattro_wordcount" edit_format="select" data_type="string" can_backup="1">
       <default_value>words</default_value>
@@ -756,14 +762,14 @@ charwp={xen:phrase sedo_quattro_wordcount_characterswithwhitespaces}</edit_forma
       <edit_format_params>0={xen:phrase no}
 1={xen:phrase yes}</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="710"/>
+      <relation group_id="tiny_quattro" display_order="4010"/>
     </option>
     <option option_id="quattro_xenpaste_dataimg_upload" edit_format="radio" data_type="boolean" can_backup="1">
       <default_value>0</default_value>
       <edit_format_params>0={xen:phrase no}
 1={xen:phrase yes}</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="730"/>
+      <relation group_id="tiny_quattro" display_order="4030"/>
     </option>
     <option option_id="quattro_xsmilies" edit_format="spinbox" data_type="integer" can_backup="1">
       <default_value>12</default_value>
@@ -897,6 +903,8 @@ This patch is enable by default.]]></phrase>
  This patch is enable by default.]]></phrase>
     <phrase title="option_quattro_paste_as_text" version_id="6" version_string="1.0.6"><![CDATA[Plain text mode by default]]></phrase>
     <phrase title="option_quattro_paste_as_text_explain" version_id="6" version_string="1.0.6"><![CDATA[Select this option if you want to activate by default the plain text mode when a user pastes a text inside the editor. He will be able to enable it again if you have inserted the plain text button inside the buttons bar.]]></phrase>
+    <phrase title="option_quattro_retain_style_properties" version_id="26" version_string="1.6.1"><![CDATA[Paste - Retain style properties]]></phrase>
+    <phrase title="option_quattro_retain_style_properties_explain" version_id="26" version_string="1.6.1"><![CDATA[Comma separated list of style properties to retain during the paste operation from Word. For example: "font-size,color". If you want to remove all style properties use an empty string "" or "none", false will cause an error in IE. If you want to keep all style properties, use "all" or "*". Default is "none".]]></phrase>
     <phrase title="option_quattro_smilies_desc" version_id="12" version_string="1.1.5"><![CDATA[Smilies description]]></phrase>
     <phrase title="option_quattro_smilies_desc_explain" version_id="12" version_string="1.1.5"><![CDATA[Choose what kind of description should be displayed on mouse over.]]></phrase>
     <phrase title="option_quattro_smilies_slider" version_id="3" version_string="1.0.3"><![CDATA[[Modal button] Use the smilies slider ?]]></phrase>
@@ -932,11 +940,12 @@ Default value: "no".]]></phrase>
 <br />
 Default: no.]]></phrase>
     <phrase title="option_quattro_xenpaste_dataimg_upload" version_id="21" version_string="1.4.1"><![CDATA[XenForo paste & upload image integration]]></phrase>
-    <phrase title="option_quattro_xenpaste_dataimg_upload_explain" version_id="21" version_string="1.4.1"><![CDATA[<b>Requires XenForo 1.2 or above</b> - This option will activate theXenForo paste & upload image function for TinyMCE. How does  it work: when you copy an image on your computer (ctrl+c) then paste it (ctrl+v) inside the editor, the image will be displayed (by default TinyMCE prevents local images to be displayed) and uploaded.<br />
+    <phrase title="option_quattro_xenpaste_dataimg_upload_explain" version_id="26" version_string="1.6.1"><![CDATA[<b>Requires XenForo 1.2 or above</b> - This option will activate theXenForo paste & upload image function for TinyMCE. How does  it work: when you copy an image on your computer (ctrl+c) then paste it (ctrl+v) inside the editor, the image will be displayed (by default TinyMCE prevents local images to be displayed) and uploaded.<br />
 .<br />
 This function doesn't work if the paste mode "plain text" is enable.<br />
 <br />
-Default: no.]]></phrase>
+Default: no.<br />
+Information: only works with Firefox at the moment.]]></phrase>
     <phrase title="option_quattro_xsmilies" version_id="3" version_string="1.0.3"><![CDATA[[Menu button] Number of smilies?]]></phrase>
     <phrase title="option_quattro_xsmilies_explain" version_id="0" version_string="1.0"><![CDATA[Select here the number of smilies you would like to display in the button menu. Set 0 if you want to display all of them.]]></phrase>
     <phrase title="option_quattro_xsmilies_slide" version_id="3" version_string="1.0.3"><![CDATA[[Slider Smilies] Number of smilies per slide?]]></phrase>
@@ -2010,18 +2019,18 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 			<p class="hint">{xen:phrase quattro_rte_mobile_explain}</p>
 		</label>
 	</li>]]></template>
-    <template title="tiny_quattro_buttons.css" version_id="22" version_string="1.4.2"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_buttons.css" version_id="26" version_string="1.6.1"><![CDATA[<xen:comment>
 	TINYMCE BUTTONS FOR ALL BROWSERS EXCEPT IE7
 </xen:comment>
 
 @font-face
 {
 	font-family:'tinymce';
-	src:url('styles/sedo/tinyquattro/fonts/icomoon.eot');
-	src:	url('styles/sedo/tinyquattro/fonts/icomoon.eot?#iefix') format('embedded-opentype'),
-		url('styles/sedo/tinyquattro/fonts/icomoon.svg#icomoon') format('svg'),
-		url('styles/sedo/tinyquattro/fonts/icomoon.woff') format('woff'),
-		url('styles/sedo/tinyquattro/fonts/icomoon.ttf') format('truetype');
+	src:url('styles/sedo/tinyquattro/fonts/tinymce.eot');
+	src:	url('styles/sedo/tinyquattro/fonts/tinymce.eot?#iefix') format('embedded-opentype'),
+		url('styles/sedo/tinyquattro/fonts/tinymce.svg#icomoon') format('svg'),
+		url('styles/sedo/tinyquattro/fonts/tinymce.woff') format('woff'),
+		url('styles/sedo/tinyquattro/fonts/tinymce.ttf') format('truetype');
 	font-weight:normal;
 	font-style:normal;
 }
@@ -2029,11 +2038,11 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 @font-face
 {
 	font-family:'tinymce-small';
-	src:url('styles/sedo/tinyquattro/fonts/icomoon-small.eot');
-	src:	url('styles/sedo/tinyquattro/fonts/icomoon-small.eot?#iefix') format('embedded-opentype'),
-		url('styles/sedo/tinyquattro/fonts/icomoon-small.svg#icomoon') format('svg'),
-		url('styles/sedo/tinyquattro/fonts/icomoon-small.woff') format('woff'),
-		url('styles/sedo/tinyquattro/fonts/icomoon-small.ttf') format('truetype');
+	src:url('styles/sedo/tinyquattro/fonts/tinymce-small.eot');
+	src:	url('styles/sedo/tinyquattro/fonts/tinymce-small.eot?#iefix') format('embedded-opentype'),
+		url('styles/sedo/tinyquattro/fonts/tinymce-small.svg#icomoon') format('svg'),
+		url('styles/sedo/tinyquattro/fonts/tinymce-small.woff') format('woff'),
+		url('styles/sedo/tinyquattro/fonts/tinymce-small.ttf') format('truetype');
 	font-weight:normal;
 	font-style:normal;
 }
@@ -2350,32 +2359,32 @@ i.mce-i-backcolor
 	background: {xen:property tinyquattro_icon_bckg_color};
 }
 ]]></template>
-    <template title="tiny_quattro_buttons_ie7.css" version_id="22" version_string="1.4.2"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_buttons_ie7.css" version_id="26" version_string="1.6.1"><![CDATA[<xen:comment>
 	TINYMCE BUTTONS FOR IE7
 </xen:comment>
 
 @font-face
 {
 	font-family:'tinymce';
-	src:url('styles/sedo/tinyquattro/fonts/icomoon.eot');
-	src:	url('styles/sedo/tinyquattro/fonts/icomoon.eot?#iefix') format('embedded-opentype'),
-		url('styles/sedo/tinyquattro/fonts/icomoon.svg#icomoon') format('svg'),
-		url('styles/sedo/tinyquattro/fonts/icomoon.woff') format('woff'),
-		url('styles/sedo/tinyquattro/fonts/icomoon.ttf') format('truetype');
+	src:url('styles/sedo/tinyquattro/fonts/tinymce.eot');
+	src:	url('styles/sedo/tinyquattro/fonts/tinymce.eot?#iefix') format('embedded-opentype'),
+		url('styles/sedo/tinyquattro/fonts/tinymce.svg#icomoon') format('svg'),
+		url('styles/sedo/tinyquattro/fonts/tinymce.woff') format('woff'),
+		url('styles/sedo/tinyquattro/fonts/tinymce.ttf') format('truetype');
 	font-weight:normal;
-	font-style:normal
+	font-style:normal;
 }
 
 @font-face
 {
 	font-family:'tinymce-small';
-	src:url('styles/sedo/tinyquattro/fonts/icomoon-small.eot');
-	src:	url('styles/sedo/tinyquattro/fonts/icomoon-small.eot?#iefix') format('embedded-opentype'),
-		url('styles/sedo/tinyquattro/fonts/icomoon-small.svg#icomoon') format('svg'),
-		url('styles/sedo/tinyquattro/fonts/icomoon-small.woff') format('woff'),
-		url('styles/sedo/tinyquattro/fonts/icomoon-small.ttf') format('truetype');
+	src:url('styles/sedo/tinyquattro/fonts/tinymce-small.eot');
+	src:	url('styles/sedo/tinyquattro/fonts/tinymce-small.eot?#iefix') format('embedded-opentype'),
+		url('styles/sedo/tinyquattro/fonts/tinymce-small.svg#icomoon') format('svg'),
+		url('styles/sedo/tinyquattro/fonts/tinymce-small.woff') format('woff'),
+		url('styles/sedo/tinyquattro/fonts/tinymce-small.ttf') format('truetype');
 	font-weight:normal;
-	font-style:normal
+	font-style:normal;
 }
 
 .mce-ico
@@ -2577,7 +2586,7 @@ i.mce-i-backcolor
 
 
 ]]></template>
-    <template title="tiny_quattro_common_css.css" version_id="23" version_string="1.5.0"><![CDATA[<xen:set var="$_mcePrimaryDark">{xen:property quattroDark}</xen:set>
+    <template title="tiny_quattro_common_css.css" version_id="26" version_string="1.6.1"><![CDATA[<xen:set var="$_mcePrimaryDark">{xen:property quattroDark}</xen:set>
 <xen:set var="$_mcePrimaryLightish">{xen:property quattroLightish}</xen:set>
 <xen:set var="$_mcePrimaryLight">{xen:property quattroLight}</xen:set>
 <xen:set var="$_mcePrimaryLighter">{xen:property quattroLighter}</xen:set>
@@ -3119,7 +3128,7 @@ body .mce-abs-layout-item,.mce-abs-end {
 	margin-left:-14px
 }
 .mce-tooltip-n .mce-tooltip-arrow {
-	top:0px;
+	top:0;
 	left:50%;
 	margin-left:-5px;
 	border-bottom-style:solid;
@@ -3302,21 +3311,21 @@ body .mce-abs-layout-item,.mce-abs-end {
 	margin-top:2px
 }
 .mce-btn-small button {
-	padding:3px 5px;
+	padding:1px 5px;
 	font-size:12px;
-	line-height:15px
+	*padding-bottom:2px
 }
 .mce-btn-small i {
-	margin-top:0
+	line-height:20px;
+	vertical-align:top;
+	*line-height:18px
 }
 .mce-btn .mce-caret {
 	margin-top:8px;
-	*margin-top:6px;
 	margin-left:0
 }
 .mce-btn-small .mce-caret {
-	margin-top:6px;
-	*margin-top:4px;
+	margin-top:8px;
 	margin-left:0
 }
 .mce-caret {
@@ -3432,7 +3441,7 @@ i.mce-i-checkbox {
 	overflow:hidden
 }
 .mce-colorbutton.mce-btn-small .mce-preview {
-	margin-left:-17px;
+	margin-left:-16px;
 	padding-right:0;
 	width:16px
 }
@@ -3445,13 +3454,16 @@ i.mce-i-checkbox {
 	border-left-color:{$_mcePrimaryLighter};
 	border-right-color:{$_mcePrimaryLighter}
 }
+.mce-colorbutton.mce-btn-small .mce-open {
+	padding:0 3px 0 3px
+}
 .mce-rtl .mce-colorbutton {
 	direction:rtl
 }
 .mce-rtl .mce-colorbutton .mce-preview {
 	margin-left:0;
 	padding-right:0;
-	padding-left:3px;
+	padding-left:4px;
 	margin-right:-14px
 }
 .mce-rtl .mce-colorbutton.mce-btn-small .mce-preview {
@@ -3649,8 +3661,6 @@ i.mce-i-checkbox {
 }
 .mce-menubtn.mce-btn-small span {
 	font-size:12px;
-	line-height:15px;
-	*line-height:16px
 }
 .mce-menubtn.mce-fixed-width span {
 	display:inline-block;
@@ -3660,6 +3670,9 @@ i.mce-i-checkbox {
 }
 .mce-menubtn.mce-fixed-width.mce-btn-small span {
 	width:70px
+}
+.mce-menubtn .mce-caret {
+	*margin-top:6px
 }
 .mce-rtl .mce-menubtn button {
 	direction:rtl;
@@ -3867,6 +3880,9 @@ i.mce-i-resize {
 	-webkit-box-shadow:inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
 	-moz-box-shadow:inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
 	box-shadow:inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05)
+}
+.mce-splitbtn.mce-btn-small .mce-open {
+	padding:0 3px 0 3px
 }
 .mce-rtl .mce-splitbtn {
 	direction:rtl;
@@ -4301,7 +4317,7 @@ h6 { font-size: .75em; }
 		</xen:if>
 	</xen:foreach>
 </xen:if>]]></template>
-    <template title="tiny_quattro_js_setup" version_id="25" version_string="1.6.0"><![CDATA[<xen:comment>Load Quattro Integration JS files for 1.2</xen:comment>
+    <template title="tiny_quattro_js_setup" version_id="26" version_string="1.6.1"><![CDATA[<xen:comment>Load Quattro Integration JS files for 1.2</xen:comment>
 	<xen:if is="{$quattroIntegration}">
 		<xen:require js="js/sedo/tinyquattro/integration/retro_quickreply.js" />
 	</xen:if>
@@ -4362,11 +4378,13 @@ h6 { font-size: .75em; }
 		autosave_retention: '{$xenOptions.quattro_autosave_retention}m',
 		autosave_restore_when_empty: {$xenOptions.quattro_autosave_autorestore},
 		directionality: '{$visitorLanguage.text_direction}',<xen:comment>Must be set by a BM</xen:comment>
-		document_base_url: "{xen:jsescape $requestPaths.fullBasePath}",	
+		document_base_url: '{xen:jsescape $requestPaths.fullBasePath}',	
 		autosave_ask_before_unload: {$xenOptions.quattro_autosave_ask_before_unload},
 		paste_as_text: {$xenOptions.quattro_paste_as_text},
 		font_size_legacy_values: "9px,10px,12px,15px,18px,22px,26px",
 		statusbar: {$xenOptions.quattro_statusbar},
+		paste_data_images: true,
+		paste_retain_style_properties: '{xen:jsescape $xenOptions.quattro_retain_style_properties}',
 		contextmenu: "xen_link inserttable | cell row column xen_tableskin deletetable",
 		xen_attach: "{$editorOptions.sedo_quattro.attach.type},{$editorOptions.sedo_quattro.attach.id},{$editorOptions.sedo_quattro.attach.hash}",
 		<xen:include template="tiny_quattro_grid" />
