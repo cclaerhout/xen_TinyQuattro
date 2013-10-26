@@ -5,7 +5,7 @@ tinymce.create('tinymce.plugins.xen_paste_img',
 	{
 		this.editor = editor;
 		var self = this;
-
+		
 		editor.on('PastePreProcess', function(e){
 			self.$textarea = $(editor.getElement());
 			self.$container = $(editor.getContainer());
@@ -40,10 +40,6 @@ tinymce.create('tinymce.plugins.xen_paste_img',
 					'style':'-x-ignore: 1'
 				});
 
-			
-			//Raz
-			e.content = '';
-			
 			editor.selection.setNode(el);
 
 			self.uploadPastedImage(pasteId, matches[1], matches[3], matches[2]);

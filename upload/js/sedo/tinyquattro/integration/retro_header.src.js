@@ -64,15 +64,18 @@
 		 * Let's find if one of the message editors or bbCode editors 
 		 * belongs to the $lastFocusedElement
 		 **/
-		if($lastFocusedElement && $lastFocusedElement.length){
+		var safeCheck = $lastFocusedElement.get(0);
+
+		if($lastFocusedElement && typeof safeCheck.id !== 'undefined'){
 			var validFocus = false;
+
 			$allEditors.each(function(){
-				if($(this).attr('id') == $lastFocusedElement.attr('id')){
+				if($(this).attr('id') == safeCheck.id){
 					validFocus = $(this);
 					return;
 				}
 			});
-			
+
 			if(validFocus) {
 				/**
 				 *	The lastFocusedElement is valid
@@ -84,7 +87,7 @@
 				return validFocus;
 			}
 		}
-	
+
 		/**
 		 * MCE Section
 		 **/		

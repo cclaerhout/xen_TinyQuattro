@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.6.2" version_id="27" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.6.3" version_id="28" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -511,6 +511,12 @@ true={xen:phrase yes}</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="50"/>
     </option>
+    <option option_id="quattro_extended_insert" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="5020"/>
+    </option>
     <option option_id="quattro_extra_bbcodes" edit_format="checkbox" data_type="array" can_backup="1">
       <default_value></default_value>
       <edit_format_params>bcolor={xen:phrase sedo_quattro_extra_bbcodes_bcolor}
@@ -836,6 +842,8 @@ This patch is enable by default.]]></phrase>
     <phrase title="option_quattro_disable_on_mobiles_explain" version_id="1" version_string="1.0.1"><![CDATA[This will disable TinyMCE 4 on mobile devices and will load your forum default editor.]]></phrase>
     <phrase title="option_quattro_enable_browser_spellcheck" version_id="6" version_string="1.0.6"><![CDATA[Enable browser spellcheck?]]></phrase>
     <phrase title="option_quattro_enable_browser_spellcheck_explain" version_id="6" version_string="1.0.6"><![CDATA[With TinyMCE the browser spellcheck is disabled by default. If you want to activate it, select yes.]]></phrase>
+    <phrase title="option_quattro_extended_insert" version_id="27" version_string="1.6.2"><![CDATA[Extend MCE insert command?]]></phrase>
+    <phrase title="option_quattro_extended_insert_explain" version_id="27" version_string="1.6.2"><![CDATA[This option will extend the default TinyMCE command to force the editor to scroll down to the bottom of the inserted element and to resize the editor if needed. This option is disable by default.]]></phrase>
     <phrase title="option_quattro_extracolors" version_id="0" version_string="1.0"><![CDATA[Enable extra colors?]]></phrase>
     <phrase title="option_quattro_extracolors_explain" version_id="0" version_string="1.0"><![CDATA[This option will add a menu to the colors buttons (frontcolor/backcolor) to load a color picker.]]></phrase>
     <phrase title="option_quattro_extralists" version_id="0" version_string="1.0"><![CDATA[Enable extra lists?]]></phrase>
@@ -4033,7 +4041,7 @@ i.mce-i-resize {
 <xen:include template="tiny_quattro_xenbuttons_ie7.css" />
 
 <xen:edithint template="tiny_quattro_iframe.css" />]]></template>
-    <template title="tiny_quattro_framework.css" version_id="20" version_string="1.4.0"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_framework.css" version_id="27" version_string="1.6.2"><![CDATA[<xen:comment>
 	XenForo Framework addons
 </xen:comment>
 
@@ -4169,7 +4177,12 @@ i.mce-i-resize {
 
 	.mce-tinymce .quattro_editor_drop.hover {
 		display: block;
-	}]]></template>
+	}
+	
+<xen:comment>Fullscreen</xen:comment>
+.mce-fullscreen{
+	overflow:hidden !important;
+}]]></template>
     <template title="tiny_quattro_grid" version_id="23" version_string="1.5.0"><![CDATA[<xen:if is="{$quattroGrid}">
 	<xen:foreach loop="$quattroGrid" value="$buttons" key="$key">toolbar{$key}: "{$buttons}", </xen:foreach>
 <xen:else />
@@ -4396,7 +4409,7 @@ h6 { font-size: .75em; }
 <xen:edithint template="tiny_quattro_custom_buttons" />
 <xen:edithint template="tiny_quattro_iframe.css" />
 <xen:edithint template="tiny_quattro_framework.css" />]]></template>
-    <template title="tiny_quattro_params" version_id="25" version_string="1.6.0"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_params" version_id="27" version_string="1.6.2"><![CDATA[<xen:comment>
 	We are inside a JavaScript file. All phrases must be escaped
 </xen:comment>
 	<xen:comment>extend</xen:comment>
@@ -4405,6 +4418,7 @@ h6 { font-size: .75em; }
 	extraColors: {$xenOptions.quattro_extracolors},
 	extraLists: {$xenOptions.quattro_extralists},
 	hidePath: {$xenOptions.quattro_hidepath},
+	extendInsert: {$xenOptions.quattro_extended_insert},
 	geckoFullfix: {$xenOptions.quattro_geckofullfix},
 	overlayDefaultSize: { w: 320, h: 240 },
 	overlayColorPickerSize: { w: 450, h: 265 },

@@ -1277,8 +1277,8 @@
 	*	jQueryTools Fix Plugin for XenForo overlays
 	*	Independent plugin
 	***/
-	tinymce.create(xenPlugin+'.jQueryToolsFix', {
-		jQueryToolsFix: function(parent) 
+	tinymce.create(xenPlugin+'.quirks', {
+		quirks: function(parent) 
 		{
 			var ed = parent.getEditor(), settings = xenMCE.Params, inlineEd = 'InlineMessageEditor';
 
@@ -1290,6 +1290,77 @@
 				}
 			});
 
+			/* 2013/10/26: Extend the behaviour of mceInsertContent command to go the to bottom of the inserted object (optional) */
+			ed.on('BeforeSetContent', function(e)
+			{
+				if(!settings.extendInsert)
+					return;
+				
+				function contentIsImg(content)
+				{
+					var regex = /^(?:[\s]+)?<img[^>]*?\/>(?:[\s]+)?$/;
+					return regex.test(content);
+				}
+				
+				function tagImgClass(content)
+				{
+					var regex = /(class="[^"]+?(?="))/;
+					
+					if(regex.test(content)){
+						content = content.replace(regex, '$1 '+uniqid);				
+					}else{
+						content = content.replace(/(<img)/, '$1 class="'+uniqid+'" ');
+					}
+					
+					return content;
+				}
+
+				var uniqid = 'tmp_'+(new Date().getTime()).toString(16);
+				
+				if(contentIsImg(e.content)){
+					e.content = tagImgClass(e.content);
+				}
+
+				ed.on('ExecCommand', function(e) { 
+					var cmd = e.command;
+					
+					if(cmd != 'mceInsertContent')
+						return;
+						
+					var bm = ed.selection.getBookmark(),
+						$iframeBody = $(ed.getBody()),
+						$bm = $iframeBody.find('#'+bm.id+'_start'),
+						top = $bm.offset().top,
+						$iframeHtml = $iframeBody.parent().add($iframeBody);//crossbrowsers
+	
+					ed.selection.moveToBookmark(bm);
+	
+					if(!$bm.length)
+						return;
+	
+					var content = e.value;
+
+					if(!contentIsImg(content)){
+						$iframeHtml.scrollTop(top);
+						ed.execCommand('mceAutoResize', false, e);
+					}else{
+						$iframeBody.find('img.'+uniqid).one('load', function(e) {
+							ed.execCommand('mceAutoResize', false, e);
+
+							var $img = $(this),
+								offset = $img.offset(),
+								top = offset.top + $img.height();
+		
+							$img.removeClass(uniqid);
+							$iframeHtml.scrollTop(top);
+						});
+					}
+				});
+			});
+			
+			/**
+			 * The below quirks are only for XenForo 1.1.x
+			 */
 			if(!parent.isOldXen){
 				return false;
 			}
