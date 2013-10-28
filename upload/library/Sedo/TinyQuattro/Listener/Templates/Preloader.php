@@ -36,7 +36,7 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 					break;
 				}
 				
-				$bbmShowWysiwyg = self::_showWysiwyg();
+				$bbmShowWysiwyg = self::_showWysiwyg($params['showWysiwyg']);
 				$xenShowWysiwyg = $params['showWysiwyg'];
 				
 				$params += array(
@@ -132,24 +132,20 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 		return $plugins;
 	}
 	
-	protected static function _showWysiwyg()
+	protected static function _showWysiwyg($showWysiwyg)
 	{
 		$options = XenForo_Application::get('options');
-		$visitor = XenForo_Visitor::getInstance();
-		$isMobile = XenForo_Visitor::isBrowsingWith('mobile');
  
 		if($options->quattro_parser_bypass_mobile_limit)
 		{
+			$visitor = XenForo_Visitor::getInstance();
+			$isMobile = XenForo_Visitor::isBrowsingWith('mobile');
 			$showWysiwyg = true;
 			
 			if($isMobile && $options->quattro_parser_mobile_user_option && !$visitor->quattro_rte_mobile)
 			{
 				$showWysiwyg = false;			
 			}
-		}
-		else
-		{
-			$showWysiwyg = !$isMobile;
 		}
 
 		return $showWysiwyg;
