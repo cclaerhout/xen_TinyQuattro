@@ -1,4 +1,4 @@
-!function($, window, document, _undefined)
+!function($, window, document, undefined)
 {
 	/**************************************************************************
 			OVERRIDE THE JQUERY FUNCTIONS TO MATCH WITH TINYMCE
@@ -64,27 +64,27 @@
 		 * Let's find if one of the message editors or bbCode editors 
 		 * belongs to the $lastFocusedElement
 		 **/
-		var safeCheck = $lastFocusedElement.get(0);
-
-		if($lastFocusedElement && typeof safeCheck.id !== 'undefined'){
-			var validFocus = false;
-
-			$allEditors.each(function(){
-				if($(this).attr('id') == safeCheck.id){
-					validFocus = $(this);
-					return;
+		if($lastFocusedElement && typeof $lastFocusedElement !== undefined){
+			var safeCheck = $lastFocusedElement.get(0), validFocus = false;
+			if(typeof safeCheck.id !== undefined)
+			{
+				$allEditors.each(function(){
+					if($(this).attr('id') == safeCheck.id){
+						validFocus = $(this);
+						return;
+					}
+				});
+	
+				if(validFocus) {
+					/**
+					 *	The lastFocusedElement is valid
+					 *	Let's focus it again if users need to insert several attachments
+					 *	Then let's return it
+					 **/
+					validFocus.focus();
+					//console.log('Editor from focus');
+					return validFocus;
 				}
-			});
-
-			if(validFocus) {
-				/**
-				 *	The lastFocusedElement is valid
-				 *	Let's focus it again if users need to insert several attachments
-				 *	Then let's return it
-				 **/
-				validFocus.focus();
-				//console.log('Editor from focus');
-				return validFocus;
 			}
 		}
 
@@ -111,7 +111,7 @@
 				/*With old browser it could be possible that the activeEditor is lost (not sure)*/
 				var messageEditorId = $messageEditor.attr('id');
 				if(	messageEditorId 
-					&& typeof tinyMCE.editors[messageEditorId] !== 'undefined'
+					&& typeof tinyMCE.editors[messageEditorId] !== undefined
 					&& !$messageEditor.attr('disabled')
 				)
 				{
@@ -231,7 +231,7 @@
 				if (attachmentId)
 				{
 					var editor = XenForo.getEditorInForm($trigger.closest('form'), ':not(.NoAttachment)', false, true);
-					if (typeof editor.getBody() !== 'undefined')
+					if (typeof editor.getBody() !== undefined)
 					{
 						$(editor.getBody()).find('img[alt=attachFull' + attachmentId + '], img[alt=attachThumb' + attachmentId + ']').remove(); //TODO
 					}
@@ -244,4 +244,4 @@
 		});
 	};
 }
-(jQuery, this, document);
+(jQuery, this, document, 'undefined');
