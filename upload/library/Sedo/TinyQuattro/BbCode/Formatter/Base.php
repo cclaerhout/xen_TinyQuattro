@@ -95,6 +95,39 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 	}
 
 	/**
+	 * Extend XenForo filterString function to add an option to recreate tabs in html
+	 */
+	public function filterString($string, array $rendererStates)
+	{
+		$string = parent::filterString($string, $rendererStates);
+
+		if(XenForo_Application::get('options')->get('quattro_emulate_tabs_html'))
+		{
+			$string = $this->emulateWhiteSpace($string);
+		}
+
+		return $string;		
+	}
+	
+	public function emulateWhiteSpace($string)
+	{
+		return preg_replace_callback(
+			'#[\t]+#', 
+			array($this, '_emulateWhiteSpaceRegexCallback'), 
+			$string
+		);
+	}
+	
+	protected function _emulateWhiteSpaceRegexCallback($matches)
+	{
+		$breaksX = substr_count($matches[0], "\t");
+		$breakPattern = '    ';
+		$breakOutput = str_repeat($breakPattern, $breaksX);
+					
+		return "<span style='white-space:pre'>{$breakOutput}</span>";	
+	}
+	
+	/**
 	 * Extend XenForo Tag align to add jystify option
 	 */
 	public function renderTagAlign(array $tag, array $rendererStates)
