@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.6.4" version_id="31" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.6.3.2" version_id="30" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -504,12 +504,6 @@ step=5</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="5000"/>
     </option>
-    <option option_id="quattro_emulate_tabs_html" edit_format="onoff" data_type="boolean" can_backup="1">
-      <default_value>0</default_value>
-      <edit_format_params></edit_format_params>
-      <sub_options></sub_options>
-      <relation group_id="tiny_quattro_paser" display_order="930"/>
-    </option>
     <option option_id="quattro_enable_browser_spellcheck" edit_format="radio" data_type="string" can_backup="1">
       <default_value>false</default_value>
       <edit_format_params>false={xen:phrase no}
@@ -846,8 +840,6 @@ This patch is disabled by default. Reason:  its code is quite "acrobatic". On th
 This patch is enable by default.]]></phrase>
     <phrase title="option_quattro_disable_on_mobiles" version_id="1" version_string="1.0.1"><![CDATA[Disable on mobile devices?]]></phrase>
     <phrase title="option_quattro_disable_on_mobiles_explain" version_id="1" version_string="1.0.1"><![CDATA[This will disable TinyMCE 4 on mobile devices and will load your forum default editor.]]></phrase>
-    <phrase title="option_quattro_emulate_tabs_html" version_id="30" version_string="1.6.3.2"><![CDATA[Emulate tabs in html?]]></phrase>
-    <phrase title="option_quattro_emulate_tabs_html_explain" version_id="30" version_string="1.6.3.2"><![CDATA[This function will emulate tabs in html by finding them in the raw text, wrapping them with a span tag which has the css property "white-space' set on "pre". This will only work for text not embedded inside Bb Codes (done on purpose).]]></phrase>
     <phrase title="option_quattro_enable_browser_spellcheck" version_id="6" version_string="1.0.6"><![CDATA[Enable browser spellcheck?]]></phrase>
     <phrase title="option_quattro_enable_browser_spellcheck_explain" version_id="6" version_string="1.0.6"><![CDATA[With TinyMCE the browser spellcheck is disabled by default. If you want to activate it, select yes.]]></phrase>
     <phrase title="option_quattro_extended_insert" version_id="27" version_string="1.6.2"><![CDATA[Extend MCE insert command?]]></phrase>
@@ -4338,7 +4330,7 @@ h6 { font-size: .75em; }
 		</xen:if>
 	</xen:foreach>
 </xen:if>]]></template>
-    <template title="tiny_quattro_js_setup" version_id="30" version_string="1.6.3.2"><![CDATA[<xen:comment>Load Quattro Integration JS files for 1.2</xen:comment>
+    <template title="tiny_quattro_js_setup" version_id="26" version_string="1.6.1"><![CDATA[<xen:comment>Load Quattro Integration JS files for 1.2</xen:comment>
 	<xen:if is="{$quattroIntegration}">
 		<xen:require js="js/sedo/tinyquattro/integration/retro_quickreply.js" />
 	</xen:if>
@@ -4711,4 +4703,22 @@ $0]]></replace>
     </modification>
   </public_template_modifications>
   <bb_code_media_sites/>
+  <template_modifications>
+    <modification title="RTE Quattro Mobile Option" template_title="account_preferences" execute_order="10" modification_type="preg_replace" callback_class="" callback_method="" description="User field" version_id="4" version_string="1.0.4" active="1">
+      <search_value><![CDATA[#([ \t]*)<li>.+?ctrl_enable_rte(?s).+?</li>#i]]></search_value>
+      <replace_value><![CDATA[$1<xen:if is="{$xenOptions.quattro_parser_mobile_user_option}">
+$1<xen:include template="quattro_mobile_user_option"></xen:include>
+$1</xen:if>
+$0]]></replace_value>
+    </modification>
+    <modification title="tiny_quattro_js_setup" template_title="editor" execute_order="10" modification_type="str_replace" callback_class="" callback_method="" description="TinyMCE Quattro Setup" version_id="1" version_string="1.0.1" active="1">
+      <search_value><![CDATA[<xen:include template="editor_js_setup" />]]></search_value>
+      <replace_value><![CDATA[	<xen:if is="{$loadQuattro}">
+		<xen:include template="tiny_quattro_js_setup" />
+	<xen:else />
+		<xen:include template="editor_js_setup" />
+	</xen:if>
+]]></replace_value>
+    </modification>
+  </template_modifications>
 </addon>
