@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.6.4" version_id="31" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.6.4.1" version_id="32" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -1249,7 +1249,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <property property_name="quattro_table_skin4_caption" property_type="css" definition="1" group_name="sedo_tinyquattro_table_2" title="[Skin 4] Caption" description="Default style for the caption html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="2080" sub_group=""><![CDATA[[]]]></property>
     <property property_name="quattro_table_skin_default" property_type="scalar" definition="1" group_name="sedo_tinyquattro_table_1" title="Default Table skin" description="Choose here the default skin for your table." css_components="" scalar_type="template" scalar_parameters="style_property_unit_quattro_table" display_order="10" sub_group=""><![CDATA[skin1]]></property>
     <property property_name="tinyquattro_css_integration" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="XenForo Style Properties Integration" description="This addon has some TinyMCE css integrated with the XenForo Properties.If you prefer to use the MCE direct css files, uncheck this option. The style properties of this page will not work anymore." css_components="" scalar_type="boolean" scalar_parameters="" display_order="10" sub_group="global"><![CDATA[1]]></property>
-    <property property_name="tinyquattro_css_skin" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="TinyMCE skin name" description="Only works if the above option is unchecked. Default skin name: lightgray  (must match the foldername of the skin). You can create another skin with the TinyMCE skin creator tool (http://skin.tinymce.com)." css_components="" scalar_type="" scalar_parameters="" display_order="30" sub_group="global"><![CDATA[ lightgray]]></property>
+    <property property_name="tinyquattro_css_skin" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="TinyMCE skin name" description="Only works if the above option is unchecked. Default skin name: lightgray  (must match the foldername of the skin). You can create another skin with the TinyMCE skin creator tool (http://skin.tinymce.com)." css_components="" scalar_type="" scalar_parameters="" display_order="30" sub_group="global"><![CDATA[lightgray]]></property>
     <property property_name="quattroDark" property_type="scalar" definition="1" group_name="color" title="quattroDark" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="27800001" sub_group="quattro"><![CDATA[@primaryDark]]></property>
     <property property_name="quattroLighterStill" property_type="scalar" definition="1" group_name="color" title="quattroLighterStill" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="27800006" sub_group="quattro"><![CDATA[@primaryLighterStill]]></property>
     <property property_name="quattroLightish" property_type="scalar" definition="1" group_name="color" title="quattroLightish" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="27800003" sub_group="quattro"><![CDATA[@primaryLightish]]></property>
@@ -4338,7 +4338,7 @@ h6 { font-size: .75em; }
 		</xen:if>
 	</xen:foreach>
 </xen:if>]]></template>
-    <template title="tiny_quattro_js_setup" version_id="30" version_string="1.6.3.2"><![CDATA[<xen:comment>Load Quattro Integration JS files for 1.2</xen:comment>
+    <template title="tiny_quattro_js_setup" version_id="31" version_string="1.6.4"><![CDATA[<xen:comment>Load Quattro Integration JS files for 1.2</xen:comment>
 	<xen:if is="{$quattroIntegration}">
 		<xen:require js="js/sedo/tinyquattro/integration/retro_quickreply.js" />
 	</xen:if>
@@ -4381,7 +4381,7 @@ h6 { font-size: .75em; }
 	xenMCE.defaultConfig = {
 		theme: "modern",
 		language: "xen",
-		skin: {xen:if "{xen:property tinyquattro_css_integration}", "false", "'{xen:property tinyquattro_css_skin}'"},
+		skin: {xen:if "{xen:property tinyquattro_css_integration}", "false", "'{xen:string trim, {xen:property tinyquattro_css_skin}}'"},
 		content_css: "css.php?style={xen:urlencode $visitorStyle.style_id}&css=tiny_quattro_iframe&d={xen:urlencode $visitorStyle.last_modified_date}",
 		menubar: false,
 		toolbar_items_size: '{$xenOptions.quattro_iconsize}',
@@ -4710,7 +4710,6 @@ $0]]></replace>
 </xen:if>]]></replace>
     </modification>
   </public_template_modifications>
-  <bb_code_media_sites/>
   <template_modifications>
     <modification title="RTE Quattro Mobile Option" template_title="account_preferences" execute_order="10" modification_type="preg_replace" callback_class="" callback_method="" description="User field" version_id="4" version_string="1.0.4" active="1">
       <search_value><![CDATA[#([ \t]*)<li>.+?ctrl_enable_rte(?s).+?</li>#i]]></search_value>
@@ -4729,4 +4728,5 @@ $0]]></replace_value>
 ]]></replace_value>
     </modification>
   </template_modifications>  
+  <bb_code_media_sites/>
 </addon>
