@@ -106,8 +106,8 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 		$emulateAllWhiteSpace = $xenOptions->quattro_emulate_allwhitespace_html;
 		$emulateTabs = $xenOptions->quattro_emulate_tabs_html;
 		
-		$emulateAllWhiteSpace = ($emulateAllWhiteSpace == 'no' || ($insideBbCode && $emulateAllWhiteSpace == 'limited')) ? false : true;
-		$emulateTabs = ($emulateTabs == 'no' || ($insideBbCode && $emulateTabs == 'limited')) ? false : true;
+		$emulateAllWhiteSpace = (empty($emulateAllWhiteSpace) || $emulateAllWhiteSpace == 'no' || ($insideBbCode && $emulateAllWhiteSpace == 'limited')) ? false : true;
+		$emulateTabs = (empty($emulateTabs) || $emulateTabs == 'no' || ($insideBbCode && $emulateTabs == 'limited')) ? false : true;
 
 		if($emulateAllWhiteSpace)
 		{
