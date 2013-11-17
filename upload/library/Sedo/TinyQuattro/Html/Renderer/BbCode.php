@@ -51,6 +51,21 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 	}
 
 	/**
+	 * Extend renderFromHtml to convert 4 whitespaces to a tab when viewing (even occurs before the parser)
+	 */
+	public static function renderFromHtml($html, array $options = array())
+	{
+		$html = parent::renderFromHtml($html, $options);
+		
+		if(XenForo_Application::get('options')->get('quattro_parser_wysiwyg_to_bb'))
+		{
+			$html = preg_replace('# {4}#', "\t", $html); 
+		}
+
+		return $html;
+	}
+
+	/**
 	 * Background color css property handler
 	 */
 	public function handleCssBckgndColor($text, $color)

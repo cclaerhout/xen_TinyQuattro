@@ -101,24 +101,56 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 	{
 		$string = parent::filterString($string, $rendererStates);
 
-		if(XenForo_Application::get('options')->get('quattro_emulate_tabs_html'))
+		$insideBbCode = !empty($rendererStates['tagDataStack']);
+		$xenOptions = XenForo_Application::get('options');
+		$emulateAllWhiteSpace = $xenOptions->quattro_emulate_allwhitespace_html;
+		$emulateTabs = $xenOptions->quattro_emulate_tabs_html;
+		
+		$emulateAllWhiteSpace = ($emulateAllWhiteSpace == 'no' || ($insideBbCode && $emulateAllWhiteSpace == 'limited')) ? false : true;
+		$emulateTabs = ($emulateTabs == 'no' || ($insideBbCode && $emulateTabs == 'limited')) ? false : true;
+
+		if($emulateAllWhiteSpace)
 		{
-			$string = $this->emulateWhiteSpace($string);
+			$string = $this->emulateAllWhiteSpace($string);
+		}
+
+		if($emulateTabs)
+		{
+			$string = $this->emulateWhiteSpaceTabs($string);
 		}
 
 		return $string;		
 	}
-	
-	public function emulateWhiteSpace($string)
+
+	public function emulateAllWhiteSpace($string)
 	{
 		return preg_replace_callback(
-			'#[\t]+#', 
-			array($this, '_emulateWhiteSpaceRegexCallback'), 
+			//The below regew will match whitespaces (start from 2 and exclude the last one of a line) + exclude match if a ending html tag is detected
+			'#[ ]{2,}+(?<! $)(?![^<]*?>)#', 
+			array($this, '_emulateAllWhiteSpaceRegexCallback'), 
 			$string
 		);
 	}
 	
-	protected function _emulateWhiteSpaceRegexCallback($matches)
+	protected function _emulateAllWhiteSpaceRegexCallback($matches)
+	{
+		$breaksX = substr_count($matches[0], " ");
+		$breakPattern = '&nbsp;'; //other possible UTF8 solutions = http://www.cs.tut.fi/~jkorpela/chars/spaces.html
+		$breakOutput = str_repeat($breakPattern, $breaksX);
+					
+		return "{$breakOutput}";
+	}
+
+	public function emulateWhiteSpaceTabs($string)
+	{
+		return preg_replace_callback(
+			'#[\t]+#', 
+			array($this, '_emulateWhiteSpaceTabsRegexCallback'), 
+			$string
+		);
+	}
+	
+	protected function _emulateWhiteSpaceTabsRegexCallback($matches)
 	{
 		$breaksX = substr_count($matches[0], "\t");
 		$breakPattern = '    ';

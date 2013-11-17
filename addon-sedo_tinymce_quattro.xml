@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.6.4.1" version_id="32" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.6.4.2" version_id="33" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -504,9 +504,19 @@ step=5</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="5000"/>
     </option>
-    <option option_id="quattro_emulate_tabs_html" edit_format="onoff" data_type="boolean" can_backup="1">
-      <default_value>0</default_value>
-      <edit_format_params></edit_format_params>
+    <option option_id="quattro_emulate_allwhitespace_html" edit_format="select" data_type="string" can_backup="1">
+      <default_value>no</default_value>
+      <edit_format_params>no={xen:phrase no}
+full={xen:phrase sedo_quattro_everywhere}
+limited={xen:phrase sedo_quattro_everywhere_but_bbcodes_content}</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro_paser" display_order="940"/>
+    </option>
+    <option option_id="quattro_emulate_tabs_html" edit_format="select" data_type="string" can_backup="1">
+      <default_value>no</default_value>
+      <edit_format_params>no={xen:phrase no}
+full={xen:phrase sedo_quattro_everywhere}
+limited={xen:phrase sedo_quattro_everywhere_but_bbcodes_content}</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro_paser" display_order="930"/>
     </option>
@@ -846,8 +856,12 @@ This patch is disabled by default. Reason:  its code is quite "acrobatic". On th
 This patch is enable by default.]]></phrase>
     <phrase title="option_quattro_disable_on_mobiles" version_id="1" version_string="1.0.1"><![CDATA[Disable on mobile devices?]]></phrase>
     <phrase title="option_quattro_disable_on_mobiles_explain" version_id="1" version_string="1.0.1"><![CDATA[This will disable TinyMCE 4 on mobile devices and will load your forum default editor.]]></phrase>
+    <phrase title="option_quattro_emulate_allwhitespace_html" version_id="32" version_string="1.6.4.1"><![CDATA[Emulate all whitespaces in html?]]></phrase>
+    <phrase title="option_quattro_emulate_allwhitespace_html_explain" version_id="33" version_string="1.6.4.2"><![CDATA[This option is the same than the one above but for all whitespaces. Use this option only if you have to.]]></phrase>
     <phrase title="option_quattro_emulate_tabs_html" version_id="30" version_string="1.6.3.2"><![CDATA[Emulate tabs in html?]]></phrase>
-    <phrase title="option_quattro_emulate_tabs_html_explain" version_id="30" version_string="1.6.3.2"><![CDATA[This function will emulate tabs in html by finding them in the raw text, wrapping them with a span tag which has the css property "white-space' set on "pre". This will only work for text not embedded inside Bb Codes (done on purpose).]]></phrase>
+    <phrase title="option_quattro_emulate_tabs_html_explain" version_id="33" version_string="1.6.4.2"><![CDATA[This function will emulate tabs in html by finding them in the raw text, wrapping them with a span tag which has the css property "white-space' set on "pre". Recommended value if you need that function: "Yes, without Bb Code content". <br />
+ <br />
+<b>Important:</b> This option requires the "Wysiwyg HTML > BbCode Parser Patch" to be activated.]]></phrase>
     <phrase title="option_quattro_enable_browser_spellcheck" version_id="6" version_string="1.0.6"><![CDATA[Enable browser spellcheck?]]></phrase>
     <phrase title="option_quattro_enable_browser_spellcheck_explain" version_id="6" version_string="1.0.6"><![CDATA[With TinyMCE the browser spellcheck is disabled by default. If you want to activate it, select yes.]]></phrase>
     <phrase title="option_quattro_extended_insert" version_id="27" version_string="1.6.2"><![CDATA[Extend MCE insert command?]]></phrase>
@@ -907,9 +921,9 @@ This patch is enable by default.]]></phrase>
     <phrase title="option_quattro_parser_mobile_user_option" version_id="4" version_string="1.0.4"><![CDATA[Enable an user option for the RTE?]]></phrase>
     <phrase title="option_quattro_parser_mobile_user_option_explain" version_id="4" version_string="1.0.4"><![CDATA[This will enable & activate an option to let users decide if they want to use or not the RTE editor on their personal mobile device.]]></phrase>
     <phrase title="option_quattro_parser_wysiwyg_to_bb" version_id="4" version_string="1.0.4"><![CDATA[Activate the Wysiwyg HTML >  BbCode  Parser Patch?]]></phrase>
-    <phrase title="option_quattro_parser_wysiwyg_to_bb_explain" version_id="4" version_string="1.0.4"><![CDATA[This option will activate a small but important patch that will convert 4 white spaces from the RTE editor to a real tabulation  when you <span style="text-decoration:underline">save</span> your message.<br />
+    <phrase title="option_quattro_parser_wysiwyg_to_bb_explain" version_id="33" version_string="1.6.4.2"><![CDATA[This option will activate a small but important patch that will convert 4 white spaces from the RTE editor to a real tabulation  when you <span style="text-decoration:underline">save</span> your message.<br />
 <br />
-<span style="font-weight:bolder">Important:</span> this patch will only save tabulations in posts and conversations. If you want to enable it globally you will have to:<br/>
+<span style="font-weight:bolder">Important:</span> this patch will only save tabulations in posts and conversations. With XenForo 1.2, it will also convert 4 whitespaces into a tab in the view for all other pages (but the modifications will be done on the fly and not when saving inside the database. If you want to enable that last function with XenForo 1.1, you will have to:<br/>
 <br/>
 - Edit the following class: <span style="color:orange;font-style:italic">XenForo_Html_Renderer_BbCode</span><br />
 - Find the function <span style="color:orange;font-style:italic">renderFromHtml</span><br />
@@ -983,6 +997,8 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_color" version_id="0" version_string="1.0"><![CDATA[Selected color]]></phrase>
     <phrase title="sedo_quattro_colorname" version_id="0" version_string="1.0"><![CDATA[Color name]]></phrase>
     <phrase title="sedo_quattro_colors_picker" version_id="0" version_string="1.0"><![CDATA[Colors picker]]></phrase>
+    <phrase title="sedo_quattro_everywhere" version_id="33" version_string="1.6.4.2"><![CDATA[Yes - with Bb Code content]]></phrase>
+    <phrase title="sedo_quattro_everywhere_but_bbcodes_content" version_id="33" version_string="1.6.4.2"><![CDATA[Yes - without Bb Code content]]></phrase>
     <phrase title="sedo_quattro_extra_bbcodes_bcolor" version_id="13" version_string="1.1.6"><![CDATA[Background Color BbCode: [bcolor]]]></phrase>
     <phrase title="sedo_quattro_extra_bbcodes_justify" version_id="13" version_string="1.1.6"><![CDATA[Justify Align BbCode: [justify]]]></phrase>
     <phrase title="sedo_quattro_extra_bbcodes_xtable" version_id="16" version_string="1.2.2"><![CDATA[Table BbCode: [xtable]]]></phrase>
@@ -4710,6 +4726,7 @@ $0]]></replace>
 </xen:if>]]></replace>
     </modification>
   </public_template_modifications>
+  <bb_code_media_sites/>
   <template_modifications>
     <modification title="RTE Quattro Mobile Option" template_title="account_preferences" execute_order="10" modification_type="preg_replace" callback_class="" callback_method="" description="User field" version_id="4" version_string="1.0.4" active="1">
       <search_value><![CDATA[#([ \t]*)<li>.+?ctrl_enable_rte(?s).+?</li>#i]]></search_value>
@@ -4727,6 +4744,5 @@ $0]]></replace_value>
 	</xen:if>
 ]]></replace_value>
     </modification>
-  </template_modifications>  
-  <bb_code_media_sites/>
+  </template_modifications> 
 </addon>
