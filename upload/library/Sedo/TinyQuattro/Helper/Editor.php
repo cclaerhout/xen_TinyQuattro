@@ -89,8 +89,9 @@ class Sedo_TinyQuattro_Helper_Editor
 		if($showUncategorized && $showUncategorizedAtBottom)
 		{
 			/*Uncategorized category should be the first key, let's put it at the bottom*/
-			$unCategorized = array_shift($bbmSmilies);
+			$unCategorized = $bbmSmilies[0]; //don't use array_shift, the key will be modified
 			$bbmSmilies[] = $unCategorized;
+			unset($bbmSmilies[0]);
 		}
 
 		return array(true, $bbmSmilies);
