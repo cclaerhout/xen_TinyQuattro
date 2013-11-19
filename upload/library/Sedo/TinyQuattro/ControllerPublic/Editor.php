@@ -102,15 +102,60 @@ class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_Con
 		
 		if ($dialog == 'smilies_slider')
 		{
-			$smilies = Sedo_TinyQuattro_Helper_Editor::getEditorSmilies();
+			$xenOptions = XenForo_Application::get('options');
+			$xSmiles = $xenOptions->quattro_xsmilies_slide;
+			$smiliesHaveCategories = false;
 
-			foreach ($smilies as &$smiley){
-				$smiley['type'] = (is_int($smiley[1])) ? 'sprite' : 'link';
+			//Check if the Smiley Manager is installed
+			if($xenOptions->quattro_smilies_sm_addon_enable)
+			{
+				list($smiliesHaveCategories, $smilies) = Sedo_TinyQuattro_Helper_Editor::getSmiliesByCategory(null, true);	
+			}
+			else
+			{
+				$smilies = Sedo_TinyQuattro_Helper_Editor::getEditorSmilies(null, true);
 			}
 
-			$xSmiles = XenForo_Application::get('options')->get('quattro_xsmilies_slide');
-			$smilies = array_chunk($smilies, $xSmiles, true);
+			//Proceed differently if the Smiley manager is installed or not
+			if(!$smiliesHaveCategories)
+			{
+				$smilies = array_chunk($smilies, $xSmiles, true);
+			}
+			else
+			{
+				$output = array();
+				foreach($smilies as $smiliesCategory)
+				{
+					if(!isset($smiliesCategory['smilies']))
+					{
+						continue;
+					}
 
+					$title = $smiliesCategory['title'];
+					$innerSmiliesGroups = array_chunk($smiliesCategory['smilies'], $xSmiles, true);
+					$totalGroups = count($innerSmiliesGroups);
+					$i = 1;
+					
+					foreach($innerSmiliesGroups as $innerSmilies)
+					{
+						$titleSuffixFirst = ($totalGroups > 1) ? $i : false;
+						$titleSuffixLast = ($totalGroups > 1) ? $totalGroups : false;
+
+						$output[] = array(
+							'title' => $title,
+							'titleSuffixFirst' => $titleSuffixFirst,
+							'titleSuffixLast' => $titleSuffixLast,
+							'smilies' => $innerSmilies
+						);
+						
+						$i++;
+					}
+				}
+				
+				$smilies = $output;
+			}
+
+			$viewParams['smiliesHaveCategories'] = $smiliesHaveCategories;
 			$viewParams['smiliesBySlides'] = $smilies;
 		}
 

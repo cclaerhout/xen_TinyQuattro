@@ -4,6 +4,30 @@
   <admin_permissions/>
   <admin_style_properties/>
   <admin_templates>
+    <template title="quattro_option_list_smiley_manager_categories"><![CDATA[<xen:if is="!{$xenCache.smilieCategories}">
+	<xen:selectunit label="{$preparedOption.title}" name="{$fieldPrefix}[{$preparedOption.option_id}]" value="{$preparedOption.option_value}"
+		hint="{$preparedOption.hint}" inputclass="{$preparedOption.inputClass}">
+		<xen:option value="-1" label="{xen:phrase sedo_quattro_sm_addon_no_category_found}" />
+		<xen:explain>{xen:raw $preparedOption.explain}</xen:explain>
+		<xen:html>
+			<input type="hidden" name="{$listedFieldName}" value="{$preparedOption.option_id}" />
+			{xen:raw $editLink}
+		</xen:html>
+	</xen:selectunit>
+<xen:else />
+	<xen:selectunit label="{$preparedOption.title}" name="{$fieldPrefix}[{$preparedOption.option_id}]" value="{$preparedOption.option_value}"
+		hint="{$preparedOption.hint}" inputclass="{$preparedOption.inputClass}">
+		<xen:option value="-1" label="{xen:phrase sedo_quattro_sm_addon_no_category}" />
+		<xen:foreach loop="$xenCache.smilieCategories" value="$categorie">
+		 	<xen:option value="{$categorie.smilie_category_id}" label="{$categorie.category_title}" />
+		</xen:foreach>
+		<xen:explain>{xen:raw $preparedOption.explain}</xen:explain>
+		<xen:html>
+			<input type="hidden" name="{$listedFieldName}" value="{$preparedOption.option_id}" />
+			{xen:raw $editLink}
+		</xen:html>
+	</xen:selectunit>
+</xen:if>]]></template>
     <template title="style_property_unit_quattro_table"><![CDATA[<xen:require css="style_property_unit_quattro_table.css" />
 
 <input type="hidden" name="checkboxes[]" value="{$property.property_definition_id}" />
@@ -459,7 +483,7 @@ true={xen:phrase yes}</edit_format_params>
       <relation group_id="tiny_quattro" display_order="130"/>
     </option>
     <option option_id="quattro_autosave_autorestore" edit_format="radio" data_type="string" can_backup="1">
-      <default_value>true</default_value>
+      <default_value>false</default_value>
       <edit_format_params>false={xen:phrase no}
 true={xen:phrase yes}</edit_format_params>
       <sub_options></sub_options>
@@ -698,6 +722,12 @@ small={xen:phrase sedo_quattro_small}</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro_paser" display_order="800"/>
     </option>
+    <option option_id="quattro_parser_bypass_ie7limit" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="5005"/>
+    </option>
     <option option_id="quattro_parser_bypass_mobile_limit" edit_format="onoff" data_type="boolean" can_backup="1">
       <default_value>0</default_value>
       <edit_format_params></edit_format_params>
@@ -737,11 +767,30 @@ none={xen:phrase sedo_quattro_smilies_desc_none}</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="540"/>
     </option>
-    <option option_id="quattro_smilies_slider" edit_format="onoff" data_type="boolean" can_backup="1">
+    <option option_id="quattro_smilies_slider" edit_format="radio" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params>0={xen:phrase no}
+1={xen:phrase yes}</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="520"/>
+    </option>
+    <option option_id="quattro_smilies_sm_addon_enable" edit_format="onoff" data_type="boolean" can_backup="1">
       <default_value>0</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="520"/>
+      <relation group_id="tiny_quattro" display_order="600"/>
+    </option>
+    <option option_id="quattro_smilies_sm_addon_menubtn_cat" edit_format="template" data_type="integer" can_backup="1">
+      <default_value>-1</default_value>
+      <edit_format_params>quattro_option_list_smiley_manager_categories</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="610"/>
+    </option>
+    <option option_id="quattro_smilies_sm_addon_uncat_bottom" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="660"/>
     </option>
     <option option_id="quattro_statusbar" edit_format="radio" data_type="string" can_backup="1">
       <default_value>true</default_value>
@@ -856,7 +905,7 @@ This patch is disabled by default. Reason:  its code is quite "acrobatic". On th
 This patch is enable by default.]]></phrase>
     <phrase title="option_quattro_disable_on_mobiles" version_id="1" version_string="1.0.1"><![CDATA[Disable on mobile devices?]]></phrase>
     <phrase title="option_quattro_disable_on_mobiles_explain" version_id="1" version_string="1.0.1"><![CDATA[This will disable TinyMCE 4 on mobile devices and will load your forum default editor.]]></phrase>
-    <phrase title="option_quattro_emulate_allwhitespace_html" version_id="32" version_string="1.6.4.1"><![CDATA[Emulate all whitespaces in html?]]></phrase>
+    <phrase title="option_quattro_emulate_allwhitespace_html" version_id="33" version_string="1.6.4.2"><![CDATA[Emulate all whitespaces in html?]]></phrase>
     <phrase title="option_quattro_emulate_allwhitespace_html_explain" version_id="33" version_string="1.6.4.2"><![CDATA[This option is the same than the one above but for all whitespaces. Use this option only if you have to.]]></phrase>
     <phrase title="option_quattro_emulate_tabs_html" version_id="30" version_string="1.6.3.2"><![CDATA[Emulate tabs in html?]]></phrase>
     <phrase title="option_quattro_emulate_tabs_html_explain" version_id="33" version_string="1.6.4.2"><![CDATA[This function will emulate tabs in html by finding them in the raw text, wrapping them with a span tag which has the css property "white-space' set on "pre". Recommended value if you need that function: "Yes, without Bb Code content". <br />
@@ -916,6 +965,8 @@ This patch is enable by default.]]></phrase>
 The fixes are relative to the Pacman problem (eaten space between the end of a list and the next paragraph) & the tabulation problem (tabs are modified to 4 blanks characters). <br />
  <br />
 This patch is enable by default.]]></phrase>
+    <phrase title="option_quattro_parser_bypass_ie7limit" version_id="33" version_string="1.6.4.2"><![CDATA[Bypass IE7 limit]]></phrase>
+    <phrase title="option_quattro_parser_bypass_ie7limit_explain" version_id="33" version_string="1.6.4.2"><![CDATA[Since XenForo 1.2.x, the Wysiwyg Editor will not load with Internet Explorer 7. Do you want to bypass this limit with TinyMCE?]]></phrase>
     <phrase title="option_quattro_parser_bypass_mobile_limit" version_id="4" version_string="1.0.4"><![CDATA[Activate the RTE Editor on mobile devices?]]></phrase>
     <phrase title="option_quattro_parser_bypass_mobile_limit_explain" version_id="4" version_string="1.0.4"><![CDATA[This option will bypass the XenForo protection (all version below the 1.2) that prevents to load the Rich Text Editor (wysiwyg) on mobile devices.]]></phrase>
     <phrase title="option_quattro_parser_mobile_user_option" version_id="4" version_string="1.0.4"><![CDATA[Enable an user option for the RTE?]]></phrase>
@@ -937,10 +988,16 @@ This patch is enable by default.]]></phrase>
     <phrase title="option_quattro_retain_style_properties_explain" version_id="26" version_string="1.6.1"><![CDATA[Comma separated list of style properties to retain during the paste operation from Word. For example: "font-size,color". If you want to remove all style properties use an empty string "" or "none", false will cause an error in IE. If you want to keep all style properties, use "all" or "*". Default is "none".]]></phrase>
     <phrase title="option_quattro_smilies_desc" version_id="12" version_string="1.1.5"><![CDATA[Smilies description]]></phrase>
     <phrase title="option_quattro_smilies_desc_explain" version_id="12" version_string="1.1.5"><![CDATA[Choose what kind of description should be displayed on mouse over.]]></phrase>
-    <phrase title="option_quattro_smilies_slider" version_id="3" version_string="1.0.3"><![CDATA[[Modal button] Use the smilies slider ?]]></phrase>
+    <phrase title="option_quattro_smilies_slider" version_id="33" version_string="1.6.4.2"><![CDATA[[Modal button] Use the smilies slider?]]></phrase>
     <phrase title="option_quattro_smilies_slider_explain" version_id="3" version_string="1.0.3"><![CDATA[The "smilies slider" will load a slider with your smilies. The biggest difference is of course the slider but also the loading method. The  smilies modal will be loaded programmatically (TinyMCE feature) whereas the the smilies slider overlay will be loaded using the XenForo template system. The first method is faster.<br />
 <br />
 In both methods, the width and the height of the modal window can be set in the style properties.]]></phrase>
+    <phrase title="option_quattro_smilies_sm_addon_enable" version_id="33" version_string="1.6.4.2"><![CDATA[Enable the Smiley Manager addon?]]></phrase>
+    <phrase title="option_quattro_smilies_sm_addon_enable_explain" version_id="33" version_string="1.6.4.2"><![CDATA[The <a href="http://xenforo.com/community/resources/2538/" target="_blank">Smiley Manager</a> is an addon created by Milano who allows you to manage your smilies by categories. Check the box if you want to enable it with TinyMCE Quattro.]]></phrase>
+    <phrase title="option_quattro_smilies_sm_addon_menubtn_cat" version_id="33" version_string="1.6.4.2"><![CDATA[[Smiley Manager] Use a category for the smiley Menu Button?]]></phrase>
+    <phrase title="option_quattro_smilies_sm_addon_menubtn_cat_explain" version_id="33" version_string="1.6.4.2"><![CDATA[If you want to use a smiley category for the smiley menu button, just choose it here.]]></phrase>
+    <phrase title="option_quattro_smilies_sm_addon_uncat_bottom" version_id="33" version_string="1.6.4.2"><![CDATA[Show uncategorized category at the bottom?]]></phrase>
+    <phrase title="option_quattro_smilies_sm_addon_uncat_bottom_explain" version_id="33" version_string="1.6.4.2"><![CDATA[If you enable the display of the uncategorized category inside the Smiley Manager addon, this category should be displayed as the first. Check this option if you want to display it as the last category.]]></phrase>
     <phrase title="option_quattro_statusbar" version_id="0" version_string="1.0"><![CDATA[Display the status bar?]]></phrase>
     <phrase title="option_quattro_statusbar_explain" version_id="0" version_string="1.0"><![CDATA[This option will display a status bar below the editor]]></phrase>
     <phrase title="option_quattro_table_all_editors_activation" version_id="17" version_string="1.3.0"><![CDATA[[Table bbcode] All editors activation?]]></phrase>
@@ -1047,6 +1104,8 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_smilies_desc_bbcode" version_id="12" version_string="1.1.5"><![CDATA[Bb Code description]]></phrase>
     <phrase title="sedo_quattro_smilies_desc_full" version_id="12" version_string="1.1.5"><![CDATA[Full description]]></phrase>
     <phrase title="sedo_quattro_smilies_desc_none" version_id="12" version_string="1.1.5"><![CDATA[No description]]></phrase>
+    <phrase title="sedo_quattro_sm_addon_no_category" version_id="33" version_string="1.6.4.2"><![CDATA[None]]></phrase>
+    <phrase title="sedo_quattro_sm_addon_no_category_found" version_id="33" version_string="1.6.4.2"><![CDATA[No category found]]></phrase>
     <phrase title="sedo_quattro_specialcharacters" version_id="0" version_string="1.0"><![CDATA[Special characters]]></phrase>
     <phrase title="sedo_quattro_table_alignment" version_id="17" version_string="1.3.0"><![CDATA[Alignment]]></phrase>
     <phrase title="sedo_quattro_table_body" version_id="17" version_string="1.3.0"><![CDATA[Body]]></phrase>
@@ -2005,7 +2064,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 	overflow-y: auto;
 	margin-left:8px;
 }]]></template>
-    <template title="quattro_dialog_smilies_slider" version_id="3" version_string="1.0.3"><![CDATA[<xen:require js="js/sedo/tinyquattro/extra/jqt_slider.js" />
+    <template title="quattro_dialog_smilies_slider" version_id="33" version_string="1.6.4.2"><![CDATA[<xen:require js="js/sedo/tinyquattro/extra/jqt_slider.js" />
 <xen:require js="js/sedo/tinyquattro/templates/smilies_slider.js" />
 
 <xen:require css="quattro_dialog.css" />
@@ -2014,31 +2073,68 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 
 <div class="mceTitle">{xen:phrase sedo_quattro_smiliespicker}</div>
 
-<div class="mceSlides">
-	<xen:foreach loop="$smiliesBySlides" value="$slideSmilies" i="$id" count="$total">
-		<div id="smilies_{$id}" class="smilies_slide">
-			<xen:foreach loop="$slideSmilies" value="$smilie" key="$k" i="$i" count="$total">
-				<xen:if is="{$smilie.type} == 'sprite'">
-					<a href="#"><img src="styles/default/xenforo/clear.png" alt="{$k}" data-smilie="yes" class="mceSlideSmilie mceQuattroSmilieSprite mceSmilie{$smilie.1}" /></a>
-				<xen:else />
-					<a href="#"><img src="{$smilie.1}" alt="{$k}" data-smilie="yes" class="mceSlideSmilie" /></a>
-				</xen:if>
-			</xen:foreach>
-		</div>
-	</xen:foreach>
-</div>
+<xen:if is="!{$smiliesHaveCategories}">
+	<div class="mceSlides">
+		<xen:foreach loop="$smiliesBySlides" value="$slideSmilies" i="$id" count="$total">
+			<div id="smilies_{$id}" class="smilies_slide">
+				<xen:foreach loop="$slideSmilies" value="$smilie" key="$k" i="$i" count="$total">
+					<xen:if is="{$smilie.type} == 'sprite'">
+						<a href="#"><img src="styles/default/xenforo/clear.png" alt="{$k}" data-smilie="yes" class="mceSlideSmilie mceQuattroSmilieSprite mceSmilie{$smilie.1}" /></a>
+					<xen:else />
+						<a href="#"><img src="{$smilie.1}" alt="{$k}" data-smilie="yes" class="mceSlideSmilie" /></a>
+					</xen:if>
+				</xen:foreach>
+			</div>
+		</xen:foreach>
+	</div>
 
-<div class="mceSlidesTabs">
-	<xen:foreach loop="$smiliesBySlides" value="$slide" i="$i" count="$total">
-		<a href="#">{$i}</a>
-	</xen:foreach>
-</div>
+	<div class="mceSlidesTabs">
+		<xen:foreach loop="$smiliesBySlides" value="$slide" i="$i" count="$total">
+			<a href="#">{$i}</a>
+		</xen:foreach>
+	</div>
+<xen:else />
+	<div class="mceSlides sm_addon">
+		<xen:foreach loop="$smiliesBySlides" value="$slide" i="$id" count="$total">
+			<div id="smilies_{$id}" class="smilies_slide">
+				<xen:foreach loop="$slide.smilies" value="$smilie" key="$k" i="$i" count="$total">
+					<xen:if is="{$smilie.type} == 'sprite'">
+						<a href="#"><img src="styles/default/xenforo/clear.png" alt="{$k}" data-smilie="yes" class="mceSlideSmilie mceQuattroSmilieSprite mceSmilie{$smilie.1}" /></a>
+					<xen:else />
+						<a href="#"><img src="{$smilie.1}" alt="{$k}" data-smilie="yes" class="mceSlideSmilie" /></a>
+					</xen:if>
+				</xen:foreach>
+			</div>
+		</xen:foreach>
+	</div>
+
+	<div class="mceSlidesTabs sm_addon">
+		<xen:foreach loop="$smiliesBySlides" value="$slide" i="$i" count="$total">
+			<a href="#">{$slide.title} {xen:if '{$slide.titleSuffixFirst}', '({$slide.titleSuffixFirst}/{$slide.titleSuffixLast})'}</a>
+		</xen:foreach>
+	</div>
+</xen:if>
+
 
 <div class="mceCancel">{xen:phrase close}</div>
 ]]></template>
-    <template title="quattro_dialog_smilies_slider.css" version_id="3" version_string="1.0.3"><![CDATA[<xen:comment>
-	Empty at the moment
-</xen:comment>]]></template>
+    <template title="quattro_dialog_smilies_slider.css" version_id="33" version_string="1.6.4.2"><![CDATA[.mce-xen-body .smilies_slide a {
+	display: inline-block;
+	padding: 1px 0;
+	zoom: 1;
+	*display: inline;
+}
+
+.mce-xen-body .mceSlidesTabs.sm_addon a{
+	display: none;
+}
+
+.mce-xen-body .mceSlidesTabs.sm_addon a.current{
+	display: block;
+	text-align: center;
+	color: inherit !important;
+	font-size: 14px;
+}]]></template>
     <template title="quattro_mobile_user_option" version_id="4" version_string="1.0.4"><![CDATA[	<xen:set var="$tinymce_fix_mobile">{$visitor.quattro_rte_mobile}</xen:set>
 	<xen:set var="$tinymce_fix_mobile_chk">{xen:if '{$tinymce_fix_mobile} == 1', 'checked="checked"', ''}</xen:set>
 
@@ -2391,7 +2487,7 @@ i.mce-i-backcolor
 	background: {xen:property tinyquattro_icon_bckg_color};
 }
 ]]></template>
-    <template title="tiny_quattro_buttons_ie7.css" version_id="26" version_string="1.6.1"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_buttons_ie7.css" version_id="33" version_string="1.6.4.2"><![CDATA[<xen:comment>
 	TINYMCE BUTTONS FOR IE7
 </xen:comment>
 
@@ -4065,7 +4161,7 @@ i.mce-i-resize {
 <xen:include template="tiny_quattro_xenbuttons_ie7.css" />
 
 <xen:edithint template="tiny_quattro_iframe.css" />]]></template>
-    <template title="tiny_quattro_framework.css" version_id="27" version_string="1.6.2"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_framework.css" version_id="33" version_string="1.6.4.2"><![CDATA[<xen:comment>
 	XenForo Framework addons
 </xen:comment>
 
@@ -4120,6 +4216,17 @@ i.mce-i-resize {
 </xen:comment>
 
 <xen:include template="tiny_quattro_smilies.css" />
+
+.mce-container .mce_smilie_cat_title{
+	display: block;
+	text-align: left;
+	border-bottom: 1px dotted;
+	font-size: 1.1em;
+	font-weight: 600;
+	margin-bottom: 5px;
+	margin-top: 3px;
+    	padding: 2px;
+}
 
 .mce-container .mceQuattroSmilieBlock{
 	width: {xen:property tinyquattro_smiliesbtn_width};
@@ -4354,7 +4461,7 @@ h6 { font-size: .75em; }
 		</xen:if>
 	</xen:foreach>
 </xen:if>]]></template>
-    <template title="tiny_quattro_js_setup" version_id="31" version_string="1.6.4"><![CDATA[<xen:comment>Load Quattro Integration JS files for 1.2</xen:comment>
+    <template title="tiny_quattro_js_setup" version_id="33" version_string="1.6.4.2"><![CDATA[<xen:comment>Load Quattro Integration JS files for 1.2</xen:comment>
 	<xen:if is="{$quattroIntegration}">
 		<xen:require js="js/sedo/tinyquattro/integration/retro_quickreply.js" />
 	</xen:if>
@@ -4373,7 +4480,7 @@ h6 { font-size: .75em; }
 	<xen:else />
 		<xen:require css="tiny_quattro_editor_ie7.css" />
 		<xen:set var="$mceCss">
-			<xen:foreach loop="$customQuattroButtonsCss" value="$button">.mce-i-{$button.buttonCode} {-ie7-icon:"\{$button.iconCode}";} </xen:foreach>
+			<xen:foreach loop="$customQuattroButtonsCss" value="$button">.mce-i-{$button.buttonCode}:before {-ie7-icon:"\{$button.iconCode}"} </xen:foreach> .mce-i-pastetext:before { -ie7-icon:"\e035" }
 		</xen:set>
 	</xen:if>
 
@@ -4407,7 +4514,7 @@ h6 { font-size: .75em; }
 		 "paste textcolor autoresize xenforo"
 		],
 		resize: false,
-		//object_resizing: false,
+		<xen:comment>object_resizing: false,</xen:comment>
 		browser_spellcheck: {$xenOptions.quattro_enable_browser_spellcheck},
 		autoresize_min_height: {$xenOptions.quattro_autoresize_min_height},
 		autoresize_max_height: {$xenOptions.quattro_autoresize_max_height},
@@ -4428,12 +4535,13 @@ h6 { font-size: .75em; }
 		nonbreaking_force_tab: true
 	};
 </xen:hook>
+
 </script>
 
 <xen:edithint template="tiny_quattro_custom_buttons" />
 <xen:edithint template="tiny_quattro_iframe.css" />
 <xen:edithint template="tiny_quattro_framework.css" />]]></template>
-    <template title="tiny_quattro_params" version_id="27" version_string="1.6.2"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_params" version_id="33" version_string="1.6.4.2"><![CDATA[<xen:comment>
 	We are inside a JavaScript file. All phrases must be escaped
 </xen:comment>
 	<xen:comment>extend</xen:comment>
@@ -4453,12 +4561,14 @@ h6 { font-size: .75em; }
 	overlaySmiliesSize: { w: "{xen:property tinyquattro_smiliespicker_width}", h: "{xen:property tinyquattro_smiliespicker_height}" },
 	smiliesSlider: {$xenOptions.quattro_smilies_slider},
 	xSmilies: {$xenOptions.quattro_xsmilies},
+	xCatSmilies: '{$xenOptions.quattro_smilies_sm_addon_menubtn_cat}',
+	smiliesCat: {xen:if '{$bbmSmiliesHaveCategories}', '{$bbmSmiliesHaveCategories}', false},
 	smiliesDesc: '{$xenOptions.quattro_smilies_desc}',
 	xenforo_smilies: {xen:helper json, $bbmSmilies},
 	xendraft: {$xenOptions.quattro_xendraft},
 	xenwordcount: "{$xenOptions.quattro_wordcount}",
 	bbmButtons: { <xen:include template="tiny_quattro_custom_buttons" /> }]]></template>
-    <template title="tiny_quattro_phrases" version_id="20" version_string="1.4.0"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_phrases" version_id="33" version_string="1.6.4.2"><![CDATA[<xen:comment>
 	We are inside a JavaScript file. All phrases must be escaped
 </xen:comment>
 
@@ -4474,7 +4584,7 @@ h6 { font-size: .75em; }
 	cancel: "{xen:jsescape {xen:phrase cancel}}",
 	switch_text: ["{xen:jsescape {xen:phrase use_bb_code_editor}}", "{xen:jsescape {xen:phrase use_rich_text_editor}}"],
 	unlink: "{xen:jsescape {xen:phrase unlink}}",
-	draft: { save: "{xen:jsescape {xen:phrase save_draft}}", delete: "{xen:jsescape {xen:phrase delete_draft}}", saved: "{xen:jsescape {xen:phrase draft_saved}}", deleted: "{xen:jsescape {xen:phrase draft_deleted}}"},
+	draft: { save: "{xen:jsescape {xen:phrase save_draft}}", _delete: "{xen:jsescape {xen:phrase delete_draft}}", saved: "{xen:jsescape {xen:phrase draft_saved}}", deleted: "{xen:jsescape {xen:phrase draft_deleted}}"},
 
 	<xen:comment>autotranslation</xen:comment>
 	alignleft_desc: "{xen:jsescape {xen:phrase align_left}}",

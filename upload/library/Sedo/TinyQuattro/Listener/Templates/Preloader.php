@@ -20,12 +20,13 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 		   	break;
 		   	case 'editor':
    				$visitor = XenForo_Visitor::getInstance();
+   				$xenOptions = XenForo_Application::get('options');
 
 				//NoAttachment editors detection
 				if(	isset($params['editorOptions']) 
 					&& isset($params['editorOptions']['extraClass'])
 					&& strpos('NoAttachment', $params['editorOptions']['extraClass']) !== false
-					&& XenForo_Application::get('options')->get('quattro_noattach_img')
+					&& $xenOptions->quattro_noattach_img
 				)
 				{
 					$params['editorOptions']['extraClass'] .= ' ImgFallback';
@@ -38,17 +39,29 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 				
 				$bbmShowWysiwyg = self::_showWysiwyg($params['showWysiwyg']);
 				$xenShowWysiwyg = $params['showWysiwyg'];
-				
+
+				$bbmSmiliesHaveCategories = false;
+
+				if($xenOptions->quattro_smilies_sm_addon_enable)
+				{
+					list($bbmSmiliesHaveCategories, $bbmSmilies) = Sedo_TinyQuattro_Helper_Editor::getSmiliesByCategory();	
+				}
+				else
+				{
+					$bbmSmilies = Sedo_TinyQuattro_Helper_Editor::getEditorSmilies();
+				}
+
 				$params += array(
 					'loadQuattro' => self::_checkQuattroPermissions(), 	//quattro param
 					'quattroIntegration' => self::_quattroIntegration(),	//quattro integration js (for 1.2)
 					'quattroExtraPlugins' => self::_quattroExtraPlugins(),	//quattro param
 					'quattroGrid' => array(), 				//default bbm param
 					'customQuattroButtonsCss' => array(), 			//default bbm param
-					'customQuattroButtonsJs' => array(), 				//default bbm param
-					'bbmSmilies' => Sedo_TinyQuattro_Helper_Editor::getEditorSmilies()
+					'customQuattroButtonsJs' => array(), 			//default bbm param
+					'bbmSmilies' => $bbmSmilies,
+					'bbmSmiliesHaveCategories' => $bbmSmiliesHaveCategories
 				);
-				
+
 				if($xenShowWysiwyg == false && $bbmShowWysiwyg == true)
 				{
 					$params['formCtrlNameHtml'] =  $params['formCtrlNameHtml'] . '_html';
@@ -138,14 +151,34 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
  
 		if($options->quattro_parser_bypass_mobile_limit)
 		{
-			$visitor = XenForo_Visitor::getInstance();
 			$isMobile = XenForo_Visitor::isBrowsingWith('mobile');
-			$showWysiwyg = true;
 			
-			if($isMobile && $options->quattro_parser_mobile_user_option && !$visitor->quattro_rte_mobile)
+			if($isMobile)
 			{
-				$showWysiwyg = false;			
+				$visitor = XenForo_Visitor::getInstance();
+				$showWysiwyg = true;
+			
+				if($options->quattro_parser_mobile_user_option && !$visitor->quattro_rte_mobile)
+				{
+					$showWysiwyg = false;			
+				}
 			}
+		}
+
+		if($options->quattro_parser_bypass_ie7limit)
+		{
+			if(preg_match('#msie (\d+)#i', $_SERVER['HTTP_USER_AGENT'], $match))
+			{
+				if($match[1] == 7)
+				{
+					$showWysiwyg = true;
+				}
+			}
+		}
+
+		if(!XenForo_Visitor::getInstance()->enable_rte)
+		{
+			$showWysiwyg = false;
 		}
 
 		return $showWysiwyg;

@@ -73,7 +73,7 @@
 			});
 			
 			this.$textarea = $(ed.getElement());
-			this.isOldXen = xenMCE.Params.oldXen;
+			this.isOldXen = src.getParam('oldXen');
 			
 			/* Get Editor */
 			this.getEditor = function (){ return ed; };
@@ -280,7 +280,7 @@
 					wmConfig.title = phrase.notitle;
 
 				/*Overlay size*/
-				var defaultSize = xenMCE.Params.overlayDefaultSize;
+				var defaultSize = self.getParam('overlayDefaultSize');
 				
 				if(typeof wmConfig.width === un)
 					wmConfig.width = defaultSize.w;
@@ -748,7 +748,15 @@
 			ed.selection.select(dom.get(caretId));
 			dom.remove(caretId);
 		},
-		unescapeHtml : function(string, options) 
+		getParam: function(name)
+		{
+			if(typeof xenMCE.Params[name] !== 'undefined'){
+				return xenMCE.Params[name];
+			} else {
+				return null;
+			}
+		},
+		unescapeHtml: function(string, options) 
 		{
 			/* Use to get data from RTE and send them inside a textarea or input - available options: noBlank*/
 			
@@ -838,7 +846,7 @@
 			this.ed = this.getEditor();
 			var ed = this.ed;
 			
-			var src = this, buttons = xenMCE.Params.bbmButtons, un = 'undefined';
+			var src = this, buttons = src.getParam('bbmButtons'), un = 'undefined';
 
 			$.each(buttons, function(tag, data){
 				var n = data.code;
@@ -1045,7 +1053,7 @@
 	tinymce.create(xenPlugin+'.XenIcons', {
 		XenIcons: function(parent) 
 		{
-			var ed = parent.getEditor(), p = xenMCE.Phrases, settings = xenMCE.Params, un = 'undefined';
+			var ed = parent.getEditor(), p = xenMCE.Phrases, un = 'undefined';
 
 			ed.on('BeforeRenderUI', function(e) {
 				/*Delete items from menu if the button is not there*/
@@ -1088,7 +1096,7 @@
 						delete ed.buttons[button].type;
 				}
 
-				if(xenMCE.Params.extraLists != true){
+				if(parent.getParam('extraLists') != true){
 					disableExtra('bullist');
 					disableExtra('numlist');
 				}
@@ -1103,7 +1111,7 @@
 				if(statBar && statBar.length > 0)
 					$statBar = $(statBar[0].getEl());
 
-				if(settings.hidePath && statBar.length > 0)
+				if(parent.getParam('hidePath') && statBar.length > 0)
 					$statBar.find('.mce-path').css('visibility', 'hidden');
 			});
 		}
@@ -1227,7 +1235,7 @@
 	tinymce.create(xenPlugin+'.Fright', {
 		Fright: function(parent) 
 		{
-			if(xenMCE.Params.frightMode != true)
+			if(parent.getParam('frightMode') != true)
 				return false;
 
 			$.extend(this, parent);
@@ -1280,7 +1288,7 @@
 	tinymce.create(xenPlugin+'.quirks', {
 		quirks: function(parent) 
 		{
-			var ed = parent.getEditor(), settings = xenMCE.Params, inlineEd = 'InlineMessageEditor';
+			var ed = parent.getEditor(), inlineEd = 'InlineMessageEditor';
 
 			/* 2013/08/28: fix for the autoresize plugin needed with the overlay and with some browsers (IE, Chrome) */
 			ed.on('postrender', function(e) { //other event possible: focus
@@ -1293,7 +1301,7 @@
 			/* 2013/10/26: Extend the behaviour of mceInsertContent command to go the to bottom of the inserted object (optional) */
 			ed.on('BeforeSetContent', function(e)
 			{
-				if(!settings.extendInsert)
+				if(!parent.getParam('extendInsert'))
 					return;
 				
 				function contentIsImg(content)
@@ -1382,7 +1390,7 @@
 				}
 			});
 
-			if(settings.geckoFullfix){
+			if(parent.getParam('geckoFullfix')){
 				var originalBeforeLoadFct = XenForo._overlayConfig.onBeforeLoad;
 				XenForo._overlayConfig.onBeforeLoad = function(e){
 					if(window.tinyMCE && tinymce.isGecko && $(this.getTrigger()).hasClass('edit')){
@@ -1412,7 +1420,7 @@
 		TableIntegration: function(parent) 
 		{
 			this.ed = parent.getEditor();
-			var self = this, ed = this.ed, settings = xenMCE.Params, un = 'undefined';
+			var self = this, ed = this.ed, un = 'undefined';
 		
 			function addSkin(e, id){
 				var dom = ed.dom, tableElm;
@@ -1531,7 +1539,7 @@
 				}
 			};
 			
-			if(xenMCE.Params.fastUnlink)
+			if(parent.getParam('fastUnlink'))
 				$.extend(linkButton, linkButtonExtra);
 			
 			ed.addButton('xen_link', linkButton );
@@ -1557,7 +1565,7 @@
 		},
 		init: function(e)
 		{
-			var size = xenMCE.Params.overlayLinkSize;
+			var size = this.getParam('overlayLinkSize');
 			config = {
 				width: size.w,
 				height: size.h,
@@ -1587,7 +1595,7 @@
 			function modifyButton(button) {
 				var html = button.panel.html, cmd = button.selectcmd, onclick = button.onclick;
 				
-				if(xenMCE.Params.extraColors == true){
+				if(parent.getParam('extraColors') == true){
 					button.panel.html = function(e){
 						var advPicker = '<div href="#" class="mceAdvPicker" data-mode="'+cmd+'">';
 						advPicker += xenMCE.Phrases.more_colors;
@@ -1645,7 +1653,7 @@
 		{
 			this._colorButton = buttonObj;// element added (2)
 			
-			var size = xenMCE.Params.overlayColorPickerSize;
+			var size = this.getParam('overlayColorPickerSize');
 			config = {
 				width: size.w,
 				height: size.h,
@@ -1689,7 +1697,7 @@
 		},
 		init: function(e)
 		{
-			var size = xenMCE.Params.overlayMediaSize;
+			var size = this.getParam('overlayMediaSize');
 			
 			config = {
 				width: size.w,
@@ -1726,7 +1734,7 @@
 		init: function(e)
 		{
 			var node = this.ed.selection.getNode(),
-			size = xenMCE.Params.overlayImageSize;
+			size = this.getParam('overlayImageSize');
 			
 			config = {
 				width: size.w,
@@ -1812,45 +1820,70 @@
 			$.extend(this, parent);
 			var src = this, ed = this.getEditor(),  n = 'xen_smilies', n2 = 'xen_smilies_picker';
 			
-			this.params = xenMCE.Params;
-
 			function _getHtml(fullSmilies) 
 			{
-				var i = 1, i_max, smilies = src.params.xenforo_smilies, prefix = 'mceQuattroSmilie', suffix = '';
+				var i = 1, i_max, prefix = 'mceQuattroSmilie', suffix = '',
+					smilies = parent.getParam('xenforo_smilies'), 
+					smiliesCat = parent.getParam('smiliesCat'),
+					smiliesMenuBtnCat = parent.getParam('xCatSmilies');
 
 				if(fullSmilies === true){
 					i_max = 0;
 					suffix = 'Full';
 				}else{
-					i_max = src.params.xSmilies;
+					i_max = parent.getParam('xSmilies');
 				}
 				
-				var dom = ed.dom, smiliesHtml = '<div role="presentation" class="'+prefix+'Block'+suffix+'">',
-				dataTags = 'data-smilie="yes"';
+				var smiliesHtml = '<div role="presentation" class="'+prefix+'Block'+suffix+'">', dataTags = 'data-smilie="yes"';
 				/*** Above: 	> The data-smilie is used by @XenForo_Html_Renderer_BbCode. There are many conditions but actually the data-smilie should be enough
 					 	> It is will also used to trigger the smilie button and prevent the img button to be triggered
 				**/
-				
-				tinymce.each(smilies, function(v, k) {
-					var smilieInfo = { id: v[1], desc: v[0], bbcode: dom.encode(k)};
+
+				function getGrid(smiliesHtml, smilies)
+				{
+					tinymce.each(smilies, function(v, k) {
+						var dom = ed.dom, smilieInfo = { id: v[1], desc: v[0], bbcode: dom.encode(k)}, smiliesDesc = parent.getParam('smiliesDesc');
+						
+						if(smiliesDesc == 'bbcode'){
+							smilieInfo.desc = k;
+						}else if(smiliesDesc == 'none'){
+							smilieInfo.desc = '';					
+						}
+	
+						if(i_max != 0 && i > i_max)
+							return false;
+	
+						if(typeof smilieInfo.id === 'number'){
+							smiliesHtml += '<a href="#"><img src="styles/default/xenforo/clear.png" alt="'+smilieInfo.bbcode+'" title="'+smilieInfo.desc+'" '+dataTags+' class="'+prefix+' '+prefix+'Sprite mceSmilie'+smilieInfo.id+'"  /></a>';
+						}else{
+							smiliesHtml += '<a href="#"><img src="'+dom.encode(smilieInfo.id)+'" alt="'+smilieInfo.bbcode+'" title="'+smilieInfo.desc+'" '+dataTags+' class="'+prefix+'" /></a>';
+						}
+	
+						i++;
+					});
 					
-					if(src.params.smiliesDesc == 'bbcode'){
-						smilieInfo.desc = k;
-					}else if(src.params.smiliesDesc == 'none'){
-						smilieInfo.desc = '';					
+					return smiliesHtml;
+				}
+
+				if(!smiliesCat){
+					smiliesHtml = getGrid(smiliesHtml, smilies);
+				} else {
+					if(	fullSmilies !== true 
+						&& smiliesMenuBtnCat != -1 
+						&& typeof smilies[smiliesMenuBtnCat] !== 'undefined'
+					){
+						smiliesHtml += getGrid('', smilies[smiliesMenuBtnCat].smilies);
+					} else {
+						tinymce.each(smilies, function(v, k) {
+							if(fullSmilies === true){
+								smiliesHtml += '<p class="mce_smilie_cat_title">'+v.title+'</p>';
+								smiliesHtml += '<div class="mce_smilie_cat">'+getGrid('', v.smilies)+'</div>';
+							} else {
+								smiliesHtml += getGrid('', v.smilies);
+							}
+						});
 					}
-
-					if(i_max != 0 && i > i_max)
-						return false;
-
-					if(typeof smilieInfo.id === 'number'){
-						smiliesHtml += '<a href="#"><img src="styles/default/xenforo/clear.png" alt="'+smilieInfo.bbcode+'" title="'+smilieInfo.desc+'" '+dataTags+' class="'+prefix+' '+prefix+'Sprite mceSmilie'+smilieInfo.id+'"  /></a>';
-					}else{
-						smiliesHtml += '<a href="#"><img src="'+dom.encode(smilieInfo.id)+'" alt="'+smilieInfo.bbcode+'" title="'+smilieInfo.desc+'" '+dataTags+' class="'+prefix+'" /></a>';
-					}
-
-					i++;
-				});
+				}
 		
 				smiliesHtml += '</div>';
 				
@@ -1922,7 +1955,7 @@
 				stateSelector: 'img[data-smilie]'
 			};
 
-			if(src.params.smiliesSlider == true)
+			if(parent.getParam('smiliesSlider') == true)
 				configN2.onclick = $.proxy(this, 'init');
 			else
 				configN2.onclick = pickerDialog;
@@ -1931,7 +1964,7 @@
 		},
 		init: function(e)
 		{
-			var size = this.params.overlaySmiliesSize;
+			var size = this.getParam('overlaySmiliesSize');
 			
 			config = {
 				width: parseInt(size.w),
@@ -2011,7 +2044,7 @@
 				dfm = 'Draft mode: ',
 				rd = 'restoredraft';
 
-			if(!this.autoSaveUrl || !xenMCE.Params.xendraft){
+			if(!this.autoSaveUrl || !parent.getParam('xendraft')){
 				console.info(dfm+'Mce');
 				return;
 			}
@@ -2020,7 +2053,7 @@
 			console.info(dfm+'Xen');
 			
 			var menuItems = parent.buildMenuItems(
-						src.draftText.save+'|'+src.draftText.delete,
+						src.draftText.save+'|'+src.draftText._delete,
 						'saveDraft|deleteDraft',
 						null,
 						'xen_draft'
