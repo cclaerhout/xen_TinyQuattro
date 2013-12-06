@@ -4937,4 +4937,22 @@ $0]]></replace>
     </modification>
   </public_template_modifications>
   <bb_code_media_sites/>
+  <template_modifications>
+    <modification title="RTE Quattro Mobile Option" template_title="account_preferences" execute_order="10" modification_type="preg_replace" callback_class="" callback_method="" description="User field" version_id="4" version_string="1.0.4" active="1">
+      <search_value><![CDATA[#([ \t]*)<li>.+?ctrl_enable_rte(?s).+?</li>#i]]></search_value>
+      <replace_value><![CDATA[$1<xen:if is="{$xenOptions.quattro_parser_mobile_user_option}">
+$1<xen:include template="quattro_mobile_user_option"></xen:include>
+$1</xen:if>
+$0]]></replace_value>
+    </modification>
+    <modification title="tiny_quattro_js_setup" template_title="editor" execute_order="10" modification_type="str_replace" callback_class="" callback_method="" description="TinyMCE Quattro Setup" version_id="1" version_string="1.0.1" active="1">
+      <search_value><![CDATA[<xen:include template="editor_js_setup" />]]></search_value>
+      <replace_value><![CDATA[	<xen:if is="{$loadQuattro}">
+		<xen:include template="tiny_quattro_js_setup" />
+	<xen:else />
+		<xen:include template="editor_js_setup" />
+	</xen:if>
+]]></replace_value>
+    </modification>
+  </template_modifications> 
 </addon>
