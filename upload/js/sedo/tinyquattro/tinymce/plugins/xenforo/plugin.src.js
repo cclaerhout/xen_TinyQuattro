@@ -1,4 +1,4 @@
-(function() {
+(function(undefined) {
 /***
 *	xenMCE - AllInOne Functions
 ***/
@@ -35,7 +35,7 @@
 		{
 			var bckOv = xenMCE.Tools.backupOverlay;
 			
-			if(typeof bckOv[key] !== 'undefined')
+			if(typeof bckOv[key] !== undefined)
 				return bckOv[key];
 			else
 				return false;
@@ -62,9 +62,9 @@
 	tinymce.create('xenMCE.Tools', {
 		Tools: function(ed) 
 		{
-			var src = this, s = this.static, un = 'undefined';
+			var src = this, s = this.static;
 			
-			if(typeof ed === 'undefined'){
+			if(typeof ed === undefined){
 				ed = tinymce.activeEditor;
 			}
 
@@ -74,13 +74,36 @@
 			
 			this.$textarea = $(ed.getElement());
 			this.isOldXen = src.getParam('oldXen');
-			
+
+			/*Extend events*/
+			ed.on('init', function(e) {
+				var win = ed.windowManager, winOpen = win.open;
+				
+				win.open = function(args, params)
+				{
+					if(typeof args === undefined)
+						args = false;
+						
+					if(typeof params === undefined)
+						params = false;
+				
+					var settings = { args: args, params: params};
+					ed.fire('XenModalInit', settings);
+					
+					var modal = winOpen(args, params),
+						settings = { modal: modal, args: args, params: params};
+					ed.fire('XenModalComplete', settings);
+					
+					return modal;
+				}
+			});
+
 			/* Get Editor */
 			this.getEditor = function (){ return ed; };
 			
 			/* Fullscreen State */			
 			this.isFullscreen = function(e) { 
-				if(typeof ed.plugins.fullscreen === un)
+				if(typeof ed.plugins.fullscreen === undefined)
 					return false
 				else
 					return ed.plugins.fullscreen.isFullscreen();
@@ -90,7 +113,7 @@
 			xenMCE.Overlay._Tools = this;
 
 			/*XenForo plugins AutoLoader*/
-			if(typeof xenMCE.Plugins.Auto !== un){
+			if(typeof xenMCE.Plugins.Auto !== undefined){
 				$.each(xenMCE.Plugins.Auto, function(k, v){
 					new v(src);
 				});
@@ -217,8 +240,7 @@
 				*	XenForo ExtLoader: JS & CSS successfully loaded
 				**/
 				
-				var 	un = 'undefined',
-					win = editor.windowManager,
+				var 	win = editor.windowManager,
 					phrase = xenMCE.Phrases,
 					buttonOk = phrase.insert,
 					buttonCancel = phrase.cancel,
@@ -276,26 +298,26 @@
 				if($title)
 					wmConfig.title = $title.text();
 
-				if(typeof wmConfig.title === un || !wmConfig.title)
+				if(typeof wmConfig.title === undefined || !wmConfig.title)
 					wmConfig.title = phrase.notitle;
 
 				/*Overlay size*/
 				var defaultSize = self.getParam('overlayDefaultSize');
 				
-				if(typeof wmConfig.width === un)
+				if(typeof wmConfig.width === undefined)
 					wmConfig.width = defaultSize.w;
 
-				if(typeof wmConfig.height === un)
+				if(typeof wmConfig.height === undefined)
 					wmConfig.height = defaultSize.h;
 			
-				if(typeof $title.data('width') !== un)
+				if(typeof $title.data('width') !== undefined)
 					wmConfig.width = parseInt($title.data('width'));
 
-				if(typeof $title.data('height') !== un)
+				if(typeof $title.data('height') !== undefined)
 					wmConfig.height = parseInt($title.data('height'));
-			
+
 				/*Autofield & extend Data*/
-				if(typeof wmConfig.data !== un){
+				if(typeof wmConfig.data !== undefined){
 					//Autofield existed tags with name attribute with their related data
 					$.each(wmConfig.data, function(k, v){
 						$e = $html.find('[name='+k+']');
@@ -322,7 +344,7 @@
 				}
 
 				/* MCE onsubmit callback */
-				if(typeof wmConfig.onsubmit !== un){
+				if(typeof wmConfig.onsubmit !== undefined){
 					originalSubmit = wmConfig.onsubmit;
 					
 					wmConfig.onsubmit = function(params){
@@ -335,7 +357,7 @@
 				}
 
 				/* Buttons Ok/Cancel + listeners */
-				if(typeof wmConfig.buttons === un){
+				if(typeof wmConfig.buttons === undefined){
 					wmConfig.buttons = [
 						{text: buttonOk, subtype: 'primary xenSubmit', minWidth: 80, onclick: function(e) {
 							var win = editor.windowManager.windows[0];
@@ -368,23 +390,26 @@
 				/* Beforeload callback: use to modify the wmConfig if needed*/
 				if(params.onbeforeload != false){
 					var wmConfigModified = params.src[params.onbeforeload](wmConfig, self);
-					if (typeof wmConfigModified !== un)
+					if (typeof wmConfigModified !== undefined)
 						wmConfig = wmConfigModified;
 				}
 
 				/* Launch the TinyMCE overlay */
-				win.open(wmConfig);
+				var modal = win.open(wmConfig, { 
+					dialogName: params.dialog,
+					modalClassName: params.dialog,
+					ovlParams: params
+				});
 
 				/* Get overlay */
 				$overlay = $(win.windows[0].getEl());
 				xenMCE.Tools.backupOverlay.$overlay = $overlay;
-
-				/* Get body height */
-				var ovlBodyHeight = $overlay.find('.mce-xen-body').height();
-
-				/*Add a class using the dialog name to the overlay*/
-				win.windows[0].addClass(params.dialog);
 				
+				/* Get body height */
+					//$overlay.find('.mce-xen-body').height(); doesn't work well on IE 7-8-9
+				var ovlBodyHeight = $overlay.children('.mce-container-body').height();
+				console.log(ovlBodyHeight);
+
 				/* AutoFocus */
 				$overlay.find('.mceFocus').focus();
 
@@ -415,8 +440,8 @@
 
 				
 				if($slides.length > 0){
-					var sl = ovlBodyHeight - 40;
-					$slides.height(sl).children().height(sl);
+					var sl = ovlBodyHeight;
+					$slides.height(sl).children().height(sl-$slides.data('diff'));
 					
 					$slider_tabs = $overlay.find('.'+slideTag+'Tabs');
 					$('<a class="'+slideTag+'Navig '+slideTag+'Backward">&lsaquo;</a><a class="'+slideTag+'Navig '+slideTag+'Forward">&rsaquo;</a>').insertBefore($slides);
@@ -483,16 +508,125 @@
 				}
 			});
 		},
+		responsiveModal: function(modal)
+		{
+			var $overlay = $(modal.getEl()), responsive = 'responsive',
+			$mainBody = $overlay.children('.mce-container-body');
+		
+			function centerRepos(){
+				var repos_left = ( $(window).width() - $overlay.width() )/2,
+					$xenMceBody = $overlay.find('.mce-xen-body'),
+					bodyOverscrollVal = $xenMceBody.css('overscroll'),
+					$xenMceFooter = $overlay.find('mce-foot');
+					
+				if(repos_left < 0){
+					repos_left = 1;
+					
+					/*Tag some Elements with the responsive class*/
+					modal.addClass(responsive);
+					$overlay.children().add($xenMceBody).addClass(responsive);
+
+					var autoWidthVal = $(window).width(),
+						safeWidthVal = autoWidthVal-5,
+						$autoWidthEl = $overlay.find('*').filter(function() {
+							var inlineWidthVal = $(this).prop('style')['width'],
+								allWidthVal = $(this).css('width'),
+								filterResult;
+
+							function filterWidth(targetWidthVal)
+							{
+								if(targetWidthVal.indexOf('%') != -1){
+									return false;
+								}
+								
+								if(parseInt(targetWidthVal) >= autoWidthVal){
+									if(!$(this).data('owidth')){
+										$(this).data('owidth', targetWidthVal);
+									};
+									return true;
+								}							
+							}
+							
+							filterResult = filterWidth(inlineWidthVal);
+							
+							if(filterResult == true){
+								return true;
+							}
+							
+							filterResult = filterWidth(allWidthVal);
+							
+							if($(this).css('width') == $(this).parent().css('width')){
+								return false;
+							}
+							
+							if(filterResult == true){
+								return true;
+							}
+
+							return false;
+						}),
+						$noWrapEl = $overlay.find('*').filter(function() {
+							var onw = $(this).css('white-space');
+							if(onw != 'normal' && !$(this).data('onw')){
+								$(this).data('onw', onw);
+								return true;
+							}
+							return false;
+						});
+
+					/*Width Management*/
+					$autoWidthEl.add($overlay).css({'max-width':safeWidthVal+'px'});
+					$overlay.find('.responsiveBlock').css({'max-width':safeWidthVal-15+'px'});
+					
+					/*Overflow Management*/
+					if($overlay.find('.mainBodyOverflow').length){
+						$mainBody.css('overflow', 'auto');
+					}
+
+					if($overlay.find('.disableXenBodyOverflow').length == 0){
+						$xenMceBody.data('ovsc', bodyOverscrollVal).css('overflow', 'auto');
+					}
+					
+					/*White-space Management*/
+					$noWrapEl.css({'white-space':'normal'});
+				}else{
+					//Initially for the resize function, but doesn't work well - keep for reference
+					/*
+					var ovsc = $xenMceBody.data('ovsc');
+					if(ovsc){
+						$xenMceBody.css('overflow', ovsc);
+					}
+					
+					$overlay.find('*').filter(function() {
+						var owidth = $(this).data('owidth'),
+							onw = $(this).data('onw');
+						if(owidth){
+							$(this).css({width:owidth, 'max-width':owidth});
+						}
+						if(onw){
+							$(this).css({'white-space':onw});
+						}
+					});
+					
+					$overlay.children().removeClass('responsive');
+					$xenMceBody.removeClass('responsive');
+					*/
+				}
+				
+				$overlay.css({ left: repos_left });
+			}
+				
+			centerRepos();		
+		},
 		isDefined: function(v, k)
 		{
-			var un = 'undefined';
-			if(typeof k === un){
-				if(typeof v === un)
+			if(typeof k === undefined){
+				if(typeof v === undefined)
 					return false;
 				else
 					return v;
 			}else{
-				if(typeof v === un || typeof v[k] === un)
+				if(typeof v === undefined || typeof v[k] === undefined)
 					return false;
 				else
 					return v[k];		
@@ -547,7 +681,7 @@
 			return $e;
 		},
 		isActiveButton: function(buttonName){
-			var buttonConfig = [];
+			var buttonConfig = [], ed = this.getEditor();
 			for (var i=1;typeof ed.settings['toolbar'+i] !== 'undefined';i++){
 				buttonConfig = buttonConfig.concat(ed.settings['toolbar'+i].split(' '));
 			}
@@ -562,10 +696,9 @@
 		{
 			var ed = this.getEditor(),	
 			buttons = ed.buttons,
-			toolbarObj = ed.theme.panel.find('toolbar *'),
-			un = 'undefined';
+			toolbarObj = ed.theme.panel.find('toolbar *');
 	
-			if(typeof buttons[name] === un)
+			if(typeof buttons[name] === undefined)
 				return false;
 			
 			var settings = buttons[name], result = false, length = 0;
@@ -575,7 +708,7 @@
 			});
 			
 			tinymce.each(toolbarObj, function(v, k) {
-				if (v.type != 'button' || typeof v.settings === un)
+				if (v.type != 'button' || typeof v.settings === undefined)
 					return;
 	
 				var i = 0;
@@ -618,22 +751,21 @@
 		{
 			var ed = this.getEditor(),	
 			toolbarObj = ed.theme.panel.find('toolbar *'),
-			un = 'undefined',
 			results = {};
 	
 			tinymce.each(toolbarObj, function(v, k) {
 				var settings = v.settings;
 				
-				if (v.type != 'button' || typeof settings === un)
+				if (v.type != 'button' || typeof settings === undefined)
 					return;
 
-				if( (typeof val !== un) && typeof settings[prop] !== un && settings[prop] == val)
+				if( (typeof val !== undefined) && typeof settings[prop] !== undefined && settings[prop] == val)
 					results[k] = v;
-				else if( (typeof val === un || val === null) && typeof settings[prop] !== un)
+				else if( (typeof val === undefined || val === null) && typeof settings[prop] !== undefined)
 					results[k] = v;
 			});
 
-			if(typeof jQueryEl !== un){
+			if(typeof jQueryEl !== undefined){
 				var $buttons = $();
 				$.each(results, function(k, v){
 					$buttons = $buttons.add($(v.getEl()));
@@ -660,9 +792,9 @@
 		},
 		buildMenuItems: function(text, value, css, classes)
 		{
-			var items = [], bakeData = [], un = 'undefined', dataVal, textVal;
+			var items = [], bakeData = [], dataVal, textVal;
 			
-			if(typeof value === un)
+			if(typeof value === undefined)
 				value = text;
 			
 			tinymce.each(value.split(/\|/), function(v) {
@@ -670,9 +802,9 @@
 			});
 			
 			tinymce.each(text.split(/\|/), function(text, i) {
-				dataVal = (typeof bakeData[i] !== un) ? bakeData[i] : '';
+				dataVal = (typeof bakeData[i] !== undefined) ? bakeData[i] : '';
 
-				if(typeof css === un || css == null)
+				if(typeof css === undefined || css == null)
 					return items.push({ text: text, value: dataVal } );
 
 				var baker = { 
@@ -682,7 +814,7 @@
 					textStyle: css.replace(/{t}/g, text).replace(/{v}/g, dataVal)
 				};
 				
-				if(typeof classes !== un)
+				if(typeof classes !== undefined)
 					baker.classes = classes;
 
 				items.push(baker);
@@ -846,7 +978,7 @@
 			this.ed = this.getEditor();
 			var ed = this.ed;
 			
-			var src = this, buttons = src.getParam('bbmButtons'), un = 'undefined';
+			var src = this, buttons = src.getParam('bbmButtons');
 
 			$.each(buttons, function(tag, data){
 				var n = data.code;
@@ -892,7 +1024,7 @@
 				}
 				
 				if(data._return == 'kill'){
-					if(typeof ed.buttons[data.code] === un){
+					if(typeof ed.buttons[data.code] === undefined){
 						console.debug('Button "'+data.code+'" not found - Dev: activate your plugin before xenforo plugin / Admin: Delete it from the BBM');
 						return;						
 					}
@@ -906,11 +1038,11 @@
 		},
 		onafterload: function($ovl, data, ed, src)
 		{
-			var dialog = src.overlayParams.dialog.replace('bbm_', 'Bbm_'), un = 'undefined';
+			var dialog = src.overlayParams.dialog.replace('bbm_', 'Bbm_');
 
-			if(	typeof xenMCE.Templates[dialog] !== un
+			if(	typeof xenMCE.Templates[dialog] !== undefined
 				&&
-				typeof xenMCE.Templates[dialog].onafterload !== un
+				typeof xenMCE.Templates[dialog].onafterload !== undefined
 			){
 				xenMCE.Templates[dialog].onafterload($ovl, data, ed, src);
 			}
@@ -918,11 +1050,11 @@
 		},
 		submit: function(e, $overlay, ed, src)
 		{
-			var dialog = src.overlayParams.dialog.replace('bbm_', 'Bbm_'), un = 'undefined';
+			var dialog = src.overlayParams.dialog.replace('bbm_', 'Bbm_');
 			
-			if(	typeof xenMCE.Templates[dialog] !== un
+			if(	typeof xenMCE.Templates[dialog] !== undefined
 				&&
-				typeof xenMCE.Templates[dialog].submit !== un
+				typeof xenMCE.Templates[dialog].submit !== undefined
 			){
 				xenMCE.Templates[dialog].submit(e, $overlay, ed, src);
 			} 
@@ -1047,84 +1179,13 @@
 	});
 
 	/***
-	*	XenForo Icons
-	*	Independent plugin
-	***/
-	tinymce.create(xenPlugin+'.XenIcons', {
-		XenIcons: function(parent) 
-		{
-			var ed = parent.getEditor(), p = xenMCE.Phrases, un = 'undefined';
-
-			ed.on('BeforeRenderUI', function(e) {
-				/*Delete items from menu if the button is not there*/
-				function deleteMenuItem(item){
-					if(typeof ed.menuItems[item] !== un)
-						delete ed.menuItems[item];
-				}
-
-				if(!parent.isActiveButton('xen_link')){
-					deleteMenuItem('xen_link');
-				}
-
-				if(!parent.isActiveButton('table')){
-					var menuToDelete = ['inserttable', 'xen_tableskin', 'cell', 'row', 'column', 'deletetable'];
-					tinymce.each(menuToDelete, function(v){
-						deleteMenuItem(v);
-					});
-				}
-
-				/* Auto translate tooltips based on suffix _desc*/
-				tinymce.each(ed.buttons, function(v, k){
-					var key_desc = k+'_desc';
-					
-					if(!XenForo.isTouchBrowser()){
-						if(typeof p[key_desc] !== un)
-							ed.buttons[k].tooltip = p[key_desc];
-					}else{
-						//Tooltip are annoying on Touch devices - let's delete them
-						if(typeof ed.buttons[k].tooltip !== un)
-							delete ed.buttons[k].tooltip;
-					}
-				});
-
-				/***
-					Need to modify the list buttons and delete extra options 
-					(XenForo_Html_Renderer_BbCode can't be extended)
-				**/
-				function disableExtra(button){
-					if(typeof ed.buttons[button].type !== un)
-						delete ed.buttons[button].type;
-				}
-
-				if(parent.getParam('extraLists') != true){
-					disableExtra('bullist');
-					disableExtra('numlist');
-				}
-			});
-
-			ed.on('init', function(e) {
-				$buttons = parent.getButtonsByProperty('iconset', 'xenforo', true);
-				$buttons.find('i.mce-ico').addClass('mce-xenforo-icons');
-
-				var statBar = ed.theme.panel.find('#statusbar');
-
-				if(statBar && statBar.length > 0)
-					$statBar = $(statBar[0].getEl());
-
-				if(parent.getParam('hidePath') && statBar.length > 0)
-					$statBar.find('.mce-path').css('visibility', 'hidden');
-			});
-		}
-	});
-
-	/***
 	*	XenForo Fonts
 	*	Independent plugin
 	***/
 	tinymce.create(xenPlugin+'.XenFonts', {
 		XenFonts: function(parent) 
 		{
-			var ed = parent.getEditor(), Factory = tinymce.ui.Factory, menuSize, menuFam, un = 'undefined',
+			var ed = parent.getEditor(), Factory = tinymce.ui.Factory, menuSize, menuFam,
 			sizeClass = 'xen-font-size', fontFamily = 'font-family',  famClass = 'xen-'+fontFamily, p = xenMCE.Phrases, 
 			fontSizeText = '', fontSizeValues;
 
@@ -1218,7 +1279,7 @@
 						var fontname = node.style.fontFamily;
 						if(fontname){
 							fontname = fontname.toLowerCase().replace(/'/g, '');
-							if(fontname !== 'serif' && typeof convTable[fontname] !== un){
+							if(fontname !== 'serif' && typeof convTable[fontname] !== undefined){
 								dom.setStyle(node, 'fontFamily', convTable[fontname]);
 							}
 						}
@@ -1277,6 +1338,67 @@
 			.on('FullscreenStateChanged', function(e){
 				$('#'+blockId+':first-child').addClass(first);
 				$('#'+blockId+':last-child').addClass(last);
+			});
+		}
+	});
+
+	/***
+	*	XenForo Modal Extension
+	*	Independent plugin
+	***/
+	tinymce.create(xenPlugin+'.Modal', {
+		Modal: function(parent) 
+		{
+			ed.on('XenModalComplete', function(settings) {
+				var modal = settings.modal, args = settings.args, params = settings.params,
+					$modal = $(modal.getEl()), 
+					className = false,
+					disableResponsive = ($modal.find('.noResponsive').length) ? true : false;
+
+				function addBodyOverflow(){
+					$modal.children('.mce-container-body').addClass('mainBodyOverflow');
+				}
+
+				/*Manual detection for charmap*/
+				var chmp = 'mce-charmap';
+				if($modal.find('.'+chmp).length >= 1){
+					className = 'modal-'+chmp;
+					addBodyOverflow();
+				}
+
+				/*Make MCE+XEN Modal Responsive*/
+				if(params && typeof params.disableResponsive !== undefined){
+					disableResponsive = params.disableResponsive;
+				}
+				
+				if(args && typeof args.disableResponsive !== undefined){
+					disableResponsive = args.disableResponsive;
+				}
+	
+				if(parent.isOldXen === true || parent.getParam('disableResponsive')){
+					disableResponsive = true;
+				}
+	
+				if(!disableResponsive){
+					parent.responsiveModal(modal);
+				}
+
+				/*Add class to modal root if defined*/
+				if(args && typeof args.modalClassName !== undefined){
+					className = args.modalClassName;
+				}
+				
+				if(params && typeof params.modalClassName !== undefined){
+					className = params.modalClassName;
+				}
+				
+				if(className){
+					modal.addClass(className);
+				}
+				
+				/*IE Btn Size fix - #bug:6538*/
+				var $normalBtn = $modal.find('.mce-btn:not(.mce-primary)');
+				$normalBtn.width($normalBtn.width()+2);
 			});
 		}
 	});
@@ -1420,7 +1542,7 @@
 		TableIntegration: function(parent) 
 		{
 			this.ed = parent.getEditor();
-			var self = this, ed = this.ed, un = 'undefined';
+			var self = this, ed = this.ed;
 		
 			function addSkin(e, id){
 				var dom = ed.dom, tableElm;
@@ -1818,7 +1940,8 @@
 		XenSmilies: function(parent) 
 		{
 			$.extend(this, parent);
-			var src = this, ed = this.getEditor(),  n = 'xen_smilies', n2 = 'xen_smilies_picker';
+			var src = this, ed = this.getEditor(),  n = 'xen_smilies', n2 = 'xen_smilies_picker',
+			windowType = parent.getParam('smiliesWindow');
 			
 			function _getHtml(fullSmilies) 
 			{
@@ -1834,7 +1957,7 @@
 					i_max = parent.getParam('xSmilies');
 				}
 				
-				var smiliesHtml = '<div role="presentation" class="'+prefix+'Block'+suffix+'">', dataTags = 'data-smilie="yes"';
+				var smiliesHtml = '<div role="presentation" class="'+prefix+'Block'+suffix+' responsiveBlock">', dataTags = 'data-smilie="yes"';
 				/*** Above: 	> The data-smilie is used by @XenForo_Html_Renderer_BbCode. There are many conditions but actually the data-smilie should be enough
 					 	> It is will also used to trigger the smilie button and prevent the img button to be triggered
 				**/
@@ -1922,6 +2045,8 @@
 							win.close();
 						}
 					}]
+				},{ 
+					modalClassName: 'modal-smilies'
 				});
 
 			}
@@ -1955,14 +2080,19 @@
 				stateSelector: 'img[data-smilie]'
 			};
 
-			if(parent.getParam('smiliesSlider') == true)
-				configN2.onclick = $.proxy(this, 'init');
-			else
-				configN2.onclick = pickerDialog;
+			if( windowType == 'slider'){
+				configN2.onclick = $.proxy(this, 'initOvl');
+			}else if(windowType == 'belowbox' && !this.isOldXen){
+				configN2.onclick = function(e){
+					src.initBox(this, e, ed);
+				}
+			}else{
+				configN2.onclick = pickerDialog;			
+			}
 			
 			ed.addButton(n2, configN2);
 		},
-		init: function(e)
+		initOvl: function(e)
 		{
 			var size = this.getParam('overlaySmiliesSize');
 			
@@ -1981,6 +2111,53 @@
 		onafterload: function($ovl, data, ed, src)
 		{
 			xenMCE.Templates.SmiliesSlider.init($ovl, data, ed, src);
+		},
+		initBox: function(src, e, ed)
+		{
+			var self = this, 
+				$container = $(ed.getContainer()).parent(),
+				$smilies =  $container.find('.redactor_smilies');
+			
+			if ($smilies.length){
+				$smilies.slideToggle('slow', function(){
+					src.active($smilies.is(":visible"));
+				});
+				return;
+			}
+
+			if (self.smiliesPending){
+				return;
+			}
+			
+			self.smiliesPending = true;
+
+			XenForo.ajax(
+				'index.php?editor/smilies',
+				{ mce: 'mce4' },
+				function(ajaxData) {
+					if (XenForo.hasResponseError(ajaxData)){
+						return;
+					}
+					if (ajaxData.templateHtml){
+						new XenForo.ExtLoader(ajaxData, function(){
+							$smilies = $('<div class="redactor_smilies mce" />').html(ajaxData.templateHtml);
+							$smilies.hide();
+							$smilies.on('click', '.Smilie', function(e) {
+								e.preventDefault();
+								var $smilie = $(this), html = $.trim($smilie.html());
+								ed.execCommand('mceInsertContent', false, html);
+								ed.focus();
+							});
+
+							$container.append($smilies);
+							$smilies.slideToggle();
+						});
+					}
+				}
+			).complete(function() {
+				self.smiliesPending = false;
+				src.active(true);
+			});
 		}
 	});
 
@@ -2039,7 +2216,6 @@
 
 			var 	src = this, 
 				ed = this.ed,
-				un = 'undefined',
 				linkButtonExtra = {},
 				dfm = 'Draft mode: ',
 				rd = 'restoredraft';
@@ -2189,5 +2365,78 @@
 
 			return true;
 		}
+	});
+
+	/***
+	*	XenForo Icons
+	*	Independent plugin - Must be at the last of this file (reason - bug:#6543)
+	***/
+	tinymce.create(xenPlugin+'.XenIcons', {
+		XenIcons: function(parent) 
+		{
+			var ed = parent.getEditor(), p = xenMCE.Phrases;
+
+			//2013-12-05: still needs to use BeforeRenderUI here
+			ed.on('BeforeRenderUI', function(e) {
+				/*Delete items from menu if the button is not there*/
+				function deleteMenuItem(item){
+					if(typeof ed.menuItems[item] !== undefined)
+						delete ed.menuItems[item];
+				}
+
+				if(!parent.isActiveButton('xen_link')){
+					deleteMenuItem('xen_link');
+				}
+
+				if(!parent.isActiveButton('table')){
+					var menuToDelete = ['inserttable', 'xen_tableskin', 'cell', 'row', 'column', 'deletetable'];
+					tinymce.each(menuToDelete, function(v){
+						deleteMenuItem(v);
+					});
+				}
+			});
+
+			/* Auto translate tooltips based on suffix _desc*/
+      			tinymce.each(ed.buttons, function(v, k){
+      				var key_desc = k+'_desc';
+
+      				if(!XenForo.isTouchBrowser()){
+      					if(typeof p[key_desc] !== undefined){
+      						ed.buttons[k].tooltip = p[key_desc];
+      					}
+      				}else{
+      					//Tooltip are annoying on Touch devices - let's delete them
+      					if(typeof ed.buttons[k].tooltip !== undefined)
+      						delete ed.buttons[k].tooltip;
+      				}
+      			});
+			
+			/***
+			*	Modify the list buttons and delete extra options if selected
+			**/
+			function disableExtra(button){
+				if(typeof ed.buttons[button].type !== undefined){
+					ed.buttons[button].type = 'button';
+				}
+			}
+
+			if(parent.getParam('extraLists') != true){
+				disableExtra('bullist');
+				disableExtra('numlist');
+			}
+
+			ed.on('init', function(e) {
+				$buttons = parent.getButtonsByProperty('iconset', 'xenforo', true);
+				$buttons.find('i.mce-ico').addClass('mce-xenforo-icons');
+
+				var statBar = ed.theme.panel.find('#statusbar');
+
+				if(statBar && statBar.length > 0)
+					$statBar = $(statBar[0].getEl());
+
+				if(parent.getParam('hidePath') && statBar.length > 0)
+					$statBar.find('.mce-path').css('visibility', 'hidden');
+			});
+		}
 	});	
-})();
+})('undefined');

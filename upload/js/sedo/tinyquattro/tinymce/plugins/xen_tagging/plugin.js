@@ -76,7 +76,7 @@ tinymce.create('tinymce.plugins.xen_tagging',
 			console.alert('Range is missing');
 			return;
 		}
-		
+
 		/*Redefine the selection range*/
 		var ed = this.editor;
 		var bookmark = ed.selection.getEnd();
@@ -84,22 +84,29 @@ tinymce.create('tinymce.plugins.xen_tagging',
 		var 	rng = this.range,
 			end = rng.endContainer,
 			text, lastAt; //lastAT should start at 0 but let's do it again
-			
-		if(end.nodeType != 3)
+
+		if(end.nodeType == 1 && tinymce.isIE && tinymce.Env.ie <= 9){
+			//Let's make this function only for IE below version 10 at the moment
+			text = $(end).contents().filter(function() {
+				return this.nodeType == 3;
+			}).text();
+		}else if(end.nodeType == 3){
+			text = end.nodeValue;
+		}else{
 			return false;
-					
-		text = end.nodeValue;
-		
-		if(typeof text === 'undefined')
+		}
+
+		if(typeof text === 'undefined'){
 			return false;
-		
+		}
+
 		lastAt = text.lastIndexOf('@');
 		rng.setStart(end, lastAt);
 
 		ed.selection.setRng(this.range);
 		
 		/*Replace the current selection*/
-		var newContent = '@' + XenForo.htmlspecialchars(name) + '&nbsp;'
+		var newContent = '@' + XenForo.htmlspecialchars(name) + '&nbsp;';
 		ed.execCommand('mceInsertContent', false, newContent);
 		ed.nodeChanged();
 
@@ -210,7 +217,7 @@ tinymce.create('tinymce.plugins.xen_tagging',
 			end = rng.endContainer,
 			prev = rng.endContainer.previousSibling,
 			text, lastAt, afterAt;
-			
+
 		if(end.nodeType != 3)
 			return false;
 					
