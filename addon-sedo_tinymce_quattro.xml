@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.7.0" version_id="35" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.7.0.1" version_id="36" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -4953,6 +4953,10 @@ $0]]></replace_value>
 		<xen:include template="editor_js_setup" />
 	</xen:if>
 ]]></replace_value>
+    </modification>
+    <modification title="quattro_oldxen_integration_class" template_title="editor" execute_order="10" modification_type="preg_replace" callback_class="" callback_method="" description="Adds a class to the editor container to integrate MCE4" version_id="35" version_string="1.7.0" active="1">
+      <search_value><![CDATA[#<textarea[^>]+?name="{\$formCtrlNameHtml}"[^>]+?id="{\$editorId}_html"[^>]+?class="[^"]+?(?=")#]]></search_value>
+      <replace_value><![CDATA[$0 BbCodeWysiwygEditor]]></replace_value>
     </modification>
   </template_modifications> 
 </addon>
