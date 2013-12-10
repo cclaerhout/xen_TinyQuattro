@@ -1301,43 +1301,43 @@
 
 			$.extend(this, parent);
 
-			var src = this, ed = this.getEditor(), 
-			blockId = 'mce-top-right-body', first = 'mce-first', last = 'mce-last';
-			
-			ed.on('postrender', function(e) {
-				$toolbar = $(e.target.contentAreaContainer).prev();
-				$firstLine = $toolbar.find('.mce-toolbar').first();
-				$buttons = src.getButtonsByProperty('xenfright', null, $toolbar);
+			var src = this, ed = this.getEditor(), blockId = 'mce-top-right-body';
+
+			ed.on('postrender', function(event) {
+				var $toolbar = $(event.target.contentAreaContainer).prev(),
+					$buttons = src.getButtonsByProperty('xenfright', null, $toolbar),
+					$firstLine = $toolbar.find('.mce-toolbar').first();
+
+				function resetFrightButtons(){
+					var first = 'mce-first', last = 'mce-last';
+					
+					$buttons.each(function(){
+						$(this).removeClass(first).removeClass(last);
+					})
+					.first().addClass(first).end()
+					.last().addClass(last).end();
+				}
 
 				if(!$buttons.length > 0)
 					return false;
-				
-				$buttons.each(function(i){
-					$e = $(this);
-					i++;
-				
-					if($e.hasClass(first))
-						$e.removeClass(first).next().addClass(first);
-						
-					if($e.hasClass(last))
-						$e.removeClass(last).prev().addClass(last);
-		
-					if(i == 1)
-						$e.addClass(first);
-		
-					if(i == $buttons.length)
-						$e.addClass(last);
+
+				$buttons.click(function(){
+					setTimeout(function() {
+						resetFrightButtons();
+					}, 0);
 				});
+
+				resetFrightButtons();
 				
-				$fl = $('<div id="mce-top-right" class="mce-container mce-flow-layout-item mce-btn-group" role="toolbar" />');
-				$fl_body = $('<div id="'+blockId+'" />').append($buttons);
+				var $fl = $('<div id="mce-top-right" class="mce-container mce-flow-layout-item mce-btn-group" role="toolbar" />'),
+					$fl_body = $('<div id="'+blockId+'" />').append($buttons);	
+								
 				$fl_body.prependTo($fl);
-		
 				$fl.prependTo($firstLine);
-			})
-			.on('FullscreenStateChanged', function(e){
-				$('#'+blockId+':first-child').addClass(first);
-				$('#'+blockId+':last-child').addClass(last);
+
+				ed.on('FullscreenStateChanged', function(){
+					resetFrightButtons();
+				});
 			});
 		}
 	});

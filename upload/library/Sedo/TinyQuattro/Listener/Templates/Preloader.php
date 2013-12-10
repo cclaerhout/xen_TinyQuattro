@@ -141,6 +141,8 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 			$plugins[] = 'xen_paste_img'; // buggy: http://www.tinymce.com/develop/bugtracker_view.php?id=6367
 		}
 
+		XenForo_CodeEvent::fire('tinyquattro_extra_plugins', array(&$plugins));
+
 		$plugins = implode(' ', $plugins);
 		return $plugins;
 	}

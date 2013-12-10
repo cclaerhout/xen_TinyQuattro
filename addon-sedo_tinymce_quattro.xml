@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.7.0.1" version_id="36" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.7.0.2" version_id="37" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -443,7 +443,17 @@ i.mce-i-backcolor
 .mce-i-xen_smilies_picker:before	{ content: "\e035"; }]]></template>
   </admin_templates>
   <admin_template_modifications/>
-  <code_events/>
+  <code_events>
+    <event event_id="tinyquattro_extra_plugins"><![CDATA[<p>Called when the TinyMCE extra plugins are initialized.</p>
+
+<p>Callback signature:</p>
+<blockquote><code><em>array</em> &$plugins</code></blockquote>
+
+<p>Arguments:</p>
+<ol>
+	<li><code><em>array</em> &$plugins</code> - list of TinyMCE extra plugins to initiliaze</li>
+</ol>]]></event>
+  </code_events>
   <code_event_listeners>
     <listener event_id="editor_setup" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_EditorSetup" callback_method="ExtendOptions" active="1" hint="" description="Extend Editor Template Variables"/>
     <listener event_id="init_dependencies" execute_order="20" callback_class="Sedo_TinyQuattro_Listener_Init" callback_method="init_helpers" active="1" hint="" description="Load Template Helper"/>
@@ -468,12 +478,26 @@ step=50</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="220"/>
     </option>
+    <option option_id="quattro_autoresize_max_height_qr" edit_format="spinbox" data_type="integer" can_backup="1">
+      <default_value>380</default_value>
+      <edit_format_params>min=100
+step=20</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="240"/>
+    </option>
     <option option_id="quattro_autoresize_min_height" edit_format="spinbox" data_type="integer" can_backup="1">
       <default_value>260</default_value>
       <edit_format_params>min=50
 step=50</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="210"/>
+    </option>
+    <option option_id="quattro_autoresize_min_height_qr" edit_format="spinbox" data_type="integer" can_backup="1">
+      <default_value>260</default_value>
+      <edit_format_params>min=50
+step=20</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="230"/>
     </option>
     <option option_id="quattro_autosave_ask_before_unload" edit_format="radio" data_type="string" can_backup="1">
       <default_value>true</default_value>
@@ -892,8 +916,12 @@ step=1</edit_format_params>
     <phrase title="option_group_tiny_quattro_paser_description" version_id="4" version_string="1.0.4"><![CDATA[These options are made to modify/complete/fix some behaviours of XenForo]]></phrase>
     <phrase title="option_quattro_autoresize_max_height" version_id="0" version_string="1.0"><![CDATA[Editor autoresize maximum height]]></phrase>
     <phrase title="option_quattro_autoresize_max_height_explain" version_id="0" version_string="1.0"><![CDATA[Once the maximum height is reached, an overflow will be applied.]]></phrase>
+    <phrase title="option_quattro_autoresize_max_height_qr" version_id="36" version_string="1.7.0.1"><![CDATA[QuickReply Editor autoresize maximum height]]></phrase>
+    <phrase title="option_quattro_autoresize_max_height_qr_explain" version_id="36" version_string="1.7.0.1"><![CDATA[Once the maximum height is reached, an overflow will be applied.]]></phrase>
     <phrase title="option_quattro_autoresize_min_height" version_id="0" version_string="1.0"><![CDATA[Editor autoresize minimum height]]></phrase>
     <phrase title="option_quattro_autoresize_min_height_explain" version_id="0" version_string="1.0"><![CDATA[This minimum height will be activated when the editor is focused.]]></phrase>
+    <phrase title="option_quattro_autoresize_min_height_qr" version_id="36" version_string="1.7.0.1"><![CDATA[QuickReply Editor autoresize minimum height]]></phrase>
+    <phrase title="option_quattro_autoresize_min_height_qr_explain" version_id="36" version_string="1.7.0.1"><![CDATA[This minimum height will be activated when the QuickReply editor is focused.]]></phrase>
     <phrase title="option_quattro_autosave_ask_before_unload" version_id="0" version_string="1.0"><![CDATA[Ask before unload?]]></phrase>
     <phrase title="option_quattro_autosave_ask_before_unload_explain" version_id="0" version_string="1.0"><![CDATA[Once activated, this option will display a popup asking the user if he really wants to leave the page whereas the editor is not empty.]]></phrase>
     <phrase title="option_quattro_autosave_autorestore" version_id="10" version_string="1.1.3"><![CDATA[Automatically restore draft when editor is empty]]></phrase>
@@ -903,7 +931,8 @@ step=1</edit_format_params>
     <phrase title="option_quattro_autosave_retention" version_id="0" version_string="1.0"><![CDATA[Autosave Retention]]></phrase>
     <phrase title="option_quattro_autosave_retention_explain" version_id="0" version_string="1.0"><![CDATA[Select here how long your draft will be kept in memory (unit: minutes)]]></phrase>
     <phrase title="option_quattro_contextmenu" version_id="16" version_string="1.2.2"><![CDATA[Activate the Context menu?]]></phrase>
-    <phrase title="option_quattro_contextmenu_explain" version_id="16" version_string="1.2.2"><![CDATA[If you activate this option a context menu will be displayed when you click on the right button of your mouse. This context menu has some options in it. It is very useful if you use the tinymce table (you will have to activate this function inside the bbcode options).]]></phrase>
+    <phrase title="option_quattro_contextmenu_explain" version_id="36" version_string="1.7.0.1"><![CDATA[If you activate this option a context menu will be displayed when you click on the right button of your mouse. This context menu has some options in it. It is very useful if you use the tinymce table (you will have to activate this function inside the bbcode options).<br />
+If you need to use the browser original menu when you click on the right button of your mouse, just press the CTRL key. This will for example allow you to correct some wrong words with the browser dictionary.]]></phrase>
     <phrase title="option_quattro_converter_bb_to_html" version_id="4" version_string="1.0.4"><![CDATA[Activate the BbCode > HTML Converter Patch?]]></phrase>
     <phrase title="option_quattro_converter_bb_to_html_explain" version_id="4" version_string="1.0.4"><![CDATA[This option will activate some fixes when you <span style="text-decoration:underline">toggle</span> the BbCode editor to the RTE editor. This fix generates a virtual BbCode pollution to look like the Html tags format.<br />
 <br />
@@ -4243,7 +4272,7 @@ i.mce-i-resize {
 <xen:include template="tiny_quattro_xenbuttons_ie7.css" />
 
 <xen:edithint template="tiny_quattro_iframe.css" />]]></template>
-    <template title="tiny_quattro_framework.css" version_id="33" version_string="1.6.4.2"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_framework.css" version_id="36" version_string="1.7.0.1"><![CDATA[<xen:comment>
 	XenForo Framework addons
 </xen:comment>
 
@@ -4553,7 +4582,7 @@ h6 { font-size: .75em; }
 		</xen:if>
 	</xen:foreach>
 </xen:if>]]></template>
-    <template title="tiny_quattro_js_setup" version_id="33" version_string="1.6.4.2"><![CDATA[<xen:comment>Load Quattro Integration JS files for 1.2</xen:comment>
+    <template title="tiny_quattro_js_setup" version_id="36" version_string="1.7.0.1"><![CDATA[<xen:comment>Load Quattro Integration JS files for 1.2</xen:comment>
 	<xen:if is="{$quattroIntegration}">
 		<xen:require js="js/sedo/tinyquattro/integration/retro_quickreply.js" />
 	</xen:if>
@@ -4610,6 +4639,8 @@ h6 { font-size: .75em; }
 		browser_spellcheck: {$xenOptions.quattro_enable_browser_spellcheck},
 		autoresize_min_height: {$xenOptions.quattro_autoresize_min_height},
 		autoresize_max_height: {$xenOptions.quattro_autoresize_max_height},
+		autoresize_min_height_qr: {$xenOptions.quattro_autoresize_min_height_qr},
+		autoresize_max_height_qr: {$xenOptions.quattro_autoresize_max_height_qr},
 		autosave_interval: '{$xenOptions.quattro_autosave_interval}s',
 		autosave_retention: '{$xenOptions.quattro_autosave_retention}m',
 		autosave_restore_when_empty: {$xenOptions.quattro_autosave_autorestore},

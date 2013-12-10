@@ -37,6 +37,15 @@
 				baseUrl = XenForo._baseUrl,
 				loader;			
 		
+			$editor.each(function(){
+				var $form = $(this).closest('form');
+				if($form.attr('id') == 'QuickReply'){
+					var amih = 'autoresize_min_height', amah = 'autoresize_max_height', qr = '_qr';
+					config[amih] = config[amih+qr];
+					config[amah] = config[amah+qr];
+				}			
+			});
+		
 			if(wordcount != 'no'){
 				config.plugins.push('wordcount');
 	
