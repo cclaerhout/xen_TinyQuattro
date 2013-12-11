@@ -1451,7 +1451,7 @@
 					e.content = tagImgClass(e.content);
 				}
 
-				ed.on('ExecCommand', function(e) { 
+				ed.on('ExecCommand', function(e) {
 					var cmd = e.command;
 					
 					if(cmd != 'mceInsertContent')
@@ -1468,14 +1468,17 @@
 					if(!$bm.length)
 						return;
 	
-					var content = e.value;
+					var content = e.value, 
+						args = {
+							skip_focus: true
+						};
 
 					if(!contentIsImg(content)){
 						$iframeHtml.scrollTop(top);
-						ed.execCommand('mceAutoResize', false, e);
+						ed.execCommand('mceAutoResize', false, e, args);
 					}else{
 						$iframeBody.find('img.'+uniqid).one('load', function(e) {
-							ed.execCommand('mceAutoResize', false, e);
+							ed.execCommand('mceAutoResize', false, e, args);
 
 							var $img = $(this),
 								offset = $img.offset(),

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.7.0.2" version_id="37" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.7.0.3" version_id="38" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -455,6 +455,7 @@ i.mce-i-backcolor
 </ol>]]></event>
   </code_events>
   <code_event_listeners>
+    <listener event_id="controller_pre_dispatch" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_ControllerPreDispatch" callback_method="Diktat" active="1" hint="" description="Mobile - Inline Edit"/>
     <listener event_id="editor_setup" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_EditorSetup" callback_method="ExtendOptions" active="1" hint="" description="Extend Editor Template Variables"/>
     <listener event_id="init_dependencies" execute_order="20" callback_class="Sedo_TinyQuattro_Listener_Init" callback_method="init_helpers" active="1" hint="" description="Load Template Helper"/>
     <listener event_id="load_class" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_LoadClass" callback_method="Listen" active="1" hint="" description="Load Class: DESC TO DO"/>
@@ -545,6 +546,12 @@ step=5</edit_format_params>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro_paser" display_order="910"/>
+    </option>
+    <option option_id="quattro_disable_mobile_inline_edit" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="5002"/>
     </option>
     <option option_id="quattro_disable_on_mobiles" edit_format="onoff" data_type="boolean" can_backup="1">
       <default_value>0</default_value>
@@ -941,6 +948,8 @@ This patch is disabled by default. Reason:  its code is quite "acrobatic". On th
     <phrase title="option_quattro_converter_html_to_bbcode_explain" version_id="4" version_string="1.0.4"><![CDATA[This option will activate some fixes when you <span style="text-decoration:underline">toggle</span> the RTE editor to the BbCode editor<br />
 <br />
 This patch is enable by default.]]></phrase>
+    <phrase title="option_quattro_disable_mobile_inline_edit" version_id="37" version_string="1.7.0.2"><![CDATA[Disable inline edits on mobile devices?]]></phrase>
+    <phrase title="option_quattro_disable_mobile_inline_edit_explain" version_id="37" version_string="1.7.0.2"><![CDATA[When you edit a message, this option will disable the overlay and will load instead a new page. This option will only work with TinyMCE Quattro (and TinyMCE 3.x on XenForo 1.1.x).]]></phrase>
     <phrase title="option_quattro_disable_on_mobiles" version_id="1" version_string="1.0.1"><![CDATA[Disable on mobile devices?]]></phrase>
     <phrase title="option_quattro_disable_on_mobiles_explain" version_id="1" version_string="1.0.1"><![CDATA[This will disable TinyMCE 4 on mobile devices and will load your forum default editor.]]></phrase>
     <phrase title="option_quattro_emulate_allwhitespace_html" version_id="33" version_string="1.6.4.2"><![CDATA[Emulate all whitespaces in html?]]></phrase>
@@ -4582,7 +4591,7 @@ h6 { font-size: .75em; }
 		</xen:if>
 	</xen:foreach>
 </xen:if>]]></template>
-    <template title="tiny_quattro_js_setup" version_id="36" version_string="1.7.0.1"><![CDATA[<xen:comment>Load Quattro Integration JS files for 1.2</xen:comment>
+    <template title="tiny_quattro_js_setup" version_id="37" version_string="1.7.0.2"><![CDATA[<xen:comment>Load Quattro Integration JS files for 1.2</xen:comment>
 	<xen:if is="{$quattroIntegration}">
 		<xen:require js="js/sedo/tinyquattro/integration/retro_quickreply.js" />
 	</xen:if>
@@ -4640,7 +4649,7 @@ h6 { font-size: .75em; }
 		autoresize_min_height: {$xenOptions.quattro_autoresize_min_height},
 		autoresize_max_height: {$xenOptions.quattro_autoresize_max_height},
 		autoresize_min_height_qr: {$xenOptions.quattro_autoresize_min_height_qr},
-		autoresize_max_height_qr: {$xenOptions.quattro_autoresize_max_height_qr},
+		autoresize_max_height_qr: {$xenOptions.quattro_autoresize_max_height_qr},		
 		autosave_interval: '{$xenOptions.quattro_autosave_interval}s',
 		autosave_retention: '{$xenOptions.quattro_autosave_retention}m',
 		autosave_restore_when_empty: {$xenOptions.quattro_autosave_autorestore},
