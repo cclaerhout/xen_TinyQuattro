@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.7.0.3" version_id="38" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.7.0.4" version_id="39" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -1322,6 +1322,10 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="style_property_tinyquattro_css_skin_master" version_id="19" version_string="1.3.1"><![CDATA[TinyMCE skin name]]></phrase>
     <phrase title="style_property_tinyquattro_flatdesign_description_master" version_id="19" version_string="1.3.1"><![CDATA[This option will disable the background gradient effects. It requires the Official Css Integration.]]></phrase>
     <phrase title="style_property_tinyquattro_flatdesign_master" version_id="17" version_string="1.3.0"><![CDATA[Flat design]]></phrase>
+    <phrase title="style_property_tinyquattro_fontfamily_menu_description_master" version_id="38" version_string="1.7.0.3"><![CDATA[Configure here the width and the height of the menu]]></phrase>
+    <phrase title="style_property_tinyquattro_fontfamily_menu_master" version_id="38" version_string="1.7.0.3"><![CDATA[Font Family Menu]]></phrase>
+    <phrase title="style_property_tinyquattro_fontsize_menu_description_master" version_id="38" version_string="1.7.0.3"><![CDATA[Configure here the width and the height of the menu]]></phrase>
+    <phrase title="style_property_tinyquattro_fontsize_menu_master" version_id="38" version_string="1.7.0.3"><![CDATA[Font Size Menu]]></phrase>
     <phrase title="style_property_tinyquattro_iconshadow_color_description_master" version_id="22" version_string="1.4.2"><![CDATA[The above option must have been activated]]></phrase>
     <phrase title="style_property_tinyquattro_iconshadow_color_master" version_id="22" version_string="1.4.2"><![CDATA[Icon Text Shadow Color]]></phrase>
     <phrase title="style_property_tinyquattro_iconshadow_description_master" version_id="22" version_string="1.4.2"><![CDATA[This option will add a shadow to icons. It requires the Official Css Integration.]]></phrase>
@@ -1404,6 +1408,8 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <property property_name="tinyquattro_icon_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Icons color" description="Select here the color of your icons." css_components="text,background,border,layout,extra" scalar_type="color" scalar_parameters="" display_order="150" sub_group="design"><![CDATA[#333333]]></property>
     <property property_name="tinyquattro_icon_bckg_color" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="&quot;Background icon&quot; background color" description="If you have activated the &quot;background color&quot; button, you can select here its background color." css_components="text,background,border,layout,extra" scalar_type="color" scalar_parameters="" display_order="160" sub_group="design"><![CDATA[#BBB]]></property>
     <property property_name="tinyquattro_modal_responsive" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Small screens - responsive Modal" description="Modal windows on TinyMCE 4 suits tablets but not that much small screens (cf mobile phones). A solution has been developed to overcome this. Do you want to activate it? (Not compatible with XenForo 1.1.x)" css_components="" scalar_type="boolean" scalar_parameters="" display_order="300" sub_group="responsive"><![CDATA[1]]></property>
+    <property property_name="tinyquattro_fontsize_menu" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Font Size Menu" description="Configure here the width and the height of the menu" css_components="layout" scalar_type="" scalar_parameters="" display_order="10" sub_group=""><![CDATA[{"height":"80px","width":"150px"}]]></property>
+    <property property_name="tinyquattro_fontfamily_menu" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Font Family Menu" description="Configure here the width and the height of the menu" css_components="layout" scalar_type="" scalar_parameters="" display_order="20" sub_group=""><![CDATA[{"height":"80px","width":"180px"}]]></property>
     <group group_name="sedo_tinyquattro" display_order="13207">
       <title>TinyMCE Quattro</title>
       <description>Configure the layout of TinyMCE 4</description>
@@ -4281,7 +4287,7 @@ i.mce-i-resize {
 <xen:include template="tiny_quattro_xenbuttons_ie7.css" />
 
 <xen:edithint template="tiny_quattro_iframe.css" />]]></template>
-    <template title="tiny_quattro_framework.css" version_id="36" version_string="1.7.0.1"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_framework.css" version_id="38" version_string="1.7.0.3"><![CDATA[<xen:comment>
 	XenForo Framework addons
 </xen:comment>
 
@@ -4309,8 +4315,7 @@ i.mce-i-resize {
 }
 
 .mce-xen-font-size-menu .mce-container-body{
-	width:150px;
-	height:80px;
+	{xen:property tinyquattro_fontsize_menu}
 	overflow-y:auto;
 }
 
@@ -4319,8 +4324,7 @@ i.mce-i-resize {
 }
 
 .mce-xen-font-family-menu .mce-container-body{
-	width:180px;
-	height:80px;
+	{xen:property tinyquattro_fontfamily_menu}
 	overflow-y:auto;
 }
 
@@ -4591,7 +4595,7 @@ h6 { font-size: .75em; }
 		</xen:if>
 	</xen:foreach>
 </xen:if>]]></template>
-    <template title="tiny_quattro_js_setup" version_id="37" version_string="1.7.0.2"><![CDATA[<xen:comment>Load Quattro Integration JS files for 1.2</xen:comment>
+    <template title="tiny_quattro_js_setup" version_id="38" version_string="1.7.0.3"><![CDATA[<xen:comment>Load Quattro Integration JS files for 1.2</xen:comment>
 	<xen:if is="{$quattroIntegration}">
 		<xen:require js="js/sedo/tinyquattro/integration/retro_quickreply.js" />
 	</xen:if>
@@ -4649,7 +4653,7 @@ h6 { font-size: .75em; }
 		autoresize_min_height: {$xenOptions.quattro_autoresize_min_height},
 		autoresize_max_height: {$xenOptions.quattro_autoresize_max_height},
 		autoresize_min_height_qr: {$xenOptions.quattro_autoresize_min_height_qr},
-		autoresize_max_height_qr: {$xenOptions.quattro_autoresize_max_height_qr},		
+		autoresize_max_height_qr: {$xenOptions.quattro_autoresize_max_height_qr},
 		autosave_interval: '{$xenOptions.quattro_autosave_interval}s',
 		autosave_retention: '{$xenOptions.quattro_autosave_retention}m',
 		autosave_restore_when_empty: {$xenOptions.quattro_autosave_autorestore},
@@ -4659,7 +4663,7 @@ h6 { font-size: .75em; }
 		paste_as_text: {$xenOptions.quattro_paste_as_text},
 		font_size_legacy_values: "9px,10px,12px,15px,18px,22px,26px",
 		statusbar: {$xenOptions.quattro_statusbar},
-		paste_data_images: true,
+		paste_data_images: false,
 		paste_retain_style_properties: '{xen:jsescape $xenOptions.quattro_retain_style_properties}',
 		contextmenu: "xen_link inserttable | cell row column xen_tableskin deletetable",
 		xen_attach: "{$editorOptions.sedo_quattro.attach.type},{$editorOptions.sedo_quattro.attach.id},{$editorOptions.sedo_quattro.attach.hash}",

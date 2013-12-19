@@ -408,7 +408,6 @@
 				/* Get body height */
 					//$overlay.find('.mce-xen-body').height(); doesn't work well on IE 7-8-9
 				var ovlBodyHeight = $overlay.children('.mce-container-body').height();
-				console.log(ovlBodyHeight);
 
 				/* AutoFocus */
 				$overlay.find('.mceFocus').focus();
