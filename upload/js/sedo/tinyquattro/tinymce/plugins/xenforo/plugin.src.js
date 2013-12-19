@@ -2246,14 +2246,14 @@
 				if(!parent.isActiveButton(rd)){
 					return false;
 				}
-				
-				ed.addButton(rd, {
-					name: rd,
-					title: src.draftText.save,
-					type: "menubutton",
-					menu: menuItems,
-					onselect: menuAction
-				});
+			});
+
+			ed.addButton(rd, {
+				name: rd,
+				title: src.draftText.save,
+				type: "menubutton",
+				menu: menuItems,
+				onselect: menuAction
 			});
 			
 			ed.on('init', function(e) {
