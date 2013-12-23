@@ -1414,8 +1414,6 @@
 				}
 				
 				/*IE Btn Size fix - #bug:6538*/
-				var $normalBtn = $modal.find('.mce-btn:not(.mce-primary)');
-				$normalBtn.width($normalBtn.width()+2);
 			});
 		}
 	});
