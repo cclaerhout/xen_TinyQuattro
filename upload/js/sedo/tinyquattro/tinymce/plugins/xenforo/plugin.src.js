@@ -1,4 +1,4 @@
-(function($, window, document, undefined) {
+(function($, _window, document, undefined) {
 /***
 *	xenMCE - AllInOne Functions
 ***/
@@ -21,15 +21,15 @@
 		},
 		getOverlay: function()
 		{
-			return xenMCE.Overlay._get('$overlay');	
+			return xenMCE.Overlay._get('$overlay');
 		},
 		getEditor: function()
 		{
-			return xenMCE.Overlay._get('editor');				
+			return xenMCE.Overlay._get('editor');
 		},
 		getSelection: function()
 		{
-			return xenMCE.Overlay._get('selection');			
+			return xenMCE.Overlay._get('selection');
 		},
 		_get:function(key)
 		{
@@ -195,7 +195,7 @@
 				}
 			}
 
-			if(windowManagerConfig !== 'object')
+			if(typeof windowManagerConfig !== 'object')
 				windowManagerConfig = {};
 						
 			this.overlayParams = {
@@ -224,10 +224,10 @@
 		},
 		_overlayLoader:function(ajaxData)
 		{
-			if (XenForo.hasResponseError(ajaxData) || typeof ajaxData.templateHtml !== 'string')
+			if (XenForo.hasResponseError(ajaxData) || typeof ajaxData.templateHtml  !== 'string')
 				return;
 
-			var self = this,
+			var 	self = this,
 				editor = this.getEditor(),
 				params = this.overlayParams,
 				wmConfig = params.wmConfig, 
@@ -414,7 +414,7 @@
 				/* Get overlay */
 				$overlay = $(win.windows[0].getEl());
 				xenMCE.Tools.backupOverlay.$overlay = $overlay;
-				
+
 				/* Eval inline scripts */
 				if (scripts.length){
 					for (i = 0; i < scripts.length; i++) {
@@ -502,7 +502,7 @@
 
 				/* Activate overlay & its inline scripts*/
 				$overlay.xfActivate();
-				
+
 				/* Afterload Callback*/				
 				if(params.onafterload != false)
 					params.src[params.onafterload]($overlay, data, editor, self);
@@ -657,7 +657,7 @@
 			if(expectedTags === undefined && autoReturn === undefined)
 				return tag;
 
-			if(autoReturn !== undefined && autoReturn !== 'boolean')
+			if(autoReturn !== undefined && typeof autoReturn !== 'boolean')
 				 expectedTags = autoReturn;
 
 			//AutoReturn Tool if inputs => return val else => return text
@@ -791,7 +791,7 @@
 				results = $buttons;
 			}
 			
-			if(jQueryEl === 'object' && jQueryEl instanceof jQuery){
+			if(typeof jQueryEl === 'object' && jQueryEl instanceof jQuery){
 				//Returns element in the context
 				var $context = jQueryEl, ids = [], tmp = '_tmp_';
 				
@@ -1545,7 +1545,7 @@
 							tinyMCE.activeEditor.focus();
 						}
 					};
-					if(originalBeforeLoadFct === 'function'){
+					if(typeof originalBeforeLoadFct === 'function'){
 						originalBeforeLoadFct(e);
 					}
 				};
@@ -1996,7 +1996,7 @@
 						if(i_max != 0 && i > i_max)
 							return false;
 	
-						if(smilieInfo.id === 'number'){
+						if(typeof smilieInfo.id === 'number'){
 							smiliesHtml += '<a href="#"><img src="styles/default/xenforo/clear.png" alt="'+smilieInfo.bbcode+'" title="'+smilieInfo.desc+'" '+dataTags+' class="'+prefix+' '+prefix+'Sprite mceSmilie'+smilieInfo.id+'"  /></a>';
 						}else{
 							smiliesHtml += '<a href="#"><img src="'+dom.encode(smilieInfo.id)+'" alt="'+smilieInfo.bbcode+'" title="'+smilieInfo.desc+'" '+dataTags+' class="'+prefix+'" /></a>';
