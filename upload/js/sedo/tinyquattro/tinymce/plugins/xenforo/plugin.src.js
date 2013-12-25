@@ -151,6 +151,10 @@
 				You will have both the content of the data-value and the content of the tag
 			**/
 
+			if(this.xenOverlayIsloading == true) return false;
+		
+			this.xenOverlayIsloading = true;
+
 			var self = this,
 			editor = this.getEditor(),
 			dom = editor.dom,
@@ -224,8 +228,10 @@
 		},
 		_overlayLoader:function(ajaxData)
 		{
-			if (XenForo.hasResponseError(ajaxData) || typeof ajaxData.templateHtml  !== 'string')
+			if (XenForo.hasResponseError(ajaxData) || typeof ajaxData.templateHtml  !== 'string'){
+				self.xenOverlayIsloading = false;
 				return;
+			}
 
 			var 	self = this,
 				editor = this.getEditor(),
@@ -506,6 +512,8 @@
 				/* Afterload Callback*/				
 				if(params.onafterload != false)
 					params.src[params.onafterload]($overlay, data, editor, self);
+					
+				self.xenOverlayIsloading = false;
 			});
 		},
 		_initCheckBox: function($checkBox)
