@@ -151,7 +151,7 @@
 				You will have both the content of the data-value and the content of the tag
 			**/
 
-			var t = this,
+			var self = this,
 			editor = this.getEditor(),
 			dom = editor.dom,
 			isUrl = isLink = isEmail = false, url_text = url_href = '',
@@ -200,10 +200,10 @@
 						
 			this.overlayParams = {
 				dialog: dialog,
-				src: t.isDefined(callbacks, 'src'),
-				onbeforeload: t.isDefined(callbacks, 'onbeforeload'),
-				onafterload: t.isDefined(callbacks, 'onafterload'),
-				onsubmit: t.isDefined(callbacks, 'onsubmit'),
+				src: self.isDefined(callbacks, 'src'),
+				onbeforeload: self.isDefined(callbacks, 'onbeforeload'),
+				onafterload: self.isDefined(callbacks, 'onafterload'),
+				onsubmit: self.isDefined(callbacks, 'onsubmit'),
 				wmConfig: windowManagerConfig
 			}
 
@@ -1625,8 +1625,6 @@
 			if(ed.buttons.fullscreen === undefined)
 				return false;
 				
-			var flsc = ed.buttons.fullscreen;
-			
 			//Radical fix for a bug on IE8; might come from jQuery (to check)
 			//Edit 2013-06-14: is working now with IE8 but not with IE7
 			if(tinymce.isIE && tinymce.Env.ie <= 7 ){
@@ -1634,7 +1632,14 @@
 				return false;
 			}
 
+			var flsc = ed.buttons.fullscreen;
 			flsc.xenfright = true;
+
+			ed.on('submit', function() {
+				if(parent.isFullscreen()){
+					ed.execCommand('mceFullScreen');
+				}
+			});
 
 			ed.on('FullscreenStateChanged', function(e) {
 				$container = $(ed.getContainer()); //must be inside the bind function
