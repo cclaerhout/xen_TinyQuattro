@@ -139,6 +139,9 @@
 					   # 'onsubmit'		(string with the name of the function to call - optionnal)
 					   	> Use this callback to do something when the form is submitted
 					   	> Arguments: event, $overlay, editor, parentClass
+					   # 'onclose'		(string with the name of the function to call - optionnal)
+					   	> Use this callback to do something when the cancel button of the form is pressed
+					   	> Arguments: event, $overlay, editor, parentClass
 
 				Please note that the onsubmit from the official windowManagerConfig has been modified:
 				=> Its arguments are now: event, $overlay, editor, parentClass (instead of only event)
@@ -208,6 +211,7 @@
 				onbeforeload: self.isDefined(callbacks, 'onbeforeload'),
 				onafterload: self.isDefined(callbacks, 'onafterload'),
 				onsubmit: self.isDefined(callbacks, 'onsubmit'),
+				onclose: self.isDefined(callbacks, 'onclose'),
 				wmConfig: windowManagerConfig
 			}
 
@@ -391,10 +395,26 @@
 							else
 								win.submit();
 
+							/* Private onclose callback */
+							if(params.onclose != false){
+								var xenDatas = getDatas($overlay);
+								$.extend(e.data, xenDatas);
+								params.src[params.onclose](e, $overlay, editor, self);
+							}
+							
 							win.close();
 						}},
-						{text: buttonCancel, subtype: 'xenCancel', onclick: function() {
+						{text: buttonCancel, subtype: 'xenCancel', onclick: function(e) {
 							var win = editor.windowManager.windows[0];
+							$overlay = $(win.getEl());
+
+							/* Private onclose callback */
+							if(params.onclose != false){
+								var xenDatas = getDatas($overlay);
+								$.extend(e.data, xenDatas);
+								params.src[params.onclose](e, $overlay, editor, self);
+							}							
+							
 							win.close();
 						}}
 					];
@@ -1041,7 +1061,8 @@
 			
 						ovlCallbacks = {
 							src: src,
-							onafterload: 'onafterload'
+							onafterload: 'onafterload',
+							onclose: 'onclose'
 						};
 					
 						src.loadOverlay('bbm_'+data.template, ovlConfig, ovlCallbacks);
@@ -1072,6 +1093,17 @@
 				xenMCE.Templates[dialog].onafterload($ovl, data, ed, src);
 			}
 			
+		},
+		onclose: function(e, $overlay, ed, src)
+		{
+			var dialog = src.overlayParams.dialog.replace('bbm_', 'Bbm_');
+
+			if(	xenMCE.Templates[dialog] !== undefined
+				&&
+				xenMCE.Templates[dialog].onclose !== undefined
+			){
+				xenMCE.Templates[dialog].onclose(e, $overlay, ed, src);
+			}		
 		},
 		submit: function(e, $overlay, ed, src)
 		{
