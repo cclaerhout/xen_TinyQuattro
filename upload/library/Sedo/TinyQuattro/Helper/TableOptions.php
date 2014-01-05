@@ -438,7 +438,7 @@ class Sedo_TinyQuattro_Helper_TableOptions
 
 		$option = trim($option);
 		$regex = '/^(cellpadding|cellspacing):[ ]*?(\d{1,2})$/i';
-		
+
 		if(preg_match($regex, $option, $match))
 		{		
 			$type = $match[1];

@@ -13,5 +13,10 @@ xenMCE.Templates.Bbm_demo = {
 		console.log('tag is:'+tag);
 		console.log('Use ParentClass insertBbCode function');
 		parentClass.insertBbCode(tag, options, content);
-	}
+	},
+	onclose: function(event, $overlay, editor, parentClass)
+	{
+		//After a submit or the cancel/close button has been pressed
+		console.log('The overlay is closed');
+	}	
 }

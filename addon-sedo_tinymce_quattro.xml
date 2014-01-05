@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.7.1.0" version_id="42" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.7.1.1" version_id="43" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -4837,7 +4837,7 @@ h6 { font-size: .75em; }
 </xen:if>
 
 ]]></template>
-    <template title="tiny_quattro_xenbuttons.css" version_id="19" version_string="1.3.1"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_xenbuttons.css" version_id="42" version_string="1.7.1.0"><![CDATA[<xen:comment>
 	Buttons - XenForo config
 </xen:comment>
 
@@ -4866,14 +4866,14 @@ h6 { font-size: .75em; }
 	font-style:normal;
 }
 
-.mce-xenforo-icons
+.mce-ico.mce-xenforo-icons
 {
-	font-family: 'xenforo',Arial !important;
+	font-family: 'xenforo',Arial;
 }
 
-.mce-btn-small .mce-xenforo-icons
+.mce-btn-small .mce-ico.mce-xenforo-icons
 {
-	font-family: 'xenforo-small',Arial !important;
+	font-family: 'xenforo-small',Arial;
 }
 
 
@@ -4885,8 +4885,10 @@ h6 { font-size: .75em; }
 .mce-i-xen_code:before			{ content: "\e000"; }
 .mce-i-xen_quote:before			{ content: "\e009"; }
 .mce-i-xen_smilies_picker:before	{ content: "\e035"; }
+.mce-i-xen_fontfamily:before		{ content: "\e447"; }
+.mce-i-xen_fontsize:before		{ content: "\e448"; }
 ]]></template>
-    <template title="tiny_quattro_xenbuttons_ie7.css" version_id="19" version_string="1.3.1"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_xenbuttons_ie7.css" version_id="42" version_string="1.7.1.0"><![CDATA[<xen:comment>
 	Buttons - XenForo config
 </xen:comment>
 
@@ -4915,14 +4917,14 @@ h6 { font-size: .75em; }
 	font-style:normal
 }
 
-.mce-xenforo-icons
+.mce-ico.mce-xenforo-icons
 {
-	font-family: 'xenforo' !important;
+	font-family: 'xenforo';
 }
 
-.mce-btn-small .mce-xenforo-icons
+.mce-btn-small .mce-ico.mce-xenforo-icons
 {
-	font-family: 'xenforo-small' !important;
+	font-family: 'xenforo-small';
 }
 
 <xen:comment>Original icon set</xen:comment>
@@ -4932,7 +4934,9 @@ h6 { font-size: .75em; }
 .mce-i-xen_switch:before		{ -ie7-icon: "\e01a"; }
 .mce-i-xen_code:before			{ -ie7-icon: "\e000"; }
 .mce-i-xen_quote:before			{ -ie7-icon: "\e009"; }
-.mce-i-xen_smilies_picker:before	{ -ie7-icon: "\e035"; }]]></template>
+.mce-i-xen_smilies_picker:before	{ -ie7-icon: "\e035"; }
+.mce-i-xen_fontfamily:before		{ -ie7-icon: "\e447"; }
+.mce-i-xen_fontsize:before		{ -ie7-icon: "\e448"; }]]></template>
   </templates>
   <public_template_modifications>
     <modification template="editor" modification_key="quattro_editor" description="Quattro Editor Loader" execution_order="20" enabled="1" action="str_replace">

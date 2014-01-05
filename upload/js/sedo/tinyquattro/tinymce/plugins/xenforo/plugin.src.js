@@ -867,14 +867,17 @@
 
 			return items;
 		},
-		createListBoxChangeHandler: function(items, formatName) {
+		createListBoxChangeHandler: function(items, formatName, extraFct) {
 			ed = this.getEditor();
 		
-			return function() {
-				/*How to spend 3 hours to debug a function that was supposed to work? */
-				var self = this; //Answer: forget the "var". Bloody hell
+			return function(e) {
+				var self = this;
+
+				if(typeof extraFct === 'function') extraFct(self, e);
 				
 				ed.on('nodeChange', function(e) {
+					if(self.nodeChangeOff) return;
+					
 					var formatter = ed.formatter;
 					var value = null;
 			
@@ -1266,6 +1269,54 @@
 					'font-size:{v}', //Css
 					sizeClass //Item Class
 				);
+			
+			
+			//Use icons on small screens
+			var extraFct = function(ctrl, e){
+				var smallMode = function(){
+					var $container = $(ed.getContainer()),
+						xenIcon = 'mce-xenforo-icons',
+						fw = 'fixed-width',
+						activated = false;
+
+					var tasks = function(){
+						var width = $container.width();
+						
+						if(width < 450 && !activated){
+							ctrl.nodeChangeOff = true;
+							ctrl.text(false);
+							ctrl.icon(ctrl._name+' '+xenIcon);
+							ctrl.removeClass(fw);
+							activated = true;
+						}else if(width >= 450 && activated){
+							function getText(){
+								var val = ctrl._value, text = ctrl.settings.text;
+								if(val != null){
+									$.each(ctrl._values, function(i,v){
+										if(v.value == val){
+											text = v.text;
+											return false;
+										} 
+									});
+								}
+								return text;
+							}
+							
+							ctrl.nodeChangeOff = false;
+							ctrl.text(getText());
+							ctrl.icon(false);
+							ctrl.addClass(fw);
+							activated = false;
+						}
+					}
+						
+					tasks();
+					ctrl.on('click', tasks)
+					$(_window).resize(tasks);
+				};
+			
+				ed.on('postrender', smallMode);
+			}
 				
 			ed.addButton('xen_fontsize', {
 				name: 'xen_fontsize',
@@ -1276,7 +1327,7 @@
 				icon: false,
 				fixedWidth: true,
 				text: p.font_size,
-				onPostRender: parent.createListBoxChangeHandler(menuSize, 'fontsize'),
+				onPostRender: parent.createListBoxChangeHandler(menuSize, 'fontsize', extraFct),
 				onShow: function(e) {
 					e.control.addClass(sizeClass+'-menu');
 					e.control.initLayoutRect();
@@ -1309,7 +1360,7 @@
 				icon: false,
 				fixedWidth: true,
 				text: p.font_family,
-				onPostRender: parent.createListBoxChangeHandler(menuFam, 'fontname'),
+				onPostRender: parent.createListBoxChangeHandler(menuFam, 'fontname', extraFct),
 				onShow: function(e) {
 					e.control.addClass(famClass+'-menu');
 					e.control.initLayoutRect();
@@ -2147,7 +2198,12 @@
 				configN2.onclick = $.proxy(this, 'initOvl');
 			}else if(windowType == 'belowbox' && !this.isOldXen){
 				configN2.onclick = function(e){
-					src.initBox(this, e, ed);
+					if(!src.isFullscreen()){
+						src.initBox(this, e, ed);
+					} else {
+						//$.proxy(src.initOvl(e), src);
+						pickerDialog();
+					}
 				}
 			}else{
 				configN2.onclick = pickerDialog;			

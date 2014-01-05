@@ -1,14 +1,9 @@
 tinymce.PluginManager.add('xenquoteme', function(ed) {
-
-	if (XenForo.isTouchBrowser()){
-		return false;
-	}
-
 	var quoteme = 'quoteme',
 		$toggleMeMenu = $('#toggleMeMenu'),
 		self = this;
 		
-	if(!$toggleMeMenu.length){
+	if(!$toggleMeMenu.length || $toggleMeMenu.is(':hidden')){
 		return false;
 	}
 
@@ -24,10 +19,19 @@ tinymce.PluginManager.add('xenquoteme', function(ed) {
 		}
 	}
 
+	function extBtnState(e){
+		 var ctrl = this;
+		 
+		 $toggleMeMenu.bind('click', function(e){
+		 	 ctrl.active($toggleMeMenu.hasClass('on'));
+		 });
+	}
+
 	ed.addButton('quoteme', {
 		name: quoteme,
 		icon: quoteme,
 		onclick: onClick,
+		onPostRender: extBtnState,
 		xenfright: true
 	});
 });

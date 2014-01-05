@@ -131,7 +131,7 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 		
 		$tableOptionsChecker = new Sedo_TinyQuattro_Helper_TableOptions($tagName, $tagOptions, $this->_xenOptionsMceTable);
 		list($attributes, $css, $extraClass) = $tableOptionsChecker->getValidOptions();
-				
+
 		$content = $this->renderSubTree($tag['children'], $rendererStates);
 
 		$slaveTags = array(

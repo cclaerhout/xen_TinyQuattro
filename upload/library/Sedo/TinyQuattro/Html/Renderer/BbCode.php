@@ -102,7 +102,7 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 		
 		//Get attributes & Css
 		$tagOptions = $this->_getMceTableAttributes($tag);
-		
+
 		$outputType = false;
 		$posStart = '';
 		$posEnd = '';
@@ -202,7 +202,7 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 		{
 			return '';
 		}
-		
+
 		$attributes = $this->_mceTableAttributes;
 
 		if(!empty($attributes['float']) && !empty($attributes['balign']))
@@ -522,7 +522,7 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 	 */
 	protected function _checkMceTableAttribute($attribute, $value, $block = false)
 	{
-		if(empty($value))
+		if((empty($value) && !is_numeric($value)))
 		{
 			return;
 		}
