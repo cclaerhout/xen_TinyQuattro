@@ -905,8 +905,39 @@
 					});
 
 					self.value(value);
+					
+					if(self.resetText){
+						self.text(false);
+					}
 				});
 			};
+		},
+		fixBtnFullscreen: function(btnCtrl, type)
+		{
+			/***
+			 * For some unknow reasons, the fullscreen mode is buggy on XenForo & Firefox, let's fix it
+			 * The above function must be called using the onshow callback
+			 * Arguments:
+			 * 1) btnCtrl : the button controler
+			 * 2) type : the button type, ie: menu, panel
+			 ***/
+			var parent = this;
+
+			if(!parent.isFullscreen())
+				return false;
+
+			var $button = $(btnCtrl.getEl()), 
+				$el = $(btnCtrl[type].getEl()),
+				btnOffset = $button.offset(),
+				btnPos = $button.position();
+
+			if(!parent.isFullscreen())
+				btnOffset.top = btnOffset.top + $button.height() + parseInt($el.css('marginTop'));
+			else
+				btnOffset.top = btnPos.top + $button.height() + parseInt($el.css('marginTop'));
+
+			//Apply the fix
+			$el.offset(btnOffset);			
 		},
 		insertBbCode: function(tag, tagOptions, content){
 			tag = tag.replace(/^at_/, '');
@@ -1246,8 +1277,10 @@
 		XenFonts: function(parent) 
 		{
 			var ed = parent.getEditor(), Factory = tinymce.ui.Factory, menuSize, menuFam,
-			sizeClass = 'xen-font-size', fontFamily = 'font-family',  famClass = 'xen-'+fontFamily, p = xenMCE.Phrases, 
-			fontSizeText = '', fontSizeValues;
+			fontSize = 'font-size', sizeClass = 'xen-'+fontSize, fs = 'fontsize',
+			fontFamily = 'font-family',  famClass = 'xen-'+fontFamily, ff = 'fontfamily',
+			xenIcon = 'mce-xenforo-icons', fontSizeText = '', fontSizeValues, 
+			p = xenMCE.Phrases, smallFontBtn = parent.getParam('smallFontBtn');
 
 			if(parent.isOldXen === true){
 				fontSizeValues = 'xx-small|x-small|small|medium|large|x-large|xx-large'; //for Xen 1.1
@@ -1270,24 +1303,25 @@
 					sizeClass //Item Class
 				);
 			
-			
 			//Use icons on small screens
 			var extraFct = function(ctrl, e){
 				var smallMode = function(){
 					var $container = $(ed.getContainer()),
-						xenIcon = 'mce-xenforo-icons',
 						fw = 'fixed-width',
 						activated = false;
 
 					var tasks = function(){
 						var width = $container.width();
-						
-						if(width < 450 && !activated){
-							ctrl.nodeChangeOff = true;
+
+						if(width < 450 || smallFontBtn){
+							ctrl.resetText = true;
 							ctrl.text(false);
-							ctrl.icon(ctrl._name+' '+xenIcon);
-							ctrl.removeClass(fw);
-							activated = true;
+							
+							if(!activated){
+								ctrl.icon(ctrl._name+' '+xenIcon);
+								ctrl.removeClass(fw);
+								activated = true;
+							}
 						}else if(width >= 450 && activated){
 							function getText(){
 								var val = ctrl._value, text = ctrl.settings.text;
@@ -1302,7 +1336,7 @@
 								return text;
 							}
 							
-							ctrl.nodeChangeOff = false;
+							ctrl.resetText = false;
 							ctrl.text(getText());
 							ctrl.icon(false);
 							ctrl.addClass(fw);
@@ -1317,27 +1351,46 @@
 			
 				ed.on('postrender', smallMode);
 			}
-				
-			ed.addButton('xen_fontsize', {
-				name: 'xen_fontsize',
+
+			var onShowScrollToSelection = function(ctrl){
+				var menu = ctrl.menu;
+
+				if(menu){
+					var $menu = $(menu.getEl()).children().first(),
+						$pressed = $menu.find('[aria-pressed="true"]');
+							
+					if($pressed.length){
+						$menu.scrollTop($menu.scrollTop() + $pressed.position().top);
+					}else{
+						$menu.scrollTop(0);
+					}
+				}
+			}
+
+			var fontSizeConfig = {
+				name: 'xen_'+fs,
 				//type: 'menubutton',
 				//menu: menuSize,
 				type: 'listbox',
-				values: menuSize,
 				icon: false,
 				fixedWidth: true,
 				text: p.font_size,
-				onPostRender: parent.createListBoxChangeHandler(menuSize, 'fontsize', extraFct),
+				values: menuSize,
+				onPostRender: parent.createListBoxChangeHandler(menuSize, fs, extraFct),
 				onShow: function(e) {
 					e.control.addClass(sizeClass+'-menu');
 					e.control.initLayoutRect();
+					parent.fixBtnFullscreen(this, 'menu');
+					onShowScrollToSelection(this);
 				},
 				onclick: function(e) {
 					if (e.control.settings.value) {
 						ed.execCommand('FontSize', false, e.control.settings.value);
 					}
-				}
-			});
+				}			
+			};
+
+			ed.addButton('xen_'+fs, fontSizeConfig);
 
 			menuFam = parent.buildMenuItems(
 					'Andale Mono|Arial|Arial Black|Book Antiqua|Courier New|Georgia|Helvetica|'
@@ -1351,26 +1404,30 @@
 					famClass
 				);
 
-			ed.addButton('xen_fontfamily', {
-				name: 'xen_fontfamily',
+			var fontFamilyConfig = {
+				name: 'xen_'+ff,
 				//type: 'menubutton',
 				//menu: menuFam,
 				type: 'listbox',
-				values: menuFam,
 				icon: false,
 				fixedWidth: true,
 				text: p.font_family,
+				values: menuFam,
 				onPostRender: parent.createListBoxChangeHandler(menuFam, 'fontname', extraFct),
 				onShow: function(e) {
 					e.control.addClass(famClass+'-menu');
 					e.control.initLayoutRect();
+					parent.fixBtnFullscreen(this, 'menu');
+					onShowScrollToSelection(this);
 				},
 				onclick: function(e) {
 					if (e.control.settings.value) {
 						ed.execCommand('FontName', false, e.control.settings.value);
 					}
-				}
-			});
+				}		
+			};
+
+			ed.addButton('xen_fontfamily', fontFamilyConfig);
 			
 			//Get back the font-family fallbacks so MCE can match them with the above listbox values
 			var convTable = {};
@@ -1864,16 +1921,7 @@
 					});
 
 					/*Postion fix - TinyMCE bug #bug 5910*/
-					$button = $(this.getEl());
-					$panel = $(this.panel.getEl());
-					var btnOffset = $button.offset(), btnPos = $button.position();
-
-					if(!src.isFullscreen())
-						btnOffset.top = btnOffset.top + $button.height() + parseInt($panel.css('marginTop'));
-					else
-						btnOffset.top = btnPos.top + $button.height() + parseInt($panel.css('marginTop'));
-
-					$panel.offset(btnOffset);					
+					src.fixBtnFullscreen(buttonCtrl, 'panel');
 				}
 			}
 

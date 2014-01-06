@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.7.1.1" version_id="43" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.7.1.2" version_id="44" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -715,6 +715,13 @@ step=5</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="25"/>
     </option>
+    <option option_id="quattro_fonts_smallbuttons" edit_format="radio" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params>0= {xen:phrase no}
+1= {xen:phrase yes}</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="80"/>
+    </option>
     <option option_id="quattro_frightmode" edit_format="radio" data_type="boolean" can_backup="1">
       <default_value>1</default_value>
       <edit_format_params>0={xen:phrase no}
@@ -996,6 +1003,8 @@ This patch is enable by default.]]></phrase>
     <phrase title="option_quattro_extra_bbcodes_xtable_tag_explain" version_id="16" version_string="1.2.2"><![CDATA[If you want to change the tag name for this  bb code, do it here but do it only once. If you change the tag name a few time using it, all previous bb codes won't be able to be parsed. Default is: <b>xtable</b>.]]></phrase>
     <phrase title="option_quattro_fastunlink" version_id="0" version_string="1.0"><![CDATA[Enable fast unlink menu?]]></phrase>
     <phrase title="option_quattro_fastunlink_explain" version_id="0" version_string="1.0"><![CDATA[This option will add a fast menu with an unlink option to the link button]]></phrase>
+    <phrase title="option_quattro_fonts_smallbuttons" version_id="43" version_string="1.7.1.1"><![CDATA[Use small icons for fonts buttons?]]></phrase>
+    <phrase title="option_quattro_fonts_smallbuttons_explain" version_id="43" version_string="1.7.1.1"><![CDATA[This option will apply small icons to the font family & font size buttons. Default: no.]]></phrase>
     <phrase title="option_quattro_frightmode" version_id="0" version_string="1.0"><![CDATA[Enable "Fright" mode?]]></phrase>
     <phrase title="option_quattro_frightmode_explain" version_id="0" version_string="1.0"><![CDATA[The fright mode will make some buttons float on the right of the editor]]></phrase>
     <phrase title="option_quattro_geckofullfix" version_id="0" version_string="1.0"><![CDATA[[DEBUG] Firefox full overlay fix]]></phrase>
@@ -4458,7 +4467,7 @@ i.mce-i-resize {
 </xen:if>
 
 ]]></template>
-    <template title="tiny_quattro_iframe.css" version_id="6" version_string="1.0.6"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_iframe.css" version_id="43" version_string="1.7.1.1"><![CDATA[<xen:comment>
 	EDITOR IFRAME CONTENT CSS
 </xen:comment>
 
@@ -4559,7 +4568,7 @@ hr {
 }
 
 .mce-item-table,.mce-item-table td,.mce-item-table th,.mce-item-table caption {
-    border: 1px dashed #BBB;
+    border: 1px dashed {xen:property primaryDark};
 }
 
 td.mce-item-selected,th.mce-item-selected {
@@ -4678,7 +4687,7 @@ h6 { font-size: .75em; }
 <xen:edithint template="tiny_quattro_custom_buttons" />
 <xen:edithint template="tiny_quattro_iframe.css" />
 <xen:edithint template="tiny_quattro_framework.css" />]]></template>
-    <template title="tiny_quattro_params" version_id="34" version_string="1.6.5.0"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_params" version_id="43" version_string="1.7.1.1"><![CDATA[<xen:comment>
 	We are inside a JavaScript file. All phrases must be escaped
 </xen:comment>
 	<xen:comment>extend</xen:comment>
@@ -4696,6 +4705,7 @@ h6 { font-size: .75em; }
 	overlayMediaSize: { w: 480, h: 160 },
 	oldXen: {xen:if "{$xenOptions.currentVersionId} < 1020031", true, false},
 	overlaySmiliesSize: { w: "{xen:property tinyquattro_smiliespicker_width}", h: "{xen:property tinyquattro_smiliespicker_height}" },
+	smallFontBtn: {$xenOptions.quattro_fonts_smallbuttons},
 	smiliesWindow: '{$xenOptions.quattro_smilies_window_type}',
 	xSmilies: {$xenOptions.quattro_xsmilies},
 	xCatSmilies: '{$xenOptions.quattro_smilies_sm_addon_menubtn_cat}',
