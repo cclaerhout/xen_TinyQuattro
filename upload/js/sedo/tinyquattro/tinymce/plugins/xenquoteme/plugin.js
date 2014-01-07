@@ -3,6 +3,9 @@ tinymce.PluginManager.add('xenquoteme', function(ed) {
 		$toggleMeMenu = $('#toggleMeMenu'),
 		self = this;
 		
+	//Prevent bbm message alert
+	ed.buttons['quoteme'] = false;
+	
 	if(!$toggleMeMenu.length || $toggleMeMenu.is(':hidden')){
 		return false;
 	}
@@ -24,6 +27,7 @@ tinymce.PluginManager.add('xenquoteme', function(ed) {
 		 
 		 $toggleMeMenu.bind('click', function(e){
 		 	 ctrl.active($toggleMeMenu.hasClass('on'));
+		 	 ed.execCommand('resetFright');
 		 });
 	}
 

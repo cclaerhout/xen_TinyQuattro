@@ -1483,6 +1483,8 @@
 					.last().addClass(last).end();
 				}
 
+				ed.addCommand('resetFright', resetFrightButtons);
+
 				if(!$buttons.length > 0)
 					return false;
 
