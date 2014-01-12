@@ -24,6 +24,7 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 	{
 		$parentTags = parent::getTags();
 		$xenOptions = XenForo_Application::get('options');
+		$quattroEnable = Sedo_TinyQuattro_Helper_Quattro::isEnabled();
 		
 		if(is_array($parentTags))
 		{
@@ -47,7 +48,7 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 					'justify' => array(
 						'hasOption' => false,
 						'callback' => array($this, 'renderTagAlign'),
-						'trimLeadingLinesAfter' => 1,
+						'trimLeadingLinesAfter' => 1
 					)
 				);			
 			}
@@ -56,7 +57,7 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 				&&
 				(	$xenOptions->quattro_table_all_editors_activation
 					||
-					Sedo_TinyQuattro_Helper_Quattro::isEnabled()
+					$quattroEnable
 				)
 			)
 			{
@@ -71,12 +72,28 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 					$tableTag => array(
 						'callback' => array($this, 'renderTagSedoXtable'),
 						'stopLineBreakConversion' => true,
-						'trimLeadingLinesAfter' => 2,
+						'trimLeadingLinesAfter' => 2
 					)
 				);
 				
 				$this->_xenOptionsMceTable = Sedo_TinyQuattro_Helper_BbCodes::getMceTableXenOptions();
 			}
+
+			if($quattroEnable && $xenOptions->quattro_wysiwyg_quote)
+			{
+				/***
+					$keyQuote = array_search('quote', $this->_undisplayableTags);
+				
+					if($keyQuote !== false)
+					{
+						unset($this->_undisplayableTags[$keyQuote]);
+					}
+				**/
+
+				$parentTags['quote'] = array(
+					'callback' => array($this, 'renderTagMceQuote')
+				);			
+			}			
 		}
 		
 		return $parentTags;
@@ -119,6 +136,91 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 		}
 		
 		return $parentOuput;
+	}
+
+	/**
+	 * MCE Quote
+	 */	
+	public function renderTagMceQuote(array $tag, array $rendererStates)
+	{
+		//Code from bbcode base
+		$content = $this->renderSubTree($tag['children'], $rendererStates);
+
+		if ($content === '')
+		{
+			return '';
+		}
+
+		$source = false;
+		$attributes = array();
+
+		if ($tag['option'])
+		{
+			$parts = explode(',', $tag['option']);
+			$name = $this->filterString(array_shift($parts),
+				array_merge($rendererStates, array('stopSmilies' => true))
+			);
+
+			foreach ($parts AS $part)
+			{
+				$partAttributes = explode(':', $part, 2);
+				if (isset($partAttributes[1]))
+				{
+					$attrName = trim($partAttributes[0]);
+					$attrValue = trim($partAttributes[1]);
+					if ($attrName !== '' && $attrValue !== '')
+					{
+						$attributes[$attrName] = $attrValue;
+					}
+				}
+			}
+
+			list($firstName, $firstValue) = each($attributes);
+			if ($firstName && $firstName != 'member')
+			{
+				$source = array('type' => $firstName, 'id' => intval($firstValue));
+			}
+		}
+		else
+		{
+			$name = false;
+		}
+
+		//Custom code starts here
+		if(!preg_match('#^<p>#', $content))
+		{
+			$content = "<p>{$content}</p>";
+		}
+
+		$data = array();
+		
+		if($name)
+		{
+			$data[] = 'data-username="' . htmlspecialchars($name) . '"';
+		}
+		
+		if(!empty($attributes))
+		{
+			$dataNames = array();
+			foreach($attributes as $name => $value)
+			{
+				$name = htmlspecialchars($name);
+				$value = htmlspecialchars($value);
+				
+				$data[] = 'data-' . $name . '="'. $value . '"';
+				$dataNames[] = $name;
+			}
+		
+			if(!empty($dataNames))
+			{
+				$dataAttributes = htmlspecialchars(implode(',', $dataNames));
+				$data[] = 'data-attributes="' . $dataAttributes . '"';
+			}
+		}
+		
+		$data = (!empty($data)) ? implode($data, ' ') : '';
+
+		return '<blockquote class="mce_quote" data-mcequote="true" ' . $data . '>' . $content . '</blockquote>';
 	}
 
 	/**

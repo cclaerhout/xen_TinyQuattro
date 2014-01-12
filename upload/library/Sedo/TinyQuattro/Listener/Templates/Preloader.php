@@ -54,7 +54,7 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 				$params += array(
 					'loadQuattro' => self::_checkQuattroPermissions(), 	//quattro param
 					'quattroIntegration' => self::_quattroIntegration(),	//quattro integration js (for 1.2)
-					'quattroExtraPlugins' => self::_quattroExtraPlugins(),	//quattro param
+					'quattroPlugins' => self::_quattroExtraPlugins(),	//quattro param
 					'quattroGrid' => array(), 				//default bbm param
 					'customQuattroButtonsCss' => array(), 			//default bbm param
 					'customQuattroButtonsJs' => array(), 			//default bbm param
@@ -114,8 +114,17 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 	protected static function _quattroExtraPlugins()
 	{
 		$options = XenForo_Application::get('options');
-		$plugins = array();
 		
+		$plugins = array('advlist', 'lists', 'charmap', 'visualchars',
+			'fullscreen', 'directionality', 'searchreplace',
+			'paste', 'textcolor', 'autoresize'
+		);
+
+		if(XenForo_Application::debugMode())
+		{
+			$plugins[] = 'code';
+		}
+
 		if(!empty($options->quattro_extra_bbcodes['xtable']))
 		{
 			$plugins[] = 'table';
@@ -141,7 +150,23 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 			$plugins[] = 'xen_paste_img'; // buggy: http://www.tinymce.com/develop/bugtracker_view.php?id=6367
 		}
 
+		if(!empty($options->quattro_wysiwyg_quote))
+		{
+			$plugins[] = 'xenquote';
+		}
+
 		XenForo_CodeEvent::fire('tinyquattro_extra_plugins', array(&$plugins));
+
+		/***
+		 * The main plugin has now two parts 
+		 *  1) The first is the main one, it will be loaded as the first plugin so other plugins 
+		 *     can have access to some of his functions if needed
+		 *  2) The second one must the last plugin. It will trigger an event telling the main plugins all 
+		 *     plugins have been loaded
+		 **/
+		 
+		array_unshift($plugins, 'xenforo');
+		$plugins[] = '-xenReady';
 
 		$plugins = implode(' ', $plugins);
 		return $plugins;
@@ -150,6 +175,7 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 	protected static function _showWysiwyg($showWysiwyg)
 	{
 		$options = XenForo_Application::get('options');
+		$visitor = XenForo_Visitor::getInstance();
  
 		if($options->quattro_parser_bypass_mobile_limit)
 		{
@@ -157,7 +183,6 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 			
 			if($isMobile)
 			{
-				$visitor = XenForo_Visitor::getInstance();
 				$showWysiwyg = true;
 			
 				if($options->quattro_parser_mobile_user_option && !$visitor->quattro_rte_mobile)
@@ -169,11 +194,23 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 
 		if($options->quattro_parser_bypass_ie7limit)
 		{
-			if(preg_match('#msie (\d+)#i', $_SERVER['HTTP_USER_AGENT'], $match))
+			if(isset($visitor->getBrowser['IEis']))
 			{
-				if($match[1] == 7)
+				//Browser Detection (Mobile/MSIE) Addon
+				if($visitor->getBrowser['isIE'] && $visitor->getBrowser['IEis'] == 7)
 				{
 					$showWysiwyg = true;
+				}
+			}
+			else
+			{
+				//Manual Detection
+				if(isset($_SERVER['HTTP_USER_AGENT']) && preg_match('#msie (\d+)#i', $_SERVER['HTTP_USER_AGENT'], $match))
+				{
+					if($match[1] == 7)
+					{
+						$showWysiwyg = true;
+					}
 				}
 			}
 		}

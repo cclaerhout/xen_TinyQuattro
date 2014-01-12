@@ -2,39 +2,48 @@
 /***
 *	xenMCE - AllInOne Functions
 ***/
+	if(xenMCE == undefined) xenMCE = {};
 
 	/***
 	*	Extend xenMCE - Overlay: Shortcuts to get Overlay params
 	***/
 	
-	xenMCE.Overlay = {
-		create: function(dialog, windowManagerConfig, callbacks){
-			xenMCE.Overlay._Tools.loadOverlay(dialog, windowManagerConfig, callbacks); //Static call
-		},
-		getParams: function()
+	xenMCE.Lib = 
+	{
+		getTools: function()
 		{
-			return xenMCE.Overlay._get('params');	
+			return this.Tools;
 		},
-		getInputs: function()
+		overlay: 
 		{
-			return xenMCE.Overlay._get('inputs');
-		},
-		getOverlay: function()
-		{
-			return xenMCE.Overlay._get('$overlay');
-		},
-		getEditor: function()
-		{
-			return xenMCE.Overlay._get('editor');
-		},
-		getSelection: function()
-		{
-			return xenMCE.Overlay._get('selection');
+			create: function(dialog, windowManagerConfig, callbacks){
+				xenMCE.Lib.Tools.loadOverlay(dialog, windowManagerConfig, callbacks); //Static call
+			},
+			get: function()
+			{
+				return xenMCE.Lib._get('$overlay');
+			},
+			getParams: function()
+			{
+				return xenMCE.Lib._get('params');	
+			},
+			getInputs: function()
+			{
+				return xenMCE.Lib._get('inputs');
+			},
+			getEditor: function()
+			{
+				return xenMCE.Lib._get('editor');
+			},
+			getSelection: function()
+			{
+				return xenMCE.Lib._get('selection');
+			}
 		},
 		_get:function(key)
 		{
-			var bckOv = xenMCE.Tools.backupOverlay;
-			
+			var bckOv = xenMCE.Tools.backupLib;
+				
 			if(bckOv[key] !== undefined)
 				return bckOv[key];
 			else
@@ -56,7 +65,7 @@
 	*	> This class functions should be applied to any "sub-plugins" put inside the xenMCE.Plugins.Auto
 	*	> This "sub-plugins" must be created with the tinymce.create() function but must not be added in
 	*	  the plugin manager
-	*	> To create a real TinyMCE plugin and access these functions a static mirror is available in xenMCE.Overlay._Tools
+	*	> To create a real TinyMCE plugin and access these functions a static mirror is available in xenMCE.Lib.Tools
 	***/
 
 	tinymce.create('xenMCE.Tools', {
@@ -110,14 +119,16 @@
 			};
 			
 			/*Create a static mirror*/
-			xenMCE.Overlay._Tools = this;
+			xenMCE.Lib.Tools = this;
 
 			/*XenForo plugins AutoLoader*/
-			if(xenMCE.Plugins.Auto !== undefined){
-				$.each(xenMCE.Plugins.Auto, function(k, v){
-					new v(src);
-				});
-			}
+			ed.on('XenReady', function(){
+				if(xenMCE.Plugins.Auto !== undefined){
+					$.each(xenMCE.Plugins.Auto, function(k, v){
+						new v(src);
+					});
+				}
+			});
 		},
 		overlayParams: {},
 		overlayInputs: {},		
@@ -164,7 +175,7 @@
 			isUrl = isLink = isEmail = false, url_text = url_href = '',
 			sel = editor.selection, selHtml, selText,
 			isEmpty = (selText) ? 0 : 1,
-			staticBackup = xenMCE.Tools.backupOverlay;
+			staticBackup = xenMCE.Tools.backupLib;
 
 			/* Url (+email) checker: take the parent a element */
 			selElm = sel.getNode();
@@ -187,7 +198,7 @@
 			selHtml = sel.getContent();
 			selText = sel.getContent({format: 'text'});
 		
-			/* Backup selection so it can be retrieve from xenMCE.Overlay */
+			/* Backup selection so it can be retrieve from xenMCE.Lib */
 			staticBackup.selection = {
 				sel: sel,
 				text: selText,
@@ -265,7 +276,7 @@
 					buttonOk = phrase.insert,
 					buttonCancel = phrase.cancel,
 					inputsTags = ['input','textarea','select'],
-					staticBackup = xenMCE.Tools.backupOverlay;
+					staticBackup = xenMCE.Tools.backupLib;
 
 				staticBackup.params = params;
 				staticBackup.editor = editor;
@@ -439,7 +450,7 @@
 
 				/* Get overlay */
 				$overlay = $(win.windows[0].getEl());
-				xenMCE.Tools.backupOverlay.$overlay = $overlay;
+				xenMCE.Tools.backupLib.$overlay = $overlay;
 
 				/* Eval inline scripts */
 				if (scripts.length){
@@ -801,7 +812,7 @@
 			tinymce.each(toolbarObj, function(v, k) {
 				var settings = v.settings;
 				
-				if (v.type != 'button' || settings === undefined)
+				if ($.inArray(v.type, ['button', 'splitbutton']) === -1 || settings === undefined)
 					return;
 
 				if( (val !== undefined) && settings[prop] !== undefined && settings[prop] == val)
@@ -1018,7 +1029,7 @@
 		},
 		getSelection: function()
 		{
-			return xenMCE.Overlay._get('selection');			
+			return xenMCE.Lib._get('selection');			
 		},
 		zen2han: function(str)
 		{
@@ -1035,11 +1046,14 @@
 			return cString;
 		},
 		static:{
-			backupOverlay: {} //This static object will be used to easily retrieve the overlay datas outside the class (@see xenMCE.Overlay)
+			backupLib: {} //This static object will be used to easily retrieve the overlay datas outside the class (@see xenMCE.Lib)
 		}
 	});
 
 	tinymce.PluginManager.add('xenforo', xenMCE.Tools);
+	tinymce.PluginManager.add('xenReady', function(ed){
+		ed.fire('XenReady');
+	});	
 
 /***
 *	SUB-PLUGINS
@@ -1115,6 +1129,11 @@
 				
 				src.ed.addButton(n, config);
 			});
+			
+			//Source Btn - Fright mode
+			if(src.ed.buttons.code !== undefined){
+				src.ed.buttons.code.xenfright = true;
+			}
 		},
 		onafterload: function($ovl, data, ed, src)
 		{
@@ -2085,14 +2104,16 @@
 		{
 			var ed = parent.getEditor(), n = 'xen_quote';
 
-			ed.addButton(n, {
-				name: n,
-				icon: n,
-				iconset: 'xenforo',
-				onclick: function(e){
-					parent.insertBbCode('quote', false);
-				}
-			});
+			if(ed.buttons[n] === undefined){
+				ed.addButton(n, {
+					name: n,
+					icon: n,
+					iconset: 'xenforo',
+					onclick: function(e){
+						parent.insertBbCode('quote', false);
+					}
+				});
+			}
 		}
 	});
 

@@ -5,20 +5,29 @@ class Sedo_TinyQuattro_ViewPublic_Editor_ToHtml extends XFCP_Sedo_TinyQuattro_Vi
 	protected $debug_WrappedList = false;
 
 	protected $guiltyTags;
-	protected $protectedTags;
+	protected $protectedTags = '';
 	protected $regexCreatePollution;
 	protected $regexMatchWrappedList;
 	protected $datas;
 	protected $activeTag;
 	protected $depth = 0;
 	protected $process = false;
+	
+	protected $quattroEnable = false;
+	protected $oldXen;
 
 	public function renderJson()
 	{
-		if(!isset($this->_params['bbCode']) || !XenForo_Application::get('options')->get('quattro_converter_bb_to_html'))
+		$xenOptions = XenForo_Application::get('options');
+		
+		if(!isset($this->_params['bbCode']) || !$xenOptions->quattro_converter_bb_to_html)
 		{
-			return parent::renderJson();
+			$parent = parent::renderJson();
+			return $this->connexionCheck($parent);
 		}
+
+		$this->oldXen = ($xenOptions->currentVersionId  < 1020031);
+		$this->quattroEnable = Sedo_TinyQuattro_Helper_Quattro::isEnabled();
 		
 		$content = $this->_params['bbCode'];
 
@@ -38,23 +47,35 @@ class Sedo_TinyQuattro_ViewPublic_Editor_ToHtml extends XFCP_Sedo_TinyQuattro_Vi
 		$parent = parent::renderJson();
 
 		//Get back real HTML, PHP, CODE & QUOTE Bb Codes if they have been modified
-		$parent = $this->_getBackRealTags($parent);
+		if($this->oldXen)
+		{
+			$parent = $this->_getBackRealTags($parent);
+		}
 
+		return $this->connexionCheck($parent);
+	}
+
+	public function connexionCheck($parent)
+	{
 		/* Detect if the user is no more connected */
 		$visitor = XenForo_Visitor::getInstance();
+
 		$parent['isConnected'] = ($visitor->user_id) ? 1 : 0;
 		if(!$visitor->user_id)
 		{
 			$parent['notConnectedMessage'] = new XenForo_Phrase('quattro_no_more_connected');
 		}
 		
-		return $parent;
+		return $parent;	
 	}
 
 	protected function _initTagPollution()
 	{
       		$guiltyTags = array_filter(explode(',', XenForo_Application::get('options')->get('tinyquattro_guilty_tags')));
-     		$this->protectedTags = "code|php|html|quote"; //To check: why these tags? I forgot / Need an option?
+      		
+		$this->protectedTags = "code|php|html|quote"; //To check: why these tags? I forgot / Need an option?
+		
+		if(XenForo_Application::get('options')->get('currentVersionId') >= 1020031)
 
       		foreach($guiltyTags as $key => $tag)
       		{
@@ -100,9 +121,6 @@ class Sedo_TinyQuattro_ViewPublic_Editor_ToHtml extends XFCP_Sedo_TinyQuattro_Vi
 			)									#capture list ends
 			(?P<endingTags>(?:(?:$closing_regex))+)					#capture closingTags
 			/ui";									//Options: case insensitive + unicode
-
-
-
 	}
 
 	/******
@@ -128,7 +146,10 @@ class Sedo_TinyQuattro_ViewPublic_Editor_ToHtml extends XFCP_Sedo_TinyQuattro_Vi
 		$line = $this->_createTagPollutionCallback_L2($line);
 
 		//Avoid TinyMCE breaking for code, php, html & quote Bb codes [The Wysiwyg function of these Bb Codes is useless anyway]
-		$line = preg_replace('#\[(/)?('.$this->protectedTags.')\]#ui', '[$1$2_parser_fix]', $line);
+		if($this->oldXen)
+		{
+			$line = preg_replace('#\[(/)?('.$this->protectedTags.')\]#ui', '[$1$2_parser_fix]', $line);
+		}
 
 		//Fix for Lists (only those processed and matched with Main Pre-parser)
 		$line = $this->_fixPollutedBbCodeList($line);
@@ -489,7 +510,27 @@ class Sedo_TinyQuattro_ViewPublic_Editor_ToHtml extends XFCP_Sedo_TinyQuattro_Vi
 
     	protected function _getBackRealTags($string)
 	{
-		$string = preg_replace('#\[((?:/)?)(\w+?)_parser_fix\]#ui', '[$1$2]', $string);
+		$string = preg_replace('#\[((?:/)?)(\w+?)_parser_fix\](?:\[\1\2\])?#ui', '[$1$2]', $string);
+
+		return $string;
+	}
+	
+	protected function _mceQuoteFix($string)
+	{
+		
+		//Multi quotes clean end tag fix
+		$string = preg_replace('#\[/QUOTE\]</p><p>\[QUOTE\](.*?</blockquote>)#i', '</blockquote></p><p><blockquote>$1', $string);
+
+		//Multi quotes clean end tag fix
+		$string = preg_replace('#\[/QUOTE\]</p><p>\[QUOTE\](.*?</blockquote>)#i', '</blockquote></p><p><blockquote>$1', $string);
+
+		//Single quote end tag fix (don't use str_replace, cf for lowercase tag)
+		$string = preg_replace('#\[/QUOTE\]</blockquote>#i', '</blockquote>', $string);
+
+
+		$string = preg_replace('#\[/quote\]</p><p>(.*?)</blockquote>#i', '</blockquote></p><p>$1', $string);
+
+
 		return $string;
 	}
 

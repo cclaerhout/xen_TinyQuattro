@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.7.1.2" version_id="44" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.8.0" version_id="46" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -868,6 +868,12 @@ charwp={xen:phrase sedo_quattro_wordcount_characterswithwhitespaces}</edit_forma
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="420"/>
     </option>
+    <option option_id="quattro_wysiwyg_quote" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro_bbcodes" display_order="140"/>
+    </option>
     <option option_id="quattro_xendraft" edit_format="radio" data_type="boolean" can_backup="1">
       <default_value>0</default_value>
       <edit_format_params>0={xen:phrase no}
@@ -1074,6 +1080,8 @@ If you have already installed the extension <a href="http://xenforo.com/communit
 Default: no.]]></phrase>
     <phrase title="option_quattro_wordcount" version_id="0" version_string="1.0"><![CDATA[Enable word count?]]></phrase>
     <phrase title="option_quattro_wordcount_explain" version_id="0" version_string="1.0"><![CDATA[This option will activate the TinyMCE word count plugin.]]></phrase>
+    <phrase title="option_quattro_wysiwyg_quote" version_id="45" version_string="1.7.1.3"><![CDATA[Extend the Quote tag to make it wysiwyg]]></phrase>
+    <phrase title="option_quattro_wysiwyg_quote_explain" version_id="45" version_string="1.7.1.3"><![CDATA[This feature is only available on TinyMCE and for XenForo versions above 1.2.x .]]></phrase>
     <phrase title="option_quattro_xendraft" version_id="19" version_string="1.3.1"><![CDATA[XenForo drafts integration]]></phrase>
     <phrase title="option_quattro_xendraft_explain" version_id="19" version_string="1.3.1"><![CDATA[If you prefer to use the XenForo drafts system instead of the TinyMCE autosave plugin, select "yes". The first one is saving drafts in the database, the second in in the browser memory. The XenForo drafts system must have of course been activated in the XenForo options.<br />
 <br />
@@ -1124,6 +1132,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_extra_bbcodes_bcolor" version_id="13" version_string="1.1.6"><![CDATA[Background Color BbCode: [bcolor]]]></phrase>
     <phrase title="sedo_quattro_extra_bbcodes_justify" version_id="13" version_string="1.1.6"><![CDATA[Justify Align BbCode: [justify]]]></phrase>
     <phrase title="sedo_quattro_extra_bbcodes_xtable" version_id="16" version_string="1.2.2"><![CDATA[Table BbCode: [xtable]]]></phrase>
+    <phrase title="sedo_quattro_field" version_id="45" version_string="1.7.1.3"><![CDATA[Field]]></phrase>
     <phrase title="sedo_quattro_find" version_id="4" version_string="1.0.4"><![CDATA[Find]]></phrase>
     <phrase title="sedo_quattro_find_and_replace" version_id="4" version_string="1.0.4"><![CDATA[Find and replace]]></phrase>
     <phrase title="sedo_quattro_font_family" version_id="0" version_string="1.0"><![CDATA[Font family]]></phrase>
@@ -1153,6 +1162,8 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_paste_plain_alert_message" version_id="6" version_string="1.0.6"><![CDATA[Paste is now in plain text mode. Contents will now be pasted as plain text until you toggle this option off.]]></phrase>
     <phrase title="sedo_quattro_php" version_id="0" version_string="1.0"><![CDATA[PHP]]></phrase>
     <phrase title="sedo_quattro_prev" version_id="4" version_string="1.0.4"><![CDATA[Prev]]></phrase>
+    <phrase title="sedo_quattro_quote_properties" version_id="45" version_string="1.7.1.3"><![CDATA[Quote properties]]></phrase>
+    <phrase title="sedo_quattro_quote_username" version_id="45" version_string="1.7.1.3"><![CDATA[Username]]></phrase>
     <phrase title="sedo_quattro_replace" version_id="4" version_string="1.0.4"><![CDATA[Replace]]></phrase>
     <phrase title="sedo_quattro_replacewith" version_id="4" version_string="1.0.4"><![CDATA[Replace with]]></phrase>
     <phrase title="sedo_quattro_replace_all" version_id="4" version_string="1.0.4"><![CDATA[Replace all]]></phrase>
@@ -1171,6 +1182,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_smilies_desc_none" version_id="12" version_string="1.1.5"><![CDATA[No description]]></phrase>
     <phrase title="sedo_quattro_sm_addon_no_category" version_id="33" version_string="1.6.4.2"><![CDATA[None]]></phrase>
     <phrase title="sedo_quattro_sm_addon_no_category_found" version_id="33" version_string="1.6.4.2"><![CDATA[No category found]]></phrase>
+    <phrase title="sedo_quattro_source_code" version_id="46" version_string="1.8.0"><![CDATA[Source code]]></phrase>
     <phrase title="sedo_quattro_specialcharacters" version_id="0" version_string="1.0"><![CDATA[Special characters]]></phrase>
     <phrase title="sedo_quattro_table" version_id="40" version_string="1.7.0.5"><![CDATA[Table]]></phrase>
     <phrase title="sedo_quattro_table_alignment" version_id="17" version_string="1.3.0"><![CDATA[Alignment]]></phrase>
@@ -4467,7 +4479,7 @@ i.mce-i-resize {
 </xen:if>
 
 ]]></template>
-    <template title="tiny_quattro_iframe.css" version_id="43" version_string="1.7.1.1"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_iframe.css" version_id="45" version_string="1.7.1.3"><![CDATA[<xen:comment>
 	EDITOR IFRAME CONTENT CSS
 </xen:comment>
 
@@ -4593,6 +4605,12 @@ h4 { font-size: 1em; }
 h5 { font-size: .83em; }
 h6 { font-size: .75em; }
 
+blockquote.mce_quote {
+	border-left: 1px dotted {xen:property secondaryMedium};
+	padding-left: 5px;
+	background-color: {xen:property secondaryLightest};
+}
+
 
 <xen:include template="bb_code_base.css" />
 <xen:include template="bb_code.css" />
@@ -4605,7 +4623,7 @@ h6 { font-size: .75em; }
 		</xen:if>
 	</xen:foreach>
 </xen:if>]]></template>
-    <template title="tiny_quattro_js_setup" version_id="40" version_string="1.7.0.5"><![CDATA[<xen:comment>Load Quattro Integration JS files for 1.2</xen:comment>
+    <template title="tiny_quattro_js_setup" version_id="44" version_string="1.7.1.2"><![CDATA[<xen:comment>Load Quattro Integration JS files for 1.2</xen:comment>
 	<xen:if is="{$quattroIntegration}">
 		<xen:require js="js/sedo/tinyquattro/integration/retro_quickreply.js" />
 	</xen:if>
@@ -4652,11 +4670,7 @@ h6 { font-size: .75em; }
 		content_css: "css.php?style={xen:urlencode $visitorStyle.style_id}&css=tiny_quattro_iframe&d={xen:urlencode $visitorStyle.last_modified_date}",
 		menubar: false,
 		toolbar_items_size: '{$xenOptions.quattro_iconsize}',
-		plugins: [
-		 "advlist lists charmap visualchars fullscreen",
-		 "directionality searchreplace {$quattroExtraPlugins}", 
-		 "paste textcolor autoresize xenforo"
-		],
+		plugins: ["{$quattroPlugins}"],
 		resize: {xen:if '{$xenOptions.quattro_resize_editor} == "both"', '"both"', '{$xenOptions.quattro_resize_editor}'},
 		<xen:comment>object_resizing: false,</xen:comment>
 		browser_spellcheck: {$xenOptions.quattro_enable_browser_spellcheck},
@@ -4716,7 +4730,7 @@ h6 { font-size: .75em; }
 	xenwordcount: "{$xenOptions.quattro_wordcount}",
 	disableResponsive: {xen:if '{xen:property tinyquattro_modal_responsive}', false, true},
 	bbmButtons: { <xen:include template="tiny_quattro_custom_buttons" /> }]]></template>
-    <template title="tiny_quattro_phrases" version_id="40" version_string="1.7.0.5"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_phrases" version_id="46" version_string="1.8.0"><![CDATA[<xen:comment>
 	We are inside a JavaScript file. All phrases must be escaped
 </xen:comment>
 
@@ -4732,6 +4746,7 @@ h6 { font-size: .75em; }
 	cancel: "{xen:jsescape {xen:phrase cancel}}",
 	switch_text: ["{xen:jsescape {xen:phrase use_bb_code_editor}}", "{xen:jsescape {xen:phrase use_rich_text_editor}}"],
 	unlink: "{xen:jsescape {xen:phrase unlink}}",
+	field: "{xen:jsescape {xen:phrase sedo_quattro_field}}",
 	draft: { save: "{xen:jsescape {xen:phrase save_draft}}", _delete: "{xen:jsescape {xen:phrase delete_draft}}", saved: "{xen:jsescape {xen:phrase draft_saved}}", deleted: "{xen:jsescape {xen:phrase draft_deleted}}"},
 
 	<xen:comment>autotranslation</xen:comment>
@@ -4816,6 +4831,10 @@ h6 { font-size: .75em; }
 		"Skin 3": "{xen:jsescape {xen:phrase sedo_quattro_skin3}}",
 		"Skin 4": "{xen:jsescape {xen:phrase sedo_quattro_skin4}}",
 	</xen:if>
+	<xen:if is="{$xenOptions.quattro_wysiwyg_quote}">
+		"Quote properties" : "{xen:jsescape {xen:phrase sedo_quattro_quote_properties}}",
+		"Username": "{xen:jsescape {xen:phrase sedo_quattro_quote_username}}",
+	</xen:if>
 		"Words: {0}": "{xen:jsescape {xen:if "in_array({$xenOptions.quattro_wordcount}, array('char','charwp'))", "{xen:phrase sedo_quattro_characters}", "{xen:phrase sedo_quattro_words}"}}",
 		"Special character": "{xen:jsescape {xen:phrase sedo_quattro_specialcharacters}}",
 		"Smilies picker": "{xen:jsescape {xen:phrase sedo_quattro_smiliespicker}}",
@@ -4833,6 +4852,7 @@ h6 { font-size: .75em; }
 		"Replace all": "{xen:jsescape {xen:phrase sedo_quattro_replace_all}}",
 		"Prev": "{xen:jsescape {xen:phrase sedo_quattro_prev}}",
 		"Next": "{xen:jsescape {xen:phrase sedo_quattro_next}}",
+		"Source code": "{xen:jsescape {xen:phrase sedo_quattro_source_code}}",
 		"drop_files_here_to_upload" : "{xen:jsescape {xen:phrase drop_files_here_to_upload}}",
 		"uploads_are_not_available" : "{xen:jsescape {xen:phrase uploads_are_not_available}}"
 	}]]></template>

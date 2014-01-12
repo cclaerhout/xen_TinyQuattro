@@ -46,6 +46,16 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 			$this->_handlers['tr'] = 	array('filterCallback' => array('$this', 'handleTagMceTable'), 'skipCss' => true);
 			$this->_handlers['td'] = 	array('filterCallback' => array('$this', 'handleTagMceTable'), 'skipCss' => true);
 		}
+
+		if(	is_array($this->_handlers) 
+			&&
+			Sedo_TinyQuattro_Helper_Quattro::isEnabled()
+			&&
+			$xenOptions->quattro_wysiwyg_quote
+		)
+		{
+			$this->_handlers['blockquote'] = array('filterCallback' => array('$this', 'handleTagMceBlockquote'), 'skipCss' => true);
+		}
 		
 		return parent::__construct($options);
 	}
@@ -91,6 +101,55 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 		
 		return $parentOutput;
 	}	
+
+	/**
+	 * Mce Blockquote tag handler
+	 */
+	public function handleTagMceBlockquote($text, XenForo_Html_Tag $tag)
+	{
+		$tagName = $tag->tagName();
+
+		if(!$tag->attribute('data-mcequote'))
+		{
+			return $text;
+		}
+		
+		$tagOption = array();
+		
+		if($tag->attribute('data-username'))
+		{
+			$tagOption[] = $tag->attribute('data-username');
+		}
+		
+		if($tag->attribute('data-attributes'))
+		{
+			$attributes = htmlspecialchars($tag->attribute('data-attributes'));
+			$attributes = explode(',', $attributes);
+			$safe_i = 0;
+
+			foreach($attributes as $attribute)
+			{
+				if(preg_match('#[a-z0-9]#i', $attribute) && $tag->attribute("data-{$attribute}"))
+				{
+					$value = htmlspecialchars($tag->attribute("data-{$attribute}"));
+					$tagOption[] = "{$attribute}: {$value}";
+				}
+
+				if($safe_i > 10)
+				{
+					break;
+				}
+				
+				$safe_i++;
+			}
+		}
+
+		$tagOption = (!empty($tagOption)) ? implode($tagOption, ', ') : '';
+		$openTag = ($tagOption) ? '[QUOTE="'.$tagOption.'"]' : '[QUOTE]';
+		$closingTag = '[/QUOTE]';
+		
+		return "{$openTag}{$text}{$closingTag}";
+	}
 
 	/**
 	 * Table tag handler

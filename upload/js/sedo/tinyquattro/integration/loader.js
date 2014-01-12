@@ -27,6 +27,10 @@
 		{
 			//Let's mark the editor as failed by default, let's take back this after it has been loaded
 			$editor.show().after($('<input type="hidden" name="_xfRteFailed" value="1" />'));
+
+			var explodeMceMultiArray = function(plugins){
+				return plugins.toString().replace(',', ' ').split(' ');
+			};
 			
 			var editorId = $editor.attr('id'),
 				params = xenMCE.Params,
@@ -36,7 +40,13 @@
 				draftOpt = params.xendraft,
 				baseUrl = XenForo._baseUrl,
 				loader;			
-		
+
+			var pluginList = explodeMceMultiArray(config.plugins);
+
+			if($.inArray('code', pluginList !== 1)){
+				config.toolbar1 += ' | code';	
+			}
+
 			$editor.each(function(){
 				var $form = $(this).closest('form');
 				if($form.attr('id') == 'QuickReply'){
