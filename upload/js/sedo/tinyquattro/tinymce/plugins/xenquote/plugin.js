@@ -17,8 +17,6 @@
 			if(!content || content == undefined)
 				return false;
 
-			console.log(content);
-
 			if(!pRegex.test(content)){
 				content = '<p>'+content+'</p>';
 			}
@@ -30,8 +28,6 @@
 				options = tools.unescapeHtml(options);
 				//Delete comas
 				options = options.substring(1, options.length - 1);
-				//Escape options
-				options = tools.escapeHtml(options);
 				//Transform into array
 				options = options.split(',');
 				
@@ -51,7 +47,7 @@
 						
 						var attrName = $.trim(partAttributes[0]),
 							attrValue = $.trim(partAttributes[1]);
-						
+					
 						if(attrName !== '' && attrValue !== ''){
 							attributes.push(attrName);
 							$quote.attr('data-'+attrName, attrValue);
