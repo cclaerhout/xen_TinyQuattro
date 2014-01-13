@@ -2,7 +2,7 @@ xenMCE.Templates.Image = {
 	submit: function(e, $ovl, ed, src)
 	{
 		var url = e.data.url, dom = ed.dom, config,
-		orginalSel = xenMCE.Overlay.getSelection(), imgElm = orginalSel.sel.getNode();
+		orginalSel = xenMCE.Lib.overlay.getSelection(), imgElm = orginalSel.sel.getNode();
 
 		function waitLoad(imgElm) {
 			imgElm.onload = imgElm.onerror = function() {

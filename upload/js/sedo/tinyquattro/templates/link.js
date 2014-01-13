@@ -3,7 +3,7 @@ xenMCE.Templates.Link = {
 	{
 		//Type 0: none, Type 1: link, Type 2: mail
 		var data = e.data, dom = ed.dom, type = 0, href, text,
-		orginalSel = xenMCE.Overlay.getSelection(),
+		orginalSel = xenMCE.Lib.overlay.getSelection(),
 		initialText = orginalSel.url.text,
 		anchorElm = orginalSel.url.anchorElm;
 
