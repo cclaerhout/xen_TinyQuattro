@@ -2,12 +2,14 @@
 	tinymce.PluginManager.add('xenquote', function(ed) {
 		var tools = xenMCE.Lib.getTools(),
 			phrases = xenMCE.Phrases,
+			dataQuote = 'data-mcequote',
 			quoteRegexNoParser = /\[quote(?:=(.*?))?\]([\s\S]*?)\[\/quote\]/g,
-			quoteRegexWithParser = /^<blockquote.*?data-mcequote[\s\S]*?<\/blockquote>$/;
+			quoteRegexWithParser = /^<blockquote.*?data-mcequote[\s\S]*?<\/blockquote>$/,
+			blankParagraph = (tinymce.isIE) ? '<p>&nbsp;</p>' : '<p><br /></p>';
 
 		/* The below function will be only used if the insert content doesn't use the XenForo formatter */
 		var bbcodeToHtml = function(matchQuote, fullInsertion){
-			var $quote = $('<blockquote class="mce_quote" data-mcequote="true" />'),
+			var $quote = $('<blockquote class="mce_quote" '+dataQuote+'="true" />'),
 				originalQuote = matchQuote[0],
 				options = matchQuote[1],
 				content = matchQuote[2],
@@ -78,9 +80,6 @@
 				};
 				
 				if(quoteRegexWithParser.test(e.value)){
-					//Add an extra blank paragraph (allow to do several quotes)
-					var blankParagraph = (tinymce.isIE) ? '<p>&nbsp;</p>' : '<p><br /></p>';
-					
 					ed.execCommand(e.command, false, e.value+blankParagraph);
 					return false;
 				}
@@ -90,7 +89,7 @@
 		/* Create the button */
 		var n = 'xen_quote';
 
-		var getBlockQuotes = function(){
+		var getBlockQuotes = function(attrib){
 			var el = ed.selection.getNode(),
 				dom = ed.dom;
 
@@ -100,6 +99,14 @@
 			
 			if(el == undefined || !el)
 				return false
+
+			if(attrib != undefined){
+				if(dom.getAttrib(el, attrib)){
+					return el;
+				} else {
+					return false;
+				}
+			}
 
 			return el;	
 		};
@@ -153,13 +160,18 @@
 			menu: [	{ value: 'setProperties', text: 'Quote properties' } ],
 			onshow: function(e) {
 				$('.mce-tooltip:visible').hide();
-				var blockquote = getBlockQuotes();
+				var blockquote = getBlockQuotes(dataQuote);
 				this.menu._items.disabled(!(blockquote));
 			},
 			onselect: function(e) {
+				var blockquote = getBlockQuotes(dataQuote);
+				
+				if(!blockquote) {
+					return false;
+				}
+
 				var ctrl = e.control,
 					cmd = e.control._value,
-					blockquote = getBlockQuotes(),
 					dom = ed.dom,
 					otherAttribs = dom.getAttribs(blockquote),
 					username = dom.getAttrib(blockquote, 'data-username');

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="1.8.0.1" version_id="47" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.0.0" version_id="48" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -444,14 +444,17 @@ i.mce-i-backcolor
   </admin_templates>
   <admin_template_modifications/>
   <code_events>
-    <event event_id="tinyquattro_extra_plugins"><![CDATA[<p>Called when the TinyMCE extra plugins are initialized.</p>
+    <event event_id="tinyquattro_setup"><![CDATA[<p>Called when the TinyMCE extra plugins are initialized.</p>
 
 <p>Callback signature:</p>
-<blockquote><code><em>array</em> &$plugins</code></blockquote>
+<blockquote><code><em>array</em> &$plugins, <em>array</em> &$mceOptions, <em>array</em> &$mceBtnCss, <em>array</em> $extraValues</code></blockquote>
 
 <p>Arguments:</p>
 <ol>
-	<li><code><em>array</em> &$plugins</code> - list of TinyMCE extra plugins to initiliaze</li>
+	<li><code><em>array</em> &$plugins</code> - list of TinyMCE plugins</li>
+	<li><code><em>array</em> &$mceOptions</code> - list of TinyMCE options (init settings & params)</li>
+	<li><code><em>array</em> &$mceBtnCss</code> - Bbm Buttons Css</li>
+	<li><code><em>array</em>  $extraValues</code> -  Extra Values that might be needed to configurate options</li>
 </ol>]]></event>
   </code_events>
   <code_event_listeners>
@@ -500,17 +503,17 @@ step=20</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="230"/>
     </option>
-    <option option_id="quattro_autosave_ask_before_unload" edit_format="radio" data_type="string" can_backup="1">
-      <default_value>true</default_value>
-      <edit_format_params>false={xen:phrase no}
-true={xen:phrase yes}</edit_format_params>
+    <option option_id="quattro_autosave_ask_before_unload" edit_format="radio" data_type="boolean" can_backup="1">
+      <default_value>1</default_value>
+      <edit_format_params>0={xen:phrase no}
+1={xen:phrase yes}</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="130"/>
     </option>
-    <option option_id="quattro_autosave_autorestore" edit_format="radio" data_type="string" can_backup="1">
-      <default_value>false</default_value>
-      <edit_format_params>false={xen:phrase no}
-true={xen:phrase yes}</edit_format_params>
+    <option option_id="quattro_autosave_autorestore" edit_format="radio" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params>0={xen:phrase no}
+1={xen:phrase yes}</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="150"/>
     </option>
@@ -575,10 +578,10 @@ limited={xen:phrase sedo_quattro_everywhere_but_bbcodes_content}</edit_format_pa
       <sub_options></sub_options>
       <relation group_id="tiny_quattro_paser" display_order="930"/>
     </option>
-    <option option_id="quattro_enable_browser_spellcheck" edit_format="radio" data_type="string" can_backup="1">
-      <default_value>false</default_value>
-      <edit_format_params>false={xen:phrase no}
-true={xen:phrase yes}</edit_format_params>
+    <option option_id="quattro_enable_browser_spellcheck" edit_format="radio" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params>0={xen:phrase no}
+1={xen:phrase yes}</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="50"/>
     </option>
@@ -592,10 +595,14 @@ true={xen:phrase yes}</edit_format_params>
       <default_value></default_value>
       <edit_format_params>bcolor={xen:phrase sedo_quattro_extra_bbcodes_bcolor}
 justify={xen:phrase sedo_quattro_extra_bbcodes_justify}
-xtable={xen:phrase sedo_quattro_extra_bbcodes_xtable}</edit_format_params>
+xtable={xen:phrase sedo_quattro_extra_bbcodes_xtable}
+sub={xen:phrase sedo_quattro_extra_bbcodes_subscript}
+sup={xen:phrase sedo_quattro_extra_bbcodes_superscript}</edit_format_params>
       <sub_options>bcolor
 justify
-xtable</sub_options>
+xtable
+sub
+sup</sub_options>
       <relation group_id="tiny_quattro_bbcodes" display_order="100"/>
     </option>
     <option option_id="quattro_extra_bbcodes_bcolor_tag" edit_format="textbox" data_type="string" can_backup="1">
@@ -603,6 +610,18 @@ xtable</sub_options>
       <edit_format_params>size=8</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro_bbcodes" display_order="110"/>
+    </option>
+    <option option_id="quattro_extra_bbcodes_sub_tag" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value>sub</default_value>
+      <edit_format_params>size=8</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro_bbcodes" display_order="130"/>
+    </option>
+    <option option_id="quattro_extra_bbcodes_sup_tag" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value>sup</default_value>
+      <edit_format_params>size=8</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro_bbcodes" display_order="131"/>
     </option>
     <option option_id="quattro_extra_bbcodes_xtable_border_max" edit_format="spinbox" data_type="positive_integer" can_backup="1">
       <default_value>10</default_value>
@@ -784,18 +803,18 @@ small={xen:phrase sedo_quattro_small}</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro_paser" display_order="800"/>
     </option>
-    <option option_id="quattro_paste_as_text" edit_format="radio" data_type="string" can_backup="1">
-      <default_value>false</default_value>
-      <edit_format_params>false={xen:phrase no}
-true={xen:phrase yes}</edit_format_params>
+    <option option_id="quattro_paste_as_text" edit_format="radio" data_type="boolean" can_backup="1">
+      <default_value>1</default_value>
+      <edit_format_params>0={xen:phrase no}
+1={xen:phrase yes}</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="700"/>
     </option>
     <option option_id="quattro_resize_editor" edit_format="select" data_type="string" can_backup="1">
       <default_value>false</default_value>
-      <edit_format_params>false={xen:phrase no}
+      <edit_format_params>0={xen:phrase no}
 both={xen:phrase yes}
-true={xen:phrase quattro_resize_vertical_only}</edit_format_params>
+1={xen:phrase quattro_resize_vertical_only}</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="70"/>
     </option>
@@ -839,10 +858,10 @@ belowbox={xen:phrase quattro_smilies_belowbox}</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="520"/>
     </option>
-    <option option_id="quattro_statusbar" edit_format="radio" data_type="string" can_backup="1">
-      <default_value>true</default_value>
-      <edit_format_params>false={xen:phrase no}
-true={xen:phrase yes}</edit_format_params>
+    <option option_id="quattro_statusbar" edit_format="radio" data_type="boolean" can_backup="1">
+      <default_value>1</default_value>
+      <edit_format_params>0={xen:phrase no}
+1={xen:phrase yes}</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="400"/>
     </option>
@@ -872,7 +891,7 @@ charwp={xen:phrase sedo_quattro_wordcount_characterswithwhitespaces}</edit_forma
       <default_value>0</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro_bbcodes" display_order="140"/>
+      <relation group_id="tiny_quattro_bbcodes" display_order="185"/>
     </option>
     <option option_id="quattro_xendraft" edit_format="radio" data_type="boolean" can_backup="1">
       <default_value>0</default_value>
@@ -983,6 +1002,10 @@ This patch is enable by default.]]></phrase>
     <phrase title="option_quattro_extra_bbcodes_bcolor_tag" version_id="16" version_string="1.2.2"><![CDATA[Background color tag]]></phrase>
     <phrase title="option_quattro_extra_bbcodes_bcolor_tag_explain" version_id="16" version_string="1.2.2"><![CDATA[If you want to change the tag name for this  bb code, do it here but do it only once. If you change the tag name a few time using it, all previous bb codes won't be able to be parsed. Default is: <b>bcolor</b>.]]></phrase>
     <phrase title="option_quattro_extra_bbcodes_explain" version_id="13" version_string="1.1.6"><![CDATA[These Bb Codes will be added to XenForo (<b>only > 1.2</b>) and will work with their TinyMCE Quattro functions, which means they will have a Wysiwyg output. They should work with the XenForo redactor too, but these functions and their buttons will have to be coded or activated (if someone wants this, feel free to do it, but I will not).]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_sub_tag" version_id="48" version_string="2.0.0"><![CDATA[Subscript tag]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_sub_tag_explain" version_id="48" version_string="2.0.0"><![CDATA[If you want to change the tag name for this  bb code, do it here but do it only once. If you change the tag name a few time using it, all previous bb codes won't be able to be parsed. Default is: <b>sub</b>.]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_sup_tag" version_id="48" version_string="2.0.0"><![CDATA[Superscript tag]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_sup_tag_explain" version_id="48" version_string="2.0.0"><![CDATA[If you want to change the tag name for this  bb code, do it here but do it only once. If you change the tag name a few time using it, all previous bb codes won't be able to be parsed. Default is: <b>sup</b>.]]></phrase>
     <phrase title="option_quattro_extra_bbcodes_xtable_border_max" version_id="17" version_string="1.3.0"><![CDATA[Border max value]]></phrase>
     <phrase title="option_quattro_extra_bbcodes_xtable_border_max_explain" version_id="17" version_string="1.3.0"><![CDATA[Maximum border value. Default: 10.]]></phrase>
     <phrase title="option_quattro_extra_bbcodes_xtable_cellpadding_max" version_id="17" version_string="1.3.0"><![CDATA[Cellpadding max value]]></phrase>
@@ -1131,6 +1154,8 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_everywhere_but_bbcodes_content" version_id="33" version_string="1.6.4.2"><![CDATA[Yes - without Bb Code content]]></phrase>
     <phrase title="sedo_quattro_extra_bbcodes_bcolor" version_id="13" version_string="1.1.6"><![CDATA[Background Color BbCode: [bcolor]]]></phrase>
     <phrase title="sedo_quattro_extra_bbcodes_justify" version_id="13" version_string="1.1.6"><![CDATA[Justify Align BbCode: [justify]]]></phrase>
+    <phrase title="sedo_quattro_extra_bbcodes_subscript" version_id="48" version_string="2.0.0"><![CDATA[Subscript BbCode: [sub]]]></phrase>
+    <phrase title="sedo_quattro_extra_bbcodes_superscript" version_id="48" version_string="2.0.0"><![CDATA[Superscript BbCode: [sup]]]></phrase>
     <phrase title="sedo_quattro_extra_bbcodes_xtable" version_id="16" version_string="1.2.2"><![CDATA[Table BbCode: [xtable]]]></phrase>
     <phrase title="sedo_quattro_field" version_id="45" version_string="1.7.1.3"><![CDATA[Field]]></phrase>
     <phrase title="sedo_quattro_find" version_id="4" version_string="1.0.4"><![CDATA[Find]]></phrase>
@@ -1184,6 +1209,8 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_sm_addon_no_category_found" version_id="33" version_string="1.6.4.2"><![CDATA[No category found]]></phrase>
     <phrase title="sedo_quattro_source_code" version_id="46" version_string="1.8.0"><![CDATA[Source code]]></phrase>
     <phrase title="sedo_quattro_specialcharacters" version_id="0" version_string="1.0"><![CDATA[Special characters]]></phrase>
+    <phrase title="sedo_quattro_subscript" version_id="48" version_string="2.0.0"><![CDATA[Subscript]]></phrase>
+    <phrase title="sedo_quattro_superscript" version_id="48" version_string="2.0.0"><![CDATA[Superscript]]></phrase>
     <phrase title="sedo_quattro_table" version_id="40" version_string="1.7.0.5"><![CDATA[Table]]></phrase>
     <phrase title="sedo_quattro_table_alignment" version_id="17" version_string="1.3.0"><![CDATA[Alignment]]></phrase>
     <phrase title="sedo_quattro_table_body" version_id="17" version_string="1.3.0"><![CDATA[Body]]></phrase>
@@ -1869,8 +1896,9 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 	width: 98%;
 	height: 95px;
 }]]></template>
-    <template title="quattro_dialog_code" version_id="33" version_string="1.6.4.2"><![CDATA[<xen:require css="quattro_dialog.css" />
+    <template title="quattro_dialog_code" version_id="48" version_string="2.0.0"><![CDATA[<xen:require css="quattro_dialog.css" />
 <xen:require css="quattro_dialog_code.css" />
+
 <xen:require js="js/sedo/tinyquattro/templates/code.js" />
 
 <div class="mceTitle">{xen:phrase quattro_insert_code}</div>
@@ -4250,35 +4278,6 @@ i.mce-i-resize {
 	zoom:1;
 	background:{$_mceMiscColor} url('styles/sedo/tinyquattro/img/loader.gif') no-repeat center center
 }]]></template>
-    <template title="tiny_quattro_custom_buttons" version_id="10" version_string="1.1.3"><![CDATA[<xen:foreach loop="$customQuattroButtonsJs" value="$button" i="$i" count="$total">
-<xen:set var="$coma">{xen:if '{$i} != {$total}', ','}</xen:set>
-
-<xen:if is="{$button.return} == 'direct'">
-	{$button.tag}:{
-		code: "{$button.code}",
-		iconSet: "{$button.iconSet}",
-		desc: "{xen:jsescape {$button.description}}",
-		type: "{$button.type}",
-		typeOpt: "{xen:jsescape {$button.typeOption}}",
-		_return: "{$button.return}",
-		tagOpt: "{xen:jsescape {$button.tagOptions}}",
-		tagCont: "{xen:jsescape {$button.tagContent}}",
-		separator: "{xen:jsescape {$button.separator}}"
-	}{$coma}
-<xen:else />
-	{$button.tag}:{
-		code: "{$button.code}",
-		iconSet: "{$button.iconSet}",
-		desc: "{xen:jsescape {$button.description}}",
-		type: "{$button.type}",
-		typeOpt: "{xen:jsescape {$button.typeOption}}",
-		_return: "{$button.return}",
-		template: "{$button.returnOption}",
-		separator: "{xen:jsescape {$button.separator}}"
-	}{$coma}
-</xen:if>
-</xen:foreach>
-]]></template>
     <template title="tiny_quattro_editor.css" version_id="19" version_string="1.3.1"><![CDATA[<xen:comment>Official css for all browsers (XenForo integration)</xen:comment>
 <xen:if is="{xen:property tinyquattro_css_integration}">
 	<xen:include template="tiny_quattro_common_css.css" />
@@ -4470,15 +4469,6 @@ i.mce-i-resize {
 	position: static;
 	margin: 3px;
 }]]></template>
-    <template title="tiny_quattro_grid" version_id="23" version_string="1.5.0"><![CDATA[<xen:if is="{$quattroGrid}">
-	<xen:foreach loop="$quattroGrid" value="$buttons" key="$key">toolbar{$key}: "{$buttons}", </xen:foreach>
-<xen:else />
-	<xen:comment>Default Fallback</xen:comment>
-	toolbar1: "removeformat undo redo pastetext restoredraft | xen_fontfamily xen_fontsize forecolor backcolor |  bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | fullscreen xen_switch",
-	toolbar2: "bullist numlist outdent indent | xen_image xen_media xen_link xen_unlink | xen_smilies xen_smilies_picker charmap xen_nonbreaking xen_code xen_quote",
-</xen:if>
-
-]]></template>
     <template title="tiny_quattro_iframe.css" version_id="45" version_string="1.7.1.3"><![CDATA[<xen:comment>
 	EDITOR IFRAME CONTENT CSS
 </xen:comment>
@@ -4623,114 +4613,29 @@ blockquote.mce_quote {
 		</xen:if>
 	</xen:foreach>
 </xen:if>]]></template>
-    <template title="tiny_quattro_js_setup" version_id="44" version_string="1.7.1.2"><![CDATA[<xen:comment>Load Quattro Integration JS files for 1.2</xen:comment>
-	<xen:if is="{$quattroIntegration}">
-		<xen:require js="js/sedo/tinyquattro/integration/retro_quickreply.js" />
-	</xen:if>
+    <template title="tiny_quattro_js_setup" version_id="47" version_string="1.8.0.1"><![CDATA[<xen:comment>Load Quattro Integration JS files for 1.2</xen:comment>
+<xen:if is="{$quattroIntegration}"><xen:require js="js/sedo/tinyquattro/integration/retro_quickreply.js" /></xen:if>
 
 <xen:comment>Load MCE4 main JS</xen:comment>
-	<xen:require js="js/sedo/tinyquattro/tinymce/jquery.tinymce.min.js" />
-	<xen:require js="js/sedo/tinyquattro/tinymce/tinymce.min.js" />
-	<xen:require js="js/sedo/tinyquattro/integration/loader.min.js" />
+<xen:require js="js/sedo/tinyquattro/tinymce/jquery.tinymce.min.js" />
+<xen:require js="js/sedo/tinyquattro/tinymce/tinymce.min.js" />
+<xen:require js="js/sedo/tinyquattro/integration/loader.min.js" />
 
 <xen:comment>Load MCE CSS && Custom Buttons CSS</xen:comment>
-	<xen:if is="{$visitor.getBrowser.IEis} != 7">
-		<xen:require css="tiny_quattro_editor.css" />
-		<xen:set var="$mceCss">
-			<xen:foreach loop="$customQuattroButtonsCss" value="$button">.mce-i-{$button.buttonCode}:before {content:"\{$button.iconCode}";} </xen:foreach>
-		</xen:set>
-	<xen:else />
-		<xen:require css="tiny_quattro_editor_ie7.css" />
-		<xen:set var="$mceCss">
-			<xen:foreach loop="$customQuattroButtonsCss" value="$button">.mce-i-{$button.buttonCode}:before {-ie7-icon:"\{$button.iconCode}"} </xen:foreach> .mce-i-pastetext:before { -ie7-icon:"\e035" }
-		</xen:set>
-	</xen:if>
-
-<style type="text/css">{xen:raw $mceCss}</style>
+<xen:if is="{$visitor.getBrowser.IEis} != 7"><xen:require css="tiny_quattro_editor.css" /><xen:else /><xen:require css="tiny_quattro_editor_ie7.css" /></xen:if>
+<style type="text/css">{xen:raw $mceBtnCss}</style>
 
 <xen:comment>MCE Configuration</xen:comment>
-
-<script>
-<xen:hook name="quattro_js_setup" params="{xen:array 'editorId={$editorId}'}">
-
+<script><xen:hook name="quattro_js_setup" params="{xen:array 'editorId={$editorId}'}">
 	if(typeof xenMCE === 'undefined') xenMCE = {};
+	xenMCE.defaultConfig = {xen:raw $mceConfig.settings};
+	xenMCE.Params = {xen:raw $mceConfig.params};
+	xenMCE.Phrases = {<xen:include template="tiny_quattro_phrases" />}
+</xen:hook></script>
 
-	<xen:hook name="quattro_phrases" params="{xen:array 'editorId={$editorId}'}">
-		xenMCE.Phrases = {<xen:include template="tiny_quattro_phrases" />}
-	</xen:hook>
-
-	<xen:hook name="quattro_params" params="{xen:array 'editorId={$editorId}'}">
-		xenMCE.Params = {<xen:include template="tiny_quattro_params" />}
-	</xen:hook>
-
-	xenMCE.defaultConfig = {
-		theme: "modern",
-		language: "xen",
-		skin: {xen:if "{xen:property tinyquattro_css_integration}", "false", "'{xen:string trim, {xen:property tinyquattro_css_skin}}'"},
-		content_css: "css.php?style={xen:urlencode $visitorStyle.style_id}&css=tiny_quattro_iframe&d={xen:urlencode $visitorStyle.last_modified_date}",
-		menubar: false,
-		toolbar_items_size: '{$xenOptions.quattro_iconsize}',
-		plugins: ["{$quattroPlugins}"],
-		resize: {xen:if '{$xenOptions.quattro_resize_editor} == "both"', '"both"', '{$xenOptions.quattro_resize_editor}'},
-		<xen:comment>object_resizing: false,</xen:comment>
-		browser_spellcheck: {$xenOptions.quattro_enable_browser_spellcheck},
-		autoresize_min_height: {$xenOptions.quattro_autoresize_min_height},
-		autoresize_max_height: {$xenOptions.quattro_autoresize_max_height},
-		autoresize_min_height_qr: {$xenOptions.quattro_autoresize_min_height_qr},
-		autoresize_max_height_qr: {$xenOptions.quattro_autoresize_max_height_qr},
-		autosave_interval: '{$xenOptions.quattro_autosave_interval}s',
-		autosave_retention: '{$xenOptions.quattro_autosave_retention}m',
-		autosave_restore_when_empty: {$xenOptions.quattro_autosave_autorestore},
-		directionality: '{$visitorLanguage.text_direction}',<xen:comment>Must be set by a BM</xen:comment>
-		document_base_url: '{xen:jsescape $requestPaths.fullBasePath}',	
-		autosave_ask_before_unload: {$xenOptions.quattro_autosave_ask_before_unload},
-		paste_as_text: {$xenOptions.quattro_paste_as_text},
-		font_size_legacy_values: "9px,10px,12px,15px,18px,22px,26px",
-		statusbar: {$xenOptions.quattro_statusbar},
-		paste_data_images: false,
-		paste_retain_style_properties: '{xen:jsescape $xenOptions.quattro_retain_style_properties}',
-		contextmenu: "xen_link inserttable | cell row column xen_tableskin deletetable",
-		xen_attach: "{$editorOptions.sedo_quattro.attach.type},{$editorOptions.sedo_quattro.attach.id},{$editorOptions.sedo_quattro.attach.hash}",
-		<xen:include template="tiny_quattro_grid" />
-		nonbreaking_force_tab: true
-	};
-</xen:hook>
-
-</script>
-
-<xen:edithint template="tiny_quattro_custom_buttons" />
 <xen:edithint template="tiny_quattro_iframe.css" />
 <xen:edithint template="tiny_quattro_framework.css" />]]></template>
-    <template title="tiny_quattro_params" version_id="43" version_string="1.7.1.1"><![CDATA[<xen:comment>
-	We are inside a JavaScript file. All phrases must be escaped
-</xen:comment>
-	<xen:comment>extend</xen:comment>
-	frightMode: {$xenOptions.quattro_frightmode},
-	fastUnlink: {$xenOptions.quattro_fastunlink},
-	extraColors: {$xenOptions.quattro_extracolors},
-	extraLists: {$xenOptions.quattro_extralists},
-	hidePath: {$xenOptions.quattro_hidepath},
-	extendInsert: {$xenOptions.quattro_extended_insert},
-	geckoFullfix: {$xenOptions.quattro_geckofullfix},
-	overlayDefaultSize: { w: 320, h: 240 },
-	overlayColorPickerSize: { w: 450, h: 265 },
-	overlayImageSize: { w: 480, h: 110 },
-	overlayLinkSize: { w: 480, h: 160 },
-	overlayMediaSize: { w: 480, h: 160 },
-	oldXen: {xen:if "{$xenOptions.currentVersionId} < 1020031", true, false},
-	overlaySmiliesSize: { w: "{xen:property tinyquattro_smiliespicker_width}", h: "{xen:property tinyquattro_smiliespicker_height}" },
-	smallFontBtn: {$xenOptions.quattro_fonts_smallbuttons},
-	smiliesWindow: '{$xenOptions.quattro_smilies_window_type}',
-	xSmilies: {$xenOptions.quattro_xsmilies},
-	xCatSmilies: '{$xenOptions.quattro_smilies_sm_addon_menubtn_cat}',
-	smiliesCat: {xen:if '{$bbmSmiliesHaveCategories}', '{$bbmSmiliesHaveCategories}', false},
-	smiliesDesc: '{$xenOptions.quattro_smilies_desc}',
-	xenforo_smilies: {xen:helper json, $bbmSmilies},
-	xendraft: {$xenOptions.quattro_xendraft},
-	xenwordcount: "{$xenOptions.quattro_wordcount}",
-	disableResponsive: {xen:if '{xen:property tinyquattro_modal_responsive}', false, true},
-	bbmButtons: { <xen:include template="tiny_quattro_custom_buttons" /> }]]></template>
-    <template title="tiny_quattro_phrases" version_id="46" version_string="1.8.0"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_phrases" version_id="48" version_string="2.0.0"><![CDATA[<xen:comment>
 	We are inside a JavaScript file. All phrases must be escaped
 </xen:comment>
 
@@ -4830,6 +4735,12 @@ blockquote.mce_quote {
 		"Skin 2": "{xen:jsescape {xen:phrase sedo_quattro_skin2}}",
 		"Skin 3": "{xen:jsescape {xen:phrase sedo_quattro_skin3}}",
 		"Skin 4": "{xen:jsescape {xen:phrase sedo_quattro_skin4}}",
+	</xen:if>
+	<xen:if is="{$xenOptions.quattro_extra_bbcodes.sub}">
+		"Subscript": "{xen:jsescape {xen:phrase sedo_quattro_subscript}}",
+	</xen:if>
+	<xen:if is="{$xenOptions.quattro_extra_bbcodes.sup}">
+		"Superscript": "{xen:jsescape {xen:phrase sedo_quattro_superscript}}",
 	</xen:if>
 	<xen:if is="{$xenOptions.quattro_wysiwyg_quote}">
 		"Quote properties" : "{xen:jsescape {xen:phrase sedo_quattro_quote_properties}}",

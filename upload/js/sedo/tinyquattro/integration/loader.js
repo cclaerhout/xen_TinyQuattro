@@ -31,7 +31,7 @@
 			var explodeMceMultiArray = function(plugins){
 				return plugins.toString().replace(',', ' ').split(' ');
 			};
-			
+
 			var editorId = $editor.attr('id'),
 				params = xenMCE.Params,
 				config = xenMCE.defaultConfig,

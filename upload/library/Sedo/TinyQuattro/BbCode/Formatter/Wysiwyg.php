@@ -6,6 +6,8 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 	 */
 	protected $_mceBackgroundColorTagName = 'bcolor';
 	protected $_mceTableTagName = 'xtable';
+	protected $_mceSubTagName = 'sub';
+	protected $_mceSupTagName = 'sup';
 
 	/**
 	 * Table default skin
@@ -49,6 +51,32 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 						'hasOption' => false,
 						'callback' => array($this, 'renderTagAlign'),
 						'trimLeadingLinesAfter' => 1
+					)
+				);			
+			}
+
+			if(Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('sub'))
+			{
+				$subTag = Sedo_TinyQuattro_Helper_BbCodes::getQuattroBbCodeTagName('sub');
+				$this->_mceSubTagName = $subTag;
+				
+				$parentTags += array(
+					$subTag => array(
+						'hasOption' => false,
+						'replace' => array('<sub>', '</sub>')
+					)
+				);			
+			}
+
+			if(Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('sup'))
+			{
+				$supTag = Sedo_TinyQuattro_Helper_BbCodes::getQuattroBbCodeTagName('sup');
+				$this->_mceSupTagName = $supTag;
+				
+				$parentTags += array(
+					$supTag => array(
+						'hasOption' => false,
+						'replace' => array('<sup>', '</sup>')
 					)
 				);			
 			}

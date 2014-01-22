@@ -170,13 +170,34 @@
 			this.xenOverlayIsloading = true;
 
 			var self = this,
-			editor = this.getEditor(),
-			dom = editor.dom,
-			isUrl = isLink = isEmail = false, url_text = url_href = '',
-			sel = editor.selection, selHtml, selText,
-			isEmpty = (selText) ? 0 : 1,
-			staticBackup = xenMCE.Tools.backupLib;
+				editor = this.getEditor(),
+				dom = editor.dom,
+				isUrl = isLink = isEmail = false, url_text = url_href = '',
+				sel = editor.selection, selHtml, selText,
+				isEmpty = (selText) ? 0 : 1,
+				staticBackup = xenMCE.Tools.backupLib,
+				each = tinymce.each;
 
+			this.dialog = dialog;
+			
+			this.findTargetWindow = function(dialogName){
+				var windows = editor.windowManager.windows,
+					targetWindow = false;
+
+				each(windows, function(window){
+					if(window.params != undefined & window.params.dialogName == dialogName){
+						targetWindow = window;
+						return false;;
+					}
+				});
+
+				if(!targetWindow && windows[0] !== undefined){
+					return windows[0];
+				}
+
+				return targetWindow;
+			};
+			
 			/* Url (+email) checker: take the parent a element */
 			selElm = sel.getNode();
 			anchorElm = dom.getParent(selElm, 'a[href]');
@@ -213,9 +234,17 @@
 				}
 			}
 
+			var targetWindow = this.findTargetWindow(dialog);
+
+			if(targetWindow){
+				targetWindow.show();
+				this.xenOverlayIsloading = false;
+				return false;
+			}
+			
 			if(typeof windowManagerConfig !== 'object')
 				windowManagerConfig = {};
-						
+
 			this.overlayParams = {
 				dialog: dialog,
 				src: self.isDefined(callbacks, 'src'),
@@ -248,7 +277,7 @@
 				return;
 			}
 
-			var 	self = this,
+			var self = this,
 				editor = this.getEditor(),
 				params = this.overlayParams,
 				wmConfig = params.wmConfig, 
@@ -271,7 +300,7 @@
 				*	XenForo ExtLoader: JS & CSS successfully loaded
 				**/
 				
-				var 	win = editor.windowManager,
+				var win = editor.windowManager,
 					phrase = xenMCE.Phrases,
 					buttonOk = phrase.insert,
 					buttonCancel = phrase.cancel,
@@ -280,7 +309,7 @@
 
 				staticBackup.params = params;
 				staticBackup.editor = editor;
-				
+
 				$html = $(html);
 				$title = $html.find('.mceTitle').remove();
 				$Submit = $html.find('.mceSubmit').remove();
@@ -379,8 +408,10 @@
 					originalSubmit = wmConfig.onsubmit;
 					
 					wmConfig.onsubmit = function(params){
-						var $overlay = $(editor.windowManager.windows[0].getEl());
-						xenDatas = getDatas($overlay);
+						var targetWindow = self.findTargetWindow(self.dialog),
+							$overlay = $(targetWindow.getEl()),
+							xenDatas = getDatas($overlay);
+		
 						$.extend(params.data, xenDatas);
 
 						originalSubmit(params, $overlay, editor, self);
@@ -391,20 +422,21 @@
 				if(wmConfig.buttons === undefined){
 					wmConfig.buttons = [
 						{text: buttonOk, subtype: 'primary xenSubmit', minWidth: 80, onclick: function(e) {
-							var win = editor.windowManager.windows[0];
-							$overlay = $(win.getEl());
+							var targetWindow = self.findTargetWindow(self.dialog),
+								$overlay = $(targetWindow.getEl());
 
 							/* Private onsubmit callback */
 							if(params.onsubmit != false){
 								var xenDatas = getDatas($overlay);
 								$.extend(e.data, xenDatas);
+								
 								params.src[params.onsubmit](e, $overlay, editor, self);
 							}
 
-							if(win.find('form')[0] !== undefined)
-								win.find('form')[0].submit();
+							if(targetWindow.find('form')[0] !== undefined)
+								targetWindow.find('form')[0].submit();
 							else
-								win.submit();
+								targetWindow.submit();
 
 							/* Private onclose callback */
 							if(params.onclose != false){
@@ -412,12 +444,11 @@
 								$.extend(e.data, xenDatas);
 								params.src[params.onclose](e, $overlay, editor, self);
 							}
-							
-							win.close();
+
+							targetWindow.close();
 						}},
 						{text: buttonCancel, subtype: 'xenCancel', onclick: function(e) {
-							var win = editor.windowManager.windows[0];
-							$overlay = $(win.getEl());
+							var $overlay = $(targetWindow.getEl());
 
 							/* Private onclose callback */
 							if(params.onclose != false){
@@ -426,7 +457,7 @@
 								params.src[params.onclose](e, $overlay, editor, self);
 							}							
 							
-							win.close();
+							targetWindow.close();
 						}}
 					];
 				}
@@ -449,7 +480,9 @@
 				});
 
 				/* Get overlay */
-				$overlay = $(win.windows[0].getEl());
+				var targetWindow = self.findTargetWindow(self.dialog, true),
+					$overlay = $(targetWindow.getEl());
+					
 				xenMCE.Tools.backupLib.$overlay = $overlay;
 
 				/* Eval inline scripts */
@@ -514,7 +547,7 @@
 				/*MultiLine mode for Textarea*/
 				$multi = $overlay.find('textarea, .mce-multiline');
 				if($multi){
-					win.windows[0].off('keydown');
+					targetWindow.off('keydown');
 					$multi.attr('spellcheck', 'false').attr('hidefocus', 'true');
 				}
 
@@ -1119,7 +1152,7 @@
 				
 				if(data._return == 'kill'){
 					if(ed.buttons[data.code] === undefined){
-						console.debug('Button "'+data.code+'" not found - Dev: activate your plugin before xenforo plugin / Admin: Delete it from the BBM');
+						console.debug('Button "'+data.code+'" not found - Delete it from BBM');
 						return;						
 					}
 						

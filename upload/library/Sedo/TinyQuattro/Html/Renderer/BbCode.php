@@ -6,6 +6,8 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 	 */
 	protected $_mceBackgroundColorTagName = 'bcolor';
 	protected $_mceTableTagName = 'xtable';
+	protected $_mceSubTagName = 'sub';
+	protected $_mceSupTagName = 'sup';
 
 	/**
 	 * Extend the class constructor to detect the background color css property
@@ -18,7 +20,7 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 		
 		if(is_array($this->_cssHandlers) && Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('bcolor'))
 		{
-			$this->_mceBackgroundColorTagName =Sedo_TinyQuattro_Helper_BbCodes::getQuattroBbCodeTagName('bcolor');
+			$this->_mceBackgroundColorTagName = Sedo_TinyQuattro_Helper_BbCodes::getQuattroBbCodeTagName('bcolor');
 			$this->_cssHandlers += array('background-color' => array('$this', 'handleCssBckgndColor'));
 		}
 		
@@ -55,6 +57,29 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 		)
 		{
 			$this->_handlers['blockquote'] = array('filterCallback' => array('$this', 'handleTagMceBlockquote'), 'skipCss' => true);
+		}
+
+
+		if(	is_array($this->_handlers) 
+			&&
+			Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('sub')
+			&&
+			Sedo_TinyQuattro_Helper_Quattro::isEnabled()
+		)
+		{
+			$this->_mceSubTagName = Sedo_TinyQuattro_Helper_BbCodes::getQuattroBbCodeTagName('sub');
+			$this->_handlers['sub'] = array('filterCallback' => array('$this', 'handleTagMceSub'), 'skipCss' => true);		
+		}
+
+		if(	is_array($this->_handlers) 
+			&&
+			Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('sup')
+			&&
+			Sedo_TinyQuattro_Helper_Quattro::isEnabled()
+		)
+		{
+			$this->_mceSupTagName = Sedo_TinyQuattro_Helper_BbCodes::getQuattroBbCodeTagName('sup');
+			$this->_handlers['sup'] = array('filterCallback' => array('$this', 'handleTagMceSup'), 'skipCss' => true);		
 		}
 		
 		return parent::__construct($options);
@@ -101,6 +126,26 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 		
 		return $parentOutput;
 	}	
+
+	/**
+	 * Mce Subscript tag handler
+	 */
+	public function handleTagMceSub($text, XenForo_Html_Tag $tag)
+	{
+		$tag = $this->_mceSubTagName;
+
+		return "[$tag]{$text}[/$tag]";
+	}
+
+	/**
+	 * Mce Superscript tag handler
+	 */
+	public function handleTagMceSup($text, XenForo_Html_Tag $tag)
+	{
+		$tag = $this->_mceSupTagName;
+		
+		return "[$tag]{$text}[/$tag]";
+	}
 
 	/**
 	 * Mce Blockquote tag handler

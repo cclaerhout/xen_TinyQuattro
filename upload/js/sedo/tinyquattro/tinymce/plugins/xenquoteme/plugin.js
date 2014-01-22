@@ -24,10 +24,14 @@ tinymce.PluginManager.add('xenquoteme', function(ed) {
 
 	function extBtnState(e){
 		 var ctrl = this;
-		 
-		 $toggleMeMenu.bind('click', function(e){
-		 	 ctrl.active($toggleMeMenu.hasClass('on'));
-		 	 ed.execCommand('resetFright');
+
+		 $toggleMeMenu.click(function(e){
+		 	ctrl.active($toggleMeMenu.hasClass('on'));
+		 	
+		 	var args = {
+				skip_focus: true
+			};
+			ed.execCommand('resetFright', false, false, args);
 		 });
 	}
 
