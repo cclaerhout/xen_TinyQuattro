@@ -1,8 +1,15 @@
 <?php
 class Sedo_TinyQuattro_Helper_Quattro
 {
-	/*For Integration with other addons*/
-	public static function isEnabled()
+	/**
+	 * For Integration with other addons
+	 * Optional paramater: array with $controllerName, $controllerAction, $viewName
+	 * Purpose: check if a Bbm special editor config is not used
+	 * 
+	 * If no argument provided, return true/false
+	 * If ccv provided, return true/false + the bbm params
+	 */
+	public static function isEnabled(array $ccv = array())
 	{
 		$options = XenForo_Application::get('options');
 		$visitor = XenForo_Visitor::getInstance();
@@ -21,13 +28,51 @@ class Sedo_TinyQuattro_Helper_Quattro
 			$enable = false;
 		}
 			
-		if(empty($visitor->permissions['sedo_quattro']['display']))
+		if(empty($visitor->permissions['sedo_quattro']['display']) || !$visitor->enable_rte)
 		{
-			//No permission to load TinyQuattro
+			//No permission to load TinyQuattro or RTE disabled
 			$enable = false;
 		}
+
+		if(!empty($ccv))
+		{
+			//Be sure the BBM don't use a custom editor config
+			list($bbmEnable, $bbmConfig) = self::checkAndGetBbmConfig($ccv);
 			
+			if($bbmEnable != null)
+			{
+				$enable = $bbmEnable;
+			}
+			
+			return array($enable, $bbmConfig);
+		}
+
 		return $enable;
+	}
+
+	public static function checkAndGetBbmConfig(array $ccv)
+	{
+		$fallback = array(
+			'quattroGrid' => array(),
+			'customQuattroButtonsCss' => array(),
+			'customQuattroButtonsJs' => array()
+		);
+
+		if(!class_exists('BBM_Helper_Buttons'))
+		{
+			return array(null, $fallback);
+		}
+
+		list($controllerName, $controllerAction, $viewName) = $ccv;
+		
+		$bbmParams = BBM_Helper_Buttons::getConfig($controllerName, $controllerAction, $viewName);
+
+		if(!is_array($bbmParams) || array_diff_key($bbmParams, $fallback))
+		{
+			return array(false, $fallback);		
+		}
+		
+		return array(true, $bbmParams);
 	}
 
 	/*For private use*/

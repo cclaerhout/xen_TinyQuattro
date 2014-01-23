@@ -21,8 +21,22 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 		   	case 'editor':
    				$visitor = XenForo_Visitor::getInstance();
    				$xenOptions = XenForo_Application::get('options');
+		   		
+				/*Enable check + get Bbm Params*/
+				$ccv = array(
+					self::getParam('controllerName', $params),
+					self::getParam('controllerAction', $params),
+					self::getParam('viewName', $params)
+				);
+				
+				list($enable, $bbmParams) = Sedo_TinyQuattro_Helper_Quattro::isEnabled($ccv);
 
-				//NoAttachment editors detection
+				if(!$enable)
+				{
+					break;
+				}
+				
+				/* NoAttachment editors detection */
 				if(	isset($params['editorOptions']) 
 					&& isset($params['editorOptions']['extraClass'])
 					&& strpos('NoAttachment', $params['editorOptions']['extraClass']) !== false
@@ -32,28 +46,23 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 					$params['editorOptions']['extraClass'] .= ' ImgFallback';
 				}
 
-				if(!$visitor->enable_rte)
-				{
-					break;
-				}
-				
 				$bbmShowWysiwyg = self::_showWysiwyg($params['showWysiwyg']);
 				$xenShowWysiwyg = $params['showWysiwyg'];
 
+				
+				/* Smilie categories - will need to be rewritten */
 				$bbmSmiliesHaveCategories = false;
 
 				if($xenOptions->quattro_smilies_sm_addon_enable)
 				{
 					list($bbmSmiliesHaveCategories, $bbmSmilies) = Sedo_TinyQuattro_Helper_Editor::getSmiliesByCategory();	
 				}
-				else
-				{
-					$bbmSmilies = Sedo_TinyQuattro_Helper_Editor::getEditorSmilies();
-				}
 
+				/* Extra values to get the Mce Config */
 				$extraValues = array (
 					'templateParams' => $params,
-					'availableButtons' => array()
+					'availableButtons' => array(),
+					'bbmParams' => $bbmParams
 				);
 
 				list($mceConfig, $mceBtnCss) = self::getMceConfig($extraValues);
@@ -201,22 +210,21 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 		}
 
 		/*Bbm buttons*/
-		$bbmParams = array(
-			'quattroGrid' => array(),
-			'customQuattroButtonsCss' => array(),
-			'customQuattroButtonsJs' => array()
-		);
-		
-		if(class_exists('BBM_Helper_Buttons') && !empty($templateParams))
+		if(!isset($extraValues['bbmParams']))
 		{
-			
-			$controllerName = self::getParam('controllerName', $templateParams);
-			$controllerAction = self::getParam('controllerAction', $templateParams);
-			$viewName = self::getParam('viewName', $templateParams);
+			$ccv = array(
+				self::getParam('controllerName', $templateParams),
+				self::getParam('controllerAction', $templateParams),
+				self::getParam('viewName', $templateParams)
+			);
 
-			$bbmParams = BBM_Helper_Buttons::getConfig($controllerName, $controllerAction, $viewName);
+			list($bbmEnable, $bbmParams) = Sedo_TinyQuattro_Helper_Quattro::checkAndGetBbmConfig($ccv);
 		}
-		
+		else
+		{
+			$bbmParams = $extraValues['bbmParams'];
+		}
+
 		/*Mce Grid*/
 		if(!empty($bbmParams['quattroGrid']))
 		{
