@@ -28,25 +28,28 @@
 			//Let's mark the editor as failed by default, let's take back this after it has been loaded
 			$editor.show().after($('<input type="hidden" name="_xfRteFailed" value="1" />'));
 
-			var explodeMceMultiArray = function(plugins){
-				return plugins.toString().replace(',', ' ').split(' ');
-			};
-
 			var editorId = $editor.attr('id'),
-				params = xenMCE.Params,
-				config = xenMCE.defaultConfig,
+				quattroData = $editor.data('quattro'),
+				params = quattroData.params,
+				config = quattroData.settings,
+				regexEl = params.mceRegexEl,
 				hasDraft = ($editor.data('auto-save-url')),
-				wordcount = params.xenwordcount,
 				draftOpt = params.xendraft,
 				baseUrl = XenForo._baseUrl,
 				loader;			
+			
+			config.xenParams = params; 
 
-			var pluginList = explodeMceMultiArray(config.plugins);
-
-			if($.inArray('code', pluginList !== 1)){
-				config.toolbar1 += ' | code';	
+			//Transform mce regex to proper format
+			if(regexEl != undefined){
+				$.each(regexEl, function(i, v){
+					if(config[v] !== undefined && $.isArray(config[v])){
+						config[v] = new RegExp(config[v][0], config[v][1]);
+					}
+				});
 			}
 
+			//No proper way to check if the form is the quickreply from templates
 			$editor.each(function(){
 				var $form = $(this).closest('form');
 				if($form.attr('id') == 'QuickReply'){
@@ -56,19 +59,6 @@
 				}			
 			});
 		
-			if(wordcount != 'no'){
-				config.plugins.push('wordcount');
-	
-				if (wordcount == 'char'){
-					config.wordcount_countregex = /\S/g;
-					config.wordcount_cleanregex = '';
-				}
-				else if (wordcount == 'charwp'){			
-					config.wordcount_countregex = /(\S|\b[\u0020]\b)/g;
-					config.wordcount_cleanregex = /\n/g;
-				}
-			}
-
 			if(!draftOpt || !hasDraft){
 				config.plugins.push('autosave');
 			}

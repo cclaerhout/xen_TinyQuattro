@@ -19,7 +19,7 @@ tinymce.create('tinymce.plugins.xen_dropping',
 
 		$droparea = $('<div class="quattro_editor_drop" />');
 
-		var 	self = this,
+		var self = this,
 			dragOverTimeout = function() { $droparea.removeClass('hover'); },
 			$uploader = this.$container.closest('form').find('.AttachmentUploader'),
 			canUpload = ($uploader.length > 0),
@@ -28,7 +28,7 @@ tinymce.create('tinymce.plugins.xen_dropping',
 
 		$droparea.append(
 			$('<span />').text((canUpload ? i18n.translate('drop_files_here_to_upload') : i18n.translate('uploads_are_not_available')))
-		).appendTo($container);
+		).appendTo(self.$container);
 		
 		if (!canUpload)
 			$droparea.addClass('dragDisabled');

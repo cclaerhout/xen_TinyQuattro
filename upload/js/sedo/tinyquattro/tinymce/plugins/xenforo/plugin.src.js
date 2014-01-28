@@ -77,6 +77,9 @@
 				ed = tinymce.activeEditor;
 			}
 
+			/* Get Editor */
+			this.getEditor = function (){ return ed; };
+
 			ed.on('init', function(e) {
 				$(ed.getElement()).data('mce4', true);
 			});
@@ -107,9 +110,6 @@
 				}
 			});
 
-			/* Get Editor */
-			this.getEditor = function (){ return ed; };
-			
 			/* Fullscreen State */			
 			this.isFullscreen = function(e) { 
 				if(ed.plugins.fullscreen === undefined)
@@ -125,13 +125,14 @@
 			ed.on('XenReady', function(){
 				if(xenMCE.Plugins.Auto !== undefined){
 					$.each(xenMCE.Plugins.Auto, function(k, v){
-						new v(src);
+						new v(src, ed);
 					});
 				}
 			});
 		},
 		overlayParams: {},
-		overlayInputs: {},		
+		overlayInputs: {},
+		overlayCache: {},
 		loadOverlay: function(dialog, windowManagerConfig, callbacks)
 		{
 			/***
@@ -212,7 +213,7 @@
 			}
 
 			/*Get attachments key params*/
-			var attachData = ed.settings.xen_attach.split(',');
+			var attachData = editor.settings.xen_attach.split(',');
 			xenAttach = { type:attachData[0], id:attachData[1], hash:attachData[2] };
 
 			/* Get selection after url checker */
@@ -255,34 +256,35 @@
 				wmConfig: windowManagerConfig
 			}
 
-			XenForo.ajax('index.php?editor/quattro-dialog',{ 
-					dialog: dialog,
-					selectedHtml: selHtml,
-					selectedText: selText,
-					isUrl: isUrl,
-					isLink: isLink,
-					isEmail: isEmail,
-					urlDatas: {
-						text: url_text,
-						href: url_href
-					},
-					attach: xenAttach
-				}, $.proxy(this, '_overlayLoader')
-			);
+			var data = { 
+				dialog: dialog,
+				selectedHtml: selHtml,
+				selectedText: selText,
+				isUrl: isUrl,
+				isLink: isLink,
+				isEmail: isEmail,
+				urlDatas: {
+					text: url_text,
+					href: url_href
+				},
+				attach: xenAttach
+			};
+
+			if(self.overlayCache[dialog] === undefined){
+				XenForo.ajax('index.php?editor/quattro-dialog', data, $.proxy(this, '_overlayLoader'));
+			}else{
+				self._overlayFormatter(self.overlayCache[dialog], false, true, data);
+			}
 		},
 		_overlayLoader:function(ajaxData)
 		{
 			if (XenForo.hasResponseError(ajaxData) || typeof ajaxData.templateHtml  !== 'string'){
-				self.xenOverlayIsloading = false;
+				this.xenOverlayIsloading = false;
 				return;
 			}
 
 			var self = this,
-				editor = this.getEditor(),
-				params = this.overlayParams,
-				wmConfig = params.wmConfig, 
 				html = '<div><div class="mce-xen-body">'+ajaxData.templateHtml+'</div></div>',
-				data = {},
 				regex = /<script[^>]*>([\s\S]*?)<\/script>/ig,
 				regexMatch,
 				scripts = [];
@@ -294,291 +296,366 @@
 				
 			html = html.replace(regex, '');
 
+			self.overlayCache[self.dialog] = html;
+
  			new XenForo.ExtLoader(ajaxData, function()
  			{
-				/**
-				*	XenForo ExtLoader: JS & CSS successfully loaded
-				**/
-				
-				var win = editor.windowManager,
-					phrase = xenMCE.Phrases,
-					buttonOk = phrase.insert,
-					buttonCancel = phrase.cancel,
-					inputsTags = ['input','textarea','select'],
-					staticBackup = xenMCE.Tools.backupLib;
-
-				staticBackup.params = params;
-				staticBackup.editor = editor;
-
-				$html = $(html);
-				$title = $html.find('.mceTitle').remove();
-				$Submit = $html.find('.mceSubmit').remove();
-				$Cancel = $html.find('.mceCancel').remove();
-
-				if($Submit.length == 1)
-					buttonOk = self.getTagName($Submit, true);
-
-				if($Cancel.length == 1)
-					buttonCancel = self.getTagName($Cancel, true);
-
-				/* Get all datas from inputs or from data-input tag */
-				function getDatas($el) {
-					$inputs = $el.find(inputsTags.toString());
-
-					if($inputs.length > 0){
-						$inputs.each(function(i) {
-							var n = $(this).attr('name');
-							if(n){
-								data[n] = $(this).val();
-							}
-						});
-					}
-
-					$el.find('*').filter(function() { 
-						if($(this).data('value')){
-							data[$(this).attr('name')] = {
-								'html': $(this).html(),
-								'text': $(this).text(),
-								'data': $(this).data('value')
-							}
-						}
-						
-						if(parseInt($(this).data('hide')) == 1)
-							$(this).hide();
-					});
-					
-					self.overlayInputs = data;
-					staticBackup.inputs = data;
-					return data;
-				}
-				
-				getDatas($html);
-				
-				/*Title*/
-				if($title)
-					wmConfig.title = $title.text();
-
-				if(wmConfig.title === undefined || !wmConfig.title)
-					wmConfig.title = phrase.notitle;
-
-				/*Overlay size*/
-				var defaultSize = self.getParam('overlayDefaultSize');
-				
-				if(wmConfig.width === undefined)
-					wmConfig.width = defaultSize.w;
-
-				if(wmConfig.height === undefined)
-					wmConfig.height = defaultSize.h;
-			
-				if($title.data('width') !== undefined)
-					wmConfig.width = parseInt($title.data('width'));
-
-				if($title.data('height') !== undefined)
-					wmConfig.height = parseInt($title.data('height'));
-
-				/*Autofield & extend Data*/
-				if(wmConfig.data !== undefined){
-					//Autofield existed tags with name attribute with their related data
-					$.each(wmConfig.data, function(k, v){
-						$e = $html.find('[name='+k+']');
-						if($e.length == 1){
-							if(self.getTagName($e, inputsTags)){
-								/***
-									# Data ugly trick (step 1) #
-									Ok here's the thing, the value of the input tags
-									can't be modified before the overlay is appeared
-									& the data value is automaticaly modified after the
-									overlay is displayed (no way to change that). 
-									So let's use an ugly trick (has two steps).
-								**/
-								$('<span class="tmp-data-mce">'+v+'</span>').insertAfter($e).hide();
-							}else{
-								$e.html(v);
-							}
-						}
-					});
-					//Extend data
-					$.extend(wmConfig.data, data);				
-				}else{
-					wmConfig.data = data;
-				}
-
-				/* MCE onsubmit callback */
-				if(wmConfig.onsubmit !== undefined){
-					originalSubmit = wmConfig.onsubmit;
-					
-					wmConfig.onsubmit = function(params){
-						var targetWindow = self.findTargetWindow(self.dialog),
-							$overlay = $(targetWindow.getEl()),
-							xenDatas = getDatas($overlay);
-		
-						$.extend(params.data, xenDatas);
-
-						originalSubmit(params, $overlay, editor, self);
-					};
-				}
-
-				/* Buttons Ok/Cancel + listeners */
-				if(wmConfig.buttons === undefined){
-					wmConfig.buttons = [
-						{text: buttonOk, subtype: 'primary xenSubmit', minWidth: 80, onclick: function(e) {
-							var targetWindow = self.findTargetWindow(self.dialog),
-								$overlay = $(targetWindow.getEl());
-
-							/* Private onsubmit callback */
-							if(params.onsubmit != false){
-								var xenDatas = getDatas($overlay);
-								$.extend(e.data, xenDatas);
-								
-								params.src[params.onsubmit](e, $overlay, editor, self);
-							}
-
-							if(targetWindow.find('form')[0] !== undefined)
-								targetWindow.find('form')[0].submit();
-							else
-								targetWindow.submit();
-
-							/* Private onclose callback */
-							if(params.onclose != false){
-								var xenDatas = getDatas($overlay);
-								$.extend(e.data, xenDatas);
-								params.src[params.onclose](e, $overlay, editor, self);
-							}
-
-							targetWindow.close();
-						}},
-						{text: buttonCancel, subtype: 'xenCancel', onclick: function(e) {
-							var $overlay = $(targetWindow.getEl());
-
-							/* Private onclose callback */
-							if(params.onclose != false){
-								var xenDatas = getDatas($overlay);
-								$.extend(e.data, xenDatas);
-								params.src[params.onclose](e, $overlay, editor, self);
-							}							
-							
-							targetWindow.close();
-						}}
-					];
-				}
-
-				/*Get template html code*/
-				wmConfig.html = $html.html();
-
-				/* Beforeload callback: use to modify the wmConfig if needed*/
-				if(params.onbeforeload != false){
-					var wmConfigModified = params.src[params.onbeforeload](wmConfig, self);
-					if (wmConfigModified !== undefined)
-						wmConfig = wmConfigModified;
-				}
-
-				/* Launch the TinyMCE overlay */
-				var modal = win.open(wmConfig, { 
-					dialogName: params.dialog,
-					modalClassName: params.dialog,
-					ovlParams: params
-				});
-
-				/* Get overlay */
-				var targetWindow = self.findTargetWindow(self.dialog, true),
-					$overlay = $(targetWindow.getEl());
-					
-				xenMCE.Tools.backupLib.$overlay = $overlay;
-
-				/* Eval inline scripts */
-				if (scripts.length){
-					for (i = 0; i < scripts.length; i++) {
-						$.globalEval(scripts[i]);
-					}
-				}
-				
-				/* Get body height */
-					//$overlay.find('.mce-xen-body').height(); doesn't work well on IE 7-8-9
-				var ovlBodyHeight = $overlay.children('.mce-container-body').height();
-
-				/* AutoFocus */
-				$overlay.find('.mceFocus').focus();
-
-				/*Data ugly trick (step 2)*/
-				$overlay.find('.tmp-data-mce').each(function(){
-					$e = $(this);
-					$e.prev().val($e.html());
-					$e.remove();
-				});
-
-				/*Tabs & Panes - provided by JQT*/
-				$tabs = $overlay.find('.mceTabs').addClass('mce-tabs');
-				$tabs = self.cleanWhiteSpace($tabs);
-					
-				$panes = $tabs.next('.mcePanes').children().addClass('mce-pane');
-				if($tabs.length > 0 && $panes.length > 0){
-					$tabs.children().addClass('mce-tab');
-					var i = $tabs.find('.mceActive').index();
-					$tabs.tabs($panes, {
-						current: 'mce-active',
-						initialIndex: (i >= 0 ? i:0)
-					});
-				}
-
-				/*Slider - provided by JQT*/
-				var slideTag = 'mceSlides';
-				$slides = $overlay.find('.'+slideTag);
-
-				
-				if($slides.length > 0){
-					var sl = ovlBodyHeight;
-					$slides.height(sl).children().height(sl-$slides.data('diff'));
-					
-					$slider_tabs = $overlay.find('.'+slideTag+'Tabs');
-					$('<a class="'+slideTag+'Navig '+slideTag+'Backward">&lsaquo;</a><a class="'+slideTag+'Navig '+slideTag+'Forward">&rsaquo;</a>').insertBefore($slides);
-					$overlay.find('.'+slideTag+'Navig').css('top', (sl/2)-10+'px');
-
-					$slider_tabs.tabs($slides.children(), {
-						effect: 'fade',
-						fadeOutSpeed: "fast",
-						rotate: true
-					}).slideshow({
-						prev:'.'+slideTag+'Backward',
-						next:'.'+slideTag+'Forward',
-						clickable: false
-					});
-				}
-
-				/*MultiLine mode for Textarea*/
-				$multi = $overlay.find('textarea, .mce-multiline');
-				if($multi){
-					targetWindow.off('keydown');
-					$multi.attr('spellcheck', 'false').attr('hidefocus', 'true');
-				}
-
-				/*Checkbox shortcut*/
-				$checkBox = $overlay.find('.xenCheckBox');
-				
-				if($checkBox.length > 1){
-					$checkBox.each(function(i){
-						var phrase = $(this).data('phrase'),
-						inputName = $(this).data('inputname'),
-						checked = ($(this).data('checked') == 'checked') ? 1 : 0,
-						html = '<i class="mce-ico mce-i-checkbox"></i><span>'+phrase+'</span><input name="'+inputName+'" type="hidden" value="'+checked+'" />';
-				
-						if(checked)
-							$(this).addClass('mce-checked');
-				
-						$(html).prependTo($(this));
-					});
-					
-					self._initCheckBox($checkBox);
-				}
-
-				/* Activate overlay & its inline scripts*/
-				$overlay.xfActivate();
-
-				/* Afterload Callback*/				
-				if(params.onafterload != false)
-					params.src[params.onafterload]($overlay, data, editor, self);
-					
-				self.xenOverlayIsloading = false;
+				//XenForo ExtLoader: JS & CSS successfully loaded
+				self._overlayFormatter(html, scripts);
 			});
+		},
+		_overlayFormatter:function(html, scripts, reloaded, reloadedData)
+		{
+      			var self = this,
+      				editor = this.getEditor(),
+      				params = this.overlayParams,
+      				wmConfig = params.wmConfig, 
+      				win = editor.windowManager,
+      				data = {},
+      				Dialog = self.ucfirst(self.dialog);
+      				
+      			var buttonOk = self.getPhrase('insert'),
+      				buttonCancel = self.getPhrase('cancel'),
+      				inputsTags = self.getInputTags(),
+      				staticBackup = xenMCE.Tools.backupLib;
+
+      			staticBackup.params = params;
+      			staticBackup.editor = editor;
+
+      			$html = $(html);
+      			$title = $html.find('.mceTitle').remove();
+      			$Submit = $html.find('.mceSubmit').remove();
+      			$Cancel = $html.find('.mceCancel').remove();
+
+      			if($Submit.length == 1)
+      				buttonOk = self.getTagName($Submit, true);
+
+      			if($Cancel.length == 1)
+      				buttonCancel = self.getTagName($Cancel, true);
+
+      			/* Get all datas from inputs or from data-input tag */
+      			function getDatas($el) {
+      				$inputs = $el.find(inputsTags.toString());
+
+      				if($inputs.length > 0){
+      					$inputs.each(function(i) {
+      						var n = $(this).attr('name');
+      						if(n){
+      							data[n] = $(this).val();
+      						}
+      					});
+      				}
+
+      				$el.find('*').filter(function() { 
+      					if($(this).data('value')){
+      						data[$(this).attr('name')] = {
+      							'html': $(this).html(),
+      							'text': $(this).text(),
+      							'data': $(this).data('value')
+      						}
+      					}
+      					
+      					if(parseInt($(this).data('hide')) == 1)
+      						$(this).hide();
+      				});
+      				
+      				self.overlayInputs = data;
+      				staticBackup.inputs = data;
+      				return data;
+      			}
+      			
+      			getDatas($html);
+      			
+      			/*Title*/
+      			if($title)
+      				wmConfig.title = $title.text();
+
+      			if(wmConfig.title === undefined || !wmConfig.title)
+      				wmConfig.title = self.getPhrase('notitle');
+
+      			/*Overlay size*/
+      			var defaultSize = self.getParam('overlayDefaultSize');
+      			
+      			if(wmConfig.width === undefined)
+      				wmConfig.width = defaultSize.w;
+
+      			if(wmConfig.height === undefined)
+      				wmConfig.height = defaultSize.h;
+      		
+      			if($title.data('width') !== undefined)
+      				wmConfig.width = parseInt($title.data('width'));
+
+      			if($title.data('height') !== undefined)
+      				wmConfig.height = parseInt($title.data('height'));
+
+      			/*Autofield & extend Data*/
+      			if(wmConfig.data !== undefined){
+      				//Autofield existed tags with name attribute with their related data
+      				$.each(wmConfig.data, function(k, v){
+      					$e = $html.find('[name='+k+']');
+      					if($e.length == 1){
+      						if(self.getTagName($e, inputsTags)){
+      							/***
+      								# Data ugly trick (step 1) #
+      								Ok here's the thing, the value of the input tags
+      								can't be modified before the overlay is appeared
+      								& the data value is automaticaly modified after the
+      								overlay is displayed (no way to change that). 
+      								So let's use an ugly trick (has two steps).
+      							**/
+      							$('<span class="tmp-data-mce">'+v+'</span>').insertAfter($e).hide();
+      						}else{
+      							$e.html(v);
+      						}
+      					}
+      				});
+      				//Extend data
+      				$.extend(wmConfig.data, data);				
+      			}else{
+      				wmConfig.data = data;
+      			}
+
+      			/* MCE onsubmit callback */
+      			if(wmConfig.onsubmit !== undefined){
+      				originalSubmit = wmConfig.onsubmit;
+      				
+      				wmConfig.onsubmit = function(params){
+      					var targetWindow = self.findTargetWindow(self.dialog),
+      						$overlay = $(targetWindow.getEl()),
+      						xenDatas = getDatas($overlay);
+      	
+      					$.extend(params.data, xenDatas);
+
+      					originalSubmit(params, $overlay, editor, self);
+      				};
+      			}
+
+      			/* Buttons Ok/Cancel + listeners */
+      			if(wmConfig.buttons === undefined){
+      				wmConfig.buttons = [
+      					{text: buttonOk, subtype: 'primary xenSubmit', minWidth: 80, onclick: function(e) {
+      						var targetWindow = self.findTargetWindow(self.dialog),
+      							$overlay = $(targetWindow.getEl());
+
+      						/* Private onsubmit callback */
+      						if(params.onsubmit != false){
+      							var xenDatas = getDatas($overlay);
+      							$.extend(e.data, xenDatas);
+      							
+      							params.src[params.onsubmit](e, $overlay, editor, self);
+      						}
+
+      						if(targetWindow.find('form')[0] !== undefined)
+      							targetWindow.find('form')[0].submit();
+      						else
+      							targetWindow.submit();
+
+      						/* Private onclose callback */
+      						if(params.onclose != false){
+      							var xenDatas = getDatas($overlay);
+      							$.extend(e.data, xenDatas);
+      							params.src[params.onclose](e, $overlay, editor, self);
+      						}
+
+      						targetWindow.close();
+      					}},
+      					{text: buttonCancel, subtype: 'xenCancel', onclick: function(e) {
+      						var $overlay = $(targetWindow.getEl());
+
+      						/* Private onclose callback */
+      						if(params.onclose != false){
+      							var xenDatas = getDatas($overlay);
+      							$.extend(e.data, xenDatas);
+      							params.src[params.onclose](e, $overlay, editor, self);
+      						}							
+      						
+      						targetWindow.close();
+      					}}
+      				];
+      			}
+
+      			/*Get template html code*/
+      			wmConfig.html = $html.html();
+
+      			/* Beforeload callback: use to modify the wmConfig if needed*/
+      			if(params.onbeforeload != false){
+      				var wmConfigModified = params.src[params.onbeforeload](wmConfig, self);
+      				if (wmConfigModified !== undefined)
+      					wmConfig = wmConfigModified;
+      			}
+
+      			/* Launch the TinyMCE overlay */
+      			var modal = win.open(wmConfig, { 
+      				dialogName: params.dialog,
+      				modalClassName: params.dialog,
+      				ovlParams: params
+      			});
+
+      			/* Get overlay */
+      			var targetWindow = self.findTargetWindow(self.dialog, true),
+      				$overlay = $(targetWindow.getEl());
+      				
+      			xenMCE.Tools.backupLib.$overlay = $overlay;
+
+      			/* Eval inline scripts */
+      			if (scripts.length && scripts !== undefined){
+      				for (i = 0; i < scripts.length; i++) {
+      					$.globalEval(scripts[i]);
+      				}
+      			}
+      			
+      			/* Get body height */
+      				//$overlay.find('.mce-xen-body').height(); doesn't work well on IE 7-8-9
+      			var ovlBodyHeight = $overlay.children('.mce-container-body').height();
+
+      			/* AutoFocus */
+      			$overlay.find('.mceFocus').focus();
+
+      			/*Data ugly trick (step 2)*/
+      			$overlay.find('.tmp-data-mce').each(function(){
+      				$e = $(this);
+      				$e.prev().val($e.html());
+      				$e.remove();
+      			});
+
+      			/*Tabs & Panes - provided by JQT*/
+      			$tabs = $overlay.find('.mceTabs').addClass('mce-tabs');
+      			$tabs = self.cleanWhiteSpace($tabs);
+      				
+      			$panes = $tabs.next('.mcePanes').children().addClass('mce-pane');
+      			if($tabs.length > 0 && $panes.length > 0){
+      				$tabs.children().addClass('mce-tab');
+      				var i = $tabs.find('.mceActive').index();
+      				$tabs.tabs($panes, {
+      					current: 'mce-active',
+      					initialIndex: (i >= 0 ? i:0)
+      				});
+      			}
+
+      			/*Slider - provided by JQT*/
+      			var slideTag = 'mceSlides';
+      			$slides = $overlay.find('.'+slideTag);
+
+      			
+      			if($slides.length > 0){
+      				var sl = ovlBodyHeight;
+      				$slides.height(sl).children().height(sl-$slides.data('diff'));
+      				
+      				$slider_tabs = $overlay.find('.'+slideTag+'Tabs');
+      				$('<a class="'+slideTag+'Navig '+slideTag+'Backward">&lsaquo;</a><a class="'+slideTag+'Navig '+slideTag+'Forward">&rsaquo;</a>').insertBefore($slides);
+      				$overlay.find('.'+slideTag+'Navig').css('top', (sl/2)-10+'px');
+
+      				$slider_tabs.tabs($slides.children(), {
+      					effect: 'fade',
+      					fadeOutSpeed: "fast",
+      					rotate: true
+      				}).slideshow({
+      					prev:'.'+slideTag+'Backward',
+      					next:'.'+slideTag+'Forward',
+      					clickable: false
+      				});
+      			}
+
+      			/*MultiLine mode for Textarea*/
+      			$multi = $overlay.find('textarea, .mce-multiline');
+      			if($multi){
+      				targetWindow.off('keydown');
+      				$multi.attr('spellcheck', 'false').attr('hidefocus', 'true');
+      			}
+
+      			/*Checkbox shortcut*/
+      			$checkBox = $overlay.find('.xenCheckBox');
+      			
+      			if($checkBox.length > 1){
+      				$checkBox.each(function(i){
+      					var phrase = $(this).data('phrase'),
+      					inputName = $(this).data('inputname'),
+      					checked = ($(this).data('checked') == 'checked') ? 1 : 0,
+      					html = '<i class="mce-ico mce-i-checkbox"></i><span>'+phrase+'</span><input name="'+inputName+'" type="hidden" value="'+checked+'" />';
+      			
+      					if(checked)
+      						$(this).addClass('mce-checked');
+      			
+      					$(html).prependTo($(this));
+      				});
+      				
+      				self._initCheckBox($checkBox);
+      			}
+
+      			/* Activate overlay & its inline scripts*/
+      			$overlay.xfActivate();
+
+      			/* Onfastreload callback*/
+			if(!$title.hasClass('FastReload')){
+				delete self.overlayCache[self.dialog];
+			}else if(reloaded){
+				if(!reloadedData.isUrl){
+					self._inlineLink(reloadedData);
+				}
+
+				self._onFastReload($overlay, reloadedData);
+				
+				if(self.isDefined(xenMCE.Templates[Dialog], 'onfastreload')){
+					xenMCE.Templates[Dialog].onfastreload($overlay, reloadedData, editor, self);
+				}
+			}
+
+      			/* Afterload Callback*/				
+      			if(params.onafterload != false)
+      				params.src[params.onafterload]($overlay, data, editor, self);
+      				
+      			self.xenOverlayIsloading = false;		
+		},
+		_onFastReload: function($overlay, data)
+		{
+			var self = this, inputsTags = self.getInputTags();
+
+			inputsTags.push('textarea');
+			
+			$.each(inputsTags, function(i, v){
+				$overlay.find(v+'.MceReset').val('');
+			});
+
+			if(data.isUrl){
+				var urlDatas = data.urlDatas, urlTarget;
+				if(data.isLink){
+					urlTarget = 'input.MceLink';
+				}else if(data.isEmail){
+					urlTarget = 'input.MceEmail';
+				}
+				$overlay.find(urlTarget).val(urlDatas.href);
+				$overlay.find(urlTarget+'Text').val(urlDatas.text);				
+			}else{
+				$.each(inputsTags, function(i, v){
+					$overlay.find(v+'.MceSelec').val(data.selectedText);
+					$overlay.find(v+'.MceSelecHtml').val(data.selectedHtml);				
+				});
+			}			
+		},
+		_inlineLink: function(data)
+		{
+			var self = this,
+				urlRegex = self.getUrlRegex(),
+				mailRegex = self.getMailRegex(),
+				text = data.selectedText;
+
+			if(!text.length)
+				return;
+			
+			var urlDatasOk = function(){
+				data.isUrl = true;
+				data.urlDatas.text = data.urlDatas.href = text;			
+			}
+			
+			if(urlRegex.test(text)){
+				data.isLink = true;
+				urlDatasOk();
+			}
+
+			if(mailRegex.test(text)){
+				data.isEmail = true;
+				urlDatasOk();
+			}			
 		},
 		_initCheckBox: function($checkBox)
 		{
@@ -723,7 +800,8 @@
 		},
 		getTagName: function($e, autoReturn, expectedTags)
 		{
-			var tag = $e.get(0).tagName.toLowerCase();
+			var self = this,
+				tag = $e.get(0).tagName.toLowerCase();
 
 			//TagName Tool
 			if(expectedTags === undefined && autoReturn === undefined)
@@ -734,7 +812,7 @@
 
 			//AutoReturn Tool if inputs => return val else => return text
 			if(autoReturn === true){
-				inputs = ['input','textarea','select'];
+				var inputs = self.getInputTags();
 
 				if($.inArray(tag, inputs) !== -1){
 					return $e.val();
@@ -769,10 +847,23 @@
 			
 			return $e;
 		},
-		isActiveButton: function(buttonName){
-			var buttonConfig = [], ed = this.getEditor();
-			for (var i=1; ed.settings['toolbar'+i] !== undefined;i++){
-				buttonConfig = buttonConfig.concat(ed.settings['toolbar'+i].split(' '));
+		isActiveButton: function(buttonName, skipMenu){
+			var editor = this.getEditor(),
+				each = tinymce.each,
+				buttonConfig = [],
+				skipMenu = (skipMenu == true);
+				
+			for(var i=1; editor.settings['toolbar'+i] !== undefined;i++){
+				buttonConfig = buttonConfig.concat(editor.settings['toolbar'+i].split(' '));
+			}
+
+			if(!skipMenu && editor.settings.menubar != false && editor.settings.menu != undefined){
+				each(editor.settings.menu, function(v, k){
+					if(v.items != undefined){
+						buttonConfig = buttonConfig.concat(v.items.split(' '));
+					}
+					buttonConfig.push(k);
+				});
 			}
 
 			if(tinymce.inArray(buttonConfig, buttonName) == -1){
@@ -783,9 +874,9 @@
 		},
 		getButtonByName: function(name, getEl)
 		{
-			var ed = this.getEditor(),	
-			buttons = ed.buttons,
-			toolbarObj = ed.theme.panel.find('toolbar *');
+			var editor = this.getEditor(),	
+				buttons = editor.buttons,
+				toolbarObj = editor.theme.panel.find('toolbar *');
 	
 			if(buttons[name] === undefined)
 				return false;
@@ -822,8 +913,8 @@
 		},
 		getPathEl: function(jquery)
 		{
-			var ed = this.getEditor(),
-			statusbar = ed.theme.panel && ed.theme.panel.find('#statusbar')[0];
+			var editor = this.getEditor(),
+				statusbar = editor.theme.panel && editor.theme.panel.find('#statusbar')[0];
 			
 			if(statusbar){
 				var path = statusbar.find('.path');
@@ -838,10 +929,10 @@
 		},
 		getButtonsByProperty: function(prop, val, jQueryEl)
 		{
-			var ed = this.getEditor(),	
-			toolbarObj = ed.theme.panel.find('toolbar *'),
+			var editor = this.getEditor(),	
+			toolbarObj = editor.theme.panel.find('toolbar *'),
 			results = {};
-	
+
 			tinymce.each(toolbarObj, function(v, k) {
 				var settings = v.settings;
 				
@@ -879,6 +970,30 @@
 			
 			return results;
 		},
+		getMenubar: function(){
+			var editor = this.getEditor(),
+				menubar = editor.theme.panel.find('menubar');
+			
+			if(menubar[0] !== undefined ){
+				return $(menubar[0].getEl());
+			}
+			return $();
+		},
+		getToolbars: function(bypassParam){
+			var editor = this.getEditor(),
+				toolbars = editor.theme.panel.find('toolbar'),
+				toolbarContainer = toolbars.parent(),
+				tglMenuMode = parseInt(this.getParam('tglMenuMode'));
+
+			if(!tglMenuMode && bypassParam === undefined){
+				return	toolbarContainer;
+			}else{
+				return 	toolbars.slice(tglMenuMode);
+			}
+		},
+		addIconClass: function($e, className){
+			return $e.find('i.mce-ico').addClass('mce-'+className+'-icons');
+		},
 		buildMenuItems: function(text, value, css, classes)
 		{
 			var items = [], bakeData = [], dataVal, textVal;
@@ -912,17 +1027,17 @@
 			return items;
 		},
 		createListBoxChangeHandler: function(items, formatName, extraFct) {
-			ed = this.getEditor();
+			var editor = this.getEditor();
 		
 			return function(e) {
 				var self = this;
 
 				if(typeof extraFct === 'function') extraFct(self, e);
 				
-				ed.on('nodeChange', function(e) {
+				editor.on('nodeChange', function(e) {
 					if(self.nodeChangeOff) return;
 					
-					var formatter = ed.formatter;
+					var formatter = editor.formatter;
 					var value = null;
 			
 					tinymce.each(e.parents, function(node) {
@@ -983,14 +1098,39 @@
 			//Apply the fix
 			$el.offset(btnOffset);			
 		},
+		handleDisabledState: function(ctrl, selector)
+		{
+			//Code from table plugin
+			var editor = this.getEditor(), 
+				dom = editor.dom,
+				sel = editor.selection;
+		
+			function bindStateListener() {
+				ctrl.disabled(!dom.getParent(sel.getStart(), selector));
+
+				sel.selectorChanged(selector, function(state) {
+					ctrl.disabled(!state);
+				});
+			}
+
+			if (editor.initialized) {
+				bindStateListener();
+			} else {
+				editor.on('init', bindStateListener);
+			}
+		},
 		insertBbCode: function(tag, tagOptions, content){
 			tag = tag.replace(/^at_/, '');
 		
-			var ed = this.getEditor(), dom = ed.dom, caretId = 'MceCaretBb', caret,
-			oTag ='['+tag, cTag = '[/'+tag+']';
+			var editor = this.getEditor(),
+				dom = editor.dom, 
+				caretId = 'MceCaretBb', 
+				caret,
+				oTag ='['+tag, 
+				cTag = '[/'+tag+']';
 		
 			if(!content)
-				content = ed.selection.getContent();
+				content = editor.selection.getContent();
 
 			content += '<span id="'+caretId+'"></span>';
 			
@@ -999,17 +1139,49 @@
 			else
 				oTag += ']';
 			
-			ed.execCommand('mceInsertContent', false, oTag+content+cTag);
-			ed.selection.select(dom.get(caretId));
+			editor.execCommand('mceInsertContent', false, oTag+content+cTag);
+			editor.selection.select(dom.get(caretId));
 			dom.remove(caretId);
 		},
 		getParam: function(name)
 		{
-			if(xenMCE.Params[name] !== undefined){
-				return xenMCE.Params[name];
+			var editor = this.getEditor(),
+				xenParams = editor.getParam('xenParams');
+
+			if(xenParams[name] !== undefined){
+				return xenParams[name];
 			} else {
 				return null;
 			}
+		},
+		getPhrase: function(key1, key2)
+		{
+			/**
+			 * TinyMCE has an I18n translation function, but it can still be useful
+			 * to use this function to get long phrases - it avoid to have a long key
+			 **/
+			var xemMcePhrase = xenMCE.Phrases;
+			 
+			if(xemMcePhrase[key1] === undefined){
+				return '';
+			}
+			 
+			if(key2 !== undefined){
+				 if(xemMcePhrase[key1][key2] !== undefined){
+				 	return xemMcePhrase[key1][key2];
+				 }
+			}else{
+				return xemMcePhrase[key1];
+			}
+			 
+			return '';
+		},
+		getInputTags: function(){
+			return ['input','textarea','select'];
+		},
+		ucfirst: function(string)
+		{
+			return string.charAt(0).toUpperCase() + string.slice(1);
 		},
 		unescapeHtml: function(string, options) 
 		{
@@ -1060,6 +1232,14 @@
 
 			return string;
 		},
+		getUrlRegex: function()
+		{
+			return new RegExp('^(?:\s+)?(?:(?:https?|ftp|file)://|www\.|ftp\.)[-a-zA-Z0-9+&@#/%=~_|$?!:,.]*[-a-zA-Z0-9+&@\#/%=~_|$](?:\s+)?$', 'i');
+		},
+		getMailRegex: function()
+		{
+			return new RegExp('^(?:\s+)?[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}(?:\s+)?$', 'i');		
+		},		
 		getSelection: function()
 		{
 			return xenMCE.Lib._get('selection');			
@@ -1084,8 +1264,8 @@
 	});
 
 	tinymce.PluginManager.add('xenforo', xenMCE.Tools);
-	tinymce.PluginManager.add('xenReady', function(ed){
-		ed.fire('XenReady');
+	tinymce.PluginManager.add('xenReady', function(editor){
+		editor.fire('XenReady');
 	});	
 
 /***
@@ -1098,12 +1278,11 @@
 	*	Independent plugin
 	***/
 	tinymce.create(xenPlugin+'.BbmButtons', {
-		BbmButtons: function(parent) 
+		BbmButtons: function(parent, ed) 
 		{
 			$.extend(this, parent);
-			this.ed = this.getEditor();
-			var ed = this.ed;
-			
+			this.ed = ed;
+
 			var src = this, buttons = src.getParam('bbmButtons');
 
 			$.each(buttons, function(tag, data){
@@ -1150,21 +1329,38 @@
 					}
 				}
 				
+				var createButtonAndMenu = function(config){
+					src.ed.addButton(n, config);
+
+					var menuConfig = $.extend({}, config);
+					if(menuConfig.text == undefined){
+						menuConfig.text = data.desc;
+						menuConfig.tooltip = false;
+						menuConfig.context = 'insert';
+					}					
+					src.ed.addMenuItem(n, menuConfig);
+				}
+				
+				
 				if(data._return == 'kill'){
-					if(ed.buttons[data.code] === undefined){
+					if(!parent.isActiveButton(data.code)){
 						console.debug('Button "'+data.code+'" not found - Delete it from BBM');
 						return;						
 					}
-						
-					$.extend(ed.buttons[data.code], config);
-					return;
+
+					if(ed.buttons[data.code] === undefined){ //don't use isActiveButton here
+						$.extend(ed.buttons[data.code], config);
+						//createButtonAndMenu(config); /*To do: modify the return kill */
+					}else{
+						$.extend(ed.buttons[data.code], config);
+					}
+				}else{
+					createButtonAndMenu(config);
 				}
-				
-				src.ed.addButton(n, config);
 			});
 			
 			//Source Btn - Fright mode
-			if(src.ed.buttons.code !== undefined){
+			if(src.isActiveButton('code', true)){
 				src.ed.buttons.code.xenfright = true;
 			}
 		},
@@ -1209,21 +1405,31 @@
 	*	Independent plugin
 	***/
 	tinymce.create(xenPlugin+'.XenSwitch', {
-		XenSwitch: function(parent) 
+		XenSwitch: function(parent, ed) 
 		{
 			$.extend(this, parent);
-			this.ed = this.getEditor();
 			
-			var name = 'xen_switch';
+			var name = 'xen_switch',
+				switchConfig;
+				
+			this.ed = ed;
 			
-			this.ed.addButton(name, {
+			switchConfig = {
 				name: name,
 				icon: name,
 				iconset: 'xenforo',
 				xenfright: true,
-				tooltip: xenMCE.Phrases.switch_text[0],
-				onclick: $.proxy(this, 'wysiwygToBbCode')
-			});
+				tooltip: this.getPhrase('switch_text', 0),
+				onclick: $.proxy(this, 'wysiwygToBbCode')			
+			}
+			
+			ed.addButton(name, switchConfig);
+			ed.addMenuItem(name, $.extend({},
+				switchConfig, {
+					text: "Bb Code editor",
+					tooltip: false
+				})
+			);			
 		},
 		wysiwygToBbCode: function(e)
 		{
@@ -1269,7 +1475,7 @@
 	
 			$('<a />')
 				.attr('href', 'javascript:')
-				.text(xenMCE.Phrases.switch_text[1])
+				.text(this.getPhrase('switch_text', 1))
 				.click($.proxy(this, 'bbCodeToWysiwyg'))
 				.appendTo(
 					$('<div />').appendTo($textContainer)
@@ -1326,13 +1532,14 @@
 	*	Independent plugin
 	***/
 	tinymce.create(xenPlugin+'.XenFonts', {
-		XenFonts: function(parent) 
+		XenFonts: function(parent, ed) 
 		{
-			var ed = parent.getEditor(), Factory = tinymce.ui.Factory, menuSize, menuFam,
-			fontSize = 'font-size', sizeClass = 'xen-'+fontSize, fs = 'fontsize',
-			fontFamily = 'font-family',  famClass = 'xen-'+fontFamily, ff = 'fontfamily',
-			xenIcon = 'mce-xenforo-icons', fontSizeText = '', fontSizeValues, 
-			p = xenMCE.Phrases, smallFontBtn = parent.getParam('smallFontBtn');
+			var Factory = tinymce.ui.Factory, 
+				menuSize, menuFam,
+				fontSize = 'font-size', sizeClass = 'xen-'+fontSize, fs = 'fontsize',
+				fontFamily = 'font-family',  famClass = 'xen-'+fontFamily, ff = 'fontfamily',
+				xenIcon = 'mce-xenforo-icons', fontSizeText = '', fontSizeValues, 
+				smallFontBtn = parent.getParam('smallFontBtn');
 
 			if(parent.isOldXen === true){
 				fontSizeValues = 'xx-small|x-small|small|medium|large|x-large|xx-large'; //for Xen 1.1
@@ -1342,18 +1549,18 @@
 
 			for (var i=1;i<8;i++)
 			{
-				fontSizeText += p.size+' '+i;
+				fontSizeText += parent.getPhrase('size')+' '+i;
 
 				if(i != 7)
 					fontSizeText += '|';
 			}
 
 			menuSize = parent.buildMenuItems(
-					fontSizeText, //Text
-					fontSizeValues, //Value
-					'font-size:{v}', //Css
-					sizeClass //Item Class
-				);
+				fontSizeText, //Text
+				fontSizeValues, //Value
+				'font-size:{v}', //Css
+				sizeClass //Item Class
+			);
 			
 			//Use icons on small screens
 			var extraFct = function(ctrl, e){
@@ -1426,7 +1633,7 @@
 				type: 'listbox',
 				icon: false,
 				fixedWidth: true,
-				text: p.font_size,
+				text: parent.getPhrase('font_size'),
 				values: menuSize,
 				onPostRender: parent.createListBoxChangeHandler(menuSize, fs, extraFct),
 				onShow: function(e) {
@@ -1463,7 +1670,7 @@
 				type: 'listbox',
 				icon: false,
 				fixedWidth: true,
-				text: p.font_family,
+				text: parent.getPhrase('font_family'),
 				values: menuFam,
 				onPostRender: parent.createListBoxChangeHandler(menuFam, 'fontname', extraFct),
 				onShow: function(e) {
@@ -1511,19 +1718,23 @@
 	*	Independent plugin
 	***/
 	tinymce.create(xenPlugin+'.Fright', {
-		Fright: function(parent) 
+		Fright: function(parent, ed) 
 		{
 			if(parent.getParam('frightMode') != true)
 				return false;
 
 			$.extend(this, parent);
 
-			var src = this, ed = this.getEditor(), blockId = 'mce-top-right-body';
+			var src = this, 
+				blockId = 'mce-top-right-body';
 
 			ed.on('postrender', function(event) {
 				var $toolbar = $(event.target.contentAreaContainer).prev(),
 					$buttons = src.getButtonsByProperty('xenfright', null, $toolbar),
 					$firstLine = $toolbar.find('.mce-toolbar').first();
+				
+				if(!$buttons.length)
+					return false;
 
 				function resetFrightButtons(){
 					var first = 'mce-first', last = 'mce-last';
@@ -1566,7 +1777,7 @@
 	*	Independent plugin
 	***/
 	tinymce.create(xenPlugin+'.Modal', {
-		Modal: function(parent) 
+		Modal: function(parent, ed) 
 		{
 			ed.on('XenModalComplete', function(settings) {
 				var modal = settings.modal, args = settings.args, params = settings.params,
@@ -1625,9 +1836,9 @@
 	*	Independent plugin
 	***/
 	tinymce.create(xenPlugin+'.quirks', {
-		quirks: function(parent) 
+		quirks: function(parent, ed) 
 		{
-			var ed = parent.getEditor(), inlineEd = 'InlineMessageEditor';
+			var inlineEd = 'InlineMessageEditor';
 
 			/* 2013/08/28: fix for the autoresize plugin needed with the overlay and with some browsers (IE, Chrome) */
 			ed.on('postrender', function(e) { //other event possible: focus
@@ -1759,10 +1970,11 @@
 	*
 	***/
 	tinymce.create(xenPlugin+'.TableIntegration', {
-		TableIntegration: function(parent) 
+		TableIntegration: function(parent, ed) 
 		{
-			this.ed = parent.getEditor();
-			var self = this, ed = this.ed;
+			this.ed = ed;
+			
+			var self = this;
 		
 			function addSkin(e, id){
 				var dom = ed.dom, tableElm;
@@ -1798,6 +2010,16 @@
 
 				$skins.eq(skinId-1).css('font-weight', 'bold');
 			}
+
+			
+			var postRenderMenu = function(e){
+				parent.handleDisabledState(this, 'table');
+			};
+
+			var menu = [];
+			for (var i=1; i<5;i++){
+				menu.push({text: 'Skin '+i, onclick: function(e) { addSkin(e, 1); }, onPostRender: postRenderMenu});
+			}
 		
 			/*Context menu*/
 			ed.addMenuItem('xen_tableskin', {
@@ -1805,12 +2027,7 @@
 				text: 'Table skins',
 				context: 'table',
 				onShow: selectedSkin,
-				menu: [
-					{text: 'Skin 1', onclick: function(e) { addSkin(e, 1); }},
-					{text: 'Skin 2', onclick: function(e) { addSkin(e, 2); }},
-					{text: 'Skin 3', onclick: function(e) { addSkin(e, 3); }},
-					{text: 'Skin 4', onclick: function(e) { addSkin(e, 4); }}
-				]
+				menu:  menu
 			});
 		}
 	});
@@ -1820,14 +2037,11 @@
 	*	This modifies the official plugin (so keep it in the config)
 	***/
 	tinymce.create(xenPlugin+'.Fullscreen', {
-		Fullscreen: function(parent) 
+		Fullscreen: function(parent, ed) 
 		{
-			var ed = parent.getEditor();
-
-			if(ed.buttons.fullscreen === undefined)
+			if(!parent.isActiveButton('fullscreen'))
 				return false;
-				
-			//Radical fix for a bug on IE8; might come from jQuery (to check)
+
 			//Edit 2013-06-14: is working now with IE8 but not with IE7
 			if(tinymce.isIE && tinymce.Env.ie <= 7 ){
 				delete ed.buttons['fullscreen'];
@@ -1860,14 +2074,17 @@
 	*	Independent plugin (no need to keep the official one in the config)
 	***/
 	tinymce.create(xenPlugin+'.XenLink', {
-		XenLink: function(parent) 
+		XenLink: function(parent, ed) 
 		{
 			$.extend(this, parent);
-			this.ed = this.getEditor();
+			this.ed = ed;
 
-			var src = this, ed = this.ed, linkButton = {}, linkButtonExtra = {};
+			var src = this,
+				linkConfig,
+				linkConfigExtra,
+				unlinkConfig;
 			
-			linkButton = {
+			linkConfig = {
 				name: 'xen_link',
 				icon: 'link',
 				shortcut: 'Ctrl+K',
@@ -1875,9 +2092,9 @@
 				onclick: $.proxy(this, 'init')
 			};
 			
-			linkButtonExtra = {
+			linkConfigExtra = {
 				type: 'splitbutton',
-				menu: src.buildMenuItems(xenMCE.Phrases.unlink),
+				menu: src.buildMenuItems(parent.getPhrase('unlink')),
 				onshow: function(e) {
 					$('.mce-tooltip:visible').hide();
 				},
@@ -1887,28 +2104,31 @@
 			};
 			
 			if(parent.getParam('fastUnlink'))
-				$.extend(linkButton, linkButtonExtra);
+				$.extend(linkConfig, linkConfigExtra);
 			
-			ed.addButton('xen_link', linkButton );
-			
-			ed.addButton('xen_unlink', {
+			unlinkConfig = {
 				name: 'xen_unlink',
 				icon: 'unlink',
 				cmd: 'unlink',
 				stateSelector: 'a[href]'
-			});
-			
-			/*Context menu*/
-			ed.addMenuItem('xen_link', {
-				name: 'xen_link',
-				icon: 'link',
-				shortcut: 'Ctrl+K',
-				stateSelector: 'a[href]',
-				onclick: $.proxy(this, 'init'),
-				text: xenMCE.Phrases.xen_link_desc,				
-				context: 'insert',
-				prependToContext: true
-			});
+			};
+
+			ed.addButton('xen_link', linkConfig);
+			ed.addMenuItem('xen_link', $.extend({},
+				linkConfig, {
+					text: 'Link',
+					context: 'insert',
+					prependToContext: true
+				})
+			);
+
+			ed.addButton('xen_unlink', unlinkConfig);
+			ed.addMenuItem('xen_unlink', $.extend({},
+				unlinkConfig, {
+					text: 'Unlink',
+					tooltip: false
+				})
+			);
 		},
 		init: function(e)
 		{
@@ -1933,10 +2153,12 @@
 	*	Last update: 2013-06-14
 	***/
 	tinymce.create(xenPlugin+'.XenColors', {
-		XenColors: function(parent) 
+		XenColors: function(parent, ed) 
 		{
 			$.extend(this, parent);
-			var src = this, ed = this.ed = this.getEditor(), extra;
+			var src = this, extra;
+
+			this.ed = ed;
 
 			/*Extra color picker*/
 			function modifyButton(button) {
@@ -1945,7 +2167,7 @@
 				if(parent.getParam('extraColors') == true){
 					button.panel.html = function(e){
 						var advPicker = '<div href="#" class="mceAdvPicker" data-mode="'+cmd+'">';
-						advPicker += xenMCE.Phrases.more_colors;
+						advPicker += parent.getPhrase('more_colors');
 						advPicker += '</div>';
 						return html() + advPicker;
 					}
@@ -1979,11 +2201,11 @@
 				}
 			}
 
-			if(ed.buttons.forecolor !== undefined){
+			if(parent.isActiveButton('forecolor', true)){
 				modifyButton(ed.buttons.forecolor);
 			}
 
-			if(ed.buttons.backcolor !== undefined){
+			if(parent.isActiveButton('backcolor', true)){
 				modifyButton(ed.buttons.backcolor);
 			}
 		},
@@ -2021,17 +2243,28 @@
 	*	Independent plugin (no need to keep the official one in the config)
 	***/
 	tinymce.create(xenPlugin+'.XenMedia', {
-		XenMedia: function(parent) 
+		XenMedia: function(parent, ed) 
 		{
 			$.extend(this, parent);
-			this.ed = this.getEditor();
-			var src = this, ed = this.ed;
-			
-			ed.addButton('xen_media', {
+			this.ed = ed;
+
+			var src = this,	mediaConfig;
+
+			mediaConfig = {
 				name: 'xen_media',
 				icon: 'media',
 				onclick: $.proxy(this, 'init')
-			});
+			};
+			
+			ed.addButton('xen_media', mediaConfig);
+
+			ed.addMenuItem('xen_media', $.extend({},
+				mediaConfig, {
+					text: parent.getPhrase('xen_media_desc'),
+					context: 'insert',
+					tooltip: false
+				})
+			);			
 		},
 		init: function(e)
 		{
@@ -2056,18 +2289,30 @@
 	*	Independent plugin (no need to keep the official one in the config)
 	***/
 	tinymce.create(xenPlugin+'.XenImage', {
-		XenImage: function(parent) 
+		XenImage: function(parent, ed) 
 		{
 			$.extend(this, parent);
-			this.ed = this.getEditor();
-			var src = this, ed = this.ed;
+
+			this.ed = ed;
+			
+			var src = this, imageConfig;
 		
-			ed.addButton('xen_image', {
+			imageConfig = {
 				name: 'xen_image',
 				icon: 'image',
 				stateSelector: 'img:not([data-mce-object],[data-smilie])',
 				onclick: $.proxy(this, 'init')
-			});
+			};
+		
+			ed.addButton('xen_image', imageConfig);
+			
+			ed.addMenuItem('xen_image', $.extend({},
+				imageConfig, {
+					text: 'Image',
+					context: 'insert',
+					tooltip: false
+				})
+			);			
 		},
 		init: function(e)
 		{
@@ -2099,18 +2344,31 @@
 	*	Independent plugin
 	***/
 	tinymce.create(xenPlugin+'.XenCode', {
-		XenCode: function(parent) 
+		XenCode: function(parent, ed) 
 		{
 			$.extend(this, parent);
-			this.ed = this.getEditor();
-			var src = this, ed = this.ed, n = 'xen_code';
+			
+			var src = this, 
+				name = 'xen_code',
+				codeConfig;
 		
-			ed.addButton(n, {
-				name: n,
-				icon: n,
+			this.ed = ed;
+			
+			codeConfig = {
+				name: name,
+				icon: name,
 				iconset: 'xenforo',
-				onclick: $.proxy(this, 'init')
-			});
+				onclick: $.proxy(this, 'init')			
+			}
+		
+			ed.addButton(name, codeConfig);
+			ed.addMenuItem(name, $.extend({},
+				codeConfig, {
+					text: parent.getPhrase('xen_code_desc'),
+					context: 'insert',
+					tooltip: false
+				})
+			);
 		},
 		init: function(e)
 		{
@@ -2133,19 +2391,29 @@
 	*	Independent plugin
 	***/
 	tinymce.create(xenPlugin+'.XenQuote', {
-		XenQuote: function(parent) 
+		XenQuote: function(parent, ed) 
 		{
-			var ed = parent.getEditor(), n = 'xen_quote';
+			var xen_quote = 'xen_quote',
+				quoteConfig;
 
-			if(ed.buttons[n] === undefined){
-				ed.addButton(n, {
-					name: n,
-					icon: n,
-					iconset: 'xenforo',
-					onclick: function(e){
-						parent.insertBbCode('quote', false);
-					}
-				});
+			quoteConfig = {
+				name: xen_quote,
+				icon: xen_quote,
+				iconset: 'xenforo',
+				onclick: function(e){
+					parent.insertBbCode('quote', false);
+				}
+			};
+
+			if(!parent.isActiveButton(xen_quote)){
+				ed.addButton(xen_quote, quoteConfig);
+				ed.addMenuItem(name, $.extend({},
+					quoteConfig, {
+						text: parent.getPhrase('xen_quote_desc'),
+						context: 'insert',
+						tooltip: false
+					})
+				);
 			}
 		}
 	});
@@ -2155,15 +2423,19 @@
 	*	Independent plugin
 	***/
 	tinymce.create(xenPlugin+'.XenSmilies', {
-		XenSmilies: function(parent) 
+		XenSmilies: function(parent, ed) 
 		{
 			$.extend(this, parent);
-			var src = this, ed = this.getEditor(),  n = 'xen_smilies', n2 = 'xen_smilies_picker',
-			windowType = parent.getParam('smiliesWindow');
 			
+			var src = this, 
+				n = 'xen_smilies', 
+				n2 = 'xen_smilies_picker',
+				windowType = parent.getParam('smiliesWindow');
+
 			function _getHtml(fullSmilies) 
 			{
-				var i = 1, i_max, prefix = 'mceQuattroSmilie', suffix = '',
+				var dom = ed.dom || tinymce.DOM,
+					i = 1, i_max, prefix = 'mceQuattroSmilie', suffix = '',
 					smilies = parent.getParam('xenforo_smilies'), 
 					smiliesCat = parent.getParam('smiliesCat'),
 					smiliesMenuBtnCat = parent.getParam('xCatSmilies');
@@ -2183,7 +2455,8 @@
 				function getGrid(smiliesHtml, smilies)
 				{
 					tinymce.each(smilies, function(v, k) {
-						var dom = ed.dom, smilieInfo = { id: v[1], desc: v[0], bbcode: dom.encode(k)}, smiliesDesc = parent.getParam('smiliesDesc');
+						var smilieInfo = { id: v[1], desc: v[0], bbcode: dom.encode(k)}, 
+							smiliesDesc = parent.getParam('smiliesDesc');
 						
 						if(smiliesDesc == 'bbcode'){
 							smilieInfo.desc = k;
@@ -2269,26 +2542,30 @@
 
 			}
 
-			ed.addButton(n, {
+			var configN1Window = {
+				autohide: true,
+				html: getSmilies,
+				onclick: function(e) {
+					var linkElm = ed.dom.getParent(e.target, 'a');
+
+					if (linkElm) {
+						var imgHtml = $(linkElm).html();
+						ed.execCommand('mceInsertContent', false, imgHtml);
+						if(e.dontHide == undefined || !e.dontHide){
+							this.hide();
+						}
+					}
+				}
+			};
+			
+			var configN1 = {
 				name: n,
 				icon: 'emoticons',
 				type: 'panelbutton',
 				stateSelector: 'img[data-smilie]',
 				popoverAlign: 'bc-tl',
-				panel: {
-					autohide: true,
-					html: getSmilies,
-					onclick: function(e) {
-						var linkElm = ed.dom.getParent(e.target, 'a');
-
-						if (linkElm) {
-							var imgHtml = $(linkElm).html();
-							ed.execCommand('mceInsertContent', false, imgHtml);
-							this.hide();
-						}
-					}
-				}
-			});
+				panel: configN1Window
+			};
 
 			var configN2 = {
 				name: n2,
@@ -2312,8 +2589,45 @@
 			}else{
 				configN2.onclick = pickerDialog;			
 			}
-			
+
+			ed.addButton(n, configN1);
 			ed.addButton(n2, configN2);
+
+			ed.addMenuItem(n, $.extend({},
+				configN1, {
+					text: "Smilies",
+					tooltip: false,
+					type: 'menuitem',
+					context: 'insert',
+					autohide: false,
+					panel: false,
+					align: 'center',
+					onclick: function(e){
+						var self = this;
+						$.extend(self, { mirrorClick: configN2.onclick });
+						self.mirrorClick(e);
+						self.hideMenu().parent().hide();
+					},
+					menu: [{
+						type: 'container',
+						html: getSmilies(),
+						onclick: function(e){
+							e.preventDefault();
+							e.dontHide = true;
+							configN1Window.onclick(e);
+							e.stopPropagation();
+						}
+					}]
+				})
+			);
+
+			ed.addMenuItem(n2, $.extend({},
+				configN2, {
+					text: "Smilies picker",
+					context: 'insert',
+					tooltip: false
+				})
+			);
 		},
 		initOvl: function(e)
 		{
@@ -2373,6 +2687,7 @@
 							});
 
 							$container.append($smilies);
+							$smilies.xfActivate();
 							$smilies.slideToggle();
 						});
 					}
@@ -2389,21 +2704,33 @@
 	*	Independent plugin: copy of the official plugin. Reason: Want 4 and not 3 blank characters
 	***/
 	tinymce.create(xenPlugin+'.XenNonBreaking', {
-		XenNonBreaking: function(parent) 
+		XenNonBreaking: function(parent, editor) 
 		{
-			var editor = parent.getEditor(), name = 'xen_nonbreaking', cmd = 'XenNonBreaking';
+			var name = 'xen_nonbreaking', 
+				cmd = 'XenNonBreaking',
+				noneBreakConfig;
 			
 			editor.addCommand(cmd, function() {
+				//to do: disable in lists
 				editor.insertContent(
 					(editor.plugins.visualchars && editor.plugins.visualchars.state) ?
 					'<span data-mce-bogus="1" class="mce-nbsp">&nbsp;</span>' : '&nbsp;'
 				);
 			});
 		
-			editor.addButton(name, {
+			noneBreakConfig = {
 				name: name,
 				cmd: cmd
-			});
+			};
+		
+			editor.addButton(name, noneBreakConfig);
+			editor.addMenuItem(name, $.extend({},
+				noneBreakConfig, {
+					text: "Non-breaking space",
+					context: 'insert',
+					tooltip: false
+				})
+			);
 
 			if (editor.getParam('nonbreaking_force_tab')) {
 				editor.on('keydown', function(e) {
@@ -2426,22 +2753,24 @@
 	*	Independent plugin
 	***/
 	tinymce.create(xenPlugin+'.XenDraft', {
-		XenDraft: function(parent) 
+		XenDraft: function(parent, ed) 
 		{
 			//Only compatible with XenForo 1.2.x
 			if(parent.isOldXen)
 				return false;
 
-			this.ed = parent.getEditor();
-			this.draftText = xenMCE.Phrases.draft;
-			this.$textarea = parent.$textarea;
-			this.autoSaveUrl = this.$textarea.data('auto-save-url');
+			$.extend(this, {
+				ed: ed,
+				draftText: parent.getPhrase('draft'),
+				$textarea: parent.$textarea,
+				autoSaveUrl: parent.$textarea.data('auto-save-url')		
+			});
 
-			var 	src = this, 
-				ed = this.ed,
+			var src = this, 
 				linkButtonExtra = {},
 				dfm = 'Draft mode: ',
-				rd = 'restoredraft';
+				rd = 'restoredraft',
+				rdConfig;
 
 			if(!this.autoSaveUrl || !parent.getParam('xendraft')){
 				console.info(dfm+'Mce');
@@ -2452,11 +2781,11 @@
 			console.info(dfm+'Xen');
 			
 			var menuItems = parent.buildMenuItems(
-						src.draftText.save+'|'+src.draftText._delete,
-						'saveDraft|deleteDraft',
-						null,
-						'xen_draft'
-					);
+				src.draftText.save+'|'+src.draftText._delete,
+				'saveDraft|deleteDraft',
+				null,
+				'xen_draft'
+			);
 			
 			var menuAction = function(e){
 				src.saveDraft(true, (e.control.settings.value == 'deleteDraft'))
@@ -2468,13 +2797,24 @@
 				}
 			});
 
-			ed.addButton(rd, {
+			rdConfig = {
 				name: rd,
 				title: src.draftText.save,
 				type: "menubutton",
 				menu: menuItems,
-				onselect: menuAction
-			});
+				onselect: menuAction			
+			};
+
+			ed.addButton(rd, rdConfig);
+
+			ed.addMenuItem(rd, $.extend({},
+				rdConfig, {
+					separator: 'before',
+					text: src.draftText.save,
+					tooltip: false,
+					type: false
+				})
+			);
 			
 			ed.on('init', function(e) {
 				src.pathEl = parent.getPathEl(true);
@@ -2491,7 +2831,7 @@
 		},
 		initAutoSave: function()
 		{
-			var 	self = this, 
+			var self = this, 
 				$form = $(this.ed.getContainer()).parents('form'),
 				options = self.$textarea.data('options'),
 				content = this.ed.getContent();
@@ -2591,41 +2931,179 @@
 	});
 
 	/***
+	*	XenForo Spoiler
+	*	Independent plugin
+	***/
+	tinymce.create(xenPlugin+'.XenSpoiler', {
+		XenSpoiler: function(parent, ed) 
+		{
+			var xen_spoiler = 'xen_spoiler',
+				insertSpoiler = "Insert spoiler",
+				spoilerConfig,
+				spoilerModal;
+
+			spoilerModal = function(e){
+				ed.windowManager.open({			
+					title: insertSpoiler,
+					body: [
+						{name: 'title', type: 'textbox', size: 40, label: "Spoiler Title"}
+					],
+					onSubmit: function(e) {
+						var tagOptions = e.data.title,
+							content = ed.selection.getContent();
+							
+						parent.insertBbCode('spoiler', tagOptions, content);			
+					}
+				});
+			};
+			
+			spoilerConfig = {
+				name: xen_spoiler,
+				icon: xen_spoiler,
+				iconset: 'xenforo',
+				tooltip: insertSpoiler,
+				onclick: spoilerModal	
+			}
+			
+			ed.addButton(xen_spoiler, spoilerConfig);
+			ed.addMenuItem(xen_spoiler, $.extend({},
+				spoilerConfig, {
+					text: "Spoiler",
+					tooltip: false,
+					context: 'insert'
+				})
+			);		
+		}
+	});
+
+	/***
+	*	XenForo Full editor Toggler
+	*	Independent plugin
+	***/
+	tinymce.create(xenPlugin+'.XenToggleMenu', {
+		XenToggleMenu: function(parent, ed) 
+		{
+      			var self = this,
+      				toggleMenu = 'togglemenu',
+      				showText = "Show full editor",
+      				toggleMenuConfig;
+
+			ed.on('init', function(e) {
+				if(parent.getParam('tglMenuCollasped') == true && ed.getParam('menubar')){
+					var tb = parent.getToolbars();
+					tb.hide();
+      					cssFix();
+				}
+			});
+
+      			var cssFix = function(){
+      				var $menubar = parent.getMenubar(),
+	      				tb = parent.getToolbars();
+
+     				if(tb.visible()){
+					 $menubar.css('borderWidth', '0 0 1px'); //To do: improve this
+      				}else{
+					 $menubar.css('borderWidth', 0);
+      				}	      			
+      			}
+      			
+      			var toggleAction = function(e){
+      				var self = this, tb = parent.getToolbars();
+      					
+      				if(tb.visible()){
+      					tb.hide();
+      				}else{
+      					tb.show();
+      				}
+
+				self.active(tb.visible());
+				cssFix();
+      			};
+
+			var xenFulleditor = function(display){
+				var tb = parent.getToolbars();
+				
+				if(display || display === undefined){
+					tb.show();
+				}else{
+					tb.hide();
+				}
+				cssFix();
+			}
+
+      			toggleMenuConfig = {
+      				name: toggleMenu,
+      				selectable: true,
+      				onClick: toggleAction,
+      				text: showText,
+      				context: 'view',
+      				onPostRender: function(e){
+      					var self = this;
+
+      					function direct(){
+      						var tb = parent.getToolbars();
+      						self.disabled((tb.length == 0));
+	      					self.active(tb.visible());
+	      				}
+	      				
+	      				direct();
+      					
+					self.parent().on('show', function() {
+						if(parent.isFullscreen()){
+							self.disabled(true)
+						}else{
+							direct();
+						}
+					});
+      				}
+      			};
+
+			ed.addMenuItem(toggleMenu, toggleMenuConfig);
+			ed.addCommand('xenFullEditor', xenFulleditor);
+			
+			ed.on('FullscreenStateChanged', function(e){
+				ed.execCommand('xenFullEditor', true);//e.state				
+			});
+		}
+	});
+	
+	/***
 	*	XenForo Icons
 	*	Independent plugin - Must be at the last of this file (reason - bug:#6543)
 	***/
 	tinymce.create(xenPlugin+'.XenIcons', {
-		XenIcons: function(parent) 
+		XenIcons: function(parent, ed) 
 		{
-			var ed = parent.getEditor(), p = xenMCE.Phrases;
+			var each = tinymce.each, xenforo = 'xenforo';
 
 			//2013-12-05: still needs to use BeforeRenderUI here
 			ed.on('BeforeRenderUI', function(e) {
-				/*Delete items from menu if the button is not there*/
-				function deleteMenuItem(item){
+				/*Delete items from Context menu if the button is not there*/
+				var deleteContextMenuItem = function(item){
 					if(ed.menuItems[item] !== undefined)
 						delete ed.menuItems[item];
 				}
 
 				if(!parent.isActiveButton('xen_link')){
-					deleteMenuItem('xen_link');
+					deleteContextMenuItem('xen_link');
 				}
 
 				if(!parent.isActiveButton('table')){
 					var menuToDelete = ['inserttable', 'xen_tableskin', 'cell', 'row', 'column', 'deletetable'];
-					tinymce.each(menuToDelete, function(v){
-						deleteMenuItem(v);
+					each(menuToDelete, function(v){
+						deleteContextMenuItem(v);
 					});
 				}
 			});
 
 			/* Auto translate tooltips based on suffix _desc*/
-      			tinymce.each(ed.buttons, function(v, k){
+      			each(ed.buttons, function(v, k){
       				var key_desc = k+'_desc';
 
       				if(!XenForo.isTouchBrowser()){
-      					if(p[key_desc] !== undefined){
-      						ed.buttons[k].tooltip = p[key_desc];
+      					var autoTranslate = parent.getPhrase(key_desc);
+      					if(autoTranslate.length){
+      						ed.buttons[k].tooltip = autoTranslate;
       					}
       				}else{
       					//Tooltip are annoying on Touch devices - let's delete them
@@ -2649,9 +3127,30 @@
 			}
 
 			ed.on('init', function(e) {
-				$buttons = parent.getButtonsByProperty('iconset', 'xenforo', true);
-				$buttons.find('i.mce-ico').addClass('mce-xenforo-icons');
+				/**
+				 * Add XenForo Class to Icons with XenForo xenset
+				 **/
+			
+					//Add to icons from icons bar
+					var $buttons = parent.getButtonsByProperty('iconset', xenforo, true);
+					parent.addIconClass($buttons, xenforo);
 
+					//Add to icons from menu bar
+					var menus = ed.theme.panel.find('menubar menubutton');
+					each(menus, function(v, k){
+						v.on('show', function(e){
+							var menuItems = e.control.find('menuitem');
+							each(menuItems, function(menuItem){
+								if(menuItem.settings != undefined && menuItem.settings.iconset == xenforo){
+									parent.addIconClass($(menuItem.getEl()), xenforo);
+								}
+							});
+						});
+					});
+					
+				/**
+				 * Hide status bar
+				 **/
 				var statBar = ed.theme.panel.find('#statusbar');
 
 				if(statBar && statBar.length > 0)

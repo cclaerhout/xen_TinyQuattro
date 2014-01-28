@@ -103,7 +103,15 @@ class Sedo_TinyQuattro_Installer
 				'superscript' => array(226, 226, 2, 1, 'tinymce')
 			);
 			self::insertButtons($newButtons, 'default');
-		}		
+		}
+
+		if(empty($addon) || $addon['version_id'] < 50)
+		{
+			$newButtons = array(
+				'xen_spoiler' => array(320, 320, 2, 0, 'xenforo')
+			);
+			self::insertButtons($newButtons, 'default');
+		}				
 	}
 
 	public static function insertButtons(array $buttons, $category, $reset = false)

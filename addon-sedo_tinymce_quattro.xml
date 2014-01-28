@@ -1,9 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.0.1" version_id="49" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.1.0" version_id="50" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
   <admin_templates>
+    <template title="option_quattro_force_button"><![CDATA[<xen:require js="js/sedo/tinyquattro/admin/adminTools.js" />
+
+<xen:require css="option_quattro_force_button.css" />
+<xen:require css="tiny_quattro_buttons_admin.css" />
+
+
+<style type="text/css">
+	<xen:foreach loop="$formatParams.bbmButtons" value="$button">
+		<xen:if is="{$button.button_font} != 'text'">
+			.mce-i-{$button.button_name}:before	{ content: "\{$button.extra.icon}"; }
+		</xen:if>
+	</xen:foreach>
+</style>
+
+<xen:controlunit label="{$preparedOption.title}" hint="{$preparedOption.hint}">
+	<xen:explain>{xen:raw $preparedOption.explain}</xen:explain>
+	<xen:html>
+	<div id="quattro_force_button">
+		<p class="buttons_trigger Toggler" data-target=".buttons_wrapper">{xen:phrase sedo_quattro_display_option}</p>
+		<div class="buttons_wrapper">
+			<p class="buttons_title">{xen:phrase sedo_quattro_default_buttons}</p>
+			<ul>
+				<xen:foreach loop="$formatParams.buttons" value="$button">
+				<li><label for="ctrl_optionsquattro_menubar_force_buttons_{$button.value}">
+					{xen:raw $button.templateCode}
+					<input type="checkbox" 
+						id="ctrl_optionsquattro_menubar_force_buttons_{$button.value}" 
+						class="button_name"
+						value="{$button.value}"
+						name="options[quattro_menubar_force_buttons][]"
+						{xen:if '{$button.selected}', 'checked'}
+					/> <span class="button_name">{$button.label}</span></label>
+				</li>
+				</xen:foreach>
+			</ul>
+	
+			<xen:if is="{$formatParams.bbmButtons}">
+				<p class="buttons_title">{xen:phrase sedo_quattro_default_bbmbuttons}</p>
+				<ul>
+					<xen:foreach loop="$formatParams.bbmButtons" value="$button">
+					<li><label for="ctrl_optionsquattro_menubar_force_buttons_{$button.value}">
+						{xen:raw $button.templateCode}
+						<input type="checkbox" 
+							id="ctrl_optionsquattro_menubar_force_buttons_{$button.value}"
+							class="button_name" 
+							value="{$button.value}"
+							name="options[quattro_menubar_force_buttons][]"
+							{xen:if '{$button.selected}', 'checked'}
+						/> <span class="button_name">{$button.label}</span></label>
+					</li>
+					</xen:foreach>	
+				</ul>
+			</xen:if>
+		</div>
+		
+		<input type="hidden" name="{$listedFieldName}" value="{$preparedOption.option_id}" />
+		{xen:raw $editLink}
+	</div>
+	</xen:html>
+</xen:controlunit>]]></template>
+    <template title="option_quattro_force_button.css"><![CDATA[#quattro_force_button .buttons_wrapper .buttons_title{
+	font-size: 12pt;
+	font-weight: 600;
+	padding: 5px 0;
+	text-align: center;
+}
+
+#quattro_force_button .buttons_wrapper li{
+	display: inline-block;
+	padding: 4px;
+}
+
+
+#quattro_force_button .button_item{
+	display: block;
+	padding: 5px;
+	border: 1px dotted grey;
+	cursor: pointer;
+}
+
+#quattro_force_button .button_item.font{
+	font-size: 12pt;
+}
+
+#quattro_force_button .button_item.active{
+	background-color:orange;
+}
+
+#quattro_force_button .buttons_trigger{
+	cursor: pointer;
+}
+
+#quattro_force_button .buttons_trigger:hover{
+	color: orange;
+}]]></template>
     <template title="quattro_option_list_smiley_manager_categories"><![CDATA[<xen:if is="!{$xenCache.smilieCategories}">
 	<xen:selectunit label="{$preparedOption.title}" name="{$fieldPrefix}[{$preparedOption.option_id}]" value="{$preparedOption.option_value}"
 		hint="{$preparedOption.hint}" inputclass="{$preparedOption.inputClass}">
@@ -440,33 +535,112 @@ i.mce-i-backcolor
 .mce-i-xen_switch:before		{ content: "\e01a"; }
 .mce-i-xen_code:before			{ content: "\e000"; }
 .mce-i-xen_quote:before			{ content: "\e009"; }
-.mce-i-xen_smilies_picker:before	{ content: "\e035"; }]]></template>
+.mce-i-xen_smilies_picker:before	{ content: "\e035"; }
+.mce-i-xen_spoiler:before		{ content: "\e02c"; }]]></template>
   </admin_templates>
   <admin_template_modifications/>
   <code_events>
-    <event event_id="tinyquattro_setup"><![CDATA[<p>Called when the TinyMCE extra plugins are initialized.</p>
+    <event event_id="tinyquattro_setup"><![CDATA[<p>Called when TinyMCE is initialized. There's no event hit here.</p>
 
 <p>Callback signature:</p>
-<blockquote><code><em>array</em> &$plugins, <em>array</em> &$mceOptions, <em>array</em> &$mceBtnCss, <em>array</em> $extraValues</code></blockquote>
+<blockquote><code>$mceConfigObj</code></blockquote>
 
 <p>Arguments:</p>
 <ol>
-	<li><code><em>array</em> &$plugins</code> - list of TinyMCE plugins</li>
-	<li><code><em>array</em> &$mceOptions</code> - list of TinyMCE options (init settings & params)</li>
-	<li><code><em>array</em> &$mceBtnCss</code> - Bbm Buttons Css</li>
-	<li><code><em>array</em>  $extraValues</code> -  Extra Values that might be needed to configurate options</li>
+	<li><p><code>$mceConfigObj</code> - TinyMCE Config Object</p>
+		<ul>
+			<li>
+				<p>Object Methods related to plugins</p>
+	
+				<p><ul>
+					<li><code>getMcePlugins()</code> - Get Mce plugins</li>
+					<li><code>hasMcePlugin($pluginName)</code> - Check if a plugin is enabled</li>
+					<li><code>addMcePlugin($pluginName)</code> - Add a plugin</li>
+				</ul></p>
+			</li>
+
+			<li>		
+				<p>Object Methods related to settings</p>
+				<p><ul>
+					<li><code>getMceSettings()</code>  - Get all Mce Settings</li>
+					<li><code>getMceSetting($setting)</code>  - Get one Mce Setting</li>
+					<li><code>overrideMceSettings(array $settings)</code>  - Override all Mce Settings</li>
+					<li><code>setMceSetting($name, $value)</code>  - Set one Mce Setting</li>
+					<li><code>unsetMceSetting($name)</code>  - Unset one Mce Setting</li>
+					<li><code>addBulkMceSettings(array $settings)</code>  - Add several Mce settings from an array</li>
+					<li><code>getMceGrid()</code>  - Get  the Mce Buttons Grid</li>
+					<li><code>overrideMceGrid(array $mceGrid)</code>  - Override the Mce Buttons Grid</li>
+				</ul></p>
+			</li>
+
+			<li>		
+				<p>Object Methods related to params</p>
+				<p><ul>
+					<li><code>getMceParams()</code>  - Get all Mce params</li>
+					<li><code>getMceParam($param)</code>  - Get one Mce param</li>
+					<li><code>overrideMceParams(array $params)</code>  -  Override all Mce params</li>
+					<li><code>setMceParam($param, $value)</code>  -  Set one Mce param</li>	
+					<li><code>unsetMceParam($param)</code>  -  Unset one Mce param</li>
+					<li><code>addBulkMceParams(array $params)</code>  - Add several Mce params from an array</li>
+				</ul></p>
+			</li>		
+
+			<li>
+				<p>Object Methods related to buttons</p>
+				<p><ul>
+					<li><code>buttonIsEnabled($buttonName)</code> - Check if a button is enabled</li>
+					<li><code>getAvailableButtons()</code> - Get available buttons in an array without separator</li>
+					<li><code>addButton($buttonName, $line = 1, $pos = '#end', $openingSeparator = false, $endingSeparator = false, $insertBefore = false)</code> - Add a button at the begin/end of a line or before/after and existed button, with or without an opening/ending separator</li>
+					<li><code>getMceButtonsExtraCss()</code>  - Get Mce Buttons Extra Css</li>
+					<li><code>overrideMceButtonsExtraCss(array $buttonsExtraCss)</code>  - Override all Mce Buttons Extra Css</li>
+					<li><code>addMceButtonExtraCss($buttonCode, $iconCode, $iconSet)</code>  - Add Extra Css for one button</li>	
+					<li><code>deleteButtons(array $buttonsToDelete, array $buttonsToExclude = array(), $bypassForcedButtons = false)</code>  - Delete several buttons from config</li>	
+				</ul></p>
+			</li>
+
+			<li>
+				<p>Object Methods related to Menus</p>
+				<p><ul>
+					<li><code>getMenuOrder()</code> - Get menus order</li>
+					<li><code>overrideMenusOrder($menusOrder)</code> - Override menus order</li>
+					<li><code>getMenuGrids()</code> - Get menus grid</li>
+					<li><code>overrideMenuGrid($menuGrid)</code> - Override menus grid</li>
+					<li><code>hasMenu($menuName)</code> - Check if menu exists</li>
+					<li><code>addMenu($menuName, $pos = '#end', $menuTitle = '', array $menuItems = array(), $bypassAvailableButtons = false, $bypassForcedButtons = false)</code> - Add a menu at the begin/end of the menus grid or before/after and existed menu</li>
+					<li><code>addMenuItem($menuItemName, $menuName, $pos = '#end', $openingSeparator = false, $endingSeparator = false, $insertBefore = false, $bypassForcedButtons = false)</code> - Add a menu item at the begin/end of a menu or before/after and existed menu item from a menu, with or without an opening/ending separator</li>
+					<li><code>&findMenuItem($menuItemName, $menuName, array $commands = array())</code> -Find menu item - value return can be caught by reference</li>
+					<li><code>deleteMenuItem($menuItemName, $menuName,  $deleteOpeningSeparator = false, $deleteClosingSeparator = false)</code> -Delete menu item</li>
+				</ul></p>
+			</li>
+
+			<li>
+				<p>Misc. Object Methods</p>
+				<p><ul>
+					<li><code>getTemplateParams()</code> - Get all template params</li>
+					<li><code>getTemplateParam($param)</code> - Get one template param</li>
+					<li><code>getTemplateObject()</code> - Get the template object</li>
+					<li><code>isMobile()</code> - Check if visitor is using a mobile device</li>
+					<li><code>getEditorId()</code> - Get the editor id</li>
+					<li><code>isCustomFieldsEditor($outputViewNameIfTrue = false)</code> -  Check if the editor is a custom fields editor</li>
+				</ul></p>
+			</li>
+		<ul>
+	</li>
 </ol>]]></event>
   </code_events>
   <code_event_listeners>
-    <listener event_id="controller_pre_dispatch" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_ControllerPreDispatch" callback_method="Diktat" active="1" hint="" description="Mobile - Inline Edit"/>
-    <listener event_id="editor_setup" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_EditorSetup" callback_method="ExtendOptions" active="1" hint="" description="Extend Editor Template Variables"/>
-    <listener event_id="init_dependencies" execute_order="20" callback_class="Sedo_TinyQuattro_Listener_Init" callback_method="init_helpers" active="1" hint="" description="Load Template Helper"/>
-    <listener event_id="load_class" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_LoadClass" callback_method="Listen" active="1" hint="" description="Load Class: DESC TO DO"/>
-    <listener event_id="load_class_bb_code" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_BbCode" callback_method="listen" active="1" hint="" description="BbCode &gt; Wysiwyg HTML Parser Patch"/>
-    <listener event_id="load_class_controller" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_ControllerPublic" callback_method="listen" active="1" hint="" description="Controller Public Listener"/>
-    <listener event_id="load_class_datawriter" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_Datawriter" callback_method="listen" active="1" hint="" description="Datawriter listener"/>
-    <listener event_id="load_class_view" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_ViewPublic" callback_method="listen" active="1" hint="" description="BbCode &lt;=&gt; Html converter fix"/>
-    <listener event_id="template_create" execute_order="8" callback_class="Sedo_TinyQuattro_Listener_Templates_Preloader" callback_method="preloader" active="1" hint="" description="Template Preloader"/>
+    <listener event_id="controller_pre_dispatch" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="controllerPreDispatch" active="1" hint="" description="Mobile - Inline Edit"/>
+    <listener event_id="editor_setup" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="editorSetup" active="1" hint="" description="Extend Editor Template Variables"/>
+    <listener event_id="init_dependencies" execute_order="20" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="init_helpers" active="1" hint="" description="Load Template Helper"/>
+    <listener event_id="load_class" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="LoadClassRendererBbCode" active="1" hint="XenForo_Html_Renderer_BbCode" description="Extend XenForo_Html_Renderer_BbCode (html=&gt;bbcode)"/>
+    <listener event_id="load_class_bb_code" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="BbCodeWysiwygFormatter" active="1" hint="XenForo_BbCode_Formatter_Wysiwyg" description="Extend Bb Code Wysiwyg Formatter"/>
+    <listener event_id="load_class_bb_code" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="BbCodeBaseFormatter" active="1" hint="XenForo_Html_Renderer_BbCode" description="Extend Bb Code Base Formatter"/>
+    <listener event_id="load_class_controller" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="ControllerPublicEditor" active="1" hint="XenForo_ControllerPublic_Editor" description="Extend Controller Public Editor"/>
+    <listener event_id="load_class_datawriter" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="ExtendDatawriter" active="1" hint="" description="Extend Datawriter"/>
+    <listener event_id="load_class_view" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="ViewPublicEditorToHtml" active="1" hint="XenForo_ViewPublic_Editor_ToHtml" description="Extend XenForo_ViewPublic_Editor_ToHtml"/>
+    <listener event_id="load_class_view" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="ViewPublicEditorToBbCode" active="1" hint="XenForo_ViewPublic_Editor_ToBbCode" description="Extend XenForo_ViewPublic_Editor_ToBbCode"/>
+    <listener event_id="template_create" execute_order="8" callback_class="Sedo_TinyQuattro_Listener_Templates_Preloader" callback_method="EditorPreloader" active="1" hint="editor" description="Editor Template Preloader"/>
+    <listener event_id="template_create" execute_order="8" callback_class="Sedo_TinyQuattro_Listener_Templates_Preloader" callback_method="PageContainerPreloader" active="1" hint="PAGE_CONTAINER" description="PAGE_CONTAINER Template Preloader"/>
   </code_event_listeners>
   <cron/>
   <email_templates/>
@@ -758,7 +932,7 @@ step=5</edit_format_params>
       <default_value>1</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="430"/>
+      <relation group_id="tiny_quattro" display_order="530"/>
     </option>
     <option option_id="quattro_iconsize" edit_format="select" data_type="string" can_backup="1">
       <default_value>normal</default_value>
@@ -766,6 +940,31 @@ step=5</edit_format_params>
 small={xen:phrase sedo_quattro_small}</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="1"/>
+    </option>
+    <option option_id="quattro_menubar" edit_format="radio" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params>0={xen:phrase no}
+1={xen:phrase yes}</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="400"/>
+    </option>
+    <option option_id="quattro_menubar_force_buttons" edit_format="callback" data_type="array" can_backup="1">
+      <default_value>a:0:{}</default_value>
+      <edit_format_params>Sedo_TinyQuattro_Options_XenOptions::render_force_buttons</edit_format_params>
+      <sub_options>*</sub_options>
+      <relation group_id="tiny_quattro" display_order="420"/>
+    </option>
+    <option option_id="quattro_menubar_force_collapsed_cstfield" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="475"/>
+    </option>
+    <option option_id="quattro_menubar_force_cstfield" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="470"/>
     </option>
     <option option_id="quattro_noattach_img" edit_format="onoff" data_type="boolean" can_backup="1">
       <default_value>0</default_value>
@@ -808,7 +1007,7 @@ small={xen:phrase sedo_quattro_small}</edit_format_params>
       <edit_format_params>0={xen:phrase no}
 1={xen:phrase yes}</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="700"/>
+      <relation group_id="tiny_quattro" display_order="2700"/>
     </option>
     <option option_id="quattro_resize_editor" edit_format="select" data_type="string" can_backup="1">
       <default_value>false</default_value>
@@ -822,7 +1021,7 @@ both={xen:phrase yes}
       <default_value>none</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="710"/>
+      <relation group_id="tiny_quattro" display_order="2710"/>
     </option>
     <option option_id="quattro_smilies_desc" edit_format="select" data_type="string" can_backup="1">
       <default_value>full</default_value>
@@ -830,25 +1029,25 @@ both={xen:phrase yes}
 bbcode={xen:phrase sedo_quattro_smilies_desc_bbcode}
 none={xen:phrase sedo_quattro_smilies_desc_none}</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="540"/>
+      <relation group_id="tiny_quattro" display_order="1540"/>
     </option>
     <option option_id="quattro_smilies_sm_addon_enable" edit_format="onoff" data_type="boolean" can_backup="1">
       <default_value>0</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="600"/>
+      <relation group_id="tiny_quattro" display_order="2600"/>
     </option>
     <option option_id="quattro_smilies_sm_addon_menubtn_cat" edit_format="template" data_type="integer" can_backup="1">
       <default_value>-1</default_value>
       <edit_format_params>quattro_option_list_smiley_manager_categories</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="610"/>
+      <relation group_id="tiny_quattro" display_order="2610"/>
     </option>
     <option option_id="quattro_smilies_sm_addon_uncat_bottom" edit_format="onoff" data_type="boolean" can_backup="1">
       <default_value>0</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="660"/>
+      <relation group_id="tiny_quattro" display_order="2660"/>
     </option>
     <option option_id="quattro_smilies_window_type" edit_format="select" data_type="string" can_backup="1">
       <default_value>allinone</default_value>
@@ -856,20 +1055,33 @@ none={xen:phrase sedo_quattro_smilies_desc_none}</edit_format_params>
 slider={xen:phrase quattro_smilies_modal_slider}
 belowbox={xen:phrase quattro_smilies_belowbox}</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="520"/>
+      <relation group_id="tiny_quattro" display_order="1520"/>
     </option>
     <option option_id="quattro_statusbar" edit_format="radio" data_type="boolean" can_backup="1">
       <default_value>1</default_value>
       <edit_format_params>0={xen:phrase no}
 1={xen:phrase yes}</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="400"/>
+      <relation group_id="tiny_quattro" display_order="500"/>
     </option>
     <option option_id="quattro_table_all_editors_activation" edit_format="onoff" data_type="boolean" can_backup="1">
       <default_value>0</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro_bbcodes" display_order="5000"/>
+    </option>
+    <option option_id="quattro_tglMenuCollasped" edit_format="radio" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params>0={xen:phrase no}
+1={xen:phrase yes}</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="455"/>
+    </option>
+    <option option_id="quattro_tglMenuMode" edit_format="spinbox" data_type="integer" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params>step=1</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="450"/>
     </option>
     <option option_id="quattro_usertagging" edit_format="radio" data_type="boolean" can_backup="1">
       <default_value>0</default_value>
@@ -885,7 +1097,7 @@ words={xen:phrase sedo_quattro_wordcount_words}
 char={xen:phrase sedo_quattro_wordcount_characters}
 charwp={xen:phrase sedo_quattro_wordcount_characterswithwhitespaces}</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="420"/>
+      <relation group_id="tiny_quattro" display_order="520"/>
     </option>
     <option option_id="quattro_wysiwyg_quote" edit_format="onoff" data_type="boolean" can_backup="1">
       <default_value>0</default_value>
@@ -919,14 +1131,14 @@ charwp={xen:phrase sedo_quattro_wordcount_characterswithwhitespaces}</edit_forma
       <edit_format_params>min=0
 step=1</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="500"/>
+      <relation group_id="tiny_quattro" display_order="1500"/>
     </option>
     <option option_id="quattro_xsmilies_slide" edit_format="spinbox" data_type="positive_integer" can_backup="1">
       <default_value>20</default_value>
       <edit_format_params>min=0
 step=1</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="530"/>
+      <relation group_id="tiny_quattro" display_order="1530"/>
     </option>
     <option option_id="tinyquattro_guilty_tags" edit_format="textbox" data_type="string" can_backup="1">
       <default_value>left,center,right,b,i,u,s,font,color,size,bcolor,justify</default_value>
@@ -1042,6 +1254,19 @@ This patch is enable by default.]]></phrase>
     <phrase title="option_quattro_hidepath_explain" version_id="0" version_string="1.0"><![CDATA[This will hide the html path inside the status bar.]]></phrase>
     <phrase title="option_quattro_iconsize" version_id="0" version_string="1.0"><![CDATA[Buttons size:]]></phrase>
     <phrase title="option_quattro_iconsize_explain" version_id="0" version_string="1.0"><![CDATA[Select here if the size of your buttons]]></phrase>
+    <phrase title="option_quattro_menubar" version_id="49" version_string="2.0.1"><![CDATA[Menu bar]]></phrase>
+    <phrase title="option_quattro_menubar_explain" version_id="49" version_string="2.0.1"><![CDATA[This option will enable the TinyMCE menu bar. This menu bar will be displayed above your buttons. It's a good way to reduce the number of your buttons.<br />
+<br />
+<b>A few things you have to know about the implementation of this feature in this addon</b><br />
+(1) The menu items are automatically managed (otherwise it might have been too complicated)<br />
+(2) To display a menu item, you just need to position its button inside the toolbar (with the <a href="http://xenforo.com/community/resources/1731/" target="_blank">BbCodes &amp; Buttons Manager</a>). If the button is not there, then the menu will not be there<br />
+(3) The button will be transformed to a menu item and will be automatically delete from the toolbar. If you don't want to delete this button (and then displayed both the menu item and the button, see below, there's an option for this.]]></phrase>
+    <phrase title="option_quattro_menubar_force_buttons" version_id="50" version_string="2.1.0"><![CDATA[Force buttons]]></phrase>
+    <phrase title="option_quattro_menubar_force_buttons_explain" version_id="50" version_string="2.1.0"><![CDATA[Click on a button to prevent it to be deleted from the button bar (see the explanation in the previous option). If a button doesn't have an automatically function to add it to the menu bar then nothing changes: you don't need to click on its button.]]></phrase>
+    <phrase title="option_quattro_menubar_force_collapsed_cstfield" version_id="49" version_string="2.0.1"><![CDATA[Force collasped icons bar with custom fields editor?]]></phrase>
+    <phrase title="option_quattro_menubar_force_collapsed_cstfield_explain" version_id="50" version_string="2.1.0"><![CDATA[The custom fields editors are the one used with the XenForo Resource Manager.]]></phrase>
+    <phrase title="option_quattro_menubar_force_cstfield" version_id="49" version_string="2.0.1"><![CDATA[Force menu bar with custom fields editors?]]></phrase>
+    <phrase title="option_quattro_menubar_force_cstfield_explain" version_id="49" version_string="2.0.1"><![CDATA[]]></phrase>
     <phrase title="option_quattro_noattach_img" version_id="24" version_string="1.5.1"><![CDATA["No Attachment" editors - Force image insertion]]></phrase>
     <phrase title="option_quattro_noattach_img_explain" version_id="24" version_string="1.5.1"><![CDATA[With the last version of the XenForo Resources Manager, it can have several editors on the same page. By default the attachment manager will only allow you to load an image inside the main editor. Other editors have the class "No Attachment" that  prevents them to have any image inserted. With this addon, images can be inserted in all editors by default. But inserted attachments will not be in the "view" so will be displayed as an "attachment" (the image will not display. A solution to bypass this is to insert the link of the image between the Bb Code image. If you want to use this workaround, activate this option.]]></phrase>
     <phrase title="option_quattro_parser_bb_to_wysiwyg" version_id="4" version_string="1.0.4"><![CDATA[Activate the BbCode > Wysiwyg HTML Parser Patch?]]></phrase>
@@ -1095,6 +1320,10 @@ The "<b>Below box</b>" is a smilies box inserted below the editor. This one is o
 One more thing, even if the bbcode is rendered in other editors it doesn't mean there will be special menus to modify your table. These ones will have to be coded or activated. But once activated, this addon "html to bbcode" engine for the table elements should work without any problems.<br />
 <br />
 Default configuration: unchecked.]]></phrase>
+    <phrase title="option_quattro_tglMenuCollasped" version_id="49" version_string="2.0.1"><![CDATA[Full editor - Collasped by default]]></phrase>
+    <phrase title="option_quattro_tglMenuCollasped_explain" version_id="49" version_string="2.0.1"><![CDATA[This will collapse the full editor by default.]]></phrase>
+    <phrase title="option_quattro_tglMenuMode" version_id="49" version_string="2.0.1"><![CDATA[Full editor - Button lines toggler]]></phrase>
+    <phrase title="option_quattro_tglMenuMode_explain" version_id="49" version_string="2.0.1"><![CDATA[When the menu bar is enabled, a new function allows you to toggle the buttons bar. You can select here from which line the full editor will be toggled. For example, if you select 0, then all the buttons bar will be toggled. If you select 1, then the first line will be always visible; all lines after can be toggled. If there's no line after, the function will be greyed out.]]></phrase>
     <phrase title="option_quattro_usertagging" version_id="19" version_string="1.3.1"><![CDATA[XenForo user tagging integration]]></phrase>
     <phrase title="option_quattro_usertagging_explain" version_id="19" version_string="1.3.1"><![CDATA[<b>Requires XenForo 1.2 or above</b> - This option will activate the XenForo tagging functionality with TinyMCE.<br />
 <br />
@@ -1146,10 +1375,15 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="quattro_smilies_belowbox" version_id="34" version_string="1.6.5.0"><![CDATA[Below box]]></phrase>
     <phrase title="quattro_smilies_modal_allinone" version_id="34" version_string="1.6.5.0"><![CDATA[Modal all-in-one]]></phrase>
     <phrase title="quattro_smilies_modal_slider" version_id="34" version_string="1.6.5.0"><![CDATA[Modal slider]]></phrase>
+    <phrase title="sedo_quattro_bbcode_editor" version_id="49" version_string="2.0.1"><![CDATA[Bb Code editor]]></phrase>
     <phrase title="sedo_quattro_characters" version_id="0" version_string="1.0"><![CDATA[Characters: {0}]]></phrase>
     <phrase title="sedo_quattro_color" version_id="0" version_string="1.0"><![CDATA[Selected color]]></phrase>
     <phrase title="sedo_quattro_colorname" version_id="0" version_string="1.0"><![CDATA[Color name]]></phrase>
     <phrase title="sedo_quattro_colors_picker" version_id="0" version_string="1.0"><![CDATA[Colors picker]]></phrase>
+    <phrase title="sedo_quattro_default_bbmbuttons" version_id="50" version_string="2.1.0"><![CDATA[Bbm Buttons]]></phrase>
+    <phrase title="sedo_quattro_default_buttons" version_id="50" version_string="2.1.0"><![CDATA[Default buttons]]></phrase>
+    <phrase title="sedo_quattro_display_option" version_id="50" version_string="2.1.0"><![CDATA[Click to display/hide option]]></phrase>
+    <phrase title="sedo_quattro_edit" version_id="49" version_string="2.0.1"><![CDATA[Edit]]></phrase>
     <phrase title="sedo_quattro_everywhere" version_id="33" version_string="1.6.4.2"><![CDATA[Yes - with Bb Code content]]></phrase>
     <phrase title="sedo_quattro_everywhere_but_bbcodes_content" version_id="33" version_string="1.6.4.2"><![CDATA[Yes - without Bb Code content]]></phrase>
     <phrase title="sedo_quattro_extra_bbcodes_bcolor" version_id="13" version_string="1.1.6"><![CDATA[Background Color BbCode: [bcolor]]]></phrase>
@@ -1162,11 +1396,14 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_find_and_replace" version_id="4" version_string="1.0.4"><![CDATA[Find and replace]]></phrase>
     <phrase title="sedo_quattro_font_family" version_id="0" version_string="1.0"><![CDATA[Font family]]></phrase>
     <phrase title="sedo_quattro_font_size" version_id="0" version_string="1.0"><![CDATA[Font size]]></phrase>
+    <phrase title="sedo_quattro_format" version_id="49" version_string="2.0.1"><![CDATA[Format]]></phrase>
     <phrase title="sedo_quattro_fullscreen" version_id="0" version_string="1.0"><![CDATA[Fullscreen]]></phrase>
     <phrase title="sedo_quattro_full_picker" version_id="0" version_string="1.0"><![CDATA[Full picker]]></phrase>
     <phrase title="sedo_quattro_html" version_id="0" version_string="1.0"><![CDATA[HTML]]></phrase>
+    <phrase title="sedo_quattro_insert" version_id="49" version_string="2.0.1"><![CDATA[Insert]]></phrase>
     <phrase title="sedo_quattro_insert_edit_image" version_id="10" version_string="1.1.3"><![CDATA[Insert edit image]]></phrase>
     <phrase title="sedo_quattro_insert_edit_link" version_id="10" version_string="1.1.3"><![CDATA[Insert edit link]]></phrase>
+    <phrase title="sedo_quattro_insert_spoiler" version_id="49" version_string="2.0.1"><![CDATA[Insert spoiler]]></phrase>
     <phrase title="sedo_quattro_link" version_id="0" version_string="1.0"><![CDATA[Link options]]></phrase>
     <phrase title="sedo_quattro_link_or_mail_edit" version_id="0" version_string="1.0"><![CDATA[Edit your link or email]]></phrase>
     <phrase title="sedo_quattro_link_or_mail_new" version_id="0" version_string="1.0"><![CDATA[Insert a new link or email]]></phrase>
@@ -1180,6 +1417,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_named_picker" version_id="0" version_string="1.0"><![CDATA[Color name picker]]></phrase>
     <phrase title="sedo_quattro_next" version_id="4" version_string="1.0.4"><![CDATA[Next]]></phrase>
     <phrase title="sedo_quattro_nonbreaking" version_id="0" version_string="1.0"><![CDATA[Insert nonbreaking space]]></phrase>
+    <phrase title="sedo_quattro_nonbreakingspace" version_id="49" version_string="2.0.1"><![CDATA[Non-breaking space]]></phrase>
     <phrase title="sedo_quattro_normal" version_id="0" version_string="1.0"><![CDATA[Normal]]></phrase>
     <phrase title="sedo_quattro_palette" version_id="0" version_string="1.0"><![CDATA[Color palette]]></phrase>
     <phrase title="sedo_quattro_pasteastext" version_id="11" version_string="1.1.4"><![CDATA[Paste as text]]></phrase>
@@ -1195,6 +1433,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_restoredraft" version_id="0" version_string="1.0"><![CDATA[Restore last draft]]></phrase>
     <phrase title="sedo_quattro_rgb_picker" version_id="0" version_string="1.0"><![CDATA[RGB picker]]></phrase>
     <phrase title="sedo_quattro_select_background_color" version_id="10" version_string="1.1.3"><![CDATA[Select background color]]></phrase>
+    <phrase title="sedo_quattro_show_full_editor" version_id="49" version_string="2.0.1"><![CDATA[Show full editor]]></phrase>
     <phrase title="sedo_quattro_size" version_id="7" version_string="1.1.0"><![CDATA[Size]]></phrase>
     <phrase title="sedo_quattro_skin1" version_id="17" version_string="1.3.0"><![CDATA[Skin 1]]></phrase>
     <phrase title="sedo_quattro_skin2" version_id="17" version_string="1.3.0"><![CDATA[Skin 2]]></phrase>
@@ -1209,6 +1448,8 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_sm_addon_no_category_found" version_id="33" version_string="1.6.4.2"><![CDATA[No category found]]></phrase>
     <phrase title="sedo_quattro_source_code" version_id="46" version_string="1.8.0"><![CDATA[Source code]]></phrase>
     <phrase title="sedo_quattro_specialcharacters" version_id="0" version_string="1.0"><![CDATA[Special characters]]></phrase>
+    <phrase title="sedo_quattro_spoiler" version_id="49" version_string="2.0.1"><![CDATA[Spoiler]]></phrase>
+    <phrase title="sedo_quattro_spoiler_title" version_id="49" version_string="2.0.1"><![CDATA[Spoiler title]]></phrase>
     <phrase title="sedo_quattro_subscript" version_id="48" version_string="2.0.0"><![CDATA[Subscript]]></phrase>
     <phrase title="sedo_quattro_superscript" version_id="48" version_string="2.0.0"><![CDATA[Superscript]]></phrase>
     <phrase title="sedo_quattro_table" version_id="40" version_string="1.7.0.5"><![CDATA[Table]]></phrase>
@@ -1256,6 +1497,8 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_table_tableproperties" version_id="17" version_string="1.3.0"><![CDATA[Table properties]]></phrase>
     <phrase title="sedo_quattro_table_width" version_id="17" version_string="1.3.0"><![CDATA[Width]]></phrase>
     <phrase title="sedo_quattro_titleismissing" version_id="24" version_string="1.5.1"><![CDATA[Title is missing]]></phrase>
+    <phrase title="sedo_quattro_tools" version_id="49" version_string="2.0.1"><![CDATA[Tools]]></phrase>
+    <phrase title="sedo_quattro_view" version_id="49" version_string="2.0.1"><![CDATA[View]]></phrase>
     <phrase title="sedo_quattro_whole_words" version_id="4" version_string="1.0.4"><![CDATA[Whole words]]></phrase>
     <phrase title="sedo_quattro_wordcount_characters" version_id="0" version_string="1.0"><![CDATA[Yes - count characters]]></phrase>
     <phrase title="sedo_quattro_wordcount_characterswithwhitespaces" version_id="0" version_string="1.0"><![CDATA[Yes - count characters & white space]]></phrase>
@@ -1618,7 +1861,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 		{xen:property quattro_table_skin4_caption}
 	}]]></template>
     <template title="quattro_bbcode_xtable_manual.css" version_id="17" version_string="1.3.0"><![CDATA[<xen:comment>You can edit this template to customize your table layouts</xen:comment>]]></template>
-    <template title="quattro_dialog.css" version_id="33" version_string="1.6.4.2"><![CDATA[.mce-xen-body{
+    <template title="quattro_dialog.css" version_id="50" version_string="2.1.0"><![CDATA[.mce-xen-body{
 	width:100%;
 	height:100%;
 }
@@ -1739,6 +1982,12 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 	cursor: pointer;
 	z-index: 30;
 	height: 26px;
+
+	-moz-user-select: -moz-none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;	
 }
 
 .mce-xen-body .mceSlidesNavig:hover{
@@ -1896,12 +2145,12 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 	width: 98%;
 	height: 95px;
 }]]></template>
-    <template title="quattro_dialog_code" version_id="48" version_string="2.0.0"><![CDATA[<xen:require css="quattro_dialog.css" />
+    <template title="quattro_dialog_code" version_id="50" version_string="2.1.0"><![CDATA[<xen:require css="quattro_dialog.css" />
 <xen:require css="quattro_dialog_code.css" />
 
 <xen:require js="js/sedo/tinyquattro/templates/code.js" />
 
-<div class="mceTitle">{xen:phrase quattro_insert_code}</div>
+<div class="mceTitle FastReload">{xen:phrase quattro_insert_code}</div>
 
 <div id="quattro_code" class="mce-xen-content">
 	<dl class="xenmce_inline">
@@ -1917,7 +2166,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 	<dl>
 		<dt>{xen:phrase code}:</dt>
 		<dd>
-			<textarea id="quattro_code_input" name="code" class="mce-textbox mceFocus">{$selection.text}</textarea>
+			<textarea id="quattro_code_input" name="code" class="mce-textbox MceReset MceSelec mceFocus">{$selection.text}</textarea>
 		</dd>
 	</dl>
 </div>]]></template>
@@ -1926,11 +2175,11 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 	width: 98%;
 	height: 185px;
 }]]></template>
-    <template title="quattro_dialog_colors" version_id="33" version_string="1.6.4.2"><![CDATA[<xen:require js="js/sedo/tinyquattro/templates/color_picker.js" />
+    <template title="quattro_dialog_colors" version_id="50" version_string="2.1.0"><![CDATA[<xen:require js="js/sedo/tinyquattro/templates/color_picker.js" />
 <xen:require css="quattro_dialog.css" />
 <xen:require css="quattro_dialog_colors.css" />
 
-<div class="mceTitle" data-height="280">{xen:phrase sedo_quattro_colors_picker}</div>
+<div class="mceTitle FastReload" data-height="280">{xen:phrase sedo_quattro_colors_picker}</div>
 	
 <div class="mceTabs">
 	<a id="picker_colors_tab">{xen:phrase sedo_quattro_full_picker}</a>
@@ -2063,11 +2312,11 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 	width: 85%;
 	height: 150px;
 }]]></template>
-    <template title="quattro_dialog_image" version_id="33" version_string="1.6.4.2"><![CDATA[<xen:require css="quattro_dialog.css" />
+    <template title="quattro_dialog_image" version_id="50" version_string="2.1.0"><![CDATA[<xen:require css="quattro_dialog.css" />
 <xen:require css="quattro_dialog_image.css" />
 <xen:require js="js/sedo/tinyquattro/templates/image.js" />
 
-<div class="mceTitle">{xen:phrase quattro_insert_image}</div>
+<div class="mceTitle FastReload">{xen:phrase quattro_insert_image}</div>
 
 <div id="quattro_image" class="mce-xen-content">
 	<dl>
@@ -2075,7 +2324,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 		<dd><input 	id="ctrl_url"
 				name="url"
 				type="text"
-				class="mce-textbox mceFocus"
+				class="mce-textbox MceReset MceLink mceFocus"
 				value="{$urlDatas.href}" 
 			/>
 		</dd>
@@ -2084,11 +2333,11 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <template title="quattro_dialog_image.css" version_id="33" version_string="1.6.4.2"><![CDATA[.mce-xen-body #quattro_image dd input{
 	width: 95%;
 }]]></template>
-    <template title="quattro_dialog_link" version_id="33" version_string="1.6.4.2"><![CDATA[<xen:require css="quattro_dialog.css" />
+    <template title="quattro_dialog_link" version_id="50" version_string="2.1.0"><![CDATA[<xen:require css="quattro_dialog.css" />
 <xen:require css="quattro_dialog_link.css" />
 <xen:require js="js/sedo/tinyquattro/templates/link.js" />
 
-<div class="mceTitle">{xen:if '{$isLink}', '{xen:phrase sedo_quattro_link_or_mail_edit}', '{xen:phrase sedo_quattro_link_or_mail_new}' }</div>
+<div class="mceTitle FastReload">{xen:if '{$isLink}', '{xen:phrase sedo_quattro_link_or_mail_edit}', '{xen:phrase sedo_quattro_link_or_mail_new}' }</div>
 
 <div class="mceTabs">
 	<div id="xentabs_url">{xen:phrase sedo_quattro_link}</div>
@@ -2102,7 +2351,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 			<dd><input 	id="ctrl_url_link"
 					name="ctrlUrlLink"
 					type="text"
-					class="mce-textbox {xen:if '{$isLink} OR !{$isUrl}', 'mceFocus'}"
+					class="mce-textbox MceReset MceLink {xen:if '{$isLink} OR !{$isUrl}', 'mceFocus'}"
 					{xen:if '{$isLink} && {$urlDatas.href}', 'value="{$urlDatas.href}"'} 
 				/>
 			</dd>
@@ -2112,7 +2361,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 			<dd><input	id="ctrl_url_text"
 					name="ctrlUrlText"
 					type="text"
-					class="mce-textbox"
+					class="mce-textbox MceReset MceLinkText MceSelec"
 					{xen:if '{$isLink} && {$urlDatas.text}', 'value="{$urlDatas.text}"'}
 					{xen:if '!{$isUrl} && {$selection.text}', 'value="{$selection.text}"'}
 				/>
@@ -2126,7 +2375,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 			<dd><input 	id="ctrl_mail_link"
 					name="ctrlMailLink"
 					type="text"
-					class="mce-textbox {xen:if '{$isEmail}', 'mceFocus'}"
+					class="mce-textbox {xen:if '{$isEmail}', 'mceFocus'} MceReset MceEmail"
 					{xen:if '{$isEmail} && {$urlDatas.href}', 'value="{$urlDatas.href}"'}
 				/>
 			</dd>
@@ -2136,7 +2385,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 			<dd><input 	id="ctrl_mail_text"
 					name="ctrlMailText"
 					type="text"
-					class="mce-textbox" {xen:if '{$isEmail} && {$urlDatas.text}', 'value="{$urlDatas.text}"'}
+					class="mce-textbox MceReset MceEmailText" {xen:if '{$isEmail} && {$urlDatas.text}', 'value="{$urlDatas.text}"'}
 				/>
 			</dd>
 		</dl>
@@ -2154,11 +2403,11 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 .mce-xen-body.responsive #xenlink dd input{
 	width:auto;
 }]]></template>
-    <template title="quattro_dialog_media" version_id="33" version_string="1.6.4.2"><![CDATA[<xen:require css="quattro_dialog.css" />
+    <template title="quattro_dialog_media" version_id="50" version_string="2.1.0"><![CDATA[<xen:require css="quattro_dialog.css" />
 <xen:require css="quattro_dialog_media.css" />
 <xen:require js="js/sedo/tinyquattro/templates/media.js" />
 
-<div class="mceTitle">{xen:phrase quattro_embed_media}</div>
+<div class="mceTitle FastReload">{xen:phrase quattro_embed_media}</div>
 
 <div id="quattro_media" class="mce-xen-content">
 	<dl>
@@ -2166,7 +2415,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 		<dd><input 	id="ctrl_url"
 				name="url"
 				type="text"
-				class="mce-textbox mceFocus"
+				class="mce-textbox MceReset MceLink mceFocus"
 				{xen:if '{$isLink}', 'value="{$urlDatas.href}"'} 
 			/>
 		</dd>
@@ -2192,14 +2441,14 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 	overflow-y: auto;
 	margin-left:8px;
 }]]></template>
-    <template title="quattro_dialog_smilies_slider" version_id="33" version_string="1.6.4.2"><![CDATA[<xen:require js="js/sedo/tinyquattro/extra/jqt_slider.js" />
+    <template title="quattro_dialog_smilies_slider" version_id="50" version_string="2.1.0"><![CDATA[<xen:require js="js/sedo/tinyquattro/extra/jqt_slider.js" />
 <xen:require js="js/sedo/tinyquattro/templates/smilies_slider.js" />
 
 <xen:require css="quattro_dialog.css" />
 <xen:require css="tiny_quattro_smilies.css" />
 <xen:require css="quattro_dialog_smilies_slider.css" />
 
-<div class="mceTitle">{xen:phrase sedo_quattro_smiliespicker}</div>
+<div class="mceTitle FastReload">{xen:phrase sedo_quattro_smiliespicker}</div>
 
 <xen:if is="!{$smiliesHaveCategories}">
 	<div class="mceSlides disableXenBodyOverflow" data-diff="65">
@@ -4613,7 +4862,7 @@ blockquote.mce_quote {
 		</xen:if>
 	</xen:foreach>
 </xen:if>]]></template>
-    <template title="tiny_quattro_js_setup" version_id="47" version_string="1.8.0.1"><![CDATA[<xen:comment>Load Quattro Integration JS files for 1.2</xen:comment>
+    <template title="tiny_quattro_js_setup" version_id="49" version_string="2.0.1"><![CDATA[<xen:comment>Load Quattro Integration JS files for 1.2</xen:comment>
 <xen:if is="{$quattroIntegration}"><xen:require js="js/sedo/tinyquattro/integration/retro_quickreply.js" /></xen:if>
 
 <xen:comment>Load MCE4 main JS</xen:comment>
@@ -4628,17 +4877,15 @@ blockquote.mce_quote {
 <xen:comment>MCE Configuration</xen:comment>
 <script><xen:hook name="quattro_js_setup" params="{xen:array 'editorId={$editorId}'}">
 	if(typeof xenMCE === 'undefined') xenMCE = {};
-	xenMCE.defaultConfig = {xen:raw $mceConfig.settings};
-	xenMCE.Params = {xen:raw $mceConfig.params};
 	xenMCE.Phrases = {<xen:include template="tiny_quattro_phrases" />}
 </xen:hook></script>
 
 <xen:edithint template="tiny_quattro_iframe.css" />
 <xen:edithint template="tiny_quattro_framework.css" />]]></template>
-    <template title="tiny_quattro_phrases" version_id="48" version_string="2.0.0"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_phrases" version_id="50" version_string="2.1.0"><![CDATA[<xen:comment>
 	We are inside a JavaScript file. All phrases must be escaped
 </xen:comment>
-
+	<xen:comment>xenphrases</xen:comment>
 	fullscreen: "{xen:jsescape {xen:phrase sedo_quattro_fullscreen}}",
 	notitle: "{xen:jsescape {xen:phrase sedo_quattro_titleismissing}}",
 	more_colors: "{xen:jsescape {xen:phrase sedo_quattro_more_colors}}",
@@ -4753,6 +5000,21 @@ blockquote.mce_quote {
 		"Paste as text": "{xen:jsescape {xen:phrase sedo_quattro_pasteastext}}",
 		"Please use Ctrl+V/Cmd+V keyboard shortcuts to paste contents.": "{xen:jsescape {xen:phrase sedo_quattro_paste_alert_message}}",
 		"Paste is now in plain text mode. Contents will now be pasted as plain text until you toggle this option off.": "{xen:jsescape {xen:phrase sedo_quattro_paste_plain_alert_message}}",
+		"Image": "{xen:jsescape {xen:phrase image}}",
+		"Link": "{xen:jsescape {xen:phrase link}}",
+		"Unlink": "{xen:jsescape {xen:phrase unlink}}",
+		"Bb Code editor": "{xen:jsescape {xen:phrase sedo_quattro_bbcode_editor}}",
+		"Spoiler Title": "{xen:jsescape {xen:phrase sedo_quattro_spoiler_title}}",
+		"Insert spoiler": "{xen:jsescape {xen:phrase sedo_quattro_insert_spoiler}}",
+		"Spoiler": "{xen:jsescape {xen:phrase sedo_quattro_spoiler}}",
+		"Smilies": "{xen:jsescape {xen:phrase smilies}}",
+		"View": "{xen:jsescape {xen:phrase sedo_quattro_view}}",
+		"Tools": "{xen:jsescape {xen:phrase sedo_quattro_tools}}",
+		"Insert": "{xen:jsescape {xen:phrase sedo_quattro_insert}}",
+		"Edit": "{xen:jsescape {xen:phrase sedo_quattro_edit}}",
+		"Format": "{xen:jsescape {xen:phrase sedo_quattro_format}}",
+		"Show full editor": "{xen:jsescape {xen:phrase sedo_quattro_show_full_editor}}",
+		"Non-breaking space": "{xen:jsescape {xen:phrase sedo_quattro_nonbreakingspace}}",
 		"Close": "{xen:jsescape {xen:phrase close}}",
 		"Find": "{xen:jsescape {xen:phrase sedo_quattro_find}}",
 		"Find and replace": "{xen:jsescape {xen:phrase sedo_quattro_find_and_replace}}",
@@ -4778,7 +5040,7 @@ blockquote.mce_quote {
 </xen:if>
 
 ]]></template>
-    <template title="tiny_quattro_xenbuttons.css" version_id="42" version_string="1.7.1.0"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_xenbuttons.css" version_id="49" version_string="2.0.1"><![CDATA[<xen:comment>
 	Buttons - XenForo config
 </xen:comment>
 
@@ -4828,8 +5090,9 @@ blockquote.mce_quote {
 .mce-i-xen_smilies_picker:before	{ content: "\e035"; }
 .mce-i-xen_fontfamily:before		{ content: "\e447"; }
 .mce-i-xen_fontsize:before		{ content: "\e448"; }
+.mce-i-xen_spoiler:before		{ content: "\e02c"; }
 ]]></template>
-    <template title="tiny_quattro_xenbuttons_ie7.css" version_id="42" version_string="1.7.1.0"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_xenbuttons_ie7.css" version_id="49" version_string="2.0.1"><![CDATA[<xen:comment>
 	Buttons - XenForo config
 </xen:comment>
 
@@ -4877,10 +5140,18 @@ blockquote.mce_quote {
 .mce-i-xen_quote:before			{ -ie7-icon: "\e009"; }
 .mce-i-xen_smilies_picker:before	{ -ie7-icon: "\e035"; }
 .mce-i-xen_fontfamily:before		{ -ie7-icon: "\e447"; }
-.mce-i-xen_fontsize:before		{ -ie7-icon: "\e448"; }]]></template>
+.mce-i-xen_fontsize:before		{ -ie7-icon: "\e448"; }
+.mce-i-xen_spoiler:before		{ -ie7-icon: "\e02c"; }]]></template>
   </templates>
   <public_template_modifications>
-    <modification template="editor" modification_key="quattro_editor" description="Quattro Editor Loader" execution_order="20" enabled="1" action="str_replace">
+    <modification template="page_container_js_head" modification_key="quattro_editor_integration_post_redactor" description="Reintegration of TinyMCE in XenForo functions" execution_order="10" enabled="1" action="preg_replace">
+      <find><![CDATA[#<!--XenForo_Require:JS-->#i]]></find>
+      <replace><![CDATA[$0
+<xen:if is="{$quattroIntegration}">
+	<script src="{xen:helper javaScriptUrl, '{$javaScriptSource}/sedo/tinyquattro/integration/retro_header.js?_v={$xenOptions.jsVersion}'}"></script>
+</xen:if>]]></replace>
+    </modification>
+    <modification template="editor" modification_key="quattro_editor_js" description="Quattro Editor Loader JS" execution_order="20" enabled="1" action="str_replace">
       <find><![CDATA[<xen:include template="editor_js_setup" />]]></find>
       <replace><![CDATA[<xen:if is="{$loadQuattro}">
 		<xen:include template="tiny_quattro_js_setup" />
@@ -4888,12 +5159,9 @@ blockquote.mce_quote {
 		<xen:include template="editor_js_setup" />
 </xen:if>]]></replace>
     </modification>
-    <modification template="page_container_js_head" modification_key="quattro_editor_integration_post_redactor" description="Reintegration of TinyMCE in XenForo functions" execution_order="10" enabled="1" action="preg_replace">
-      <find><![CDATA[#<!--XenForo_Require:JS-->#i]]></find>
-      <replace><![CDATA[$0
-<xen:if is="{$quattroIntegration}">
-	<script src="{xen:helper javaScriptUrl, '{$javaScriptSource}/sedo/tinyquattro/integration/retro_header.js?_v={$xenOptions.jsVersion}'}"></script>
-</xen:if>]]></replace>
+    <modification template="editor" modification_key="quattro_editor_settings" description="Quattro Editor Loader Settings" execution_order="10" enabled="1" action="str_replace">
+      <find><![CDATA[>{$messageHtml}]]></find>
+      <replace><![CDATA[{xen:if '{$mceConfig} AND {$loadQuattro}', ' data-quattro="{xen:escape {xen:helper json, $mceConfig}}"'}$0]]></replace>
     </modification>
     <modification template="account_preferences" modification_key="quattro_editor_user_preferences" description="RTE Quattro Mobile Option" execution_order="10" enabled="1" action="preg_replace">
       <find><![CDATA[#([ \t]*)<li>.+?ctrl_enable_rte(?s).+?</li>#i]]></find>
@@ -4948,6 +5216,10 @@ $0]]></replace_value>
     <modification title="quattro_oldxen_integration_class" template_title="editor" execute_order="10" modification_type="preg_replace" callback_class="" callback_method="" description="Adds a class to the editor container to integrate MCE4" version_id="35" version_string="1.7.0" active="1">
       <search_value><![CDATA[#<textarea[^>]+?name="{\$formCtrlNameHtml}"[^>]+?id="{\$editorId}_html"[^>]+?class="[^"]+?(?=")#]]></search_value>
       <replace_value><![CDATA[$0 BbCodeWysiwygEditor]]></replace_value>
+    </modification>
+    <modification title="quattro_editor_settings" template_title="editor" execute_order="10" modification_type="str_replace" callback_class="" callback_method="" description="Quattro Editor Loader Settings"  version_id="50" version_string="2.1.0" active="1" >
+      <search_value><![CDATA[>{$messageHtml}]]></search_value>
+      <replace_value><![CDATA[{xen:if '{$mceConfig} AND {$loadQuattro}', ' data-quattro="{xen:escape {xen:helper json, $mceConfig}}"'}>{$messageHtml}]]></replace_value>
     </modification>
   </template_modifications> 
 </addon>

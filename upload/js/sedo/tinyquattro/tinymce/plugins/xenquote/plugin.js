@@ -1,7 +1,6 @@
 (function($, window, document, undefined) {
 	tinymce.PluginManager.add('xenquote', function(ed) {
 		var tools = xenMCE.Lib.getTools(),
-			phrases = xenMCE.Phrases,
 			dataQuote = 'data-mcequote',
 			quoteRegexNoParser = /\[quote(?:=(.*?))?\]([\s\S]*?)\[\/quote\]/g,
 			quoteRegexWithParser = /^<blockquote.*?data-mcequote[\s\S]*?<\/blockquote>$/,
@@ -132,7 +131,7 @@
 					fields.push({
 						type: 'textbox',
 						name: name,
-						label: phrases.field+' "'+name+'"',
+						label: tools.getPhrase('field')+' "'+name+'"',
 						value: value || ''
 					});
 					
@@ -152,35 +151,40 @@
 			});
 		}
 
-		ed.addButton(n, {
+		var quoteConfig = {
 			name: n,
 			icon: n,
 			iconset: 'xenforo',
 			type: 'splitbutton',
-			menu: [	{ value: 'setProperties', text: 'Quote properties' } ],
+			menu: [	{ 
+				value: 'setProperties',
+				text: 'Quote properties',
+				onclick: function(e) {
+					e.stopPropagation();
+					var blockquote = getBlockQuotes(dataQuote);
+					
+					if(!blockquote) {
+						return false;
+					}
+	
+					var ctrl = e.control,
+						cmd = e.control._value,
+						dom = ed.dom,
+						otherAttribs = dom.getAttribs(blockquote),
+						username = dom.getAttrib(blockquote, 'data-username');
+						
+					if(cmd == 'setProperties'){
+						modal(blockquote, username, otherAttribs, dom);
+					}
+				}
+			} ],
 			onshow: function(e) {
 				$('.mce-tooltip:visible').hide();
 				var blockquote = getBlockQuotes(dataQuote);
 				this.menu._items.disabled(!(blockquote));
 			},
-			onselect: function(e) {
-				var blockquote = getBlockQuotes(dataQuote);
-				
-				if(!blockquote) {
-					return false;
-				}
-
-				var ctrl = e.control,
-					cmd = e.control._value,
-					dom = ed.dom,
-					otherAttribs = dom.getAttribs(blockquote),
-					username = dom.getAttrib(blockquote, 'data-username');
-					
-				if(cmd == 'setProperties'){
-					modal(blockquote, username, otherAttribs, dom);
-				}
-			},
 			onclick: function(e){
+				e.stopPropagation();
 				ed.execCommand('mceBlockQuote');
 
 				var blockquote = getBlockQuotes(), dom = ed.dom;
@@ -209,6 +213,14 @@
 					});
 				}
 			}
-		});
+		};
+
+		ed.addButton(n, quoteConfig);
+		ed.addMenuItem(n, $.extend({},
+			quoteConfig, {
+				text: "Quote",
+				type: 'menuitem'
+			})
+		);
 	});
 })(jQuery, this, document);

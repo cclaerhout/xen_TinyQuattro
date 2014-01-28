@@ -2,10 +2,11 @@ xenMCE.Templates.Link = {
 	submit: function(e, $ovl, ed, src)
 	{
 		//Type 0: none, Type 1: link, Type 2: mail
-		var data = e.data, dom = ed.dom, type = 0, href, text,
-		orginalSel = xenMCE.Lib.overlay.getSelection(),
-		initialText = orginalSel.url.text,
-		anchorElm = orginalSel.url.anchorElm;
+		var data = e.data, 
+			dom = ed.dom, type = 0, href, text,
+			orginalSel = xenMCE.Lib.overlay.getSelection(),
+			initialText = orginalSel.url.text,
+			anchorElm = orginalSel.url.anchorElm;
 
 		if(orginalSel.isEmail)
 			initialText = initialText.replace(/mailto:/i, '');
@@ -69,5 +70,12 @@ xenMCE.Templates.Link = {
 		}
 
 		insertLink();
+	},
+	onfastreload: function($overlay, data, editor, parentClass)
+	{
+		var target = (data.isEmail) ? 1 : 0,
+			$tabs = $overlay.find('.mceTabs').children();
+
+		$tabs.eq(target).trigger('click');
 	}
 }

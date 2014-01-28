@@ -1,5 +1,6 @@
 tinymce.PluginManager.add('xenquoteme', function(ed) {
-	var quoteme = 'quoteme',
+	var tools = xenMCE.Lib.getTools(),
+		quoteme = 'quoteme',
 		$toggleMeMenu = $('#toggleMeMenu'),
 		self = this;
 		
@@ -17,7 +18,10 @@ tinymce.PluginManager.add('xenquoteme', function(ed) {
 		this.active($toggleMeMenu.hasClass('on'));
 		
 		if(self.firstInit){
-			//ed.windowManager.alert('test');
+			var alertQM = tools.getPhrase('quoteme_alert');
+			if(alert.length){
+				ed.windowManager.alert(alertQM);
+			}
 			self.firstInit = false;
 		}
 	}
@@ -35,11 +39,23 @@ tinymce.PluginManager.add('xenquoteme', function(ed) {
 		 });
 	}
 
-	ed.addButton('quoteme', {
+	var quotemeConfig = {
 		name: quoteme,
 		icon: quoteme,
 		onclick: onClick,
 		onPostRender: extBtnState,
 		xenfright: true
-	});
+	};
+
+	ed.addButton(quoteme, quotemeConfig);
+
+	ed.addMenuItem(quoteme, $.extend({},
+		quotemeConfig, {
+			text: "Fast quotes",
+			xenfright: false,
+			onPostRender: function(e){
+				$.extend(e.control.settings, ed.buttons[quoteme]);
+			}
+		})
+	);
 });

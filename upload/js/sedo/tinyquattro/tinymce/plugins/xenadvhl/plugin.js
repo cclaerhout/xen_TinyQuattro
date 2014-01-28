@@ -1,6 +1,9 @@
 tinymce.PluginManager.add('xenadvhl', function(ed) {
 	/*Framework variables*/
-	var self = this, settings = xenMCE.Params;
+	
+	var self = this, 
+		tools = xenMCE.Lib.getTools();
+		
 	self.adv_hl_active = false;
 
 	/*Global variables*/
@@ -13,25 +16,31 @@ tinymce.PluginManager.add('xenadvhl', function(ed) {
 	pattern.special = 	/(\{([^\/]+?)(?:=.+?)?\})(?!<\/span>)((?:\{\2(?:=.+?)?\}(?:\{\2(?:=.+?)?\}[\s\S]*?\{\/\2\}|[\s\S])+?\{\/\2\}|[\s\S])*?)(\{\/\2\})/gi;		      	
 
 	/*Highlighting colors*/
-	var	adv_hl_norm_open = settings.adv_hl_norm.open,
-		adv_hl_norm_options = settings.adv_hl_norm.options,
-		adv_hl_norm_close = settings.adv_hl_norm.close,
-		adv_hl_spe_open = settings.adv_hl_spe.open,
-		adv_hl_spe_options = settings.adv_hl_spe.options,
-		adv_hl_spe_content = settings.adv_hl_spe.content,
-		adv_hl_spe_close = settings.adv_hl_spe.close,
-		adv_hl_tag_separator =  settings.adv_hl_tag_separator;
+	var adv_hl_norm = tools.getParam('adv_hl_norm'),
+		adv_hl_norm_open = adv_hl_norm.open,
+		adv_hl_norm_options = adv_hl_norm.options,
+		adv_hl_norm_close = adv_hl_norm.close;
+		
+	var adv_hl_spe = tools.getParam('adv_hl_spe'),
+		adv_hl_spe_open = adv_hl_spe.open,
+		adv_hl_spe_options = adv_hl_spe.options,
+		adv_hl_spe_content = adv_hl_spe.content,
+		adv_hl_spe_close = adv_hl_spe.close;
+	
+	var adv_hl_tag_separator = tools.getParam('adv_hl_tag_separator');
 
 	function toggleAdvHighlight() {
+		var ctrl = this;
+		
 		self.adv_hl_active = !self.adv_hl_active;
 
 		if(self.adv_hl_active === false){
-			this.active(false);
+			ctrl.active(false);
 			_removeHighlight();
 			return false;
 		}
 
-		this.active(true);		
+		ctrl.active(true);		
 		_getHighlight();
 		_getHighlight(); //ugly fix for regex test patterns... Don't get it
 	}
@@ -157,4 +166,12 @@ tinymce.PluginManager.add('xenadvhl', function(ed) {
 		icon: n,
 		onclick: toggleAdvHighlight,
 	});
+
+	ed.addMenuItem(n, {
+		name: n,
+		selectable: true,
+		text: "Tags Helper",
+		icon: false,
+		onClick: toggleAdvHighlight
+	});	
 });

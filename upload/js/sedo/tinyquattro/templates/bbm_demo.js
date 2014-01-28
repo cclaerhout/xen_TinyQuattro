@@ -18,5 +18,10 @@ xenMCE.Templates.Bbm_demo = {
 	{
 		//After a submit or the cancel/close button has been pressed
 		console.log('The overlay is closed');
+	},
+	onfastreload: function($overlay, data, editor, parentClass)
+	{
+		//If the fast reload mode has been activated - To activate it add the class "FastReload" to mceTitle element of your template
+		console.log(data);
 	}	
 }

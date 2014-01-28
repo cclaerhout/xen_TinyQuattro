@@ -1,14 +1,14 @@
 <?php
 class Sedo_TinyQuattro_Helper_Quattro
 {
-	/**
+	/***
 	 * For Integration with other addons
 	 * Optional paramater: array with $controllerName, $controllerAction, $viewName
 	 * Purpose: check if a Bbm special editor config is not used
 	 * 
 	 * If no argument provided, return true/false
 	 * If ccv provided, return true/false + the bbm params
-	 */
+	 **/
 	public static function isEnabled(array $ccv = array())
 	{
 		$options = XenForo_Application::get('options');

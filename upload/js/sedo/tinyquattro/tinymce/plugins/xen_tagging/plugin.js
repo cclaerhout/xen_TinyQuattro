@@ -3,7 +3,9 @@ tinymce.create('tinymce.plugins.xen_tagging',
       	init: function(editor)
       	{
 		//Only compatible with XenForo 1.2.x
-		if(xenMCE.Params.oldXen)
+		var tools = xenMCE.Lib.getTools();
+		
+		if(tools.getParam('oldXen'))
 			return false;
 		
 		this.editor = editor;
