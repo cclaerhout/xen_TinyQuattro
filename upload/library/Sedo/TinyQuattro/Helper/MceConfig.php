@@ -1052,8 +1052,6 @@ class Sedo_TinyQuattro_Helper_MceConfig
 			}	
 		}
 
-		private $arrayKeyFix;
-
 		public function arrayInsertAfterValue(&$arraySource, $arraySourceTargetedValue, $elementToAdd, array $extra = array())
 		{
 			if(!is_array($arraySource))
@@ -1132,12 +1130,19 @@ class Sedo_TinyQuattro_Helper_MceConfig
 				}
 				
 				$newArrayEnd = array_slice($arraySource, $targetedPos, count($arraySource)-$targetedPos, true);
-				$newArrayEnd = array_flip(array_map(function($el){ return $el + $this->arrayKeyFix; }, array_flip($newArrayEnd)));
+				$newArrayEnd = array_flip(array_map(array($this, '_arrayInsertAfterValueArrayMap') , array_flip($newArrayEnd)));
 				
 				$arraySource = $newArrayStart + $newArrayEnd;
 			}
 			
 			return $arraySource;
+    		}
+    		
+    		protected $arrayKeyFix;
+    		
+    		protected function _arrayInsertAfterValueArrayMap($el)
+    		{
+    			return $el + $this->arrayKeyFix;
     		}
 
 		public function getEditorId()
