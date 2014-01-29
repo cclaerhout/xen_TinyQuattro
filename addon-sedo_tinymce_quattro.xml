@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.1.0" version_id="50" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.1.0.1" version_id="51" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -1159,6 +1159,7 @@ step=1</edit_format_params>
     </interface_groups>
   </permissions>
   <phrases>
+    <phrase title="Italic" version_id="50" version_string="2.1.0"><![CDATA[Italic]]></phrase>
     <phrase title="option_group_tiny_quattro" version_id="0" version_string="1.0"><![CDATA[TinyQuattro - Editor options]]></phrase>
     <phrase title="option_group_tiny_quattro_bbcodes" version_id="17" version_string="1.3.0"><![CDATA[TinyQuattro - Wysiwyg bb codes]]></phrase>
     <phrase title="option_group_tiny_quattro_bbcodes_description" version_id="17" version_string="1.3.0"><![CDATA[Options for some Wysiwyg BbCodes provided with TinyQuattro]]></phrase>
@@ -1376,10 +1377,14 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="quattro_smilies_modal_allinone" version_id="34" version_string="1.6.5.0"><![CDATA[Modal all-in-one]]></phrase>
     <phrase title="quattro_smilies_modal_slider" version_id="34" version_string="1.6.5.0"><![CDATA[Modal slider]]></phrase>
     <phrase title="sedo_quattro_bbcode_editor" version_id="49" version_string="2.0.1"><![CDATA[Bb Code editor]]></phrase>
+    <phrase title="sedo_quattro_bold" version_id="50" version_string="2.1.0"><![CDATA[Bold]]></phrase>
     <phrase title="sedo_quattro_characters" version_id="0" version_string="1.0"><![CDATA[Characters: {0}]]></phrase>
+    <phrase title="sedo_quattro_clearformatting" version_id="50" version_string="2.1.0"><![CDATA[Clear formatting]]></phrase>
     <phrase title="sedo_quattro_color" version_id="0" version_string="1.0"><![CDATA[Selected color]]></phrase>
     <phrase title="sedo_quattro_colorname" version_id="0" version_string="1.0"><![CDATA[Color name]]></phrase>
     <phrase title="sedo_quattro_colors_picker" version_id="0" version_string="1.0"><![CDATA[Colors picker]]></phrase>
+    <phrase title="sedo_quattro_copy" version_id="50" version_string="2.1.0"><![CDATA[Copy]]></phrase>
+    <phrase title="sedo_quattro_cut" version_id="50" version_string="2.1.0"><![CDATA[Cut]]></phrase>
     <phrase title="sedo_quattro_default_bbmbuttons" version_id="50" version_string="2.1.0"><![CDATA[Bbm Buttons]]></phrase>
     <phrase title="sedo_quattro_default_buttons" version_id="50" version_string="2.1.0"><![CDATA[Default buttons]]></phrase>
     <phrase title="sedo_quattro_display_option" version_id="50" version_string="2.1.0"><![CDATA[Click to display/hide option]]></phrase>
@@ -1404,6 +1409,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_insert_edit_image" version_id="10" version_string="1.1.3"><![CDATA[Insert edit image]]></phrase>
     <phrase title="sedo_quattro_insert_edit_link" version_id="10" version_string="1.1.3"><![CDATA[Insert edit link]]></phrase>
     <phrase title="sedo_quattro_insert_spoiler" version_id="49" version_string="2.0.1"><![CDATA[Insert spoiler]]></phrase>
+    <phrase title="sedo_quattro_italic" version_id="50" version_string="2.1.0"><![CDATA[Italic]]></phrase>
     <phrase title="sedo_quattro_link" version_id="0" version_string="1.0"><![CDATA[Link options]]></phrase>
     <phrase title="sedo_quattro_link_or_mail_edit" version_id="0" version_string="1.0"><![CDATA[Edit your link or email]]></phrase>
     <phrase title="sedo_quattro_link_or_mail_new" version_id="0" version_string="1.0"><![CDATA[Insert a new link or email]]></phrase>
@@ -1420,6 +1426,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_nonbreakingspace" version_id="49" version_string="2.0.1"><![CDATA[Non-breaking space]]></phrase>
     <phrase title="sedo_quattro_normal" version_id="0" version_string="1.0"><![CDATA[Normal]]></phrase>
     <phrase title="sedo_quattro_palette" version_id="0" version_string="1.0"><![CDATA[Color palette]]></phrase>
+    <phrase title="sedo_quattro_paste" version_id="50" version_string="2.1.0"><![CDATA[Paste]]></phrase>
     <phrase title="sedo_quattro_pasteastext" version_id="11" version_string="1.1.4"><![CDATA[Paste as text]]></phrase>
     <phrase title="sedo_quattro_paste_alert_message" version_id="4" version_string="1.0.4"><![CDATA[Please use Ctrl+V/Cmd+V keyboard shortcuts to paste contents.]]></phrase>
     <phrase title="sedo_quattro_paste_plain_alert_message" version_id="6" version_string="1.0.6"><![CDATA[Paste is now in plain text mode. Contents will now be pasted as plain text until you toggle this option off.]]></phrase>
@@ -1427,11 +1434,13 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_prev" version_id="4" version_string="1.0.4"><![CDATA[Prev]]></phrase>
     <phrase title="sedo_quattro_quote_properties" version_id="45" version_string="1.7.1.3"><![CDATA[Quote properties]]></phrase>
     <phrase title="sedo_quattro_quote_username" version_id="45" version_string="1.7.1.3"><![CDATA[Username]]></phrase>
+    <phrase title="sedo_quattro_redo" version_id="50" version_string="2.1.0"><![CDATA[Redo]]></phrase>
     <phrase title="sedo_quattro_replace" version_id="4" version_string="1.0.4"><![CDATA[Replace]]></phrase>
     <phrase title="sedo_quattro_replacewith" version_id="4" version_string="1.0.4"><![CDATA[Replace with]]></phrase>
     <phrase title="sedo_quattro_replace_all" version_id="4" version_string="1.0.4"><![CDATA[Replace all]]></phrase>
     <phrase title="sedo_quattro_restoredraft" version_id="0" version_string="1.0"><![CDATA[Restore last draft]]></phrase>
     <phrase title="sedo_quattro_rgb_picker" version_id="0" version_string="1.0"><![CDATA[RGB picker]]></phrase>
+    <phrase title="sedo_quattro_selectall" version_id="50" version_string="2.1.0"><![CDATA[Select all]]></phrase>
     <phrase title="sedo_quattro_select_background_color" version_id="10" version_string="1.1.3"><![CDATA[Select background color]]></phrase>
     <phrase title="sedo_quattro_show_full_editor" version_id="49" version_string="2.0.1"><![CDATA[Show full editor]]></phrase>
     <phrase title="sedo_quattro_size" version_id="7" version_string="1.1.0"><![CDATA[Size]]></phrase>
@@ -1450,6 +1459,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_specialcharacters" version_id="0" version_string="1.0"><![CDATA[Special characters]]></phrase>
     <phrase title="sedo_quattro_spoiler" version_id="49" version_string="2.0.1"><![CDATA[Spoiler]]></phrase>
     <phrase title="sedo_quattro_spoiler_title" version_id="49" version_string="2.0.1"><![CDATA[Spoiler title]]></phrase>
+    <phrase title="sedo_quattro_strikethrough" version_id="50" version_string="2.1.0"><![CDATA[Strikethrough]]></phrase>
     <phrase title="sedo_quattro_subscript" version_id="48" version_string="2.0.0"><![CDATA[Subscript]]></phrase>
     <phrase title="sedo_quattro_superscript" version_id="48" version_string="2.0.0"><![CDATA[Superscript]]></phrase>
     <phrase title="sedo_quattro_table" version_id="40" version_string="1.7.0.5"><![CDATA[Table]]></phrase>
@@ -1498,6 +1508,8 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_table_width" version_id="17" version_string="1.3.0"><![CDATA[Width]]></phrase>
     <phrase title="sedo_quattro_titleismissing" version_id="24" version_string="1.5.1"><![CDATA[Title is missing]]></phrase>
     <phrase title="sedo_quattro_tools" version_id="49" version_string="2.0.1"><![CDATA[Tools]]></phrase>
+    <phrase title="sedo_quattro_underline" version_id="50" version_string="2.1.0"><![CDATA[Underline]]></phrase>
+    <phrase title="sedo_quattro_undo" version_id="50" version_string="2.1.0"><![CDATA[Undo]]></phrase>
     <phrase title="sedo_quattro_view" version_id="49" version_string="2.0.1"><![CDATA[View]]></phrase>
     <phrase title="sedo_quattro_whole_words" version_id="4" version_string="1.0.4"><![CDATA[Whole words]]></phrase>
     <phrase title="sedo_quattro_wordcount_characters" version_id="0" version_string="1.0"><![CDATA[Yes - count characters]]></phrase>
@@ -5003,6 +5015,17 @@ blockquote.mce_quote {
 		"Image": "{xen:jsescape {xen:phrase image}}",
 		"Link": "{xen:jsescape {xen:phrase link}}",
 		"Unlink": "{xen:jsescape {xen:phrase unlink}}",
+		"Bold": "{xen:jsescape {xen:phrase sedo_quattro_bold}}",
+		"Italic": "{xen:jsescape {xen:phrase sedo_quattro_italic}}",
+		"Underline": "{xen:jsescape {xen:phrase sedo_quattro_underline}}",
+		"Strikethrough": "{xen:jsescape {xen:phrase sedo_quattro_strikethrough}}",
+		"Clear formatting": "{xen:jsescape {xen:phrase sedo_quattro_clearformatting}}",
+		"Undo": "{xen:jsescape {xen:phrase sedo_quattro_undo}}",
+		"Redo": "{xen:jsescape {xen:phrase sedo_quattro_redo}}",
+		"Cut": "{xen:jsescape {xen:phrase sedo_quattro_cut}}",
+		"Copy": "{xen:jsescape {xen:phrase sedo_quattro_copy}}",
+		"Paste": "{xen:jsescape {xen:phrase sedo_quattro_paste}}",
+		"Select all": "{xen:jsescape {xen:phrase sedo_quattro_selectall}}",
 		"Bb Code editor": "{xen:jsescape {xen:phrase sedo_quattro_bbcode_editor}}",
 		"Spoiler Title": "{xen:jsescape {xen:phrase sedo_quattro_spoiler_title}}",
 		"Insert spoiler": "{xen:jsescape {xen:phrase sedo_quattro_insert_spoiler}}",
@@ -5196,6 +5219,7 @@ $0]]></replace>
     </modification>
   </public_template_modifications>
   <bb_code_media_sites/>
+  <bb_codes/>
   <template_modifications>
     <modification title="RTE Quattro Mobile Option" template_title="account_preferences" execute_order="10" modification_type="preg_replace" callback_class="" callback_method="" description="User field" version_id="4" version_string="1.0.4" active="1">
       <search_value><![CDATA[#([ \t]*)<li>.+?ctrl_enable_rte(?s).+?</li>#i]]></search_value>
