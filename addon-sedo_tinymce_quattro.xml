@@ -1159,7 +1159,6 @@ step=1</edit_format_params>
     </interface_groups>
   </permissions>
   <phrases>
-    <phrase title="Italic" version_id="50" version_string="2.1.0"><![CDATA[Italic]]></phrase>
     <phrase title="option_group_tiny_quattro" version_id="0" version_string="1.0"><![CDATA[TinyQuattro - Editor options]]></phrase>
     <phrase title="option_group_tiny_quattro_bbcodes" version_id="17" version_string="1.3.0"><![CDATA[TinyQuattro - Wysiwyg bb codes]]></phrase>
     <phrase title="option_group_tiny_quattro_bbcodes_description" version_id="17" version_string="1.3.0"><![CDATA[Options for some Wysiwyg BbCodes provided with TinyQuattro]]></phrase>
