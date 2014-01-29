@@ -214,8 +214,9 @@
 
 			/*Get attachments key params*/
 			var attachData = editor.settings.xen_attach.split(',');
-			xenAttach = { type:attachData[0], id:attachData[1], hash:attachData[2] };
-
+			
+			this.xenAttach = { type:attachData[0], id:attachData[1], hash:attachData[2] };
+			
 			/* Get selection after url checker */
 			selHtml = sel.getContent();
 			selText = sel.getContent({format: 'text'});
@@ -267,13 +268,15 @@
 					text: url_text,
 					href: url_href
 				},
-				attach: xenAttach
+				attach: this.xenAttach
 			};
 
-			if(self.overlayCache[dialog] === undefined){
+			var $cacheNode = $(document).find('#mce4_cache_'+dialog);
+
+			if(self.overlayCache[dialog] === undefined || !$cacheNode.length){
 				XenForo.ajax('index.php?editor/quattro-dialog', data, $.proxy(this, '_overlayLoader'));
 			}else{
-				self._overlayFormatter(self.overlayCache[dialog], false, true, data);
+				self._overlayFormatter($cacheNode.html(), false, true, data);
 			}
 		},
 		_overlayLoader:function(ajaxData)
@@ -296,7 +299,10 @@
 				
 			html = html.replace(regex, '');
 
-			self.overlayCache[self.dialog] = html;
+			self.overlayCache[self.dialog] = this.xenAttach.hash;
+			
+			$cache = $('<div id="mce4_cache_'+self.dialog+'">'+html+'</div>').hide();
+			$(document).find('body').append($cache);
 
  			new XenForo.ExtLoader(ajaxData, function()
  			{
