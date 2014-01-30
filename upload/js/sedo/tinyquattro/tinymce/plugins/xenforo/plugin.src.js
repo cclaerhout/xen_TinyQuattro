@@ -3152,7 +3152,10 @@
 								}
 							});
 							//Add position fix here
-							parent.fixBtnFullscreen(v, false, e.control);
+							var parentEl = e.control.parent();
+							if(parentEl !== undefined && parentEl.type == 'menubutton'){
+								parent.fixBtnFullscreen(v, false, e.control);
+							}
 						});
 					});
 					
