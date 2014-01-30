@@ -1077,7 +1077,7 @@
 				});
 			};
 		},
-		fixBtnFullscreen: function(btnCtrl, type)
+		fixBtnFullscreen: function(btnCtrl, type, directEl)
 		{
 			/***
 			 * For some unknow reasons, the fullscreen mode is buggy on XenForo & Firefox, let's fix it
@@ -1092,7 +1092,7 @@
 				return false;
 
 			var $button = $(btnCtrl.getEl()), 
-				$el = $(btnCtrl[type].getEl()),
+				$el = (directEl === undefined) ? $(btnCtrl[type].getEl()) : $(directEl.getEl()),
 				btnOffset = $button.offset(),
 				btnPos = $button.position();
 
@@ -1464,10 +1464,10 @@
 				this.ed.windowManager.alert(ajaxData.notConnectedMessage);
 			}
 
-			$container = $(this.ed.getContainer());
-			$existingTextArea = $(this.ed.getElement());
-			$textContainer = $('<div class="bbCodeEditorContainer" />');
-			$newTextArea = $('<textarea class="textCtrl Elastic" rows="5" />');
+			var $container = $(this.ed.getContainer()),
+				$existingTextArea = $(this.ed.getElement()),
+				$textContainer = $('<div class="bbCodeEditorContainer" />'),
+				$newTextArea = $('<textarea class="textCtrl Elastic" rows="5" />');
 	
 			if ($existingTextArea.attr('disabled'))
 				return; // already using this
@@ -1512,8 +1512,8 @@
 				this.ed.windowManager.alert(ajaxData.notConnectedMessage);
 			}
 				
-			$container = $(this.ed.getContainer());
-			$existingTextArea = $(this.ed.getElement());
+			var $container = $(this.ed.getContainer()),
+				$existingTextArea = $(this.ed.getElement());
 	
 			if(!$existingTextArea.attr('disabled'))
 				return; // already using
@@ -3151,6 +3151,8 @@
 									parent.addIconClass($(menuItem.getEl()), xenforo);
 								}
 							});
+							//Add position fix here
+							parent.fixBtnFullscreen(v, false, e.control);
 						});
 					});
 					
