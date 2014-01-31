@@ -2411,9 +2411,10 @@
 				}
 			};
 
-			if(!parent.isActiveButton(xen_quote)){
+			if(ed.buttons[xen_quote] === undefined){
 				ed.addButton(xen_quote, quoteConfig);
-				ed.addMenuItem(name, $.extend({},
+			
+				ed.addMenuItem(xen_quote, $.extend({},
 					quoteConfig, {
 						text: parent.getPhrase('xen_quote_desc'),
 						context: 'insert',
