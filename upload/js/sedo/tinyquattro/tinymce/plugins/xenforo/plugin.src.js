@@ -2109,7 +2109,9 @@
 				}
 			};
 			
-			if(parent.getParam('fastUnlink'))
+			var fastUnlink = parent.getParam('fastUnlink');
+			
+			if(fastUnlink)
 				$.extend(linkConfig, linkConfigExtra);
 			
 			unlinkConfig = {
@@ -2122,6 +2124,7 @@
 			ed.addButton('xen_link', linkConfig);
 			ed.addMenuItem('xen_link', $.extend({},
 				linkConfig, {
+					type: 'menuitem',
 					text: 'Link',
 					context: 'insert',
 					prependToContext: true

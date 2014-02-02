@@ -101,25 +101,36 @@
 	**************************************************************************/
 	XenForo.QuickReplyTrigger = function($trigger)
 	{
-		if ($trigger.is('.MultiQuote'))
-		{
-			// not yet implemented
-			return false;
-		}
-
 		$trigger.click(function(e)
 		{
-			var $form = $('#QuickReply'),
-				xhr = null;
+			var $form = null,
+				xhr = null,
+				queryData = null;
 
-			$form.data('QuickReply').scrollAndFocus();
+			if ($trigger.is('.MultiQuote'))
+			{
+				$form = $($trigger.data('form'));
+
+				queryData =
+				{
+					postIds: $($trigger.data('inputs')).map(function()
+					{
+						return this.value;
+					}).get()
+				};
+			}
+			else
+			{
+				$form = $('#QuickReply');
+				$form.data('QuickReply').scrollAndFocus();
+			}
 
 			if (!xhr)
 			{
 				xhr = XenForo.ajax
 				(
 					$trigger.data('posturl') || $trigger.attr('href'),
-					'',
+					queryData,
 					function(ajaxData, textStatus)
 					{
 						if (XenForo.hasResponseError(ajaxData))
@@ -159,6 +170,12 @@
 							{
 								window.sessionStorage.quickReplyText = ajaxData.quote;
 							}
+						}
+						
+						if ($trigger.is('.MultiQuote'))
+						{
+							// reset cookie and checkboxes
+							$form.trigger('MultiQuoteComplete');
 						}
 					}
 				);

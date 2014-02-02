@@ -14,10 +14,11 @@ tinymce.PluginManager.add('xenquoteme', function(ed) {
 	self.firstInit = true;
 		
 	function onClick(e){
+		var ctrl = this;
 		$toggleMeMenu.trigger('click');
-		this.active($toggleMeMenu.hasClass('on'));
-		
-		if(self.firstInit){
+		ctrl.active($toggleMeMenu.hasClass('on'));
+
+		if(self.firstInit && ctrl.active()){
 			var alertQM = tools.getPhrase('quoteme_alert');
 			if(alert.length){
 				ed.windowManager.alert(alertQM);
@@ -27,15 +28,18 @@ tinymce.PluginManager.add('xenquoteme', function(ed) {
 	}
 
 	function extBtnState(e){
-		 var ctrl = this;
+		var ctrl = this;
 
-		 $toggleMeMenu.click(function(e){
-		 	ctrl.active($toggleMeMenu.hasClass('on'));
-		 	
+		var activeMe = function(){
+			ctrl.active($toggleMeMenu.hasClass('on'));
 		 	var args = {
 				skip_focus: true
 			};
-			ed.execCommand('resetFright', false, false, args);
+			ed.execCommand('resetFright', false, false, args);			
+		}
+
+		 $toggleMeMenu.click(function(e){
+		 	activeMe();
 		 });
 	}
 
@@ -54,7 +58,14 @@ tinymce.PluginManager.add('xenquoteme', function(ed) {
 			text: "Fast quotes",
 			xenfright: false,
 			onPostRender: function(e){
+				var ctrl = this;
 				$.extend(e.control.settings, ed.buttons[quoteme]);
+				$.extend(ctrl, {'extBtnState': extBtnState });
+
+				ctrl.active($toggleMeMenu.hasClass('on'));//First init, don't put it in the extra fct - creates a bug with the button
+				ctrl.parent().on('show', function() {
+					ctrl.extBtnState(e);				
+				});
 			}
 		})
 	);
