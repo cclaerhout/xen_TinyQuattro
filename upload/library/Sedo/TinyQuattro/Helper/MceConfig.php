@@ -1145,6 +1145,7 @@ class Sedo_TinyQuattro_Helper_MceConfig
 			}
 			else
 			{
+
 				$newArrayStart = array_slice($arraySource, 0, $targetedPos, true);
 				$this->arrayKeyFix = 1;
 
@@ -1155,27 +1156,44 @@ class Sedo_TinyQuattro_Helper_MceConfig
 				}
 				
 				array_push($newArrayStart, $elementToAdd);
-				
+	
 				if($endingSeparator)
 				{
 					array_push($newArrayStart, '|');
 					$this->arrayKeyFix++;
 				}
 				
-				$newArrayEnd = array_slice($arraySource, $targetedPos, count($arraySource)-$targetedPos, true);
-				$newArrayEnd = array_flip(array_map(array($this, '_arrayInsertAfterValueArrayMap') , array_flip($newArrayEnd)));
+				$this->tagSeparatorId = 0;
 				
+				$newArrayEnd = array_slice($arraySource, $targetedPos, count($arraySource)-$targetedPos, true);
+				$newArrayEnd = array_map(array($this, '_tagSeparator') , $newArrayEnd);
+				$newArrayEnd = array_flip(array_map(array($this, '_arrayInsertAfterValueArrayMap') , array_flip($newArrayEnd)));
+				$newArrayEnd = array_map(array($this, '_detagSeparator') , $newArrayEnd);
+
 				$arraySource = $newArrayStart + $newArrayEnd;
 			}
-			
+
 			return $arraySource;
     		}
     		
     		protected $arrayKeyFix;
-    		
     		protected function _arrayInsertAfterValueArrayMap($el)
     		{
     			return $el + $this->arrayKeyFix;
+    		}
+
+    		protected $tagSeparatorId;
+    		protected function _tagSeparator($el)
+    		{
+			if($el != '|')	{ return $el; }
+
+			$this->tagSeparatorId++;
+    			return "$el".$this->tagSeparatorId;
+    		}
+
+    		protected function _detagSeparator($el)
+    		{
+    			return (!empty($el[0]) && $el[0] == '|') ? '|' : $el;
     		}
 
 		public function getEditorId()
