@@ -174,7 +174,14 @@ class Sedo_TinyQuattro_Helper_MceConfig
 			
 			foreach($bbmParams['quattroGrid'] as $key => $buttons)
 			{
-				$mceGrid[$key] = explode(' ', $buttons);
+				if(is_array($buttons))
+				{
+					$mceGrid[$key] = $buttons;
+				}
+				else
+				{
+					$mceGrid[$key] = explode(' ', $buttons);
+				}
 			}
 		}
 		else

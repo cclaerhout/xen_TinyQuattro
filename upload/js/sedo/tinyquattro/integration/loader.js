@@ -25,12 +25,27 @@
 	{
 		__construct: function($editor)
 		{
+			var quattroData = $editor.data('quattro'),
+				redactorData = $editor.data('redactor'),
+				editorId = $editor.attr('id');
+			
+			if(!quattroData){
+				return false;
+			}
+			
+			if(redactorData){
+				var edVal = $editor.val();
+				$.extend(redactorData, { $editor: $editor });
+				redactorData.destroy();
+				$editor.val(edVal);
+			}
+			
 			//Let's mark the editor as failed by default, let's take back this after it has been loaded
 			$editor.show().after($('<input type="hidden" name="_xfRteFailed" value="1" />'));
 
-			var editorId = $editor.attr('id'),
-				quattroData = $editor.data('quattro'),
-				params = quattroData.params,
+			$editor.data('redactor')
+
+			var params = quattroData.params,
 				config = quattroData.settings,
 				regexEl = params.mceRegexEl,
 				hasDraft = ($editor.data('auto-save-url')),

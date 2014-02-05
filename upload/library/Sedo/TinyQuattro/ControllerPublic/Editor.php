@@ -59,6 +59,7 @@ class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_Con
 
 		/*Get Post attachments*/
 		$attachments = $this->_quattroGetAttachments($attachmentData['type'], $attachmentData['id'], $attachmentData['hash']);
+
 		$imgAttachments = array();
 		
 		foreach($attachments as $attachment)
@@ -182,6 +183,7 @@ class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_Con
 		{
 			$postId = $id;
 			$attachmentModel = $this->_getAttachmentModel();
+			$editAttachmentHash = $hash;
 			
 			list($post, $thread, $forum) = $ftpHelper->assertPostValidAndViewable($postId);
 
@@ -191,11 +193,17 @@ class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_Con
 				return array();
 			}
 			
-			$attachmentParams = $this->_getForumModel()->getAttachmentParams($forum, array(
-				'post_id' => $post['post_id']
-			));
-			
-			$attachments = $attachmentModel->getAttachmentsByContentId('post', $postId);
+			$attachmentParams = $this->_getForumModel()->getAttachmentParams(
+					$forum,	array(
+						'post_id' => $post['post_id']
+					),
+					null,
+					null,
+					$editAttachmentHash
+			);
+
+			$attachments = !empty($attachmentParams['attachments']) ? $attachmentParams['attachments'] : array();
+			//$attachments = $attachmentModel->getAttachmentsByContentId('post', $postId);
 			$attachments = $attachmentModel->prepareAttachments($attachments);
 		}
 		elseif($type == 'newPost')

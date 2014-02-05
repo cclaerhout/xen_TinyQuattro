@@ -38,7 +38,7 @@ class Sedo_TinyQuattro_Helper_Quattro
 		{
 			//Be sure the BBM don't use a custom editor config
 			list($bbmEnable, $bbmConfig) = self::checkAndGetBbmConfig($ccv);
-			
+	
 			if($bbmEnable != null)
 			{
 				$enable = $bbmEnable;
@@ -67,11 +67,11 @@ class Sedo_TinyQuattro_Helper_Quattro
 		
 		$bbmParams = BBM_Helper_Buttons::getConfig($controllerName, $controllerAction, $viewName);
 
-		if(!is_array($bbmParams) || array_diff_key($bbmParams, $fallback))
+		if(!is_array($bbmParams) || empty($bbmParams['loadQuattro']))
 		{
 			return array(false, $fallback);		
 		}
-		
+
 		return array(true, $bbmParams);
 	}
 
