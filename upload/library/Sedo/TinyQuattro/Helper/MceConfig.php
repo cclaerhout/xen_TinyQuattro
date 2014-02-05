@@ -187,8 +187,9 @@ class Sedo_TinyQuattro_Helper_MceConfig
 						'fullscreen', 'xen_switch'
 				),
 				'2' => array('bullist', 'numlist', 'outdent', 'indent', '|', 'subscript', 'superscript', '|',
-						'xen_image', 'xen_media', 'xen_link', 'xen_unlink', '|',
-						'xen_smilies', 'xen_smilies_picker', 'charmap', 'xen_nonbreaking', 'xen_code', 'xen_quote'
+						'xen_image', 'xen_media', 'table', 'xen_link', 'xen_unlink', '|',
+						'xen_smilies', 'xen_smilies_picker', 'charmap', 'xen_nonbreaking',
+						'xen_code', 'xen_quote', 'xen_spoiler'
 				)
 			);
 		}
