@@ -43,8 +43,6 @@
 			//Let's mark the editor as failed by default, let's take back this after it has been loaded
 			$editor.show().after($('<input type="hidden" name="_xfRteFailed" value="1" />'));
 
-			$editor.data('redactor')
-
 			var params = quattroData.params,
 				config = quattroData.settings,
 				regexEl = params.mceRegexEl,
