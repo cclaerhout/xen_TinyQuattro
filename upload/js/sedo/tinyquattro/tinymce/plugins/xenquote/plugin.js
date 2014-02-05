@@ -86,7 +86,7 @@
 		});
 
 		/* Create the button */
-		var n = 'xen_quote';
+		var xen_quote = 'xen_quote';
 
 		var getBlockQuotes = function(attrib){
 			var el = ed.selection.getNode(),
@@ -152,8 +152,8 @@
 		}
 
 		var quoteConfig = {
-			name: n,
-			icon: n,
+			name: xen_quote,
+			icon: xen_quote,
 			iconset: 'xenforo',
 			type: 'splitbutton',
 			menu: [	{ 
@@ -215,8 +215,8 @@
 			}
 		};
 
-		ed.addButton(n, quoteConfig);
-		ed.addMenuItem(n, $.extend({},
+		ed.addButton(xen_quote, quoteConfig);
+		ed.addMenuItem(xen_quote, $.extend({},
 			quoteConfig, {
 				text: "Quote",
 				type: 'menuitem'

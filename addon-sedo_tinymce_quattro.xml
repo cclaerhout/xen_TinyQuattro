@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.1.0.4" version_id="54" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.1.0.5" version_id="55" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -607,7 +607,7 @@ i.mce-i-backcolor
 					<li><code>overrideMenuGrid($menuGrid)</code> - Override menus grid</li>
 					<li><code>hasMenu($menuName)</code> - Check if menu exists</li>
 					<li><code>addMenu($menuName, $pos = '#end', $menuTitle = '', array $menuItems = array(), $bypassAvailableButtons = false, $bypassForcedButtons = false)</code> - Add a menu at the begin/end of the menus grid or before/after and existed menu</li>
-					<li><code>addMenuItem($menuItemName, $menuName, $pos = '#end', $openingSeparator = false, $endingSeparator = false, $insertBefore = false, $bypassForcedButtons = false)</code> - Add a menu item at the begin/end of a menu or before/after and existed menu item from a menu, with or without an opening/ending separator</li>
+					<li><code>addMenuItem($menuItemName, $menuName, $pos = '#end', $openingSeparator = false, $endingSeparator = false, $insertBefore = false, $bypassAvailableButtons = false, $bypassForcedButtons = false)</code> - Add a menu item at the begin/end of a menu or before/after and existed menu item from a menu, with or without an opening/ending separator</li>
 					<li><code>&findMenuItem($menuItemName, $menuName, array $commands = array())</code> -Find menu item - value return can be caught by reference</li>
 					<li><code>deleteMenuItem($menuItemName, $menuName,  $deleteOpeningSeparator = false, $deleteClosingSeparator = false)</code> -Delete menu item</li>
 				</ul></p>
@@ -1159,6 +1159,7 @@ step=1</edit_format_params>
     </interface_groups>
   </permissions>
   <phrases>
+    <phrase title="Italic" version_id="50" version_string="2.1.0"><![CDATA[Italic]]></phrase>
     <phrase title="option_group_tiny_quattro" version_id="0" version_string="1.0"><![CDATA[TinyQuattro - Editor options]]></phrase>
     <phrase title="option_group_tiny_quattro_bbcodes" version_id="17" version_string="1.3.0"><![CDATA[TinyQuattro - Wysiwyg bb codes]]></phrase>
     <phrase title="option_group_tiny_quattro_bbcodes_description" version_id="17" version_string="1.3.0"><![CDATA[Options for some Wysiwyg BbCodes provided with TinyQuattro]]></phrase>
@@ -3135,7 +3136,7 @@ i.mce-i-backcolor
 
 
 ]]></template>
-    <template title="tiny_quattro_common_css.css" version_id="33" version_string="1.6.4.2"><![CDATA[<xen:set var="$_mcePrimaryDark">{xen:property quattroDark}</xen:set>
+    <template title="tiny_quattro_common_css.css" version_id="53" version_string="2.1.0.3"><![CDATA[<xen:set var="$_mcePrimaryDark">{xen:property quattroDark}</xen:set>
 <xen:set var="$_mcePrimaryLightish">{xen:property quattroLightish}</xen:set>
 <xen:set var="$_mcePrimaryLight">{xen:property quattroLight}</xen:set>
 <xen:set var="$_mcePrimaryLighter">{xen:property quattroLighter}</xen:set>
@@ -3250,20 +3251,7 @@ i.mce-i-backcolor
 	-o-user-select:none;
 	user-select:none
 }
-.mce-container::-webkit-scrollbar {
-	width:8px;
-	height:8px;
-	-webkit-border-radius:4px
-}
-.mce-container::-webkit-scrollbar-track,.mce-container::-webkit-scrollbar-track-piece {
-	background-color:transparent
-}
-.mce-container::-webkit-scrollbar-thumb {
-	background-color:rgba(53,57,71,0.3);
-	width:6px;
-	height:6px;
-	-webkit-border-radius:4px
-}
+
 .mce-fade {
 	opacity:0;
 	-webkit-transition:opacity .15s linear;
@@ -4568,7 +4556,7 @@ i.mce-i-resize {
 <xen:include template="tiny_quattro_xenbuttons_ie7.css" />
 
 <xen:edithint template="tiny_quattro_iframe.css" />]]></template>
-    <template title="tiny_quattro_framework.css" version_id="38" version_string="1.7.0.3"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_framework.css" version_id="53" version_string="2.1.0.3"><![CDATA[<xen:comment>
 	XenForo Framework addons
 </xen:comment>
 
@@ -4631,6 +4619,17 @@ i.mce-i-resize {
 	margin-bottom: 5px;
 	margin-top: 3px;
     	padding: 2px;
+}
+
+.mce-menu .mce-quattro-menu-smilies .mce-container-body{
+	width: {xen:calc "{xen:property tinyquattro_smiliesbtn_width} + 10"}px;
+	height: {xen:calc "{xen:property tinyquattro_smiliesbtn_height} + 10"}px;
+	margin: auto;
+}
+
+.mce-menu .mce-container .mceQuattroSmilieBlock{
+	width: {xen:property tinyquattro_smiliesbtn_width};
+	height: {xen:property tinyquattro_smiliesbtn_height};
 }
 
 .mce-container .mceQuattroSmilieBlock{

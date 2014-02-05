@@ -1154,7 +1154,7 @@
 			var editor = this.getEditor(),
 				xenParams = editor.getParam('xenParams');
 
-			if(xenParams[name] !== undefined){
+			if(this.isDefined(xenParams, name)){
 				return xenParams[name];
 			} else {
 				return null;
@@ -2621,6 +2621,7 @@
 					menu: [{
 						type: 'container',
 						html: getSmilies(),
+						classes: 'quattro-menu-smilies',
 						onclick: function(e){
 							e.preventDefault();
 							e.dontHide = true;

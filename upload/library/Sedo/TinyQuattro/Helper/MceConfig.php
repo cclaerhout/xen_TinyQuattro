@@ -841,7 +841,10 @@ class Sedo_TinyQuattro_Helper_MceConfig
 
 		public function addMenu($menuName, $pos = '#end', $menuTitle = '', array $menuItems = array(), $bypassAvailableButtons = false, $bypassForcedButtons = false)
 		{
-			if(!$this->getMceSetting('menubar') || !$this->getMceSetting('menu') || isset($this->mceSettings['menu'][$menuName]))
+			if(!$this->getMceSetting('menubar') ||
+				!$this->getMceSetting('menu') ||
+				isset($this->mceSettings['menu'][$menuName])
+			)
 			{
 				return;
 			}
@@ -853,6 +856,8 @@ class Sedo_TinyQuattro_Helper_MceConfig
 			{
 				$menuItems = array_intersect($menuItems, $availableButtons);
 			}
+
+			$this->_autoTagMenuItems($menuItems, $menuName);
 
 			$newMenu[$menuName] = array(
 				'title' => (!empty($menuTitle)) ? $menuTitle : ucfirst($menuName),
@@ -884,11 +889,38 @@ class Sedo_TinyQuattro_Helper_MceConfig
 			}
 		}
 
-		public function addMenuItem($menuItemName, $menuName, $pos = '#end', $openingSeparator = false, $endingSeparator = false, $insertBefore = false, $bypassForcedButtons = false)
+		protected function _autoTagMenuItems(array &$menuItems, $menuName = false)
+		{
+			if(empty($menuItems) || !$menuName)
+			{
+				return $menuItems;
+			}
+
+			$menuItemsTemp = array();
+			$i = 1;
+			
+			foreach($menuItems as $item)
+			{
+				if($item == '|')
+				{
+					$menuItemsTemp[] = "@{$menuName}_{$i}";
+					$i++;
+				}
+
+				$menuItemsTemp[] = $item;
+			}
+			
+			$menuItems = $menuItemsTemp;	
+		}
+
+		public function addMenuItem($menuItemName, $menuName, $pos = '#end', 
+			$openingSeparator = false, $endingSeparator = false, $insertBefore = false,
+			$bypassAvailableButtons = false, $bypassForcedButtons = false
+		)
 		{
 			$menuName = strtolower($menuName);
 
-			if(!$this->getMceSetting('menu') || empty($menuName))
+			if(!$this->getMceSetting('menu') || empty($menuName) || (!$bypassAvailableButtons && !$this->buttonIsEnabled($menuItemName)))
 			{
 				return;
 			}
