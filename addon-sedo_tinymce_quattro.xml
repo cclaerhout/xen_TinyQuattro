@@ -2545,7 +2545,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 			<p class="hint">{xen:phrase quattro_rte_mobile_explain}</p>
 		</label>
 	</li>]]></template>
-    <template title="quattro_xenbox_smilies.css" version_id="34" version_string="1.6.5.0"><![CDATA[	.redactor_smilies.mce
+    <template title="quattro_xenbox_smilies_12.css" version_id="55" version_string="2.1.0.5"><![CDATA[	.redactor_smilies.mce
 	{
 		border-top: {xen:property rteContainer.border-bottom-width} {xen:property rteContainer.border-bottom-style} {xen:property rteContainer.border-bottom-color};
 		max-height: 150px;
@@ -2562,6 +2562,51 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 
 		.redactor_smilies.mce .secondaryContent li,
 		.redactor_smilies.mce .SmiliesPanes li
+		{
+			display: inline-block;
+			margin: 0;
+			padding: 2px;
+			cursor: pointer;
+			line-height: 1.6;
+		}]]></template>
+    <template title="quattro_xenbox_smilies_13.css" version_id="55" version_string="2.1.0.5"><![CDATA[	.redactor_smilies.mce
+	{
+		font-size: 0;
+		border: 1px solid {xen:property primaryLighterStill};
+		line-height: 0;
+		position: relative;
+		overflow: hidden;
+		
+		max-height: 150px;
+		overflow: auto; *zoom: 1;
+
+		margin-top: 5px;		
+	}
+	
+		.redactor_smilies.mce .tabs
+		{
+			min-height: 0;
+		}
+
+		.redactor_smilies.mce .primaryContent,
+		.redactor_smilies.mce .secondaryContent
+		{
+			border-bottom: none;
+		}
+		
+		.redactor_smilies.mce .secondaryContent
+		{
+			border-top: {xen:property rteContainer.border-bottom-width} {xen:property rteContainer.border-bottom-style} {xen:property rteContainer.border-bottom-color};
+		}
+		
+		.redactor_smilies.mce .tabs a
+		{
+			height: 18px;
+			line-height: 18px;
+			font-size: 11px;
+		}
+
+		.redactor_smilies.mce .smilieCategory li
 		{
 			display: inline-block;
 			margin: 0;
@@ -5194,7 +5239,11 @@ $0]]></replace>
     <modification template="editor_smilies" modification_key="quattro_mce_editor_smilies" description="Add Quattro Css to Xen Editor Smilies" execution_order="10" enabled="1" action="preg_replace">
       <find><![CDATA[#^.*#s]]></find>
       <replace><![CDATA[<xen:if is="{$mce}">
-	<xen:require css="quattro_xenbox_smilies.css" />
+	<xen:if is="{$xenOptions.currentVersionId} < 1030031">
+		<xen:require css="quattro_xenbox_smilies_12.css" />
+	<xen:else />
+		<xen:require css="quattro_xenbox_smilies_13.css" />
+	</xen:if>
 </xen:if>
 $0]]></replace>
     </modification>
