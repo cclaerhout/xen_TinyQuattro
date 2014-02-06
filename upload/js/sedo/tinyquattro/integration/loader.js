@@ -48,8 +48,9 @@
 				regexEl = params.mceRegexEl,
 				hasDraft = ($editor.data('auto-save-url')),
 				draftOpt = params.xendraft,
-				baseUrl = XenForo._baseUrl,
-				loader;			
+				enableLazyLoad = params.lazyLoader,
+				baseUrl = XenForo.baseUrl(),
+				loader;
 			
 			config.xenParams = params; 
 
@@ -77,20 +78,25 @@
 			}
 
 			if (xenMCE.lazyLoad) {
-				config.script_url = baseUrl+'js/sedo/tinyquattro/tinymce/tinymce.min.js';
-				console.info('MCE Lazyloader - Url: ', config.script_url);
-				
-				/**
-				 *  The jQuery Mce Lazy Loader will not start if the script if found, let's trick him
-				 *  Edit: but let's trick him only once... otherwise if a second overlay is loaded, it
-				 *  will fail
-				 **/
-				if(typeof tinymce !== undefined && xenMCE.lazyLoad == 1){
-					delete window['tinymce']
+				if(enableLazyLoad){
+					config.script_url = baseUrl+'js/sedo/tinyquattro/tinymce/tinymce.min.js';
+					console.info('MCE Lazyloader - Url: ', config.script_url);
+					
+					/**
+					 *  The jQuery Mce Lazy Loader will not start if the script if found, let's trick him
+					 *  Edit: but let's trick him only once... otherwise if a second overlay is loaded, it
+					 *  will fail
+					 **/
+					if(typeof tinymce !== undefined && xenMCE.lazyLoad == 1){
+						delete window['tinymce']
+					}
+	
+					xenMCE.lazyLoad ++;
+					loader = 'jquery';
+				}else{
+					//Remove the second parameter after a while
+					console.info('MCE Preinit Mode', window.tinyMCEPreInit);
 				}
-
-				xenMCE.lazyLoad ++;
-				loader = 'jquery';
 			}else{
 				loader = 'mce';
 				config.selector = '#'+editorId;

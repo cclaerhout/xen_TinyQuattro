@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.1.0.5" version_id="55" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.1.0.6" version_id="55" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -926,7 +926,7 @@ step=5</edit_format_params>
       <default_value>0</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="9900"/>
+      <relation group_id="tiny_quattro" display_order="9910"/>
     </option>
     <option option_id="quattro_hidepath" edit_format="onoff" data_type="boolean" can_backup="1">
       <default_value>1</default_value>
@@ -940,6 +940,12 @@ step=5</edit_format_params>
 small={xen:phrase sedo_quattro_small}</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="1"/>
+    </option>
+    <option option_id="quattro_lazyloader" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="9900"/>
     </option>
     <option option_id="quattro_menubar" edit_format="radio" data_type="boolean" can_backup="1">
       <default_value>0</default_value>
@@ -1255,6 +1261,8 @@ This patch is enable by default.]]></phrase>
     <phrase title="option_quattro_hidepath_explain" version_id="0" version_string="1.0"><![CDATA[This will hide the html path inside the status bar.]]></phrase>
     <phrase title="option_quattro_iconsize" version_id="0" version_string="1.0"><![CDATA[Buttons size:]]></phrase>
     <phrase title="option_quattro_iconsize_explain" version_id="0" version_string="1.0"><![CDATA[Select here if the size of your buttons]]></phrase>
+    <phrase title="option_quattro_lazyloader" version_id="55" version_string="2.1.0.5"><![CDATA[Enable TinyMCE lazy loader]]></phrase>
+    <phrase title="option_quattro_lazyloader_explain" version_id="55" version_string="2.1.0.5"><![CDATA[The lazy loader of TinyMCE is a safe loading method that will use a jQuery extension to initialize TinyMCE and its plugins. It was needed when the JavaScript of the editor was loading by Ajax. Its inconvenient is it takes time: the main JavaScript is first loaded with Ajax, then reloaded again by the jQuery extension. The good news is wit the last version of this addon, this method should not be needed anymore. But if you have any problem to load the editor in an overlay window, you can try to enable this setting. Default: unckeck.]]></phrase>
     <phrase title="option_quattro_menubar" version_id="49" version_string="2.0.1"><![CDATA[Menu bar]]></phrase>
     <phrase title="option_quattro_menubar_explain" version_id="49" version_string="2.0.1"><![CDATA[This option will enable the TinyMCE menu bar. This menu bar will be displayed above your buttons. It's a good way to reduce the number of your buttons.<br />
 <br />

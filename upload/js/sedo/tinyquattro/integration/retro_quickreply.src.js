@@ -156,20 +156,10 @@
 							{
 								ed.execCommand('insertHtml', false, ajaxData.quoteHtml);
 							}
-
-							if (window.sessionStorage)
-							{
-								window.sessionStorage.quickReplyText = ajaxData.quoteHtml;
-							}
 						}
 						else
 						{
 							ed.val(ed.val() + ajaxData.quote);
-
-							if (window.sessionStorage)
-							{
-								window.sessionStorage.quickReplyText = ajaxData.quote;
-							}
 						}
 						
 						if ($trigger.is('.MultiQuote'))

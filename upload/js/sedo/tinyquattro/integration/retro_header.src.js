@@ -1,6 +1,22 @@
 !function($, window, document, undefined)
 {
 	/**************************************************************************
+			For XenForo overlays & TinyMCE
+	**************************************************************************/
+	var xenLoadScript = XenForo.scriptLoader.loadScript;
+	XenForo.scriptLoader.loadScript = function(url, success, failure){
+		var mceUrl = 'js/sedo/tinyquattro/tinymce',
+			mceRegex = new RegExp(mceUrl+'/tinymce(\.min)?\.js');
+		if (mceRegex.test(url)){
+			window.tinyMCEPreInit = {
+				baseURL: XenForo.baseUrl()+mceUrl,
+				suffix: /\.min\.js/.test(url) ? '.min' : ''
+			}
+		}
+		xenLoadScript(url, success, failure);
+	}
+
+	/**************************************************************************
 			OVERRIDE THE JQUERY FUNCTIONS TO MATCH WITH TINYMCE
 	**************************************************************************/
 	$.fn.extend(

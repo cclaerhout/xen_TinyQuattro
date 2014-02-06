@@ -301,6 +301,7 @@ class Sedo_TinyQuattro_Helper_MceConfig
 			'extraLists' 		=> ($xenOptions->quattro_extralists) ? true : false,
 			'hidePath'		=> ($xenOptions->quattro_hidepath) ? true : false,
 			'extendInsert'		=> ($xenOptions->quattro_extended_insert) ? true : false,
+			'lazyLoader'		=> ($xenOptions->quattro_lazyloader) ? true : false,
 			'geckoFullfix'		=> ($xenOptions->quattro_geckofullfix) ? true : false,
 			'overlayDefaultSize'	=> array('w' => 320, 'h' => 240),
 			'overlayColorPickerSize' => array('w' => 450, 'h' => 265),
