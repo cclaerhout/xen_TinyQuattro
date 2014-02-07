@@ -200,6 +200,11 @@ class Sedo_TinyQuattro_Listener_AllInOne
 			 array &$containerParams
 	)
 	{
+		if(!XenForo_Visitor::getUserId())
+		{
+			return false;
+		}
+
 		$isControllerAdmin = (strstr($controllerResponse->controllerName, 'ControllerAdmin')) ? true : false;
       		$controllerName = (isset($controllerResponse->controllerName)) ? $controllerResponse->controllerName : NULL;
       		$controllerAction = (isset($controllerResponse->controllerAction)) ? $controllerResponse->controllerAction : NULL;
