@@ -78,7 +78,7 @@
 			}
 
 			if (xenMCE.lazyLoad) {
-				if(enableLazyLoad){
+				if(enableLazyLoad || typeof window.tinyMCEPreInit === 'undefined'){
 					config.script_url = baseUrl+'js/sedo/tinyquattro/tinymce/tinymce.min.js';
 					console.info('MCE Lazyloader - Url: ', config.script_url);
 					

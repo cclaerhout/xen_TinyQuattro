@@ -10,7 +10,7 @@ class Sedo_TinyQuattro_Listener_AllInOne
 		$options = XenForo_Application::get('options');
 		
 		if(	$options->quattro_disable_mobile_inline_edit
-			&& (Sedo_TinyQuattro_Helper_Quattro::isEnabled() || $options->currentVersionId < 1020031)
+			&& (Sedo_TinyQuattro_Helper_Quattro::isEnabled(false, array(null, null, null)) || $options->currentVersionId < 1020031)
 			&& XenForo_Visitor::isBrowsingWith('mobile') 
 			&& XenForo_Visitor::getInstance()->enable_rte
 		)
@@ -189,5 +189,58 @@ class Sedo_TinyQuattro_Listener_AllInOne
 			$extend[] = 'Sedo_TinyQuattro_ViewPublic_Editor_ToHtml';			
 		}
 	}
+	
+
+	/***
+	 * Get Mce Config and set it as an application + CCV management
+	 **/
+	public static function controllerPreView(XenForo_FrontController $fc,
+			 XenForo_ControllerResponse_Abstract &$controllerResponse,
+			 XenForo_ViewRenderer_Abstract &$viewRenderer,
+			 array &$containerParams
+	)
+	{
+		$isControllerAdmin = (strstr($controllerResponse->controllerName, 'ControllerAdmin')) ? true : false;
+      		$controllerName = (isset($controllerResponse->controllerName)) ? $controllerResponse->controllerName : NULL;
+      		$controllerAction = (isset($controllerResponse->controllerAction)) ? $controllerResponse->controllerAction : NULL;
+      		$viewName = (isset($controllerResponse->viewName)) ? $controllerResponse->viewName : NULL;
+      		$isJson = ($viewRenderer instanceof XenForo_ViewRenderer_Json) ? true : false;
+
+		if(!$isJson)
+		{
+			list($enable, $bbmParams) = Sedo_TinyQuattro_Helper_Quattro::isEnabled(true, array($controllerName, $controllerAction, $viewName));
+			XenForo_Application::set('mceConfig', array($enable, $bbmParams));
+			XenForo_Helper_Cookie::setCookie('mce_ccv', "$controllerName,$controllerAction,$viewName");
+		}
+		else
+		{
+			$bbmCCVConfigs = XenForo_Application::get('options')->get('Bbm_Bm_Cust_Config');
+			$useCurrentCCV = false;
+			
+			if(is_array($bbmCCVConfigs))
+			{
+				foreach($bbmCCVConfigs as $bbmCCVConfig)
+				{
+					if(!empty($bbmCCVConfig['viewname']) && $bbmCCVConfig['viewname'] == $viewName)
+					{
+						$useCurrentCCV = true;
+						break;
+					}
+				}
+			}
+
+			if(!$useCurrentCCV)
+			{
+				//n-1 ccv
+				$ccv = explode(',' , XenForo_Helper_Cookie::getCookie('mce_ccv'));
+				$controllerName = isset($ccv[0]) ? $ccv[0] : null;
+				$controllerAction = isset($ccv[1]) ? $ccv[1] : null;
+				$viewName = isset($ccv[2]) ? $ccv[2] : null;
+			}
+			
+			list($enable, $bbmParams) = Sedo_TinyQuattro_Helper_Quattro::isEnabled(true, array($controllerName, $controllerAction, $viewName));
+			XenForo_Application::set('mceConfig', array($enable, $bbmParams));			
+		}
+      	}
 }
 //Zend_Debug::dump($class);

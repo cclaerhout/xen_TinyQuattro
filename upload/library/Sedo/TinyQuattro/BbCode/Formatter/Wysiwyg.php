@@ -27,10 +27,10 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 		$parentTags = parent::getTags();
 		$xenOptions = XenForo_Application::get('options');
 		$quattroEnable = Sedo_TinyQuattro_Helper_Quattro::isEnabled();
-		
+
 		if(is_array($parentTags))
 		{
-			if(Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('bcolor'))
+			if(Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('bcolor') && $quattroEnable)
 			{
 				$bcTag = Sedo_TinyQuattro_Helper_BbCodes::getQuattroBbCodeTagName('bcolor');
 				$this->_mceBackgroundColorTagName = $bcTag;
@@ -44,7 +44,7 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 				);			
 			}
 
-			if(Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('justify'))
+			if(Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('justify') && $quattroEnable)
 			{
 				$parentTags += array(
 					'justify' => array(
@@ -55,7 +55,7 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 				);			
 			}
 
-			if(Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('sub'))
+			if(Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('sub') && $quattroEnable)
 			{
 				$subTag = Sedo_TinyQuattro_Helper_BbCodes::getQuattroBbCodeTagName('sub');
 				$this->_mceSubTagName = $subTag;
@@ -68,7 +68,7 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 				);			
 			}
 
-			if(Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('sup'))
+			if(Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('sup') && $quattroEnable)
 			{
 				$supTag = Sedo_TinyQuattro_Helper_BbCodes::getQuattroBbCodeTagName('sup');
 				$this->_mceSupTagName = $supTag;

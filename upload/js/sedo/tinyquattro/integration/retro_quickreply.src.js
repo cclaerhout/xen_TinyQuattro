@@ -4,11 +4,16 @@
 	/**************************************************************************
 		OVERRIDE THE XENFORO FUNCTION "QuickReply" - ONLY NEEDED PARTS
 	**************************************************************************/
-	_XenForoQuickReply = XenForo.QuickReply;
+	var xenQuickReply = XenForo.QuickReply;
 
 	XenForo.QuickReply = function($form)
 	{
-		_XenForoQuickReply($form); //Parent
+		var editor = XenForo.getEditorInForm($form);
+		if(editor.$editor){
+			return xenQuickReply($form);
+		}
+
+		xenQuickReply($form); //Parent
 		var submitEnableCallback = XenForo.MultiSubmitFix($form); //Needed variable
 		
 		/*Override scrollAndFocus function*/
@@ -146,19 +151,15 @@
 							return false;
 						}
 
-						if (ed.execCommand)
-						{
-							if (tinyMCE.isIE)
+						if(ed.execCommand && !ed.$editor){
+							ed.execCommand('insertHtml', false, ajaxData.quoteHtml);
+						}else if(ed.$editor){
+							ed.insertHtml(ajaxData.quoteHtml);
+							if (ed.$editor.data('xenForoElastic'))
 							{
-								ed.execCommand('mceInsertContent', false, ajaxData.quoteHtml);
-							}
-							else
-							{
-								ed.execCommand('insertHtml', false, ajaxData.quoteHtml);
-							}
-						}
-						else
-						{
+								ed.$editor.data('xenForoElastic')();
+							}						
+						}else{
 							ed.val(ed.val() + ajaxData.quote);
 						}
 						

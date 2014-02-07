@@ -9,7 +9,7 @@ class Sedo_TinyQuattro_Helper_Quattro
 	 * If no argument provided, return true/false
 	 * If ccv provided, return true/false + the bbm params
 	 **/
-	public static function isEnabled(array $ccv = array())
+	public static function isEnabled($getConfig = false, array $manual_ccv = array())
 	{
 		$options = XenForo_Application::get('options');
 		$visitor = XenForo_Visitor::getInstance();
@@ -34,20 +34,59 @@ class Sedo_TinyQuattro_Helper_Quattro
 			$enable = false;
 		}
 
-		if(!empty($ccv))
+
+		if(XenForo_Application::isRegistered('mceConfig'))
+		{
+			list($bbmEnable, $bbmConfig) = XenForo_Application::get('mceConfig');
+
+			if($bbmEnable !== null)
+			{
+				$enable = $bbmEnable;
+			}
+				
+			if($getConfig)
+			{
+				return array($enable, $bbmConfig);
+			}
+			else
+			{
+				return $enable;
+			}
+		}
+		elseif(!empty($manual_ccv))
 		{
 			//Be sure the BBM don't use a custom editor config
-			list($bbmEnable, $bbmConfig) = self::checkAndGetBbmConfig($ccv);
-	
-			if($bbmEnable != null)
+			list($bbmEnable, $bbmConfig) = self::checkAndGetBbmConfig($manual_ccv);
+
+			if($bbmEnable !== null)
 			{
 				$enable = $bbmEnable;
 			}
 			
-			return array($enable, $bbmConfig);
+			if($getConfig)
+			{
+				return array($enable, $bbmConfig);
+			}
+			else
+			{
+				return $enable;
+			}
 		}
+		
+		if($getConfig)
+		{
+			$fallback = array(
+				'quattroGrid' => array(),
+				'customQuattroButtonsCss' => array(),
+				'customQuattroButtonsJs' => array()
+			);
 
-		return $enable;
+			return array($enable, $fallback);
+		}
+		else
+		{
+			return $enable;
+		}
 	}
 
 	public static function checkAndGetBbmConfig(array $ccv)
@@ -90,3 +129,4 @@ class Sedo_TinyQuattro_Helper_Quattro
 		return (!empty($quattroBbCodes[$tagName]) ? true : false);
 	}
 }
+//Zend_Debug::dump($abc);

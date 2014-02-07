@@ -1,1 +1,289 @@
-!function(n,t,i,r){var f=XenForo.scriptLoader.loadScript,e,u;XenForo.scriptLoader.loadScript=function(n,i,r){var u="js/sedo/tinyquattro/tinymce",e=new RegExp(u+"/tinymce(.min)?.js");e.test(n)&&(t.tinyMCEPreInit={baseURL:XenForo.baseUrl()+u,suffix:/\.min\.js/.test(n)?".min":""}),f(n,i,r)},n.fn.extend({_quattro_jqSerialize:n.fn.serialize,serialize:function(){if(t.tinyMCE)try{t.tinyMCE.triggerSave()}catch(n){}return this._quattro_jqSerialize()},_quattro_jqSerializeArray:n.fn.serializeArray,serializeArray:function(){if(t.tinyMCE)try{t.tinyMCE.triggerSave()}catch(n){}return this._quattro_jqSerializeArray()}}),XenForo.getEditorInForm=function(i,u,f,e){var h,o,s;if(e||(u=""),$form=n(i),$messageEditors=$form.find("textarea.MessageEditor"+(u||"")),$bbCodeEditors=$form.find(".bbCodeEditorContainer textarea"+(u||"")),$allEditors=$messageEditors.add($bbCodeEditors),$messageEditors.length==0)return!1;if($messageEditor=$messageEditors.eq(0),$bbCodesBbCodeEditor=$bbCodeEditors.eq(0),f&&typeof f!==r&&(h=f.get(0),o=!1,typeof h.id!==r&&($allEditors.each(function(){if(n(this).attr("id")==h.id){o=n(this);return}}),o)))return o.focus(),o;if(t.tinyMCE){var a=tinyMCE.activeEditor,l=n(a.getElement()),v=l.attr("id"),c=!1;if($messageEditors.each(function(){if(n(this).attr("id")==v){c=!0;return}}),a&&c&&!l.attr("disabled"))return tinyMCE.activeEditor;if(s=$messageEditor.attr("id"),s&&typeof tinyMCE.editors[s]!==r&&!$messageEditor.attr("disabled"))return tinyMCE.editors[s]}return $messageEditor.attr("disabled")?$bbCodesBbCodeEditor.length?$bbCodesBbCodeEditor:!1:$messageEditor},e=XenForo.speed.normal,u=XenForo.speed.fast,XenForo.AttachmentInserter=function(r){var u=!1;r.hover(function(){u=n(i.activeElement)}),r.click(function(i){function a(n,t){return n.hasClass("NoAttachment")&&n.hasClass("ImgFallback")?h:t}var c=r.closest(".AttachedFile").find(".Thumbnail a"),s=c.data("attachmentid"),f,e,h,o,v=XenForo._baseUrl,y=c.find("img").attr("src"),l=c.attr("href");i.preventDefault(),r.attr("name")=="thumb"?(e="[ATTACH]"+s+"[/ATTACH] ",h="[img]"+v+y+"[/img]",o='<img src="'+y+'" class="attachThumb bbCodeImage" alt="attachThumb'+s+'" /> '):(e="[ATTACH=full]"+s+"[/ATTACH] ",h="[img]"+v+l+"[/img]",o='<img src="'+l+'" class="attachFull bbCodeImage" alt="attachFull'+s+'" /> '),f=XenForo.getEditorInForm(r.closest("form"),"",u),f.execCommand&&t.tinyMCE?($textarea=n(f.getElement()),o=a($textarea,o),f.execCommand("mceInsertContent",!1,o)):(e=a(f,e),f.val(f.val()+e))})},XenForo.AttachmentDeleter=function(t){t.css("display","block").click(function(t){var i=n(t.target),s=i.attr("href")||i.data("href"),f=i.closest(".AttachedFile"),h=i.closest(".AttachedFile").find(".Thumbnail a"),e=h.data("attachmentid"),o;if(s)return f.xfFadeUp(XenForo.speed.normal,null,u,"swing"),XenForo.ajax(s,"",function(n){if(XenForo.hasResponseError(n))return f.xfFadeDown(XenForo.speed.normal),!1;var i=f.closest(".AttachmentEditor");f.xfRemove(null,function(){i.trigger("AttachmentsChanged")},u,"swing")}),e&&(o=XenForo.getEditorInForm(i.closest("form"),":not(.NoAttachment)",!1,!0),typeof o.getBody()!==r&&n(o.getBody()).find("img[alt=attachFull"+e+"], img[alt=attachThumb"+e+"]").remove()),!1;console.warn("Unable to locate href for attachment deletion from %o",i)})}}(jQuery,this,document,"undefined");
+!function($, window, document, undefined)
+{
+	/**************************************************************************
+   	   Extend XenForo.scriptLoader.loadScript for  XenForo overlays & TinyMCE
+	**************************************************************************/
+	var xenLoadScript = XenForo.scriptLoader.loadScript;
+	XenForo.scriptLoader.loadScript = function(url, success, failure){
+		var mceUrl = 'js/sedo/tinyquattro/tinymce',
+			mceRegex = new RegExp(mceUrl+'/tinymce(\.min)?\.js');
+		if (mceRegex.test(url)){
+			window.tinyMCEPreInit = {
+				baseURL: XenForo.baseUrl()+mceUrl,
+				suffix: /\.min\.js/.test(url) ? '.min' : ''
+			}
+		}
+		xenLoadScript(url, success, failure);
+	}
+
+	/**************************************************************************
+			Extend THE JQUERY FUNCTIONS TO MATCH WITH TINYMCE
+	**************************************************************************/
+	$.fn.extend(
+	{
+		_quattro_jqSerialize : $.fn.serialize,
+		serialize: function()
+		{
+			if (window.tinyMCE)
+			{
+				try { window.tinyMCE.triggerSave(); } catch (e) {}
+			}
+
+			return this._quattro_jqSerialize();
+		},
+
+		_quattro_jqSerializeArray : $.fn.serializeArray,
+		serializeArray: function()
+		{
+			if (window.tinyMCE)
+			{
+				try { window.tinyMCE.triggerSave(); } catch (e) {}
+			}
+
+			return this._quattro_jqSerializeArray();
+		}
+	});
+
+	/**************************************************************************
+			OVERRIDE THE XENFORO FUNCTION "getEditorInForm"
+	**************************************************************************/
+	var xenGetEditorInForm = XenForo.getEditorInForm;
+	XenForo.getEditorInForm = function(form, extraConstraints, $lastFocusedElement, enableExtraConstraints)
+	{
+		/**
+		 *  If the original function returns a Redactor editor, don't go further
+		 **/
+		var originalReturn = xenGetEditorInForm(form, extraConstraints);
+
+		if(originalReturn && originalReturn.$editor){
+			return originalReturn;
+		}
+
+		/**
+		 *  To be able to use  $lastFocusedElement & keep compatibility with XenForo it should 
+		 *  be in thrid position. Since extraContraints might mess the below detection method,
+		 *  they will be disable by default and can only be enable with a fourth argurment
+		 **/
+		if(!enableExtraConstraints){
+			extraConstraints = '';
+		}
+
+		/**
+		 *  MessageEditor is used for original loaded ediors (exit Toggled editors)
+		 *  .bbCodeEditorContainer textarea is to catch Toggled BbCode editors
+		 **/
+		var $form = $(form),
+			$messageEditors = $form.find('textarea.MessageEditor' + (extraConstraints || '')),
+			$bbCodeEditors = $form.find('.bbCodeEditorContainer textarea' + (extraConstraints || '')),
+			$allEditors = $messageEditors.add($bbCodeEditors);
+		
+		/*There must be at least one message editor in the form*/
+		if($messageEditors.length == 0){
+			return false;
+		}
+
+		/*The first message editor will be the fallback*/
+		var $messageEditor = $messageEditors.eq(0),
+			$bbCodesBbCodeEditor = $bbCodeEditors.eq(0);
+
+		/**
+		 * Let's find if one of the message editors or bbCode editors 
+		 * belongs to the $lastFocusedElement
+		 **/
+		if($lastFocusedElement && typeof $lastFocusedElement !== undefined){
+			var safeCheck = $lastFocusedElement.get(0), validFocus = false;
+			if(typeof safeCheck.id !== undefined)
+			{
+				$allEditors.each(function(){
+					if($(this).attr('id') == safeCheck.id){
+						validFocus = $(this);
+						return;
+					}
+				});
+	
+				if(validFocus) {
+					/**
+					 *	The lastFocusedElement is valid
+					 *	Let's focus it again if users need to insert several attachments
+					 *	Then let's return it
+					 **/
+					validFocus.focus();
+					//console.log('Editor from focus');
+					return validFocus;
+				}
+			}
+		}
+
+		/**
+		 * MCE Section
+		 **/		
+		if(window.tinyMCE){
+			var activeEditor = tinyMCE.activeEditor;
+			
+			if(activeEditor){
+				var $mceTextarea = $(activeEditor.getElement()),
+					mceTextareaId = $mceTextarea.attr('id'),
+					mceIsValid = false;
+				
+				$messageEditors.each(function(){
+					if($(this).attr('id') == mceTextareaId){
+						mceIsValid = true;
+						return;
+					}
+				});
+			}
+
+			if(activeEditor && mceIsValid && !$mceTextarea.attr('disabled')){
+				//console.log('MCE active');
+				return tinyMCE.activeEditor;
+			}else{
+				/*With old browser it could be possible that the activeEditor is lost (not sure)*/
+				var messageEditorId = $messageEditor.attr('id');
+				if(	messageEditorId 
+					&& typeof tinyMCE.editors[messageEditorId] !== undefined
+					&& !$messageEditor.attr('disabled')
+				)
+				{
+					//console.log('MCE Fallback');
+					return tinyMCE.editors[messageEditorId];
+				}
+			}
+		}
+		
+		if($messageEditor.attr('disabled')){
+			/*.attr is used to maintain a compatibily with XenForo 1.1.x */
+			if(!$bbCodesBbCodeEditor.length){
+				return false;
+			}
+			
+			//console.log('Bbcode Fallback');
+			return $bbCodesBbCodeEditor;
+		}
+
+		//console.log('Editor Fallback');		
+		return $messageEditor;
+	};
+
+	/**************************************************************************
+			OVERRIDE THE XENFORO FUNCTION "AttachmentInserter"
+	**************************************************************************/
+	var xenAttachInserter = XenForo.AttachmentInserter,
+		insertSpeed = XenForo.speed.normal,
+		removeSpeed = XenForo.speed.fast;
+	
+	XenForo.AttachmentInserter = function($trigger)
+	{
+		var $lastFocusedElement = false;
+		
+		$trigger.hover(function(e){
+			$lastFocusedElement = $(document.activeElement);
+		});
+
+		var editor = XenForo.getEditorInForm($trigger.closest('form'), '', $lastFocusedElement);
+		if(editor.$editor){
+			xenAttachInserter($trigger);
+			return false;
+		}
+
+		$trigger.click(function(e)
+		{
+			//Don't specify extraConstraints, it will mess the detection method, check the .NoAttachment after
+			var editor = XenForo.getEditorInForm($trigger.closest('form'), '', $lastFocusedElement);
+
+			var $attachment = $trigger.closest('.AttachedFile').find('.Thumbnail a'),
+				attachmentId = $attachment.data('attachmentid'),
+				bbcode,
+				imgBbcode,
+				html,
+				baseUrl = XenForo._baseUrl,
+				thumb = $attachment.find('img').attr('src'),
+				img = $attachment.attr('href');
+
+			e.preventDefault();
+
+			if ($trigger.attr('name') == 'thumb')
+			{
+				bbcode = '[ATTACH]' + attachmentId + '[/ATTACH] ';
+				imgBbcode = '[img]'+baseUrl+thumb+'[/img]';
+				html = '<img src="' + thumb + '" class="attachThumb bbCodeImage" alt="attachThumb' + attachmentId + '" /> ';
+			}
+			else
+			{
+				bbcode = '[ATTACH=full]' + attachmentId + '[/ATTACH] ';
+				imgBbcode = '[img]'+baseUrl+img+'[/img]';
+				html = '<img src="' + img + '" class="attachFull bbCodeImage" alt="attachFull' + attachmentId + '" /> ';
+			}
+
+			function activateImgFallback($textarea, output){
+				if($textarea.hasClass('NoAttachment') && $textarea.hasClass('ImgFallback')){
+					return imgBbcode;
+				}
+				return output;
+			}
+
+			if (editor.execCommand && window.tinyMCE) {
+				$textarea = $(editor.getElement());
+				html = activateImgFallback($textarea, html)
+				editor.execCommand('mceInsertContent', false, html);
+			}else{
+				bbcode = activateImgFallback(editor, bbcode)
+				editor.val(editor.val() + bbcode);
+			}
+		});
+	};
+
+	/**************************************************************************
+			OVERRIDE THE XENFORO FUNCTION "AttachmentDeleter"
+	**************************************************************************/
+	var xenAttachmentDeleter = XenForo.AttachmentDeleter;
+	XenForo.AttachmentDeleter = function($trigger)
+	{
+		var editor = XenForo.getEditorInForm($trigger.closest('form'), ':not(.NoAttachment)', false, true);
+
+		if(editor.$editor){
+			return xenAttachmentDeleter($trigger);
+		}
+
+		$trigger.css('display', 'block').click(function(e)
+		{
+			var $trigger = $(e.target),
+				href = $trigger.attr('href') || $trigger.data('href'),
+				$attachment = $trigger.closest('.AttachedFile'),
+				$thumb = $trigger.closest('.AttachedFile').find('.Thumbnail a'),
+				attachmentId = $thumb.data('attachmentid');
+
+			if (href)
+			{
+				$attachment.xfFadeUp(XenForo.speed.normal, null, removeSpeed, 'swing');
+
+				XenForo.ajax(href, '', function(ajaxData, textStatus)
+				{
+					if (XenForo.hasResponseError(ajaxData))
+					{
+						$attachment.xfFadeDown(XenForo.speed.normal);
+						return false;
+					}
+
+					var $editor = $attachment.closest('.AttachmentEditor');
+
+					$attachment.xfRemove(null, function() {
+						$editor.trigger('AttachmentsChanged');
+					}, removeSpeed, 'swing');
+				});
+
+				if (attachmentId)
+				{
+					if (typeof editor.getBody() !== undefined)
+					{
+						$(editor.getBody()).find('img[alt=attachFull' + attachmentId + '], img[alt=attachThumb' + attachmentId + ']').remove(); //TODO
+					}
+				}
+
+				return false;
+			}
+
+			console.warn('Unable to locate href for attachment deletion from %o', $trigger);
+		});
+	};
+}
+(jQuery, this, document, 'undefined');

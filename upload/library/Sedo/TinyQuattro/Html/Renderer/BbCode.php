@@ -17,6 +17,7 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 	public function __construct(array $options = array())
 	{
 		$xenOptions = XenForo_Application::get('options');
+		$quattroEnable = Sedo_TinyQuattro_Helper_Quattro::isEnabled();
 		
 		if(is_array($this->_cssHandlers) && Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('bcolor'))
 		{
@@ -30,7 +31,7 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 			&&
 			(	$xenOptions->quattro_table_all_editors_activation
 				||
-				Sedo_TinyQuattro_Helper_Quattro::isEnabled()
+				$quattroEnable
 			)
 		)
 		{
@@ -51,7 +52,7 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 
 		if(	is_array($this->_handlers) 
 			&&
-			Sedo_TinyQuattro_Helper_Quattro::isEnabled()
+			$quattroEnable
 			&&
 			$xenOptions->quattro_wysiwyg_quote
 		)
@@ -64,7 +65,7 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 			&&
 			Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('sub')
 			&&
-			Sedo_TinyQuattro_Helper_Quattro::isEnabled()
+			$quattroEnable
 		)
 		{
 			$this->_mceSubTagName = Sedo_TinyQuattro_Helper_BbCodes::getQuattroBbCodeTagName('sub');
@@ -75,7 +76,7 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 			&&
 			Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('sup')
 			&&
-			Sedo_TinyQuattro_Helper_Quattro::isEnabled()
+			$quattroEnable
 		)
 		{
 			$this->_mceSupTagName = Sedo_TinyQuattro_Helper_BbCodes::getQuattroBbCodeTagName('sup');

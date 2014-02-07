@@ -13,9 +13,9 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 				{
 					break;
 				}
-				
+
 				$params += array(
-					'quattroIntegration' => (self::_checkQuattroPermissions() && self::_quattroIntegration()) //quattro integration js (for 1.2)
+					'quattroIntegration' =>  Sedo_TinyQuattro_Helper_Quattro::isEnabled()
 				);
 		   	break;
 		}
@@ -36,7 +36,7 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 					self::getTemplateParam('viewName', $params)
 				);
 				
-				list($enable, $bbmParams) = Sedo_TinyQuattro_Helper_Quattro::isEnabled($ccv);
+				list($enable, $bbmParams) = Sedo_TinyQuattro_Helper_Quattro::isEnabled(true, $ccv);
 
 				if(!$enable)
 				{
