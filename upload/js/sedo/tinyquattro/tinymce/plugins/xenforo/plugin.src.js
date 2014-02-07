@@ -572,7 +572,7 @@
       			/*Checkbox shortcut*/
       			$checkBox = $overlay.find('.xenCheckBox');
       			
-      			if($checkBox.length > 1){
+      			if($checkBox.length > 0){
       				$checkBox.each(function(i){
       					var phrase = $(this).data('phrase'),
       					inputName = $(this).data('inputname'),
