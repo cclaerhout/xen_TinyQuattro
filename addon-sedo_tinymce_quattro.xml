@@ -2083,6 +2083,10 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 
 .mce-xen-body .xenCheckBox.mce-checked i{
 	text-indent:0;
+}
+
+.mce-xen-body hr {
+	border-bottom: 1px solid {xen:property quattroBorderColor};
 }]]></template>
     <template title="quattro_dialog_bbm_demo" version_id="1" version_string="1.0.1"><![CDATA[<xen:comment>
 	The below css template is the default css. It must be included with all dialog

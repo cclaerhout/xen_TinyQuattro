@@ -574,7 +574,7 @@
       			
       			if($checkBox.length > 0){
       				$checkBox.each(function(i){
-      					var phrase = $(this).data('phrase'),
+      					var phrase = $(this).data('phrase') || '',
       					inputName = $(this).data('inputname'),
       					checked = ($(this).data('checked') == 'checked') ? 1 : 0,
       					html = '<i class="mce-ico mce-i-checkbox"></i><span>'+phrase+'</span><input name="'+inputName+'" type="hidden" value="'+checked+'" />';
