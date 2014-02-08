@@ -1238,6 +1238,10 @@
 
 			return string;
 		},
+		stripTags: function(string)
+		{
+			 return string.replace(/<[^>]+>/ig,'');
+		},
 		getUrlRegex: function()
 		{
 			return new RegExp('^(?:\s+)?(?:(?:https?|ftp|file)://|www\.|ftp\.)[-a-zA-Z0-9+&@#/%=~_|$?!:,.]*[-a-zA-Z0-9+&@\#/%=~_|$](?:\s+)?$', 'i');
