@@ -18,7 +18,13 @@ class Sedo_TinyQuattro_Helper_Quattro
 		if($options->currentVersionId > 1020031)
 		{
 			//Only for XenForo 1.2: Check if addon is activated
-			$activeAddons = XenForo_Model::create('XenForo_Model_DataRegistry')->get('addOns');
+			$activeAddons = array();
+			
+			if(XenForo_Application::isRegistered('addOns'))
+			{
+				$activeAddons = XenForo_Application::get('addOns');
+			}
+			
 			$enable = (!empty($activeAddons['sedo_tinymce_quattro'])) ? true : false;
 		}
 				

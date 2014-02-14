@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.1.1.0" version_id="56" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.1.1.1" version_id="57" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -1737,14 +1737,16 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     </group>
   </style_properties>
   <templates>
-    <template title="quattro_bbcode_xtable" version_id="17" version_string="1.3.0"><![CDATA[<xen:require css="quattro_bbcode_xtable_auto.css" />
+    <template title="quattro_bbcode_xtable" version_id="56" version_string="2.1.1.0"><![CDATA[<xen:require css="quattro_bbcode_xtable_auto.css" />
 <xen:require css="quattro_bbcode_xtable_manual.css" />
 
-<table 	class="quattro_table {$extraClass}" 
-	{$attributes} 
-	{xen:if '{$css}', 'style="{$css}"'}
-	>{xen:raw $tagContent}</table>]]></template>
-    <template title="quattro_bbcode_xtable_auto.css" version_id="17" version_string="1.3.0"><![CDATA[<xen:comment>Don't edit this template directly, use the style options</xen:comment>
+<div class="quattro_table_container">
+	<table 	class="quattro_table {$extraClass}" 
+		{$attributes} 
+		{xen:if '{$css}', 'style="{$css}"'}
+		>{xen:raw $tagContent}</table>
+</div>]]></template>
+    <template title="quattro_bbcode_xtable_auto.css" version_id="56" version_string="2.1.1.0"><![CDATA[<xen:comment>Don't edit this template directly, use the style options</xen:comment>
 
 <xen:comment>Table</xen:comment>
 	table.quattro_table.skin1{
@@ -1880,7 +1882,11 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 
 	table.quattro_table.skin4 caption{
 		{xen:property quattro_table_skin4_caption}
-	}]]></template>
+	}
+	
+.quattro_table_container{
+	overflow:auto;
+}]]></template>
     <template title="quattro_bbcode_xtable_manual.css" version_id="17" version_string="1.3.0"><![CDATA[<xen:comment>You can edit this template to customize your table layouts</xen:comment>]]></template>
     <template title="quattro_dialog.css" version_id="56" version_string="2.1.1.0"><![CDATA[.mce-xen-body{
 	width:100%;
