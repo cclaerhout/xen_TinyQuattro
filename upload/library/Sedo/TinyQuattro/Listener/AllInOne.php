@@ -200,15 +200,6 @@ class Sedo_TinyQuattro_Listener_AllInOne
 			 array &$containerParams
 	)
 	{
-		self::_controllerPreView($fc, $controllerResponse, $viewRenderer, $containerParams);
-	}
-	
-	protected static function _controllerPreView(XenForo_FrontController $fc,
-			 XenForo_ControllerResponse_Abstract &$controllerResponse,
-			 XenForo_ViewRenderer_Abstract &$viewRenderer,
-			 array &$containerParams
-	)
-	{	
 		if(!XenForo_Visitor::getUserId())
 		{
 			return false;
