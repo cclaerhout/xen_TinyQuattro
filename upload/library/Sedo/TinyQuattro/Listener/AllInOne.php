@@ -202,7 +202,7 @@ class Sedo_TinyQuattro_Listener_AllInOne
 	{
 		if(!XenForo_Visitor::getUserId())
 		{
-			return false;
+			return;
 		}
 
 		$isControllerAdmin = (strstr($controllerResponse->controllerName, 'ControllerAdmin')) ? true : false;
