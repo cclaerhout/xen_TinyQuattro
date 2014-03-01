@@ -27,7 +27,7 @@ class Sedo_TinyQuattro_Helper_Quattro
 			
 			$enable = (!empty($activeAddons['sedo_tinymce_quattro'])) ? true : false;
 		}
-				
+
 		if(XenForo_Visitor::isBrowsingWith('mobile') && $options->quattro_disable_on_mobiles)
 		{
 			//TinyQuattro is disabled on mobiles

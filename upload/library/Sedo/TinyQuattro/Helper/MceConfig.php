@@ -207,11 +207,18 @@ class Sedo_TinyQuattro_Helper_MceConfig
 		/*MCE Extra css*/
 		$mceBtnCss = $bbmParams['customQuattroButtonsCss'];
 
+		/*Text direction*/
+		$textDirection = (!empty($language['text_direction'])) ? strtolower($language['text_direction']) : 'ltr';
+		
 		/*Mce skin*/
 		$skin = false;
 		if(!XenForo_Template_Helper_Core::styleProperty('tinyquattro_css_integration'))
 		{
 			$skin = trim(XenForo_Template_Helper_Core::styleProperty('tinyquattro_css_skin'));
+		}
+		elseif($textDirection == 'rtl')
+		{
+			$skin = 'lightgray';
 		}
 		
 		/*Visitor style*/
@@ -223,9 +230,6 @@ class Sedo_TinyQuattro_Helper_MceConfig
 		/*Request path*/
 		$requestPath = $this->getTemplateParam('requestPaths');
 		$fullBasePath = (isset($requestPath['fullBasePath'])) ? $requestPath['fullBasePath'] : null;
-		
-		/*Text direction*/
-		$textDirection = (!empty($language['text_direction'])) ? strtolower($language['text_direction']) : 'ltr';
 		
 		/*EditorOptions*/
 		$editorOptions = $this->getTemplateParam('editorOptions');
@@ -541,6 +545,10 @@ class Sedo_TinyQuattro_Helper_MceConfig
 			return false;
 		}
 
+		if($this->mceSettings['directionality'] == 'rtl'){
+			$this->mceSettings['menubar'] = array_reverse($this->mceSettings['menubar']);
+		}
+		
 		$this->mceSettings['menubar'] = implode(' ', $this->mceSettings['menubar']);
 
 		/* Menu */

@@ -129,6 +129,11 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 	{
 		$string = parent::filterString($string, $rendererStates);
 
+		if(!empty($rendererStates['stopWhiteSpaceEmulation']))
+		{
+			return $string;
+		}
+
 		$insideBbCode = !empty($rendererStates['tagDataStack']);
 		$xenOptions = XenForo_Application::get('options');
 		$emulateAllWhiteSpace = $xenOptions->quattro_emulate_allwhitespace_html;
@@ -136,6 +141,7 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 		
 		$emulateAllWhiteSpace = (empty($emulateAllWhiteSpace) || $emulateAllWhiteSpace == 'no' || ($insideBbCode && $emulateAllWhiteSpace == 'limited')) ? false : true;
 		$emulateTabs = (empty($emulateTabs) || $emulateTabs == 'no' || ($insideBbCode && $emulateTabs == 'limited')) ? false : true;
+
 
 		if($emulateAllWhiteSpace)
 		{

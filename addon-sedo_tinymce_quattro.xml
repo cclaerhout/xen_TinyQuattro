@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.1.1.2" version_id="58" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.1.2" version_id="59" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -2634,7 +2634,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 			cursor: pointer;
 			line-height: 1.6;
 		}]]></template>
-    <template title="tiny_quattro_buttons.css" version_id="26" version_string="1.6.1"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_buttons.css" version_id="58" version_string="2.1.1.2"><![CDATA[<xen:comment>
 	TINYMCE BUTTONS FOR ALL BROWSERS EXCEPT IE7
 </xen:comment>
 
@@ -2808,7 +2808,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 	content: "\e017";
 }
 
-.mce-i-inserttime:before
+.mce-i-insertdatetime:before
 {
 	content: "\e018";
 }
@@ -2974,7 +2974,7 @@ i.mce-i-backcolor
 	background: {xen:property tinyquattro_icon_bckg_color};
 }
 ]]></template>
-    <template title="tiny_quattro_buttons_ie7.css" version_id="33" version_string="1.6.4.2"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_buttons_ie7.css" version_id="58" version_string="2.1.1.2"><![CDATA[<xen:comment>
 	TINYMCE BUTTONS FOR IE7
 </xen:comment>
 
@@ -3101,7 +3101,7 @@ i.mce-i-backcolor
 .mce-i-code {
 	-ie7-icon:"\e017"
 }
-.mce-i-inserttime {
+.mce-i-insertdatetime {
 	-ie7-icon:"\e018"
 }
 .mce-i-preview {
@@ -3201,7 +3201,7 @@ i.mce-i-backcolor
 
 
 ]]></template>
-    <template title="tiny_quattro_common_css.css" version_id="53" version_string="2.1.0.3"><![CDATA[<xen:set var="$_mcePrimaryDark">{xen:property quattroDark}</xen:set>
+    <template title="tiny_quattro_common_css.css" version_id="58" version_string="2.1.1.2"><![CDATA[<xen:set var="$_mcePrimaryDark">{xen:property quattroDark}</xen:set>
 <xen:set var="$_mcePrimaryLightish">{xen:property quattroLightish}</xen:set>
 <xen:set var="$_mcePrimaryLight">{xen:property quattroLight}</xen:set>
 <xen:set var="$_mcePrimaryLighter">{xen:property quattroLighter}</xen:set>
@@ -3278,7 +3278,7 @@ i.mce-i-backcolor
 <xen:set var="$mceMenuItHvrGradientTo">{$_mcePrimaryLight}</xen:set>
 <xen:set var="$mceMenuItHvrGradientFallback">{xen:helper playwithcolors, '{$mceMenuItHvrGradientFrom}', 'mix', '{$mceMenuItHvrGradientTo}', 50, 'hex'}</xen:set>
 
-.mce-container,.mce-container *,.mce-widget,.mce-widget * {
+.mce-container,.mce-container *,.mce-widget,.mce-widget *,.mce-reset {
 	margin:0;
 	padding:0;
 	border:0;
@@ -3303,7 +3303,7 @@ i.mce-i-backcolor
 	-moz-box-sizing:content-box;
 	-webkit-box-sizing:content-box;
 	box-sizing:content-box;
-	direction:ltr
+	direction:ltr;
 }
 .mce-widget button {
 	-moz-box-sizing:border-box;
@@ -3388,6 +3388,7 @@ div.mce-edit-area {
 .mce-charmap td:hover {
 	background:{$_mcePrimaryLighterStill}
 }
+
 .mce-grid td div {
 	border:1px solid {$mceGridBorder};
 	width:12px;
@@ -3395,6 +3396,11 @@ div.mce-edit-area {
 	margin:2px;
 	cursor:pointer
 }
+
+.mce-grid td div:focus {
+	border-color:{$mceGridBorder}
+}
+
 .mce-grid {
 	border-spacing:2px;
 	border-collapse:separate
@@ -3403,7 +3409,7 @@ div.mce-edit-area {
 	display:block;
 	border:1px solid transparent
 }
-.mce-grid a:hover {
+.mce-grid a:hover, ,.mce-grid a:focus {
 	border-color:{$mceGridBorder}
 }
 .mce-grid-border {
@@ -4327,7 +4333,7 @@ i.mce-i-checkbox {
 .mce-menu-item.mce-disabled .mce-text,.mce-menu-item.mce-disabled .mce-ico {
 	color:{$mceMenuItDisable}
 }
-.mce-menu-item:hover .mce-text,.mce-menu-item.mce-selected .mce-text {
+.mce-menu-item:hover .mce-text,.mce-menu-item.mce-selected .mce-text, .mce-menu-item:focus .mce-text {
 	color:{$_mceMiscColor} }
 .mce-menu-item:hover .mce-ico,.mce-menu-item.mce-selected .mce-ico,.mce-menu-item:focus .mce-ico {
 	color:{$_mceMiscColor} }
@@ -4373,9 +4379,14 @@ i.mce-i-checkbox {
 	border-left:5px solid {$_mceSecondaryLight}
 }
 .mce-menu-item-normal.mce-active .mce-text {
-	color:{$_mceMiscColor} }
+	color:{$_mceMiscColor}
+}
 .mce-menu-item-normal.mce-active:hover .mce-text,.mce-menu-item-normal.mce-active:hover .mce-ico {
-	color:{$_mceMiscColor} }
+	color:{$_mceMiscColor}
+}
+.mce-menu-item-normal.mce-active:focus .mce-text,.mce-menu-item-normal.mce-active:focus .mce-ico {
+	color:{$_mceMiscColor}
+}
 .mce-menu-item:hover,.mce-menu-item.mce-selected,.mce-menu-item:focus {
 	text-decoration:none;
 	color:{$_mceMiscColor};
@@ -4591,8 +4602,8 @@ i.mce-i-resize {
 	zoom:1;
 	background:{$_mceMiscColor} url('styles/sedo/tinyquattro/img/loader.gif') no-repeat center center
 }]]></template>
-    <template title="tiny_quattro_editor.css" version_id="19" version_string="1.3.1"><![CDATA[<xen:comment>Official css for all browsers (XenForo integration)</xen:comment>
-<xen:if is="{xen:property tinyquattro_css_integration}">
+    <template title="tiny_quattro_editor.css" version_id="58" version_string="2.1.1.2"><![CDATA[<xen:comment>Official css for all browsers (XenForo integration)</xen:comment>
+<xen:if is="{xen:property tinyquattro_css_integration} AND !{$pageIsRtl}">
 	<xen:include template="tiny_quattro_common_css.css" />
 </xen:if>
 
@@ -4600,14 +4611,14 @@ i.mce-i-resize {
 <xen:include template="tiny_quattro_framework.css" />
 
 <xen:comment>Buttons CSS for all browsers but IE7</xen:comment>
-<xen:if is="{xen:property tinyquattro_css_integration}">
+<xen:if is="{xen:property tinyquattro_css_integration} AND !{$pageIsRtl}">
 	<xen:include template="tiny_quattro_buttons.css" />
 </xen:if>
 <xen:include template="tiny_quattro_xenbuttons.css" />
 
 <xen:edithint template="tiny_quattro_iframe.css" />]]></template>
-    <template title="tiny_quattro_editor_ie7.css" version_id="19" version_string="1.3.1"><![CDATA[<xen:comment>Official css for all browsers (XenForo integration)</xen:comment>
-<xen:if is="{xen:property tinyquattro_css_integration}">
+    <template title="tiny_quattro_editor_ie7.css" version_id="58" version_string="2.1.1.2"><![CDATA[<xen:comment>Official css for all browsers (XenForo integration)</xen:comment>
+<xen:if is="{xen:property tinyquattro_css_integration} AND !{$pageIsRtl}">
 	<xen:include template="tiny_quattro_common_css.css" />
 </xen:if>
 
@@ -4615,13 +4626,13 @@ i.mce-i-resize {
 <xen:include template="tiny_quattro_framework.css" />
 
 <xen:comment>Buttons CSS FOR IE7</xen:comment>
-<xen:if is="{xen:property tinyquattro_css_integration}">
+<xen:if is="{xen:property tinyquattro_css_integration} AND !{$pageIsRtl}">
 	<xen:include template="tiny_quattro_buttons_ie7.css" />
 </xen:if>
 <xen:include template="tiny_quattro_xenbuttons_ie7.css" />
 
 <xen:edithint template="tiny_quattro_iframe.css" />]]></template>
-    <template title="tiny_quattro_framework.css" version_id="53" version_string="2.1.0.3"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_framework.css" version_id="58" version_string="2.1.1.2"><![CDATA[<xen:comment>
 	XenForo Framework addons
 </xen:comment>
 
