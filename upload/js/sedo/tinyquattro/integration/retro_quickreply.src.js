@@ -152,7 +152,10 @@
 						}
 
 						if(ed.execCommand && !ed.$editor){
-							ed.execCommand('insertHtml', false, ajaxData.quoteHtml);
+							var args = {
+								//skip_focus: true
+							};
+							ed.execCommand('mceInsertContent', false, ajaxData.quoteHtml, args);
 						}else if(ed.$editor){
 							ed.insertHtml(ajaxData.quoteHtml);
 							if (ed.$editor.data('xenForoElastic'))
