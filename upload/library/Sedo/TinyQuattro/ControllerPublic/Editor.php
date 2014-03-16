@@ -203,7 +203,7 @@ class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_Con
 			);
 
 			$attachments = !empty($attachmentParams['attachments']) ? $attachmentParams['attachments'] : array();
-			//$attachments = $attachmentModel->getAttachmentsByContentId('post', $postId);
+			$attachments += $attachmentModel->getAttachmentsByContentId('post', $postId);
 			$attachments = $attachmentModel->prepareAttachments($attachments);
 		}
 		elseif($type == 'newPost')
