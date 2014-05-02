@@ -9,6 +9,12 @@ class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_Con
 	{
 		/*Retrieve JS overlay params*/
 		$dialog = $this->_input->filterSingle('dialog', XenForo_Input::STRING);
+
+		if(!$dialog)
+		{
+			throw new XenForo_Exception(new XenForo_Phrase('sedo_quattro_you_should_not_be_there'), true);
+		}		
+		
 		$selectedHtml = $this->_input->filterSingle('selectedHtml', XenForo_Input::STRING);
 		$selectedText = $this->_input->filterSingle('selectedText', XenForo_Input::STRING);
 		$isUrl = $this->_input->filterSingle('isUrl', XenForo_Input::STRING);
@@ -58,10 +64,11 @@ class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_Con
 		}
 
 		/*Get Post attachments*/
+		$attachments = array();
 		$attachments = $this->_quattroGetAttachments($attachmentData['type'], $attachmentData['id'], $attachmentData['hash']);
 
 		$imgAttachments = array();
-		
+
 		foreach($attachments as $attachment)
 		{
 			if(!empty($attachment['thumbnailUrl']))

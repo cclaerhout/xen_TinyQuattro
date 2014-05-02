@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.1.2" version_id="59" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.1.3" version_id="60" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -1525,6 +1525,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_wordcount_characterswithwhitespaces" version_id="0" version_string="1.0"><![CDATA[Yes - count characters & white space]]></phrase>
     <phrase title="sedo_quattro_wordcount_words" version_id="0" version_string="1.0"><![CDATA[Yes - count words (default)]]></phrase>
     <phrase title="sedo_quattro_words" version_id="0" version_string="1.0"><![CDATA[Words: {0}]]></phrase>
+    <phrase title="sedo_quattro_you_should_not_be_there" version_id="59" version_string="2.1.2"><![CDATA[You should not be there]]></phrase>
     <phrase title="style_property_group_sedo_tinyquattro_master" version_id="0" version_string="1.0"><![CDATA[TinyMCE Quattro]]></phrase>
     <phrase title="style_property_group_sedo_tinyquattro_master_desc" version_id="0" version_string="1.0"><![CDATA[Configure the layout of TinyMCE 4]]></phrase>
     <phrase title="style_property_group_sedo_tinyquattro_table_1_master" version_id="17" version_string="1.3.0"><![CDATA[TinyMCE Quattro - Table bb code (1/2)]]></phrase>
@@ -1888,7 +1889,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 	overflow:auto;
 }]]></template>
     <template title="quattro_bbcode_xtable_manual.css" version_id="17" version_string="1.3.0"><![CDATA[<xen:comment>You can edit this template to customize your table layouts</xen:comment>]]></template>
-    <template title="quattro_dialog.css" version_id="56" version_string="2.1.1.0"><![CDATA[.mce-xen-body{
+    <template title="quattro_dialog.css" version_id="59" version_string="2.1.2"><![CDATA[.mce-xen-body{
 	width:100%;
 	height:100%;
 }
@@ -2094,6 +2095,11 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 .mce-xen-body hr {
 	border-bottom: 1px solid {xen:property quattroBorderColor};
 	margin: 6px auto;
+}
+
+.mce-xen-body dd.dd_inline > * {
+	display: inline-block;
+	margin: 5px;
 }]]></template>
     <template title="quattro_dialog_bbm_demo" version_id="1" version_string="1.0.1"><![CDATA[<xen:comment>
 	The below css template is the default css. It must be included with all dialog
@@ -2634,7 +2640,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 			cursor: pointer;
 			line-height: 1.6;
 		}]]></template>
-    <template title="tiny_quattro_buttons.css" version_id="58" version_string="2.1.1.2"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_buttons.css" version_id="59" version_string="2.1.2"><![CDATA[<xen:comment>
 	TINYMCE BUTTONS FOR ALL BROWSERS EXCEPT IE7
 </xen:comment>
 
@@ -2667,12 +2673,16 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 	font-family: 'tinymce',Arial;
 	font-style: normal;
 	font-weight: normal;
+	font-variant: normal;
 	font-size: 16px;
 	line-height: 16px;
+	speak:none;
 	vertical-align: text-top;
 	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 	display: inline-block;
 	background: transparent center center;
+	background-size: cover;
 	width: 16px;
 	height: 16px;
 	color: {xen:property tinyquattro_icon_color};
@@ -2974,7 +2984,7 @@ i.mce-i-backcolor
 	background: {xen:property tinyquattro_icon_bckg_color};
 }
 ]]></template>
-    <template title="tiny_quattro_buttons_ie7.css" version_id="58" version_string="2.1.1.2"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_buttons_ie7.css" version_id="59" version_string="2.1.2"><![CDATA[<xen:comment>
 	TINYMCE BUTTONS FOR IE7
 </xen:comment>
 
@@ -3004,17 +3014,21 @@ i.mce-i-backcolor
 
 .mce-ico
 {
-	font-family:'tinymce';
-	font-style:normal;
-	font-weight:normal;
-	font-size:16px;
-	line-height:16px;
-	vertical-align:text-top;
-	-webkit-font-smoothing:antialiased;
-	display:inline-block;
-	background:transparent center center;
-	width:16px;
-	height:16px;
+	font-family: 'tinymce',Arial;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	font-size: 16px;
+	line-height: 16px;
+	speak: none;
+	vertical-align: text-top;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	display: inline-block;
+	background: transparent center center;
+	background-size: cover;
+	width: 16px;
+	height: 16px;
 	color: {xen:property tinyquattro_icon_color};
 	-ie7-icon:' '
 }
@@ -3201,7 +3215,7 @@ i.mce-i-backcolor
 
 
 ]]></template>
-    <template title="tiny_quattro_common_css.css" version_id="58" version_string="2.1.1.2"><![CDATA[<xen:set var="$_mcePrimaryDark">{xen:property quattroDark}</xen:set>
+    <template title="tiny_quattro_common_css.css" version_id="59" version_string="2.1.2"><![CDATA[<xen:set var="$_mcePrimaryDark">{xen:property quattroDark}</xen:set>
 <xen:set var="$_mcePrimaryLightish">{xen:property quattroLightish}</xen:set>
 <xen:set var="$_mcePrimaryLight">{xen:property quattroLight}</xen:set>
 <xen:set var="$_mcePrimaryLighter">{xen:property quattroLighter}</xen:set>
@@ -4229,7 +4243,6 @@ i.mce-i-checkbox {
 	*display:inline;
 	*zoom:1;
 	text-shadow:0 1px 1px rgba(165,202,228,0.75);
-	border:0;
 	overflow:hidden
 }
 .mce-label.mce-autoscroll {
@@ -4601,6 +4614,10 @@ i.mce-i-resize {
 	filter:alpha(opacity=60);
 	zoom:1;
 	background:{$_mceMiscColor} url('styles/sedo/tinyquattro/img/loader.gif') no-repeat center center
+}
+.mce-throbber-inline {
+	position:static;
+	height:50px
 }]]></template>
     <template title="tiny_quattro_editor.css" version_id="58" version_string="2.1.1.2"><![CDATA[<xen:comment>Official css for all browsers (XenForo integration)</xen:comment>
 <xen:if is="{xen:property tinyquattro_css_integration} AND !{$pageIsRtl}">
