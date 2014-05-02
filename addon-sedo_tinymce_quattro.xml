@@ -2097,10 +2097,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 	margin: 6px auto;
 }
 
-.mce-xen-body dd.dd_inline > * {
-	display: inline-block;
-	margin: 5px;
-}]]></template>
+]]></template>
     <template title="quattro_dialog_bbm_demo" version_id="1" version_string="1.0.1"><![CDATA[<xen:comment>
 	The below css template is the default css. It must be included with all dialog
 </xen:comment>

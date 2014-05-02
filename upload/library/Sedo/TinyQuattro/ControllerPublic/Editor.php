@@ -64,7 +64,6 @@ class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_Con
 		}
 
 		/*Get Post attachments*/
-		$attachments = array();
 		$attachments = $this->_quattroGetAttachments($attachmentData['type'], $attachmentData['id'], $attachmentData['hash']);
 
 		$imgAttachments = array();
