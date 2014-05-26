@@ -167,6 +167,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 		}
 
 		$this->_matches = $this->_getMatchesFromSplitRegex($text);
+		reset($this->_matches);
 		$this->_tree = $this->_buildTree();
 		
 		return;
@@ -193,8 +194,9 @@ class Sedo_TinyQuattro_Helper_MiniParser
 		$nodes = array();
 		$i = 0;			
 
-		while (($value = array_shift($this->_matches)) !== NULL)
+		while (($value = current($this->_matches)) !== FALSE)
 		{
+			next($this->_matches);
 			switch ($i++ % 3)
 			{
 				case 0:
