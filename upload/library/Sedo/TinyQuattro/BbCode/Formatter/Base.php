@@ -123,6 +123,12 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 	}
 
 	/**
+	 * Cache emulation options
+	 */
+	protected $emulateAllWhiteSpace;
+	protected $emulateTabs;
+    
+	/**
 	 * Extend XenForo filterString function to add an option to recreate tabs in html
 	 */
 	public function filterString($string, array $rendererStates)
@@ -135,20 +141,22 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 		}
 
 		$insideBbCode = !empty($rendererStates['tagDataStack']);
-		$xenOptions = XenForo_Application::get('options');
-		$emulateAllWhiteSpace = $xenOptions->quattro_emulate_allwhitespace_html;
-		$emulateTabs = $xenOptions->quattro_emulate_tabs_html;
-		
-		$emulateAllWhiteSpace = (empty($emulateAllWhiteSpace) || $emulateAllWhiteSpace == 'no' || ($insideBbCode && $emulateAllWhiteSpace == 'limited')) ? false : true;
-		$emulateTabs = (empty($emulateTabs) || $emulateTabs == 'no' || ($insideBbCode && $emulateTabs == 'limited')) ? false : true;
+		if (!isset($this->emulateAllWhiteSpace))
+		{
+			$xenOptions = XenForo_Application::get('options');
+			$emulateAllWhiteSpace = $xenOptions->quattro_emulate_allwhitespace_html;
+			$emulateTabs = $xenOptions->quattro_emulate_tabs_html;
+			
+			$this->emulateAllWhiteSpace = (empty($emulateAllWhiteSpace) || $emulateAllWhiteSpace == 'no' || ($insideBbCode && $emulateAllWhiteSpace == 'limited')) ? false : true;
+			$this->emulateTabs = (empty($emulateTabs) || $emulateTabs == 'no' || ($insideBbCode && $emulateTabs == 'limited')) ? false : true;
+		}
 
-
-		if($emulateAllWhiteSpace)
+		if($this->emulateAllWhiteSpace)
 		{
 			$string = $this->emulateAllWhiteSpace($string);
 		}
 
-		if($emulateTabs)
+		if($this->emulateTabs)
 		{
 			$string = $this->emulateWhiteSpaceTabs($string);
 		}
