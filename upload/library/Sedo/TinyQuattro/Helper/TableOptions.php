@@ -148,6 +148,10 @@ class Sedo_TinyQuattro_Helper_TableOptions
 			{
 				continue;
 			}
+			elseif($this->_mceOptionChecker_BorderColor($option))
+			{
+				continue;
+			}
 			elseif($this->_mceOptionChecker_ExtraClass($option, 'table'))
 			{
 				continue;
@@ -275,6 +279,14 @@ class Sedo_TinyQuattro_Helper_TableOptions
 			{
 				continue;			
 			}
+			elseif($this->_mceOptionChecker_Border($option))
+			{
+				continue;
+			}
+			elseif($this->_mceOptionChecker_BorderColor($option))
+			{
+				continue;
+			}
 		}
 		
 		return array($this->_mceAttributes, $this->_mceCss, $this->_mceExtraClass);	
@@ -318,6 +330,14 @@ class Sedo_TinyQuattro_Helper_TableOptions
 			{
 				continue;			
 			}
+			elseif($this->_mceOptionChecker_Border($option))
+			{
+				continue;
+			}
+			elseif($this->_mceOptionChecker_BorderColor($option))
+			{
+				continue;
+			}			
 		}
 		
 		return array($this->_mceAttributes, $this->_mceCss, $this->_mceExtraClass);	
@@ -523,6 +543,27 @@ class Sedo_TinyQuattro_Helper_TableOptions
 			$this->_pushMceOption("border-width: {$value}{$unit}");
 			$this->_pushMceOption("border={$value}", 'isAttribute');
 			$this->_mceOptionsStack['border'] = true;
+			return true;
+		}
+		
+		return false;
+	}
+
+	protected function _mceOptionChecker_BorderColor($option)
+	{
+		if(!empty($this->_mceOptionsStack['bdcolor']))
+		{
+			return false;
+		}
+		
+		$option = trim($option);
+		$regex = '/^border-color:[ ]*?(rgb\(\s*\d+%?\s*,\s*\d+%?\s*,\s*\d+%?\s*\)|#[a-f0-9]{6}|#[a-f0-9]{3}|[a-z]+)$/i';
+
+		if(preg_match($regex, $option, $match))
+		{		
+			$bdColor = $match[1];
+			$this->_pushMceOption("border-color: $bdColor");
+			$this->_mceOptionsStack['bdcolor'] = true;
 			return true;
 		}
 		

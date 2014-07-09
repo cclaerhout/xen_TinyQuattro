@@ -512,7 +512,7 @@
       			
       			/* Get body height */
       				//$overlay.find('.mce-xen-body').height(); doesn't work well on IE 7-8-9
-      			var ovlBodyHeight = $overlay.children('.mce-container-body').height();
+      			var ovlBodyHeight = $overlay.find('.mce-container-body').height();
 
       			/* AutoFocus */
       			$overlay.find('.mceFocus').focus();
@@ -2163,8 +2163,10 @@
 	/***
 	*	XenForo Colors Plugin
 	*	This modifies the official plugin (so keep it in the config)
-	*	Last update: 2013-06-14
+	*	Last update: 2013-06-14 // 2014-07-07 MCE 4.1 has now its own color picker
 	***/
+
+	/*
 	tinymce.create(xenPlugin+'.XenColors', {
 		XenColors: function(parent, ed) 
 		{
@@ -2173,7 +2175,7 @@
 
 			this.ed = ed;
 
-			/*Extra color picker*/
+			//Extra color picker
 			function modifyButton(button) {
 				var html = button.panel.html, cmd = button.selectcmd, onclick = button.onclick;
 				
@@ -2186,16 +2188,16 @@
 					}
 				}
 
-				/***
-				*	The ideal solution would have been to modify the panel.onclick function but
-				*	with jQuery 1.5.3 the $.proxy doesn't accept arguments, so the function couldn't
-				*	be extended without being rewritten. To avoid this let's use the parent onclick
-				*	listener (which is not used here) and a jQuery trick (unbind/bind);
-				*	
-				*	Edit 2013-06-14: the onclick is now used by mce, use onshow instead
-				**/
+				//
+				//	The ideal solution would have been to modify the panel.onclick function but
+				//	with jQuery 1.5.3 the $.proxy doesn't accept arguments, so the function couldn't
+				//	be extended without being rewritten. To avoid this let's use the parent onclick
+				//	listener (which is not used here) and a jQuery trick (unbind/bind);
+				//	
+				//	Edit 2013-06-14: the onclick is now used by mce, use onshow instead
+				//
 				button.onshow = function(e){
-					/*Color Picker Mangement*/
+					//Color Picker Mangement
 					var buttonCtrl = this;
 					$('.mceAdvPicker').unbind('click').bind('click', function(e){
 						e.preventDefault();
@@ -2209,7 +2211,7 @@
 						src.init(buttonObj); // arg = created element (1)
 					});
 
-					/*Postion fix - TinyMCE bug #bug 5910*/
+					//Postion fix - TinyMCE bug #bug 5910
 					src.fixBtnFullscreen(buttonCtrl, 'panel');
 				}
 			}
@@ -2250,7 +2252,8 @@
 			xenMCE.Templates.ColorPicker.submit(e, $overlay, ed, src);
 		}
 	});
-
+	*/
+	
 	/***
 	*	XenForo Media Plugin
 	*	Independent plugin (no need to keep the official one in the config)
@@ -2444,7 +2447,8 @@
 			var src = this, 
 				n = 'xen_smilies', 
 				n2 = 'xen_smilies_picker',
-				windowType = parent.getParam('smiliesWindow');
+				windowType = parent.getParam('smiliesWindow'),
+				menuItemWindow = parent.getParam('showSmilieItemWin');
 
 			function _getHtml(fullSmilies) 
 			{
@@ -2503,8 +2507,9 @@
 						smiliesHtml += getGrid('', smilies[smiliesMenuBtnCat].smilies);
 					} else {
 						tinymce.each(smilies, function(v, k) {
+							var title = (v.title) ? v.title : parent.getPhrase('uncat_smilies');
 							if(fullSmilies === true){
-								smiliesHtml += '<p class="mce_smilie_cat_title">'+v.title+'</p>';
+								smiliesHtml += '<p class="mce_smilie_cat_title">'+title+'</p>';
 								smiliesHtml += '<div class="mce_smilie_cat">'+getGrid('', v.smilies)+'</div>';
 							} else {
 								smiliesHtml += getGrid('', v.smilies);
@@ -2607,34 +2612,37 @@
 			ed.addButton(n, configN1);
 			ed.addButton(n2, configN2);
 
-			ed.addMenuItem(n, $.extend({},
-				configN1, {
-					text: "Smilies",
-					tooltip: false,
-					type: 'menuitem',
-					context: 'insert',
-					autohide: false,
-					panel: false,
-					align: 'center',
+			var addMenuItemConfig = $.extend({}, configN1, {
+				text: "Smilies",
+				tooltip: false,
+				type: 'menuitem',
+				context: 'insert',
+				autohide: false,
+				panel: false,
+				align: 'center',
+				onclick: function(e){
+					var self = this;
+					$.extend(self, { mirrorClick: configN2.onclick });
+					self.mirrorClick(e);
+					self.hideMenu().parent().hide();
+				}
+			});
+			
+			if(menuItemWindow){
+				addMenuItemConfig.menu = [{
+					type: 'container',
+					html: getSmilies(),
+					classes: 'quattro-menu-smilies',
 					onclick: function(e){
-						var self = this;
-						$.extend(self, { mirrorClick: configN2.onclick });
-						self.mirrorClick(e);
-						self.hideMenu().parent().hide();
-					},
-					menu: [{
-						type: 'container',
-						html: getSmilies(),
-						classes: 'quattro-menu-smilies',
-						onclick: function(e){
-							e.preventDefault();
-							e.dontHide = true;
-							configN1Window.onclick(e);
-							e.stopPropagation();
-						}
-					}]
-				})
-			);
+						e.preventDefault();
+						e.dontHide = true;
+						configN1Window.onclick(e);
+						e.stopPropagation();
+					}
+				}];
+			}
+			
+			ed.addMenuItem(n, addMenuItemConfig);
 
 			ed.addMenuItem(n2, $.extend({},
 				configN2, {

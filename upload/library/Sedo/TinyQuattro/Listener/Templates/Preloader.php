@@ -57,13 +57,8 @@ class Sedo_TinyQuattro_Listener_Templates_Preloader
 				$xenShowWysiwyg = $params['showWysiwyg'];
 
 				
-				/* Smilie categories - will need to be rewritten */
-				$bbmSmiliesHaveCategories = false;
-
-				if($xenOptions->quattro_smilies_sm_addon_enable)
-				{
-					list($bbmSmiliesHaveCategories, $bbmSmilies) = Sedo_TinyQuattro_Helper_Editor::getSmiliesByCategory();	
-				}
+				/* Smilie categories */
+				list($bbmSmiliesHaveCategories, $bbmSmilies) = Sedo_TinyQuattro_Helper_Smilie::getSmiliesAllVersions();
 
 				/* Extra values to get the Mce Config */
 				$mceConfig = new Sedo_TinyQuattro_Helper_MceConfig($params, $bbmParams, $template);

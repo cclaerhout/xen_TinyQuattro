@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.1.3" version_id="60" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.2.0" version_id="61" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -99,30 +99,47 @@
 #quattro_force_button .buttons_trigger:hover{
 	color: orange;
 }]]></template>
-    <template title="quattro_option_list_smiley_manager_categories"><![CDATA[<xen:if is="!{$xenCache.smilieCategories}">
-	<xen:selectunit label="{$preparedOption.title}" name="{$fieldPrefix}[{$preparedOption.option_id}]" value="{$preparedOption.option_value}"
-		hint="{$preparedOption.hint}" inputclass="{$preparedOption.inputClass}">
-		<xen:option value="-1" label="{xen:phrase sedo_quattro_sm_addon_no_category_found}" />
-		<xen:explain>{xen:raw $preparedOption.explain}</xen:explain>
-		<xen:html>
-			<input type="hidden" name="{$listedFieldName}" value="{$preparedOption.option_id}" />
-			{xen:raw $editLink}
-		</xen:html>
-	</xen:selectunit>
+    <template title="quattro_option_list_smiley_manager_categories"><![CDATA[<xen:if is="{$xenOptions.currentVersionId} > 1030031">
+      	<xen:selectunit label="{$preparedOption.title}" name="{$fieldPrefix}[{$preparedOption.option_id}]" value="{$preparedOption.option_value}"
+      		hint="{$preparedOption.hint}" inputclass="{$preparedOption.inputClass}">
+      		<xen:option value="-1" label="{xen:phrase sedo_quattro_sm_addon_no_category}" />
+      		<xen:foreach loop="$xenCache.mce_smilie" value="$categorie">
+      		 	<xen:option value="{$categorie.id}" label="{xen:if '!{$categorie.title}', '{xen:phrase uncategorized_smilies}', '{$categorie.title}'}" />
+      		</xen:foreach>
+      		<xen:explain>{xen:raw $preparedOption.explain}</xen:explain>
+      		<xen:html>
+      			<input type="hidden" name="{$listedFieldName}" value="{$preparedOption.option_id}" />
+      			{xen:raw $editLink}
+      		</xen:html>
+      	</xen:selectunit>
 <xen:else />
-	<xen:selectunit label="{$preparedOption.title}" name="{$fieldPrefix}[{$preparedOption.option_id}]" value="{$preparedOption.option_value}"
-		hint="{$preparedOption.hint}" inputclass="{$preparedOption.inputClass}">
-		<xen:option value="-1" label="{xen:phrase sedo_quattro_sm_addon_no_category}" />
-		<xen:foreach loop="$xenCache.smilieCategories" value="$categorie">
-		 	<xen:option value="{$categorie.smilie_category_id}" label="{$categorie.category_title}" />
-		</xen:foreach>
-		<xen:explain>{xen:raw $preparedOption.explain}</xen:explain>
-		<xen:html>
-			<input type="hidden" name="{$listedFieldName}" value="{$preparedOption.option_id}" />
-			{xen:raw $editLink}
-		</xen:html>
-	</xen:selectunit>
-</xen:if>]]></template>
+	<xen:if is="!{$xenCache.smilieCategories}">
+		<xen:selectunit label="{$preparedOption.title}" name="{$fieldPrefix}[{$preparedOption.option_id}]" value="{$preparedOption.option_value}"
+			hint="{$preparedOption.hint}" inputclass="{$preparedOption.inputClass}">
+			<xen:option value="-1" label="{xen:phrase sedo_quattro_sm_addon_no_category_found}" />
+			<xen:explain>{xen:raw $preparedOption.explain}</xen:explain>
+			<xen:html>
+				<input type="hidden" name="{$listedFieldName}" value="{$preparedOption.option_id}" />
+				{xen:raw $editLink}
+			</xen:html>
+		</xen:selectunit>
+	<xen:else />
+		<xen:selectunit label="{$preparedOption.title}" name="{$fieldPrefix}[{$preparedOption.option_id}]" value="{$preparedOption.option_value}"
+			hint="{$preparedOption.hint}" inputclass="{$preparedOption.inputClass}">
+			<xen:option value="-1" label="{xen:phrase sedo_quattro_sm_addon_no_category}" />
+			<xen:foreach loop="$xenCache.smilieCategories" value="$categorie">
+			 	<xen:option value="{$categorie.smilie_category_id}" label="{$categorie.category_title}" />
+			</xen:foreach>
+			<xen:explain>{xen:raw $preparedOption.explain}</xen:explain>
+			<xen:html>
+				<input type="hidden" name="{$listedFieldName}" value="{$preparedOption.option_id}" />
+				{xen:raw $editLink}
+			</xen:html>
+		</xen:selectunit>
+	</xen:if>
+</xen:if>
+
+]]></template>
     <template title="style_property_unit_quattro_table"><![CDATA[<xen:require css="style_property_unit_quattro_table.css" />
 
 <input type="hidden" name="checkboxes[]" value="{$property.property_definition_id}" />
@@ -638,6 +655,7 @@ i.mce-i-backcolor
     <listener event_id="load_class_bb_code" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="BbCodeBaseFormatter" active="1" hint="XenForo_BbCode_Formatter_Base" description="Extend Bb Code Base Formatter"/>
     <listener event_id="load_class_controller" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="ControllerPublicEditor" active="1" hint="XenForo_ControllerPublic_Editor" description="Extend Controller Public Editor"/>
     <listener event_id="load_class_datawriter" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="ExtendDatawriter" active="1" hint="" description="Extend Datawriter"/>
+    <listener event_id="load_class_model" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="ExtendSmilieModel" active="1" hint="XenForo_Model_Smilie" description="Extend Smilie Model"/>
     <listener event_id="load_class_view" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="ViewPublicEditorToHtml" active="1" hint="XenForo_ViewPublic_Editor_ToHtml" description="Extend XenForo_ViewPublic_Editor_ToHtml"/>
     <listener event_id="load_class_view" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="ViewPublicEditorToBbCode" active="1" hint="XenForo_ViewPublic_Editor_ToBbCode" description="Extend XenForo_ViewPublic_Editor_ToBbCode"/>
     <listener event_id="template_create" execute_order="8" callback_class="Sedo_TinyQuattro_Listener_Templates_Preloader" callback_method="EditorPreloader" active="1" hint="editor" description="Editor Template Preloader"/>
@@ -1030,6 +1048,12 @@ both={xen:phrase yes}
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="2710"/>
     </option>
+    <option option_id="quattro_smiliemenuitem_enable_menu_window" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>1</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="478"/>
+    </option>
     <option option_id="quattro_smilies_desc" edit_format="select" data_type="string" can_backup="1">
       <default_value>full</default_value>
       <edit_format_params>full={xen:phrase sedo_quattro_smilies_desc_full}
@@ -1038,19 +1062,13 @@ none={xen:phrase sedo_quattro_smilies_desc_none}</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="1540"/>
     </option>
-    <option option_id="quattro_smilies_sm_addon_enable" edit_format="onoff" data_type="boolean" can_backup="1">
-      <default_value>0</default_value>
-      <edit_format_params></edit_format_params>
-      <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="2600"/>
-    </option>
     <option option_id="quattro_smilies_sm_addon_menubtn_cat" edit_format="template" data_type="integer" can_backup="1">
       <default_value>-1</default_value>
       <edit_format_params>quattro_option_list_smiley_manager_categories</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="2610"/>
     </option>
-    <option option_id="quattro_smilies_sm_addon_uncat_bottom" edit_format="onoff" data_type="boolean" can_backup="1">
+    <option option_id="quattro_smilies_uncat_bottom" edit_format="onoff" data_type="boolean" can_backup="1">
       <default_value>0</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
@@ -1076,6 +1094,13 @@ belowbox={xen:phrase quattro_smilies_belowbox}</edit_format_params>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro_bbcodes" display_order="5000"/>
+    </option>
+    <option option_id="quattro_textpattern" edit_format="radio" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params>0={xen:phrase no}
+1={xen:phrase yes}</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro" display_order="85"/>
     </option>
     <option option_id="quattro_tglMenuCollasped" edit_format="radio" data_type="boolean" can_backup="1">
       <default_value>0</default_value>
@@ -1308,14 +1333,14 @@ This patch is enable by default.]]></phrase>
     <phrase title="option_quattro_resize_editor_explain" version_id="33" version_string="1.6.4.2"><![CDATA[This option will allow your users to resize the editor if they need to. Default: no.]]></phrase>
     <phrase title="option_quattro_retain_style_properties" version_id="26" version_string="1.6.1"><![CDATA[Paste - Retain style properties]]></phrase>
     <phrase title="option_quattro_retain_style_properties_explain" version_id="26" version_string="1.6.1"><![CDATA[Comma separated list of style properties to retain during the paste operation from Word. For example: "font-size,color". If you want to remove all style properties use an empty string "" or "none", false will cause an error in IE. If you want to keep all style properties, use "all" or "*". Default is "none".]]></phrase>
+    <phrase title="option_quattro_smiliemenuitem_enable_menu_window" version_id="60" version_string="2.1.3"><![CDATA[Smilie menu item - display fast selection window?]]></phrase>
+    <phrase title="option_quattro_smiliemenuitem_enable_menu_window_explain" version_id="60" version_string="2.1.3"><![CDATA[If you are using the smilie menu item, it has by default two features: on hover it displays a window with some smilies to help your users to select them fastly ; on click it display one of the possible smilie window. If you don't want the first feature, uncheck this option.]]></phrase>
     <phrase title="option_quattro_smilies_desc" version_id="12" version_string="1.1.5"><![CDATA[Smilies description]]></phrase>
     <phrase title="option_quattro_smilies_desc_explain" version_id="12" version_string="1.1.5"><![CDATA[Choose what kind of description should be displayed on mouse over.]]></phrase>
-    <phrase title="option_quattro_smilies_sm_addon_enable" version_id="33" version_string="1.6.4.2"><![CDATA[Enable the Smiley Manager addon?]]></phrase>
-    <phrase title="option_quattro_smilies_sm_addon_enable_explain" version_id="33" version_string="1.6.4.2"><![CDATA[The <a href="http://xenforo.com/community/resources/2538/" target="_blank">Smiley Manager</a> is an addon created by Milano who allows you to manage your smilies by categories. Check the box if you want to enable it with TinyMCE Quattro.]]></phrase>
     <phrase title="option_quattro_smilies_sm_addon_menubtn_cat" version_id="33" version_string="1.6.4.2"><![CDATA[[Smiley Manager] Use a category for the smiley Menu Button?]]></phrase>
-    <phrase title="option_quattro_smilies_sm_addon_menubtn_cat_explain" version_id="33" version_string="1.6.4.2"><![CDATA[If you want to use a smiley category for the smiley menu button, just choose it here.]]></phrase>
-    <phrase title="option_quattro_smilies_sm_addon_uncat_bottom" version_id="33" version_string="1.6.4.2"><![CDATA[Show uncategorized smilies at the bottom?]]></phrase>
-    <phrase title="option_quattro_smilies_sm_addon_uncat_bottom_explain" version_id="33" version_string="1.6.4.2"><![CDATA[If you enable the display of the uncategorized smilies inside the Smiley Manager addon, this category should be displayed as the first. Check this option if you want to display it as the last category.]]></phrase>
+    <phrase title="option_quattro_smilies_sm_addon_menubtn_cat_explain" version_id="60" version_string="2.1.3"><![CDATA[This option will only work with XenForo 1.3 or if you have installed the <a href="http://xenforo.com/community/resources/2538/" target="_blank">Smiley Manager</a>, an addon created by Milano who allows you to manage your smilies by categories on XenForo 1.2. If you want to use a smiley category for the smiley menu button, just choose it here.]]></phrase>
+    <phrase title="option_quattro_smilies_uncat_bottom" version_id="60" version_string="2.1.3"><![CDATA[Show uncategorized smilies at the bottom?]]></phrase>
+    <phrase title="option_quattro_smilies_uncat_bottom_explain" version_id="60" version_string="2.1.3"><![CDATA[The uncategorized smilies should be displayed as the first ones by default. Check this option if you want to display it as the last category. P.S: this feature will not work if you have selected the "Below box" display.]]></phrase>
     <phrase title="option_quattro_smilies_window_type" version_id="34" version_string="1.6.5.0"><![CDATA[[Modal button] Window type]]></phrase>
     <phrase title="option_quattro_smilies_window_type_explain" version_id="34" version_string="1.6.5.0"><![CDATA[The "<b>Modal all-in-one</b>" is a modal window programmatically loaded (TinyMCE feature). It will have all the smilies and will be fast to display. Its height can be set in the styles properties.<br />
 <br />
@@ -1330,6 +1355,8 @@ The "<b>Below box</b>" is a smilies box inserted below the editor. This one is o
 One more thing, even if the bbcode is rendered in other editors it doesn't mean there will be special menus to modify your table. These ones will have to be coded or activated. But once activated, this addon "html to bbcode" engine for the table elements should work without any problems.<br />
 <br />
 Default configuration: unchecked.]]></phrase>
+    <phrase title="option_quattro_textpattern" version_id="60" version_string="2.1.3"><![CDATA[Activate the text patterns (markdown)?]]></phrase>
+    <phrase title="option_quattro_textpattern_explain" version_id="60" version_string="2.1.3"><![CDATA[This will enable the TinyMCE text patterns like markdown inside the editor (<a href="http://www.tinymce.com/wiki.php/Configuration:textpattern_patterns" target="_blank">ref</a>).]]></phrase>
     <phrase title="option_quattro_tglMenuCollasped" version_id="49" version_string="2.0.1"><![CDATA[Full editor - Collasped by default]]></phrase>
     <phrase title="option_quattro_tglMenuCollasped_explain" version_id="49" version_string="2.0.1"><![CDATA[This will collapse the full editor by default.]]></phrase>
     <phrase title="option_quattro_tglMenuMode" version_id="49" version_string="2.0.1"><![CDATA[Full editor - Button lines toggler]]></phrase>
@@ -1385,14 +1412,16 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="quattro_smilies_belowbox" version_id="34" version_string="1.6.5.0"><![CDATA[Below box]]></phrase>
     <phrase title="quattro_smilies_modal_allinone" version_id="34" version_string="1.6.5.0"><![CDATA[Modal all-in-one]]></phrase>
     <phrase title="quattro_smilies_modal_slider" version_id="34" version_string="1.6.5.0"><![CDATA[Modal slider]]></phrase>
+    <phrase title="sedo_quattro_advanced" version_id="60" version_string="2.1.3"><![CDATA[Advanced]]></phrase>
     <phrase title="sedo_quattro_bbcode_editor" version_id="49" version_string="2.0.1"><![CDATA[Bb Code editor]]></phrase>
     <phrase title="sedo_quattro_bold" version_id="50" version_string="2.1.0"><![CDATA[Bold]]></phrase>
     <phrase title="sedo_quattro_characters" version_id="0" version_string="1.0"><![CDATA[Characters: {0}]]></phrase>
     <phrase title="sedo_quattro_clearformatting" version_id="50" version_string="2.1.0"><![CDATA[Clear formatting]]></phrase>
-    <phrase title="sedo_quattro_color" version_id="0" version_string="1.0"><![CDATA[Selected color]]></phrase>
+    <phrase title="sedo_quattro_color" version_id="60" version_string="2.1.3"><![CDATA[Selected color]]></phrase>
     <phrase title="sedo_quattro_colorname" version_id="0" version_string="1.0"><![CDATA[Color name]]></phrase>
     <phrase title="sedo_quattro_colors_picker" version_id="0" version_string="1.0"><![CDATA[Colors picker]]></phrase>
     <phrase title="sedo_quattro_copy" version_id="50" version_string="2.1.0"><![CDATA[Copy]]></phrase>
+    <phrase title="sedo_quattro_custom_3dots" version_id="60" version_string="2.1.3"><![CDATA[Custom...]]></phrase>
     <phrase title="sedo_quattro_cut" version_id="50" version_string="2.1.0"><![CDATA[Cut]]></phrase>
     <phrase title="sedo_quattro_default_bbmbuttons" version_id="50" version_string="2.1.0"><![CDATA[Bbm Buttons]]></phrase>
     <phrase title="sedo_quattro_default_buttons" version_id="50" version_string="2.1.0"><![CDATA[Default buttons]]></phrase>
@@ -1440,6 +1469,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_paste_alert_message" version_id="4" version_string="1.0.4"><![CDATA[Please use Ctrl+V/Cmd+V keyboard shortcuts to paste contents.]]></phrase>
     <phrase title="sedo_quattro_paste_plain_alert_message" version_id="6" version_string="1.0.6"><![CDATA[Paste is now in plain text mode. Contents will now be pasted as plain text until you toggle this option off.]]></phrase>
     <phrase title="sedo_quattro_php" version_id="0" version_string="1.0"><![CDATA[PHP]]></phrase>
+    <phrase title="sedo_quattro_phrase_color" version_id="60" version_string="2.1.3"><![CDATA[Color]]></phrase>
     <phrase title="sedo_quattro_prev" version_id="4" version_string="1.0.4"><![CDATA[Prev]]></phrase>
     <phrase title="sedo_quattro_quote_properties" version_id="45" version_string="1.7.1.3"><![CDATA[Quote properties]]></phrase>
     <phrase title="sedo_quattro_quote_username" version_id="45" version_string="1.7.1.3"><![CDATA[Username]]></phrase>
@@ -1469,12 +1499,15 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_spoiler" version_id="49" version_string="2.0.1"><![CDATA[Spoiler]]></phrase>
     <phrase title="sedo_quattro_spoiler_title" version_id="49" version_string="2.0.1"><![CDATA[Spoiler title]]></phrase>
     <phrase title="sedo_quattro_strikethrough" version_id="50" version_string="2.1.0"><![CDATA[Strikethrough]]></phrase>
+    <phrase title="sedo_quattro_style" version_id="60" version_string="2.1.3"><![CDATA[Style]]></phrase>
     <phrase title="sedo_quattro_subscript" version_id="48" version_string="2.0.0"><![CDATA[Subscript]]></phrase>
     <phrase title="sedo_quattro_superscript" version_id="48" version_string="2.0.0"><![CDATA[Superscript]]></phrase>
     <phrase title="sedo_quattro_table" version_id="40" version_string="1.7.0.5"><![CDATA[Table]]></phrase>
     <phrase title="sedo_quattro_table_alignment" version_id="17" version_string="1.3.0"><![CDATA[Alignment]]></phrase>
+    <phrase title="sedo_quattro_table_background_color" version_id="60" version_string="2.1.3"><![CDATA[Background color]]></phrase>
     <phrase title="sedo_quattro_table_body" version_id="17" version_string="1.3.0"><![CDATA[Body]]></phrase>
     <phrase title="sedo_quattro_table_border" version_id="17" version_string="1.3.0"><![CDATA[Border]]></phrase>
+    <phrase title="sedo_quattro_table_border_color" version_id="60" version_string="2.1.3"><![CDATA[Border color]]></phrase>
     <phrase title="sedo_quattro_table_caption" version_id="17" version_string="1.3.0"><![CDATA[Caption]]></phrase>
     <phrase title="sedo_quattro_table_cell" version_id="17" version_string="1.3.0"><![CDATA[Cell]]></phrase>
     <phrase title="sedo_quattro_table_Cellpadding" version_id="17" version_string="1.3.0"><![CDATA[Cell padding]]></phrase>
@@ -2476,7 +2509,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 	overflow-y: auto;
 	margin-left:8px;
 }]]></template>
-    <template title="quattro_dialog_smilies_slider" version_id="50" version_string="2.1.0"><![CDATA[<xen:require js="js/sedo/tinyquattro/extra/jqt_slider.js" />
+    <template title="quattro_dialog_smilies_slider" version_id="60" version_string="2.1.3"><![CDATA[<xen:require js="js/sedo/tinyquattro/extra/jqt_slider.js" />
 <xen:require js="js/sedo/tinyquattro/templates/smilies_slider.js" />
 
 <xen:require css="quattro_dialog.css" />
@@ -2522,7 +2555,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 
 	<div class="mceSlidesTabs sm_addon">
 		<xen:foreach loop="$smiliesBySlides" value="$slide" i="$i" count="$total">
-			<a href="#">{$slide.title} {xen:if '{$slide.titleSuffixFirst}', '({$slide.titleSuffixFirst}/{$slide.titleSuffixLast})'}</a>
+			<a href="#">{xen:if '!{$slide.title}', '{xen:phrase uncategorized_smilies}', '{$slide.title}'} {xen:if '{$slide.titleSuffixFirst}', '({$slide.titleSuffixFirst}/{$slide.titleSuffixLast})'}</a>
 		</xen:foreach>
 	</div>
 </xen:if>
@@ -3212,7 +3245,7 @@ i.mce-i-backcolor
 
 
 ]]></template>
-    <template title="tiny_quattro_common_css.css" version_id="59" version_string="2.1.2"><![CDATA[<xen:set var="$_mcePrimaryDark">{xen:property quattroDark}</xen:set>
+    <template title="tiny_quattro_common_css.css" version_id="61" version_string="2.2.0"><![CDATA[<xen:set var="$_mcePrimaryDark">{xen:property quattroDark}</xen:set>
 <xen:set var="$_mcePrimaryLightish">{xen:property quattroLightish}</xen:set>
 <xen:set var="$_mcePrimaryLight">{xen:property quattroLight}</xen:set>
 <xen:set var="$_mcePrimaryLighter">{xen:property quattroLighter}</xen:set>
@@ -3315,6 +3348,7 @@ i.mce-i-backcolor
 	-webkit-box-sizing:content-box;
 	box-sizing:content-box;
 	direction:ltr;
+	max-width:none
 }
 .mce-widget button {
 	-moz-box-sizing:border-box;
@@ -3337,7 +3371,7 @@ i.mce-i-backcolor
 	opacity:1
 }
 .mce-tinymce {
-	visibility:visible !important;
+	visibility:inherit !important;
 	position:relative
 }
 .mce-fullscreen {
@@ -3400,16 +3434,20 @@ div.mce-edit-area {
 	background:{$_mcePrimaryLighterStill}
 }
 
-.mce-grid td div {
+.mce-grid td.mce-grid-cell div {
 	border:1px solid {$mceGridBorder};
-	width:12px;
-	height:12px;
-	margin:2px;
+	width:15px;
+	height:15px;
+	margin:0px;
 	cursor:pointer
 }
 
-.mce-grid td div:focus {
+.mce-grid td.mce-grid-cell div:focus {
 	border-color:{$mceGridBorder}
+}
+
+.mce-grid td.mce-grid-cell div[disabled] {
+	cursor:not-allowed
 }
 
 .mce-grid {
@@ -3444,6 +3482,15 @@ div.mce-tinymce-inline {
 	-webkit-box-shadow:none;
 	-moz-box-shadow:none;
 	box-shadow:none
+}
+
+.mce-colorbtn-trans div {
+	text-align:center;
+	vertical-align:middle;
+	font-weight:bold;
+	font-size:20px;
+	line-height:16px;
+	color:#707070
 }
 
 .mce-toolbar-grp {
@@ -3517,7 +3564,7 @@ div.mce-tinymce-inline {
 	</xen:if>	
 }
 .mce-floatpanel {
-	position:absolute
+	position:absolute;
 }
 .mce-floatpanel.mce-fixed {
 	position:fixed
@@ -3543,9 +3590,9 @@ div.mce-tinymce-inline {
 	-webkit-border-radius:6px;
 	-moz-border-radius:6px;
 	border-radius:6px;
-	-webkit-box-shadow:0 5px 10px rgba(0,0,0,0.2);
-	-moz-box-shadow:0 5px 10px rgba(0,0,0,0.2);
-	box-shadow:0 5px 10px rgba(0,0,0,0.2);
+	-webkit-box-shadow:0 5px 10px rgba(0,0,0,0);
+	-moz-box-shadow:0 5px 10px rgba(0,0,0,0);
+	box-shadow:0 5px 10px rgba(0,0,0,0);
 	top:0;
 	left:0;
 	background:#fff;
@@ -3862,7 +3909,7 @@ body .mce-abs-layout-item,.mce-abs-end {
 	</xen:if>	
 }
 
-.mce-btn:not(.mce-disabled):active {
+.mce-btn:active {
 	<xen:if is="!{xen:property tinyquattro_flatdesign}">
 		{xen:helper playwithcolors, '{$mceBtnActiveGradientFrom}', 'gradient', '{$mceBtnActiveGradientTo}', '{$mceBtnActiveGradientFallback}'}
 	<xen:else />
@@ -3975,6 +4022,25 @@ body .mce-abs-layout-item,.mce-abs-end {
 	border-bottom:4px solid {$mceText};
 	border-top:0
 }
+.mce-btn-flat {
+	border:0;
+	background:transparent;
+	-webkit-border-radius:0;
+	-moz-border-radius:0;
+	border-radius:0;
+	-webkit-box-shadow:none;
+	-moz-box-shadow:none;
+	box-shadow:none;
+	filter:none
+}
+.mce-btn-flat:hover,.mce-btn-flat.mce-active,.mce-btn-flat:focus,.mce-btn-flat:active {
+	border:0;
+	background:{$mceMenubarBgActive};
+	filter:none;
+	-webkit-box-shadow:none;
+	-moz-box-shadow:none;
+	box-shadow:none
+}
 .mce-rtl .mce-btn button {
 	direction:rtl
 }
@@ -4046,6 +4112,52 @@ i.mce-i-checkbox {
 .mce-rtl i.mce-i-checkbox {
 	margin:0 0 0 3px
 }
+.mce-combobox {
+	display:inline-block;
+	*display:inline;
+	*zoom:1;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	border-radius:3px;
+	*height:32px
+}
+.mce-combobox input {
+	border:1px solid {$_mcePrimaryLighter};
+	border-right-color: {$_mcePrimaryLighter};
+	height:28px
+}
+.mce-combobox.mce-disabled input {
+	color:#adadad
+}
+.mce-combobox.mce-has-open input {
+	-webkit-border-radius:4px 0 0 4px;
+	-moz-border-radius:4px 0 0 4px;
+	border-radius:4px 0 0 4px
+}
+.mce-combobox .mce-btn {
+	border-left:0;
+	-webkit-border-radius:0 4px 4px 0;
+	-moz-border-radius:0 4px 4px 0;
+	border-radius:0 4px 4px 0
+}
+.mce-combobox button {
+	padding-right:8px;
+	padding-left:8px
+}
+.mce-combobox.mce-disabled .mce-btn button {
+	cursor:default;
+	-webkit-box-shadow:none;
+	-moz-box-shadow:none;
+	box-shadow:none;
+	opacity:.4;
+	filter:alpha(opacity=40);
+	zoom:1
+}
+.mce-colorbox i {
+	border:1px solid {$_mcePrimaryLighter};
+	width:14px;
+	height:14px
+}
 .mce-colorbutton .mce-ico {
 	position:relative
 }
@@ -4108,44 +4220,79 @@ i.mce-i-checkbox {
 	padding-left:4px;
 	padding-right:4px
 }
-.mce-combobox {
-	display:inline-block;
-	*display:inline;
-	*zoom:1;
-	-webkit-border-radius:3px;
-	-moz-border-radius:3px;
-	border-radius:3px;
-	*height:32px
+
+.mce-colorpicker {
+	position:relative;
+	width:250px;
+	height:220px
 }
-.mce-combobox input {
-	border:1px solid {$_mcePrimaryLight};
-	border-right-color:{$_mcePrimaryLight};
-	height:28px
+.mce-colorpicker-sv {
+	position:absolute;
+	top:0;
+	left:0;
+	width:90%;
+	height:100%;
+	border:1px solid {$_mcePrimaryLighter};
+	cursor:crosshair;
+	overflow:hidden
 }
-.mce-combobox.mce-disabled input {
-	color:{$mceComboBoxDisable}
+.mce-colorpicker-h-chunk {
+	width:100%
 }
-.mce-combobox.mce-has-open input {
-	-webkit-border-radius:4px 0 0 4px;
-	-moz-border-radius:4px 0 0 4px;
-	border-radius:4px 0 0 4px
+.mce-colorpicker-overlay1,.mce-colorpicker-overlay2 {
+	width:100%;
+	height:100%;
+	position:absolute;
+	top:0;
+	left:0
 }
-.mce-combobox .mce-btn {
-	border-left:0;
-	-webkit-border-radius:0 4px 4px 0;
-	-moz-border-radius:0 4px 4px 0;
-	border-radius:0 4px 4px 0
+.mce-colorpicker-overlay1 {
+	filter:progid:DXImageTransform.Microsoft.gradient(GradientType=1,startColorstr='#ffffff',endColorstr='#00ffffff');
+	-ms-filter:"progid:DXImageTransform.Microsoft.gradient(GradientType=1,startColorstr='#ffffff',endColorstr='#00ffffff')";
+	background:linear-gradient(to right,#fff,rgba(255,255,255,0))
 }
-.mce-combobox button {
-	padding-right:8px;
-	padding-left:8px
+.mce-colorpicker-overlay2 {
+	filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#00000000',endColorstr='#000000');
+	-ms-filter:"progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#00000000',endColorstr='#000000')";
+	background:linear-gradient(to bottom,rgba(0,0,0,0),#000)
 }
-.mce-combobox.mce-disabled .mce-btn button {
-	cursor:default;
-	opacity:.4;
-	filter:alpha(opacity=40);
-	zoom:1
+.mce-colorpicker-selector1 {
+	background:none;
+	position:absolute;
+	width:12px;
+	height:12px;
+	margin:-8px 0 0 -8px;
+	border:1px solid black;
+	border-radius:50%
 }
+.mce-colorpicker-selector2 {
+	position:absolute;
+	width:10px;
+	height:10px;
+	border:1px solid white;
+	border-radius:50%
+}
+.mce-colorpicker-h {
+	position:absolute;
+	top:0;
+	right:0;
+	width:6.5%;
+	height:100%;
+	border:1px solid {$_mcePrimaryLighter};
+	cursor:crosshair
+}
+.mce-colorpicker-h-marker {
+	margin-top:-4px;
+	position:absolute;
+	top:0;
+	left:-1px;
+	width:100%;
+	border:1px solid #333;
+	background:#fff;
+	height:4px;
+	z-index:100
+}
+
 .mce-path {
 	display:inline-block;
 	*display:inline;
@@ -4982,24 +5129,25 @@ blockquote.mce_quote {
 
 <xen:edithint template="tiny_quattro_iframe.css" />
 <xen:edithint template="tiny_quattro_framework.css" />]]></template>
-    <template title="tiny_quattro_phrases" version_id="50" version_string="2.1.0"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_phrases" version_id="60" version_string="2.1.3"><![CDATA[<xen:comment>
 	We are inside a JavaScript file. All phrases must be escaped
 </xen:comment>
 	<xen:comment>xenphrases</xen:comment>
+	apply: "{xen:jsescape {xen:phrase apply}}",
+	cancel: "{xen:jsescape {xen:phrase cancel}}",
+	draft: { save: "{xen:jsescape {xen:phrase save_draft}}", _delete: "{xen:jsescape {xen:phrase delete_draft}}", saved: "{xen:jsescape {xen:phrase draft_saved}}", deleted: "{xen:jsescape {xen:phrase draft_deleted}}"},
+	field: "{xen:jsescape {xen:phrase sedo_quattro_field}}",
+	font_size: "{xen:jsescape {xen:phrase sedo_quattro_font_size}}",
+	font_family: "{xen:jsescape {xen:phrase sedo_quattro_font_family}}",
 	fullscreen: "{xen:jsescape {xen:phrase sedo_quattro_fullscreen}}",
+	insert: "{xen:jsescape {xen:phrase insert}}",
 	notitle: "{xen:jsescape {xen:phrase sedo_quattro_titleismissing}}",
 	more_colors: "{xen:jsescape {xen:phrase sedo_quattro_more_colors}}",
 	size: "{xen:jsescape {xen:phrase sedo_quattro_size}}",
-	font_size: "{xen:jsescape {xen:phrase sedo_quattro_font_size}}",
-	font_family: "{xen:jsescape {xen:phrase sedo_quattro_font_family}}",
-	apply: "{xen:jsescape {xen:phrase apply}}",
-	insert: "{xen:jsescape {xen:phrase insert}}",
-	update: "{xen:jsescape {xen:phrase update}}",
-	cancel: "{xen:jsescape {xen:phrase cancel}}",
 	switch_text: ["{xen:jsescape {xen:phrase use_bb_code_editor}}", "{xen:jsescape {xen:phrase use_rich_text_editor}}"],
+	uncat_smilies: "{xen:jsescape {xen:phrase uncategorized_smilies}}",
 	unlink: "{xen:jsescape {xen:phrase unlink}}",
-	field: "{xen:jsescape {xen:phrase sedo_quattro_field}}",
-	draft: { save: "{xen:jsescape {xen:phrase save_draft}}", _delete: "{xen:jsescape {xen:phrase delete_draft}}", saved: "{xen:jsescape {xen:phrase draft_saved}}", deleted: "{xen:jsescape {xen:phrase draft_deleted}}"},
+	update: "{xen:jsescape {xen:phrase update}}",
 
 	<xen:comment>autotranslation</xen:comment>
 	alignleft_desc: "{xen:jsescape {xen:phrase align_left}}",
@@ -5007,81 +5155,85 @@ blockquote.mce_quote {
 	alignright_desc: "{xen:jsescape {xen:phrase align_right}}",
 	alignjustify_desc: "{xen:jsescape {xen:phrase quattro_align_justify}}",
 	backcolor_desc: "{xen:jsescape {xen:phrase sedo_quattro_select_background_color}}",
-	forecolor_desc: "{xen:jsescape {xen:phrase text_color}}",
 	bold_desc: "{xen:jsescape {xen:phrase bold_ctrl_b}}",
-	italic_desc: "{xen:jsescape {xen:phrase italic_ctrl_i}}",
-	underline_desc: "{xen:jsescape {xen:phrase underline_ctrl_u}}",
-	strikethrough_desc: "{xen:jsescape {xen:phrase strike_through}}",
-	removeformat_desc: "{xen:jsescape {xen:phrase remove_formatting}}",
-	undo_desc: "{xen:jsescape {xen:phrase undo_ctrl_z}}",
-	redo_desc: "{xen:jsescape {xen:phrase redo_ctrl_y}}",
-	outdent_desc: "{xen:jsescape {xen:phrase outdent}}",
-	indent_desc: "{xen:jsescape {xen:phrase indent}}",
 	bullist_desc: "{xen:jsescape {xen:phrase unordered_list}}",
+	forecolor_desc: "{xen:jsescape {xen:phrase text_color}}",
+	indent_desc: "{xen:jsescape {xen:phrase indent}}",
+	italic_desc: "{xen:jsescape {xen:phrase italic_ctrl_i}}",
 	numlist_desc: "{xen:jsescape {xen:phrase ordered_list}}",
-	xen_link_desc: "{xen:jsescape {xen:phrase  sedo_quattro_insert_edit_link}}",
-	xen_unlink_desc: "{xen:jsescape {xen:phrase unlink}}",
-	xen_media_desc: "{xen:jsescape {xen:phrase media}}",
-	xen_image_desc: "{xen:jsescape {xen:phrase sedo_quattro_insert_edit_image}}",
+	outdent_desc: "{xen:jsescape {xen:phrase outdent}}",
+	redo_desc: "{xen:jsescape {xen:phrase redo_ctrl_y}}",
+	removeformat_desc: "{xen:jsescape {xen:phrase remove_formatting}}",
+	restoredraft_desc: "{xen:jsescape {xen:phrase sedo_quattro_restoredraft}}",
+	strikethrough_desc: "{xen:jsescape {xen:phrase strike_through}}",
+	underline_desc: "{xen:jsescape {xen:phrase underline_ctrl_u}}",
+	undo_desc: "{xen:jsescape {xen:phrase undo_ctrl_z}}",
 	xen_code_desc: "{xen:jsescape {xen:phrase code}}",
+	xen_image_desc: "{xen:jsescape {xen:phrase sedo_quattro_insert_edit_image}}",
+	xen_link_desc: "{xen:jsescape {xen:phrase  sedo_quattro_insert_edit_link}}",
+	xen_media_desc: "{xen:jsescape {xen:phrase media}}",
+	xen_nonbreaking_desc: "{xen:jsescape {xen:phrase sedo_quattro_nonbreaking}}",
 	xen_quote_desc: "{xen:jsescape {xen:phrase quote}}",
 	xen_smilies_desc: "{xen:jsescape {xen:phrase smilies}}",
-	xen_nonbreaking_desc: "{xen:jsescape {xen:phrase sedo_quattro_nonbreaking}}",
-	restoredraft_desc: "{xen:jsescape {xen:phrase sedo_quattro_restoredraft}}",
+	xen_unlink_desc: "{xen:jsescape {xen:phrase unlink}}",
 
 <xen:comment>tinymce I18n translation object</xen:comment>
 
 	I18n: {
 		<xen:comment>extend_i18n</xen:comment>
 	<xen:if is="{$xenOptions.quattro_extra_bbcodes.xtable}">
-		"Table": "{xen:jsescape {xen:phrase sedo_quattro_table}}",
-		"Insert table": "{xen:jsescape {xen:phrase sedo_quattro_table_inserttable}}",
-		"Table properties": "{xen:jsescape {xen:phrase sedo_quattro_table_tableproperties}}",
-		"Delete table": "{xen:jsescape {xen:phrase sedo_quattro_table_deletetable}}",
-		"Cell": "{xen:jsescape {xen:phrase sedo_quattro_table_cell}}",
-		"Row": "{xen:jsescape {xen:phrase sedo_quattro_table_row}}",
-		"Column": "{xen:jsescape {xen:phrase sedo_quattro_table_column}}",
-		"Cell properties": "{xen:jsescape {xen:phrase sedo_quattro_table_cellproperties}}",
-		"Merge cells": "{xen:jsescape {xen:phrase sedo_quattro_table_mergecells}}",
-		"Split cell": "{xen:jsescape {xen:phrase sedo_quattro_table_splitcell}}",
-		"Insert row before": "{xen:jsescape {xen:phrase sedo_quattro_table_insertrowbefore}}",
-		"Insert row after": "{xen:jsescape {xen:phrase sedo_quattro_table_insertrowafter}}",
-		"Delete row": "{xen:jsescape {xen:phrase sedo_quattro_table_deleterow}}",
-		"Row properties": "{xen:jsescape {xen:phrase sedo_quattro_table_rowproperties}}",
-		"Cut row": "{xen:jsescape {xen:phrase sedo_quattro_table_cutrow}}",
-		"Copy row": "{xen:jsescape {xen:phrase sedo_quattro_table_copyrow}}",
-		"Paste row before": "{xen:jsescape {xen:phrase sedo_quattro_table_pasterowbefore}}",
-		"Paste row after": "{xen:jsescape {xen:phrase sedo_quattro_table_pasterowafter}}",
-		"Insert column before": "{xen:jsescape {xen:phrase sedo_quattro_table_insertcolumnbefore}}",
-		"Insert column after": "{xen:jsescape {xen:phrase sedo_quattro_table_Insertcolumnafter}}",
-		"Delete column": "{xen:jsescape {xen:phrase sedo_quattro_table_deletecolumn}}",
-		"Cols": "{xen:jsescape {xen:phrase sedo_quattro_table_cols}}",
-		"Rows": "{xen:jsescape {xen:phrase sedo_quattro_table_rows}}",
-		"Width": "{xen:jsescape {xen:phrase sedo_quattro_table_width}}",
-		"Height": "{xen:jsescape {xen:phrase sedo_quattro_table_height}}",
-		"Cell spacing": "{xen:jsescape {xen:phrase sedo_quattro_table_cellspacing}}",
-		"Cell padding": "{xen:jsescape {xen:phrase sedo_quattro_table_Cellpadding}}",
-		"Border": "{xen:jsescape {xen:phrase sedo_quattro_table_border}}",
-		"Caption": "{xen:jsescape {xen:phrase sedo_quattro_table_caption}}",
-		"None": "{xen:jsescape {xen:phrase sedo_quattro_table_none}}",
-		"Left": "{xen:jsescape {xen:phrase sedo_quattro_table_left}}",
-		"Center": "{xen:jsescape {xen:phrase sedo_quattro_table_center}}",
-		"Right": "{xen:jsescape {xen:phrase sedo_quattro_table_right}}",
-		"Cell type": "{xen:jsescape {xen:phrase sedo_quattro_table_celltype}}",
-		"Scope": "{xen:jsescape {xen:phrase sedo_quattro_table_scope}}",
+		"Advanced": "{xen:jsescape {xen:phrase sedo_quattro_advanced}}",
 		"Alignment": "{xen:jsescape {xen:phrase sedo_quattro_table_alignment}}",
-		"Header cell": "{xen:jsescape {xen:phrase sedo_quattro_table_headercell}}",
-		"Row group": "{xen:jsescape {xen:phrase sedo_quattro_table_rowgroup}}",
-		"Column group": "{xen:jsescape {xen:phrase sedo_quattro_table_columngroup}}",
-		"Row type": "{xen:jsescape {xen:phrase sedo_quattro_table_rowtype}}",
-		"Header": "{xen:jsescape {xen:phrase sedo_quattro_table_header}}",
+		"Background color": "{xen:jsescape {xen:phrase sedo_quattro_table_background_color}}",
 		"Body": "{xen:jsescape {xen:phrase sedo_quattro_table_body}}",
+		"Border": "{xen:jsescape {xen:phrase sedo_quattro_table_border}}",
+		"Border color": "{xen:jsescape {xen:phrase sedo_quattro_table_border_color}}",
+		"Caption": "{xen:jsescape {xen:phrase sedo_quattro_table_caption}}",
+		"Center": "{xen:jsescape {xen:phrase sedo_quattro_table_center}}",
+		"Cell": "{xen:jsescape {xen:phrase sedo_quattro_table_cell}}",
+		"Cell padding": "{xen:jsescape {xen:phrase sedo_quattro_table_Cellpadding}}",
+		"Cell properties": "{xen:jsescape {xen:phrase sedo_quattro_table_cellproperties}}",
+		"Cell spacing": "{xen:jsescape {xen:phrase sedo_quattro_table_cellspacing}}",
+		"Cell type": "{xen:jsescape {xen:phrase sedo_quattro_table_celltype}}",
+		"Cols": "{xen:jsescape {xen:phrase sedo_quattro_table_cols}}",
+		"Column": "{xen:jsescape {xen:phrase sedo_quattro_table_column}}",
+		"Column group": "{xen:jsescape {xen:phrase sedo_quattro_table_columngroup}}",
+		"Copy row": "{xen:jsescape {xen:phrase sedo_quattro_table_copyrow}}",
+		"Cut row": "{xen:jsescape {xen:phrase sedo_quattro_table_cutrow}}",
+		"Delete column": "{xen:jsescape {xen:phrase sedo_quattro_table_deletecolumn}}",
+		"Delete row": "{xen:jsescape {xen:phrase sedo_quattro_table_deleterow}}",
+		"Delete table": "{xen:jsescape {xen:phrase sedo_quattro_table_deletetable}}",
 		"Footer": "{xen:jsescape {xen:phrase sedo_quattro_table_footer}}",
-		"Table skins": "{xen:jsescape {xen:phrase sedo_quattro_table_skins}}",
+		"Header": "{xen:jsescape {xen:phrase sedo_quattro_table_header}}",
+		"Header cell": "{xen:jsescape {xen:phrase sedo_quattro_table_headercell}}",
+		"Height": "{xen:jsescape {xen:phrase sedo_quattro_table_height}}",
+		"Left": "{xen:jsescape {xen:phrase sedo_quattro_table_left}}",
+		"Insert column after": "{xen:jsescape {xen:phrase sedo_quattro_table_Insertcolumnafter}}",
+		"Insert column before": "{xen:jsescape {xen:phrase sedo_quattro_table_insertcolumnbefore}}",
+		"Insert row after": "{xen:jsescape {xen:phrase sedo_quattro_table_insertrowafter}}",
+		"Insert row before": "{xen:jsescape {xen:phrase sedo_quattro_table_insertrowbefore}}",
+		"Insert table": "{xen:jsescape {xen:phrase sedo_quattro_table_inserttable}}",
+		"Merge cells": "{xen:jsescape {xen:phrase sedo_quattro_table_mergecells}}",
+		"None": "{xen:jsescape {xen:phrase sedo_quattro_table_none}}",
+		"Paste row after": "{xen:jsescape {xen:phrase sedo_quattro_table_pasterowafter}}",
+		"Paste row before": "{xen:jsescape {xen:phrase sedo_quattro_table_pasterowbefore}}",
+		"Right": "{xen:jsescape {xen:phrase sedo_quattro_table_right}}",
+		"Row": "{xen:jsescape {xen:phrase sedo_quattro_table_row}}",
+		"Rows": "{xen:jsescape {xen:phrase sedo_quattro_table_rows}}",
+		"Row group": "{xen:jsescape {xen:phrase sedo_quattro_table_rowgroup}}",
+		"Row properties": "{xen:jsescape {xen:phrase sedo_quattro_table_rowproperties}}",
+		"Row type": "{xen:jsescape {xen:phrase sedo_quattro_table_rowtype}}",
+		"Scope": "{xen:jsescape {xen:phrase sedo_quattro_table_scope}}",
 		"Skin 1": "{xen:jsescape {xen:phrase sedo_quattro_skin1}}",
 		"Skin 2": "{xen:jsescape {xen:phrase sedo_quattro_skin2}}",
 		"Skin 3": "{xen:jsescape {xen:phrase sedo_quattro_skin3}}",
 		"Skin 4": "{xen:jsescape {xen:phrase sedo_quattro_skin4}}",
+		"Split cell": "{xen:jsescape {xen:phrase sedo_quattro_table_splitcell}}",
+		"Style": "{xen:jsescape {xen:phrase sedo_quattro_style}}",
+		"Table": "{xen:jsescape {xen:phrase sedo_quattro_table}}",
+		"Table properties": "{xen:jsescape {xen:phrase sedo_quattro_table_tableproperties}}",
+		"Table skins": "{xen:jsescape {xen:phrase sedo_quattro_table_skins}}",
+		"Width": "{xen:jsescape {xen:phrase sedo_quattro_table_width}}",
 	</xen:if>
 	<xen:if is="{$xenOptions.quattro_extra_bbcodes.sub}">
 		"Subscript": "{xen:jsescape {xen:phrase sedo_quattro_subscript}}",
@@ -5093,52 +5245,54 @@ blockquote.mce_quote {
 		"Quote properties" : "{xen:jsescape {xen:phrase sedo_quattro_quote_properties}}",
 		"Username": "{xen:jsescape {xen:phrase sedo_quattro_quote_username}}",
 	</xen:if>
-		"Words: {0}": "{xen:jsescape {xen:if "in_array({$xenOptions.quattro_wordcount}, array('char','charwp'))", "{xen:phrase sedo_quattro_characters}", "{xen:phrase sedo_quattro_words}"}}",
-		"Special character": "{xen:jsescape {xen:phrase sedo_quattro_specialcharacters}}",
-		"Smilies picker": "{xen:jsescape {xen:phrase sedo_quattro_smiliespicker}}",
-		"Fullscreen": "{xen:jsescape {xen:phrase sedo_quattro_fullscreen}}",
-		"Paste as text": "{xen:jsescape {xen:phrase sedo_quattro_pasteastext}}",
-		"Please use Ctrl+V/Cmd+V keyboard shortcuts to paste contents.": "{xen:jsescape {xen:phrase sedo_quattro_paste_alert_message}}",
-		"Paste is now in plain text mode. Contents will now be pasted as plain text until you toggle this option off.": "{xen:jsescape {xen:phrase sedo_quattro_paste_plain_alert_message}}",
-		"Image": "{xen:jsescape {xen:phrase image}}",
-		"Link": "{xen:jsescape {xen:phrase link}}",
-		"Unlink": "{xen:jsescape {xen:phrase unlink}}",
-		"Bold": "{xen:jsescape {xen:phrase sedo_quattro_bold}}",
-		"Italic": "{xen:jsescape {xen:phrase sedo_quattro_italic}}",
-		"Underline": "{xen:jsescape {xen:phrase sedo_quattro_underline}}",
-		"Strikethrough": "{xen:jsescape {xen:phrase sedo_quattro_strikethrough}}",
-		"Clear formatting": "{xen:jsescape {xen:phrase sedo_quattro_clearformatting}}",
-		"Undo": "{xen:jsescape {xen:phrase sedo_quattro_undo}}",
-		"Redo": "{xen:jsescape {xen:phrase sedo_quattro_redo}}",
-		"Cut": "{xen:jsescape {xen:phrase sedo_quattro_cut}}",
-		"Copy": "{xen:jsescape {xen:phrase sedo_quattro_copy}}",
-		"Paste": "{xen:jsescape {xen:phrase sedo_quattro_paste}}",
-		"Select all": "{xen:jsescape {xen:phrase sedo_quattro_selectall}}",
 		"Bb Code editor": "{xen:jsescape {xen:phrase sedo_quattro_bbcode_editor}}",
-		"Spoiler Title": "{xen:jsescape {xen:phrase sedo_quattro_spoiler_title}}",
-		"Insert spoiler": "{xen:jsescape {xen:phrase sedo_quattro_insert_spoiler}}",
-		"Spoiler": "{xen:jsescape {xen:phrase sedo_quattro_spoiler}}",
-		"Smilies": "{xen:jsescape {xen:phrase smilies}}",
-		"View": "{xen:jsescape {xen:phrase sedo_quattro_view}}",
-		"Tools": "{xen:jsescape {xen:phrase sedo_quattro_tools}}",
-		"Insert": "{xen:jsescape {xen:phrase sedo_quattro_insert}}",
-		"Edit": "{xen:jsescape {xen:phrase sedo_quattro_edit}}",
-		"Format": "{xen:jsescape {xen:phrase sedo_quattro_format}}",
-		"Show full editor": "{xen:jsescape {xen:phrase sedo_quattro_show_full_editor}}",
-		"Non-breaking space": "{xen:jsescape {xen:phrase sedo_quattro_nonbreakingspace}}",
+		"Bold": "{xen:jsescape {xen:phrase sedo_quattro_bold}}",
+		"Clear formatting": "{xen:jsescape {xen:phrase sedo_quattro_clearformatting}}",
 		"Close": "{xen:jsescape {xen:phrase close}}",
+		"Color": "{xen:jsescape {xen:phrase sedo_quattro_phrase_color}}",
+		"Copy": "{xen:jsescape {xen:phrase sedo_quattro_copy}}",
+		"Custom...": "{xen:jsescape {xen:phrase sedo_quattro_custom_3dots}}",
+		"Cut": "{xen:jsescape {xen:phrase sedo_quattro_cut}}",
+		"drop_files_here_to_upload" : "{xen:jsescape {xen:phrase drop_files_here_to_upload}}",
+		"Edit": "{xen:jsescape {xen:phrase sedo_quattro_edit}}",
 		"Find": "{xen:jsescape {xen:phrase sedo_quattro_find}}",
 		"Find and replace": "{xen:jsescape {xen:phrase sedo_quattro_find_and_replace}}",
-		"Replace with": "{xen:jsescape {xen:phrase sedo_quattro_replacewith}}",
+		"Fullscreen": "{xen:jsescape {xen:phrase sedo_quattro_fullscreen}}",
+		"Image": "{xen:jsescape {xen:phrase image}}",
+		"Insert": "{xen:jsescape {xen:phrase sedo_quattro_insert}}",
+		"Insert spoiler": "{xen:jsescape {xen:phrase sedo_quattro_insert_spoiler}}",
+		"Italic": "{xen:jsescape {xen:phrase sedo_quattro_italic}}",
+		"Link": "{xen:jsescape {xen:phrase link}}",
+		"Format": "{xen:jsescape {xen:phrase sedo_quattro_format}}",
 		"Match case": "{xen:jsescape {xen:phrase sedo_quattro_match_case}}",
-		"Whole words": "{xen:jsescape {xen:phrase sedo_quattro_whole_words}}",
+		"Next": "{xen:jsescape {xen:phrase sedo_quattro_next}}",
+		"Non-breaking space": "{xen:jsescape {xen:phrase sedo_quattro_nonbreakingspace}}",
+		"Paste": "{xen:jsescape {xen:phrase sedo_quattro_paste}}",
+		"Paste as text": "{xen:jsescape {xen:phrase sedo_quattro_pasteastext}}",
+		"Paste is now in plain text mode. Contents will now be pasted as plain text until you toggle this option off.": "{xen:jsescape {xen:phrase sedo_quattro_paste_plain_alert_message}}",
+		"Please use Ctrl+V/Cmd+V keyboard shortcuts to paste contents.": "{xen:jsescape {xen:phrase sedo_quattro_paste_alert_message}}",
+		"Prev": "{xen:jsescape {xen:phrase sedo_quattro_prev}}",
+		"Redo": "{xen:jsescape {xen:phrase sedo_quattro_redo}}",
 		"Replace": "{xen:jsescape {xen:phrase sedo_quattro_replace}}",
 		"Replace all": "{xen:jsescape {xen:phrase sedo_quattro_replace_all}}",
-		"Prev": "{xen:jsescape {xen:phrase sedo_quattro_prev}}",
-		"Next": "{xen:jsescape {xen:phrase sedo_quattro_next}}",
+		"Replace with": "{xen:jsescape {xen:phrase sedo_quattro_replacewith}}",
+		"Show full editor": "{xen:jsescape {xen:phrase sedo_quattro_show_full_editor}}",
+		"Select all": "{xen:jsescape {xen:phrase sedo_quattro_selectall}}",
+		"Smilies": "{xen:jsescape {xen:phrase smilies}}",
+		"Smilies picker": "{xen:jsescape {xen:phrase sedo_quattro_smiliespicker}}",
+		"Special character": "{xen:jsescape {xen:phrase sedo_quattro_specialcharacters}}",
+		"Spoiler Title": "{xen:jsescape {xen:phrase sedo_quattro_spoiler_title}}",
 		"Source code": "{xen:jsescape {xen:phrase sedo_quattro_source_code}}",
-		"drop_files_here_to_upload" : "{xen:jsescape {xen:phrase drop_files_here_to_upload}}",
-		"uploads_are_not_available" : "{xen:jsescape {xen:phrase uploads_are_not_available}}"
+		"Spoiler": "{xen:jsescape {xen:phrase sedo_quattro_spoiler}}",
+		"Strikethrough": "{xen:jsescape {xen:phrase sedo_quattro_strikethrough}}",
+		"Tools": "{xen:jsescape {xen:phrase sedo_quattro_tools}}",
+		"Underline": "{xen:jsescape {xen:phrase sedo_quattro_underline}}",
+		"Undo": "{xen:jsescape {xen:phrase sedo_quattro_undo}}",
+		"Unlink": "{xen:jsescape {xen:phrase unlink}}",
+		"uploads_are_not_available" : "{xen:jsescape {xen:phrase uploads_are_not_available}}",
+		"View": "{xen:jsescape {xen:phrase sedo_quattro_view}}",
+		"Whole words": "{xen:jsescape {xen:phrase sedo_quattro_whole_words}}",
+		"Words: {0}": "{xen:jsescape {xen:if "in_array({$xenOptions.quattro_wordcount}, array('char','charwp'))", "{xen:phrase sedo_quattro_characters}", "{xen:phrase sedo_quattro_words}"}}"
 	}]]></template>
     <template title="tiny_quattro_smilies.css" version_id="0" version_string="1.0"><![CDATA[<xen:if is="{$smilieSprites}">
 	<xen:foreach loop="{$smilieSprites}" key="{$smilieId}" value="{$smilieSprite}">

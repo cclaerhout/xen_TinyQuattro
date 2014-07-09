@@ -111,7 +111,12 @@ class Sedo_TinyQuattro_Installer
 				'xen_spoiler' => array(320, 320, 2, 0, 'xenforo')
 			);
 			self::insertButtons($newButtons, 'default');
-		}				
+		}
+
+		if(empty($addon) || $addon['version_id'] < 61)
+		{
+			Sedo_TinyQuattro_Helper_Smilie::cacheMceSmiliesByCategory();
+		}					
 	}
 
 	public static function insertButtons(array $buttons, $category, $reset = false)
@@ -153,6 +158,8 @@ class Sedo_TinyQuattro_Installer
 		{
 			$db->query("ALTER TABLE xf_user_option DROP quattro_rte_mobile");
 		}
+		
+		XenForo_Application::setSimpleCacheData('mce_smilie', false);
 	}
 	
 	public static function addColumnIfNotExist($db, $table, $field, $attr)

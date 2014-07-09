@@ -90,7 +90,18 @@ class Sedo_TinyQuattro_Listener_AllInOne
 				{
 		   			$extend[] = 'Sedo_TinyQuattro_Datawriter_ConversationMessage';
 		   		}
-		   	break;	   		
+		   	break;	
+		}
+	}
+
+	/***
+	 * Extend Smilie Model
+	 **/
+	public static function ExtendSmilieModel($class, array &$extend)
+	{
+	   	if($class == 'XenForo_Model_Smilie')
+	   	{
+			$extend[] = 'Sedo_TinyQuattro_Model_Smilie';
 		}
 	}
 

@@ -395,6 +395,10 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 						{
 							$this->_checkMceTableAttribute('css_background-color', $cssValue);						
 						}
+						elseif($cssRule == 'border-color')
+						{
+							$this->_checkMceTableAttribute('css_border-color', $cssValue);						
+						}						
 					}
 					
 					$alignRules = array_merge(array('margin-left' => '', 'margin-right' => ''), $css);
@@ -453,6 +457,10 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 						{
 							$this->_checkMceTableAttribute('css_background-color', $cssValue);						
 						}
+						elseif($cssRule == 'border-color')
+						{
+							$this->_checkMceTableAttribute('css_border-color', $cssValue);						
+						}						
 						elseif($cssRule == 'text-align')
 						{
 							$this->_checkMceTableAttribute('css_text-align', $cssValue);
@@ -491,6 +499,10 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 						{
 							$this->_checkMceTableAttribute('css_background-color', $cssValue);						
 						}
+						elseif($cssRule == 'border-color')
+						{
+							$this->_checkMceTableAttribute('css_border-color', $cssValue);						
+						}						
 						elseif($cssRule == 'text-align')
 						{
 							$this->_checkMceTableAttribute('css_text-align', $cssValue);
@@ -525,6 +537,10 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 						{
 							$this->_checkMceTableAttribute('css_background-color', $cssValue);						
 						}
+						elseif($cssRule == 'border-color')
+						{
+							$this->_checkMceTableAttribute('css_border-color', $cssValue);						
+						}						
 						elseif($cssRule == 'text-align')
 						{
 							$this->_checkMceTableAttribute('css_text-align', $cssValue);
@@ -557,6 +573,10 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 						{
 							$this->_checkMceTableAttribute('css_background-color', $cssValue);						
 						}
+						elseif($cssRule == 'border-color')
+						{
+							$this->_checkMceTableAttribute('css_border-color', $cssValue);						
+						}						
 						elseif($cssRule == 'text-align')
 						{
 							$this->_checkMceTableAttribute('css_text-align', $cssValue);
@@ -601,6 +621,10 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 						{
 							$this->_checkMceTableAttribute('css_background-color', $cssValue);						
 						}
+						elseif($cssRule == 'border-color')
+						{
+							$this->_checkMceTableAttribute('css_border-color', $cssValue);						
+						}						
 						elseif($cssRule == 'text-align')
 						{
 							$this->_checkMceTableAttribute('css_text-align', $cssValue);
@@ -668,6 +692,12 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 					$this->_addMceTableAddAttribute($attribute, "border:$value");
 				}
 				break;
+			case 'css_border-color':
+				if(preg_match($hexaRgbColorPattern, $value))
+				{
+					$this->_addMceTableAddAttribute('bdcolor', "border-color:$value");
+				}
+				break;	
 			case 'cellpadding':
 				if(preg_match($twoDigitsMaxPattern, $value))
 				{

@@ -140,15 +140,7 @@ class Sedo_TinyQuattro_Helper_MceConfig
 		$templateParams = $this->templateParams;
 
 		/*Smilies*/
-		$bbmSmiliesHaveCategories = false;
-		if($xenOptions->quattro_smilies_sm_addon_enable)
-		{
-			list($bbmSmiliesHaveCategories, $bbmSmilies) = Sedo_TinyQuattro_Helper_Editor::getSmiliesByCategory();	
-		}
-		else
-		{
-			$bbmSmilies = Sedo_TinyQuattro_Helper_Editor::getEditorSmilies();
-		}
+		list($bbmSmiliesHaveCategories, $bbmSmilies) = Sedo_TinyQuattro_Helper_Smilie::getSmiliesAllVersions();	
 
 		/*Bbm buttons*/
 		if($this->bbmParams == null)
@@ -318,6 +310,7 @@ class Sedo_TinyQuattro_Helper_MceConfig
 							'h' => XenForo_Template_Helper_Core::styleProperty('tinyquattro_smiliespicker_height')
 						),
 			'mceRegexEl'		=> array('wordcount_countregex', 'wordcount_cleanregex'),
+			'showSmilieItemWin'	=> ($xenOptions->quattro_smiliemenuitem_enable_menu_window) ? true : false,
 			'smallFontBtn'		=> ($xenOptions->quattro_fonts_smallbuttons) ? true : false,
 			'smiliesWindow'		=> $xenOptions->quattro_smilies_window_type,
 			'tglMenuMode'		=> $tglMenuMode,
@@ -385,6 +378,16 @@ class Sedo_TinyQuattro_Helper_MceConfig
 		if(XenForo_Application::debugMode())
 		{
 			$mcePlugins[] = 'code';
+		}
+
+		if(!empty($xenOptions->quattro_extracolors))
+		{
+			$mcePlugins[] = 'colorpicker';
+		}
+
+		if(!empty($xenOptions->quattro_textpattern))
+		{
+			$mcePlugins[] = 'textpattern';
 		}
 
 		if(!empty($xenOptions->quattro_extra_bbcodes['xtable']))

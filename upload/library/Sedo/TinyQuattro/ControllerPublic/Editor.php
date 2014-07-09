@@ -111,17 +111,7 @@ class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_Con
 		{
 			$xenOptions = XenForo_Application::get('options');
 			$xSmiles = $xenOptions->quattro_xsmilies_slide;
-			$smiliesHaveCategories = false;
-
-			//Check if the Smiley Manager is installed
-			if($xenOptions->quattro_smilies_sm_addon_enable)
-			{
-				list($smiliesHaveCategories, $smilies) = Sedo_TinyQuattro_Helper_Editor::getSmiliesByCategory(null, true);	
-			}
-			else
-			{
-				$smilies = Sedo_TinyQuattro_Helper_Editor::getEditorSmilies(null, true);
-			}
+			list($smiliesHaveCategories, $smilies) = Sedo_TinyQuattro_Helper_Smilie::getSmiliesAllVersions(null);
 
 			//Proceed differently if the Smiley manager is installed or not
 			if(!$smiliesHaveCategories)
