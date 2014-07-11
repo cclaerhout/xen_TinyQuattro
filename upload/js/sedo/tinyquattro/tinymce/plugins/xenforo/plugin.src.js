@@ -1986,7 +1986,7 @@
 			
 			var self = this;
 		
-			function addSkin(e, id){
+			function addSkin(e){
 				var id = e.control.settings.skin, dom = ed.dom, tableElm;
 				tableElm = ed.dom.getParent(ed.selection.getStart(), 'table');
 
