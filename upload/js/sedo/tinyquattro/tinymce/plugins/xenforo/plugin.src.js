@@ -1987,7 +1987,7 @@
 			var self = this;
 		
 			function addSkin(e, id){
-				var dom = ed.dom, tableElm;
+				var id = e.control.settings.skin, dom = ed.dom, tableElm;
 				tableElm = ed.dom.getParent(ed.selection.getStart(), 'table');
 
 				if(tableElm == undefined)
@@ -2028,7 +2028,7 @@
 
 			var menu = [];
 			for (var i=1; i<5;i++){
-				menu.push({text: 'Skin '+i, onclick: function(e) { addSkin(e, 1); }, onPostRender: postRenderMenu});
+				menu.push({text: 'Skin '+i, skin: i, onclick: function(e) { addSkin(e); }, onPostRender: postRenderMenu});
 			}
 		
 			/*Context menu*/
