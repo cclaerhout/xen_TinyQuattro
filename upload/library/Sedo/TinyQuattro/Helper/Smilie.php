@@ -22,7 +22,7 @@ class Sedo_TinyQuattro_Helper_Smilie
 			if (!is_array($mceSmilie))
 			{
 				$mceSmilie = self::prepareSmilies();
-			}		
+			}
 		}
 		else
 		{
@@ -49,7 +49,7 @@ class Sedo_TinyQuattro_Helper_Smilie
 			{
 				$mceSmilies = self::_bottomizedUncategorizedSmilie($mceSmilies);
 			}
-			
+
 			return array(true, $mceSmilies);
 		}
 
@@ -127,7 +127,9 @@ class Sedo_TinyQuattro_Helper_Smilie
 
 		foreach ($smilies AS $smilie)
 		{
-			$smilieData = (empty($smilie['sprite_params']) ? $smilie['image_url'] : $smilie['smilie_id']);
+			$spriteCheck = (!empty($smilie['sprite_mode'])) ? true : empty($smilie['sprite_params']);
+
+			$smilieData = ($spriteCheck ? $smilie['smilie_id'] : $smilie['image_url']);
 			$smilieText = array();
 			
 			if(isset($smilie['smilieText']))
