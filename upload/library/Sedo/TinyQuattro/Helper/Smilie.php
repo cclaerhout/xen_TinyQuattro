@@ -18,15 +18,15 @@ class Sedo_TinyQuattro_Helper_Smilie
 		if(!is_array($directSmilies))
 		{
 			$mceSmilie = XenForo_Application::getSimpleCacheData('mce_smilie');
-			
-			if (!is_array($mceSmilie))
+
+			if(!is_array($mceSmilie))
 			{
 				$mceSmilie = self::prepareSmilies();
 			}
 		}
 		else
 		{
-			$mceSmilie = $directSmilies;
+			$mceSmilie = self::prepareSmilies($directSmilies);
 		}
 
 		return $mceSmilie;
@@ -127,11 +127,10 @@ class Sedo_TinyQuattro_Helper_Smilie
 
 		foreach ($smilies AS $smilie)
 		{
-			$spriteCheck = (!empty($smilie['sprite_mode'])) ? true : empty($smilie['sprite_params']);
-
+			$spriteCheck = (!empty($smilie['sprite_mode'])) ? true : !empty($smilie['sprite_params']);
 			$smilieData = ($spriteCheck ? $smilie['smilie_id'] : $smilie['image_url']);
 			$smilieText = array();
-			
+
 			if(isset($smilie['smilieText']))
 			{
 				$smilieText = $smilie['smilieText'];
@@ -139,9 +138,9 @@ class Sedo_TinyQuattro_Helper_Smilie
 			elseif(isset($smilie['smilie_text']))
 			{
 				//Xen 1.3
-				$smilieText = $smilie['smilie_text'];			
+				$smilieText = preg_split('/\r?\n/', $smilie['smilie_text'], -1, PREG_SPLIT_NO_EMPTY);
 			}
-			
+		
 			if(is_string($smilieText))
 			{
 				$smilieText = array($smilieText);
@@ -156,6 +155,14 @@ class Sedo_TinyQuattro_Helper_Smilie
 
 	public static function cacheMceSmiliesByCategory()
 	{
+		$xenOptions = XenForo_Application::get('options');
+		$xenCurrentVersionId = $xenOptions->currentVersionId;
+		
+		if($xenCurrentVersionId < 1030031) 
+		{
+			return;
+		}
+
 		$smilieModel = self::_getSmilieModel();
 		$smilieCategories = $smilieModel->getAllSmilieCategoriesWithSmilies();
 		$mceSmilies = array();
