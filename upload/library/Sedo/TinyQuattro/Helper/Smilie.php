@@ -85,11 +85,17 @@ class Sedo_TinyQuattro_Helper_Smilie
 			{
 				continue;
 			}
+			
+			$parsed_smilies = self::getMceSmilies($smilies);
+			if (!$parsed_smilies)
+			{
+				continue;
+			}
 
 			$mceSmilies[$categoryId] = array(
 				'id' => $category['smilie_category_id'],
 				'title' => $category['category_title'],
-				'smilies' => self::getMceSmilies($smilies)
+				'smilies' => $parsed_smilies
 			);
 		}
 		
@@ -176,11 +182,17 @@ class Sedo_TinyQuattro_Helper_Smilie
 			{
 				continue;
 			}
+
+			$parsed_smilies = self::prepareSmilies($smiliesInfo['smilies']);
+			if (!$parsed_smilies)
+			{
+				continue;
+			}
 			
 			$mceSmilies[$categoryId] = array(
 				'id' => $categoryId,
 				'title' => $smilieModel->getSmilieCategoryMasterTitlePhraseValue($categoryId),
-				'smilies' => self::prepareSmilies($smiliesInfo['smilies'])
+				'smilies' => $parsed_smilies
 			);
 		}
 
