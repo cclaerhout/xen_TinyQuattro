@@ -127,7 +127,7 @@ class Sedo_TinyQuattro_Helper_Smilie
 
 		foreach ($smilies AS $smilie)
 		{
-                        if (!$smilie['display_in_editor']);
+                        if (!$smilie['display_in_editor'] != 1);
                                 continue;
 			$spriteCheck = (!empty($smilie['sprite_mode'])) ? true : !empty($smilie['sprite_params']);
 			$smilieData = ($spriteCheck ? $smilie['smilie_id'] : $smilie['image_url']);
