@@ -138,7 +138,7 @@ class Sedo_TinyQuattro_Helper_Smilie
 				continue;
 			}
 
-			$spriteCheck = (!empty($smilie['sprite_mode'])) ? true : !empty($smilie['sprite_params']);
+			$spriteCheck = $smilie['sprite_mode'] == 1 && !empty($smilie['sprite_params']);
 			$smilieData = ($spriteCheck ? $smilie['smilie_id'] : $smilie['image_url']);
 			$smilieText = array();
 
