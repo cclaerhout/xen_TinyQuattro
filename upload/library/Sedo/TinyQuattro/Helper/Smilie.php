@@ -85,11 +85,17 @@ class Sedo_TinyQuattro_Helper_Smilie
 			{
 				continue;
 			}
+			
+			$parsed_smilies = self::getMceSmilies($smilies);
+			if (!$parsed_smilies)
+			{
+				continue;
+			}
 
 			$mceSmilies[$categoryId] = array(
 				'id' => $category['smilie_category_id'],
 				'title' => $category['category_title'],
-				'smilies' => self::getMceSmilies($smilies)
+				'smilies' => $parsed_smilies
 			);
 		}
 		
@@ -127,7 +133,12 @@ class Sedo_TinyQuattro_Helper_Smilie
 
 		foreach ($smilies AS $smilie)
 		{
-			$spriteCheck = (!empty($smilie['sprite_mode'])) ? true : !empty($smilie['sprite_params']);
+			if (!$smilie['display_in_editor'] != 1)
+			{
+				continue;
+			}
+
+			$spriteCheck = $smilie['sprite_mode'] == 1 && !empty($smilie['sprite_params']);
 			$smilieData = ($spriteCheck ? $smilie['smilie_id'] : $smilie['image_url']);
 			$smilieText = array();
 
@@ -174,11 +185,17 @@ class Sedo_TinyQuattro_Helper_Smilie
 			{
 				continue;
 			}
+
+			$parsed_smilies = self::prepareSmilies($smiliesInfo['smilies']);
+			if (!$parsed_smilies)
+			{
+				continue;
+			}
 			
 			$mceSmilies[$categoryId] = array(
 				'id' => $categoryId,
 				'title' => $smilieModel->getSmilieCategoryMasterTitlePhraseValue($categoryId),
-				'smilies' => self::prepareSmilies($smiliesInfo['smilies'])
+				'smilies' => $parsed_smilies
 			);
 		}
 
