@@ -113,7 +113,7 @@ class Sedo_TinyQuattro_Installer
 			self::insertButtons($newButtons, 'default');
 		}
 
-		if(empty($addon) || $addon['version_id'] < 63)
+		if(empty($addon) || $addon['version_id'] < 64)
 		{
 			Sedo_TinyQuattro_Helper_Smilie::cacheMceSmiliesByCategory();
 		}					
