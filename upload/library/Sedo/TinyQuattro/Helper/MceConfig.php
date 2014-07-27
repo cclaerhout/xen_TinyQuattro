@@ -14,6 +14,7 @@ class Sedo_TinyQuattro_Helper_MceConfig
 	public function __construct(array $templateParams, array $bbmParams, $templateObject)
 	{
 		$this->templateParams = $templateParams;
+
 		$this->bbmParams = $bbmParams;
 
 		if(isset($templateObject))
@@ -276,6 +277,47 @@ class Sedo_TinyQuattro_Helper_MceConfig
 			'xen_attach' => "{$attachType},{$attachId},{$attachHash}",
 			'nonbreaking_force_tab' => true
 		);
+
+		//Editor Size
+		$editorCustomSize = (!empty($editorOptions['height'])) ? intval($editorOptions['height']) : false;
+		$editorCustomSizeEnable = (isset($editorOptions['extraClass'])) ? strpos($editorOptions['extraClass'], 'SmallEditor') !== false : false;
+
+		if($editorCustomSizeEnable)
+		{
+			if($editorCustomSize)
+			{
+				$mceSettings['autoresize_min_height'] = $editorCustomSize;
+				$mceSettings['autoresize_max_height'] = $editorCustomSize;
+				$mceSettings['autoresize_min_height_qr'] = $editorCustomSize;
+				$mceSettings['autoresize_max_height_qr'] = $editorCustomSize;
+			}
+			else
+			{
+				$mceSettings['autoresize_min_height'] = $mceSettings['autoresize_min_height_qr'];
+				$mceSettings['autoresize_max_height'] = $mceSettings['autoresize_max_height_qr'];			
+			}
+		}
+		elseif($editorCustomSize && $xenOptions->quattro_autoresize_xen)
+		{
+				$mceSettings['autoresize_min_height'] = $editorCustomSize;
+				$mceSettings['autoresize_max_height'] = $editorCustomSize;
+				$mceSettings['autoresize_min_height_qr'] = $editorCustomSize;
+				$mceSettings['autoresize_max_height_qr'] = $editorCustomSize;		
+		}
+		
+		if(!empty($editorOptions['minHeight']) || !empty($editorOptions['maxHeight']))
+		{
+			$minHeight = (!empty($editorOptions['minHeight'])) ? $editorOptions['minHeight'] : $maxHeight;
+			$maxHeight = (!empty($editorOptions['maxHeight'])) ? $editorOptions['maxHeight'] : $minHeight;
+			
+			$minHeight = intval($minHeight);
+			$maxHeight = intval($maxHeight);
+
+			$mceSettings['autoresize_min_height'] = $minHeight;
+			$mceSettings['autoresize_max_height'] = $maxHeight;
+			$mceSettings['autoresize_min_height_qr'] = $minHeight;
+			$mceSettings['autoresize_max_height_qr'] = $maxHeight;
+		}
 
 		//Fake settings that will be deleted after being formatted
 		$mceSettings['mceGrid'] = $mceGrid;
