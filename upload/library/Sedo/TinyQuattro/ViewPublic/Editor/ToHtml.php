@@ -75,9 +75,7 @@ class Sedo_TinyQuattro_ViewPublic_Editor_ToHtml extends XFCP_Sedo_TinyQuattro_Vi
       		
 		$this->protectedTags = "code|php|html|quote"; //To check: why these tags? I forgot / Need an option?
 		
-		if(XenForo_Application::get('options')->get('currentVersionId') >= 1020031)
-
-      		foreach($guiltyTags as $key => $tag)
+     		foreach($guiltyTags as $key => $tag)
       		{
 			$opening_regex[] = "\[$tag(?:=.+?)?\]";
 			$naked[] = $tag;

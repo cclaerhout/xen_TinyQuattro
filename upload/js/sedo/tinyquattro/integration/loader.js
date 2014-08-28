@@ -65,7 +65,7 @@
 
 			//No proper way to check if the form is the quickreply from templates
 			$editor.each(function(){
-				var $form = $(this).closest('form');
+				var $this = $(this), $form = $this.closest('form');
 				if($form.attr('id') == 'QuickReply'){
 					var amih = 'autoresize_min_height', amah = 'autoresize_max_height', qr = '_qr';
 					config[amih] = config[amih+qr];

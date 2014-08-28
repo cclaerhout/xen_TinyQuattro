@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.3.0" version_id="65" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.4.0 WIP" version_id="66" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -4806,7 +4806,7 @@ i.mce-i-resize {
 <xen:include template="tiny_quattro_xenbuttons_ie7.css" />
 
 <xen:edithint template="tiny_quattro_iframe.css" />]]></template>
-    <template title="tiny_quattro_framework.css" version_id="58" version_string="2.1.1.2"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_framework.css" version_id="65" version_string="2.3.0"><![CDATA[<xen:comment>
 	XenForo Framework addons
 </xen:comment>
 
@@ -4853,6 +4853,20 @@ i.mce-i-resize {
 		background: url('{xen:property imagePath}/xenforo/xenforo-ui-sprite.png') no-repeat scroll -144px 0 ;
 	}
 </xen:comment>
+
+
+<xen:foreach loop="$customBbCodes" key="$bbCodeTag" value="$bbCode">
+	<xen:if is="{$bbCode.editor_icon_url}">
+		html .mce-tinymce .mce-xen-custom .mce-i-custom_{$bbCodeTag}
+		{
+			background-image: url('{$bbCode.editor_icon_url}');
+			<xen:if is="{$bbCode.sprite_mode} AND {$bbCode.sprite_params}">
+				background-position: {$bbCode.sprite_params.x}px {$bbCode.sprite_params.y}px;
+			</xen:if>
+		}
+	</xen:if>
+</xen:foreach>
+
 
 <xen:comment>
 	XenForo Smilies
@@ -5477,8 +5491,6 @@ $0]]></replace>
 </xen:if>]]></replace>
     </modification>
   </public_template_modifications>
-  <bb_code_media_sites/>
-  <bb_codes/>
   <template_modifications>
     <modification title="RTE Quattro Mobile Option" template_title="account_preferences" execute_order="10" modification_type="preg_replace" callback_class="" callback_method="" description="User field" version_id="4" version_string="1.0.4" active="1">
       <search_value><![CDATA[#([ \t]*)<li>.+?ctrl_enable_rte(?s).+?</li>#i]]></search_value>
@@ -5504,5 +5516,7 @@ $0]]></replace_value>
       <search_value><![CDATA[>{$messageHtml}]]></search_value>
       <replace_value><![CDATA[{xen:if '{$mceConfig} AND {$loadQuattro}', ' data-quattro="{xen:escape {xen:helper json, $mceConfig}}"'}>{$messageHtml}]]></replace_value>
     </modification>
-  </template_modifications> 
+  </template_modifications>
+  <bb_code_media_sites/>
+  <bb_codes/>
 </addon>

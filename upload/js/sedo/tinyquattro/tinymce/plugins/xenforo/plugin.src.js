@@ -1297,7 +1297,7 @@
 
 			$.each(buttons, function(tag, data){
 				var n = data.code;
-			
+
 				config = { name: n, tooltip: data.desc };
 			
 				if(data.type == 'manual'){
@@ -1309,11 +1309,33 @@
 					config.icon = false;
 					config.text = data.typeOpt;
 				}
+				else if(data.type == 'icons_fa')
+				{
+					config.icon = false;
+					config.faFont = data.typeOpt;
+					config.onPostRender = function() {
+						var faBtn = this, 
+							faFont = faBtn.settings.faFont,
+							$faBtn = $(faBtn.getEl());
+							
+						$faBtn.find('i').addClass('fa '+faFont);
+					};
+				}
+				else if(data.type == 'xenCustom')
+				{
+					config.icon = false;
+					config.onPostRender = function() {
+						var xenCustBtn = this, 
+							$xenCustBtn = $(xenCustBtn.getEl());
+						
+						xenCustBtn.addClass('xen-custom');
+					};
+				}
 				else{
 					config.icon = n;
 					config.iconset = data.iconSet;
 				}
-			
+
 				if(data._return == 'direct'){
 					config.onclick = function(e){
 						src.insertBbCode(tag, data.tagOpt, data.tagCont);
@@ -1350,7 +1372,6 @@
 					}					
 					src.ed.addMenuItem(n, menuConfig);
 				}
-				
 				
 				if(data._return == 'kill'){
 					if(!parent.isActiveButton(data.code)){

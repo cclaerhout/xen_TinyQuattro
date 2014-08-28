@@ -371,6 +371,30 @@ class Sedo_TinyQuattro_Helper_MceConfig
 		return array($mceSettings, $mceParams, $mceBtnCss);
 	}
 
+	public function getXenCustomBbCodes()
+	{
+		$editorOptions = $this->getTemplateParam('editorOptions');
+
+		if(!isset($editorOptions['json'], $editorOptions['json']['bbCodes']))
+		{
+			return array();
+		}
+
+		return $editorOptions['json']['bbCodes'];
+	}
+
+	public function getXenCustomBbCode($bbCodeTag)
+	{
+		$xenCustomBbCodes = $this->getXenCustomBbCodes();
+
+		if(!isset($xenCustomBbCodes[$bbCodeTag]))
+		{
+			return false;
+		}
+		
+		return $xenCustomBbCodes[$bbCodeTag];
+	}
+
 	protected function formatBbmJsButtons(array $bbmButtons)
 	{
 		$buttons = array();
@@ -401,6 +425,18 @@ class Sedo_TinyQuattro_Helper_MceConfig
 				$buttons[$tag] += array(
 					'template' => $bbmButton['returnOption']
 				);		
+			}
+
+			/*Check if this button is a XenForo Custom Bb Code one*/
+			$xenBbCode = $this->getXenCustomBbCode($tag);
+			
+			if($xenBbCode)
+			{
+				if(isset($xenBbCode['title']))
+				{
+					//Get back the proper description (generated in the view)
+					$buttons[$tag]['desc'] = XenForo_Template_Helper_Core::jsEscape($xenBbCode['title']);
+				}
 			}
 		}
 

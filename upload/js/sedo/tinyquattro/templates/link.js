@@ -27,6 +27,10 @@ xenMCE.Templates.Link = {
 			if (/^\s*www\./i.test(href)) {
 				href = 'http://' + href;
 			}
+			
+			if (!/^\s*(https?|ftp):/i.test(href)) {
+				href = 'http://' + href;			
+			}
 		}
 
 		if(type == 2){

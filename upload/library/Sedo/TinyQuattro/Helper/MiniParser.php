@@ -1,24 +1,35 @@
 <?php
-class Sedo_TinyQuattro_Helper_MiniParser
+/* Mini Parser BbCodes to Html - v1.1.1 by Sedo - CC by 3.0*/
+class YourDirectory_YourClass_MiniParser
 {
 	/**
 	 * Parser configuration
 	 */
 	protected $_parserOpeningCharacter = '{';
+	protected $_parserOpeningCharacterRegex;
 	protected $_parserClosingCharacter = '}';
+	protected $_parserClosingCharacterRegex;
 	protected $_parserDepthLimit = 50;
 	protected $_htmlspecialcharsForContent = true;
 	protected $_htmlspecialcharsForOptions = true;
 	protected $_renderStates = array();
+	protected $_checkClosingTag = false; 		// Check if a closing tag exists for the tag being processed
+	protected $_preventHtmlBreak = false;		// For private use (protect Bb Code and avoid page break) 
 	protected $_externalFormatter = false; 		// To be valid, it must be an array with the class & the method
 	protected $_mergeAdjacentTextNodes = false; 	// Should not do any difference
 	protected $_autoRecalibrateStack = false; 	// WIP... not that good
+	protected $_nl2br = true;
 
 	/**
 	 * Parser debug - bolean values needs to be changed manualy
 	 */
 	private $__debug_displayStackError = false;
 	private $__debug_tagChecker = false;
+
+	/**
+	 * Original text
+	 */
+	protected $_text;
 
 	/**
 	 * Matches elements given by the preg_split function
@@ -121,12 +132,14 @@ class Sedo_TinyQuattro_Helper_MiniParser
 		{
 			if(isset($parserOptions['parserOpeningCharacter']))
 			{
-				$this->_parserOpeningCharacter = preg_quote($parserOptions['parserOpeningCharacter'], '#');
+				$this->_parserOpeningCharacter = $parserOptions['parserOpeningCharacter'];
+				$this->_parserOpeningCharacterRegex = preg_quote($parserOptions['parserOpeningCharacter'], '#');
 			}
 	
 			if(isset($parserOptions['parserClosingCharacter']))
 			{
-				$this->_parserOpeningCharacter = preg_quote($parserOptions['parserClosingCharacter'], '#');
+				$this->_parserClosingCharacter = $parserOptions['parserClosingCharacter'];
+				$this->_parserClosingCharacterRegex = preg_quote($parserOptions['parserClosingCharacter'], '#');
 			}
 	
 			if(isset($parserOptions['depthLimit']) && is_int($parserOptions['depthLimit']))
@@ -160,16 +173,31 @@ class Sedo_TinyQuattro_Helper_MiniParser
 				$text = preg_replace("#<break />\n#", "<br />", $text);
 			}
 
+			if(isset($parserOptions['nl2br']))
+			{
+				$this->_nl2br = $parserOptions['nl2br'];
+			}
+
 			if(isset($parserOptions['renderStates']) && is_array($parserOptions['renderStates']))
 			{
 				$this->_renderStates = $parserOptions['renderStates'];
 			}
+			
+			if(!empty($parserOptions['checkClosingTag']))
+			{
+				$this->_checkClosingTag = $parserOptions['checkClosingTag'];
+			}
+			
+			if(!empty($parserOptions['preventHtmlBreak']))
+			{
+				$this->_preventHtmlBreak = $parserOptions['preventHtmlBreak'];
+			}
 		}
 
+		$this->_text = $text;
 		$this->_matches = $this->_getMatchesFromSplitRegex($text);
 		reset($this->_matches);
 		$this->_tree = $this->_buildTree();
-		
 		return;
 		
 		$output = $this->render();
@@ -183,12 +211,20 @@ class Sedo_TinyQuattro_Helper_MiniParser
 
 	protected function _getMatchesFromSplitRegex($text)
 	{
-		$poc = $this->_parserOpeningCharacter;
-		$pcc = $this->_parserClosingCharacter;
+		$poc = $this->_parserOpeningCharacterRegex;
+		$pcc = $this->_parserClosingCharacterRegex;
 
 		return preg_split('#'.$poc.'(/?)([^'.$pcc.']*)'.$pcc.'#u', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
 	}
 	
+	protected $_stringTreePos = 0;
+
+	protected function _incrementStringPos($length, $correction = 0)
+	{
+		$this->_stringTreePos += $length+$correction;
+		//Zend_Debug::dump($this->_stringTreePos."/".mb_strlen($this->_text, 'UTF-8'));
+	}
+
 	protected function _buildTree()
 	{
 		$nodes = array();
@@ -202,6 +238,9 @@ class Sedo_TinyQuattro_Helper_MiniParser
 				case 0:
 					/*Text between tags*/
 					$this->_pushTextNode($nodes, $value);
+
+					preg_replace('#.#su', '', $value, -1, $length);
+					$this->_incrementStringPos($length);
 				break;
 
 				case 1:
@@ -213,22 +252,27 @@ class Sedo_TinyQuattro_Helper_MiniParser
 					if ($closing)
 					{
 						$tagName = strtolower($value);
+						
 						$fallBack = $this->_parserOpeningCharacter.'/'.$tagName.$this->_parserClosingCharacter;
 
 						/*Parser Checker*/
 						if(!$this->_parseTagChecker($tagName))
 						{
 							$this->_pushTextNode($nodes, $fallBack);
+				
+							preg_replace('#.#su', '', $value, -1, $length);
+							$this->_incrementStringPos($length, 3);							
 							break;
 						}
 
 						/*Unexpected Closing Tag Management*/
 						$expected = array_pop($this->_openedTagsStack);
-					
+						$id = $expected['tagId'];
+		
 						if ($tagName != $expected['tagName'])
 						{
 							//TO CHECK: if the nodes must be return to still create a new branch
-							if(!$this->_autoRecalibrateStack)
+							if($this->_autoRecalibrateStack)
 							{
 								$fixedStack = $this->_recalibrateStack($tagName);
 								if (!$fixedStack)
@@ -244,6 +288,15 @@ class Sedo_TinyQuattro_Helper_MiniParser
 							$this->_pushClosingTagFailure($tagName, $expected, $fallBack, $nodes);
 							break;
 						}
+
+						preg_replace('#.#su', '', $value, -1, $length);
+						$this->_incrementStringPos($length, 3);
+
+						/* Add information that the tag has been properly closed */						
+						if(isset($this->_openedTagsInfo[$id]))
+						{
+							$this->_openedTagsInfo[$id]['validClosingTag'] = true;
+						}
 						
 						$this->_pushClosingTagSuccess($tagName);
 
@@ -255,9 +308,12 @@ class Sedo_TinyQuattro_Helper_MiniParser
 					}
 					else
 					{
-						/*Option Checker*/
+						$missingClosingTagDetected = false;
+						$htmlBreakDetected = false;
+
+						/* Option Checker */
 						$tagOptionPosition = strpos($value, '=');
-						
+					
 						if(!$tagOptionPosition)
 						{
 							$tagName = $value;
@@ -269,10 +325,45 @@ class Sedo_TinyQuattro_Helper_MiniParser
 							$tagOption = substr($value, $tagOptionPosition+1);
 							$tagOption = (trim($tagOption)) ? $tagOption : null;
 						}
-						
+
 						$tagName = strtolower($tagName);
 						$openingFallBack = $this->_parserOpeningCharacter.$value.$this->_parserClosingCharacter;
 						$closingFallBack = $this->_parserOpeningCharacter.'/'.$tagName.$this->_parserClosingCharacter;
+
+						$validTag = $this->_parseTagChecker($tagName, true, $tagOption);
+
+						/* Get Wrapping text */
+						$getWrappingText = false;
+
+						if($this->_checkClosingTag || $this->_preventHtmlBreak)
+						{
+							$getWrappingText = true;
+						}
+
+						if($getWrappingText)
+						{
+							list($textBefore, $textAfter) = $this->_getWrappingText();
+
+							/* Missing closing tag detection */
+							if($this->_checkClosingTag && $validTag)
+							{
+								$missingClosingTagDetected = (strpos($textAfter, $closingFallBack) === false);
+								//Zend_Debug::dump($textAfter);
+							}
+
+							/* Prevent html break detection */
+							if($this->_preventHtmlBreak && $validTag && !$missingClosingTagDetected)
+							{
+								$bbContentEndPos = strpos($textAfter, $closingFallBack);
+								$bbcontent = substr($textAfter, 0, $bbContentEndPos);
+
+								if(preg_match('#.*<(?!/)[^>]+?(?<!/)>?$#sui', $bbcontent))
+								{
+									$htmlBreakDetected = true;
+									
+								}
+							}
+						}
 
 						/***
 							Increase depth: even if we are not sure the tag will be valid, the depth must be incremented
@@ -287,9 +378,12 @@ class Sedo_TinyQuattro_Helper_MiniParser
 						/***
 							Parser Checker
 						**/
-						if(!$this->_parseTagChecker($tagName, true, $tagOption))
+						if( !$validTag || $missingClosingTagDetected || $htmlBreakDetected )
 						{
 							$this->_pushOpeningTagFailure($tagName, $openingFallBack, $nodes);
+
+							preg_replace('#.#su', '', $value, -1, $length);
+							$this->_incrementStringPos($length, 2);
 							break;
 						}
 
@@ -298,9 +392,10 @@ class Sedo_TinyQuattro_Helper_MiniParser
 						/*Add tagName & its ID to the openTags stack*/
 						$this->_openedTagsStack[] = array(
 							'tagName' => $tagName,
-							'tagId' => $tagId
+							'tagId' => $tagId,
+							'theoricalDepth' => $this->_depth
 						);
-						
+
 						/*Check if next nodes must be activated with the current opening tag*/
 						$this->_enableDisableTextNodes($tagName, true);
 
@@ -318,6 +413,9 @@ class Sedo_TinyQuattro_Helper_MiniParser
 							'parentTag' => $this->_parentTag[$this->_depth-1]['tag']
 						);
 
+						preg_replace('#.#su', '', $value, -1, $length);
+						$this->_incrementStringPos($length, 2);
+						
 						$this->_pushOpeningTagSuccess($tagName, $tagInfo);
 
 						/*Here comes the recursive*/
@@ -331,6 +429,81 @@ class Sedo_TinyQuattro_Helper_MiniParser
 		return $nodes;
 	}
 
+	protected function _getWrappingText($getTextBefore = false)
+	{
+		$pos = $this->_stringTreePos;
+      		$method = 'regex';
+		
+		$textBefore = '';
+	      	$textAfter = '';
+	      	
+      		if($method == 'regex')
+      		{
+      			//a too high number in {} will trigger an error, so let's split it
+      			$regexMax = 5000;
+
+      			if($pos <= $regexMax)
+      			{
+      				$regex = '.{'.$pos.'}';
+      			}
+      			else
+      			{
+      				$nRegex = floor($pos/$regexMax);
+      				$diffRegex = $pos - ($regexMax*$nRegex);
+      				$regex = str_repeat('.{'.$regexMax.'}', $nRegex) . '.{' . $diffRegex . '}';
+      			}
+
+      			if(!$getTextBefore)
+      			{
+      				$regex = '#^'.$regex.'#sui';
+      				$textAfter = preg_replace($regex, '', $this->_text);
+      			}
+      			else
+      			{
+      				$regex = '#^(?<before>'.$regex.')(?<after>.*)$#sui';
+      				$textBefore = '';
+      				$textAfter = '';
+
+      				if(preg_match($regex, $this->_text, $match))
+      				{
+      					$textBefore = $match['before'];
+      					$textAfter = $match['after'];
+      				}
+      			}
+      		}
+      		elseif($method == 'mb_substr')
+      		{
+      			/**
+      			 * Problems:
+      			 * 1) said as very slow (even if I'm not sure the regex method is faster
+      			 * 2) not in all php installation
+      			 **/
+      			
+      			if($getTextBefore)
+      			{
+      				$textBefore = mb_substr($this->_text, 0, $this->_stringTreePos);
+      			}
+      			  
+      			$textAfter = mb_substr($this->_text, $this->_stringTreePos);
+      		}
+      		elseif($method == 'substr')
+      		{
+      			/**
+      			 * Problem:
+      			 * 1) not utf compatible
+      			 **/
+
+      			if($getTextBefore)
+      			{
+      				$textBefore = mb_substr($this->_text, 0, $this->_stringTreePos);
+      			}
+      			
+      			$textAfter = substr($this->_text, $this->_stringTreePos);
+      		}
+      		
+      		return array($textBefore, $textAfter);
+	}
+
 	protected function _pushOpeningTagSuccess($tagName, $tagInfo)
 	{
 		$tagRules = $this->getTagRules($tagName);
@@ -340,7 +513,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 			The current tag will be the parent of the nested children
 		*/
 		$this->_parentTag[$this->_depth] = $tagInfo;
-		$this->_openedTagsInfo[$this->_tagId] = $tagInfo;
+		$this->_openedTagsInfo[$this->_tagId-1] = $tagInfo;
 
 		/*Plain Text Mode: enable*/
 		if(!empty($tagRules['plainText']))
@@ -450,16 +623,18 @@ class Sedo_TinyQuattro_Helper_MiniParser
 		{
 			return;
 		}
-
-
+		
 		if(preg_match('#(.*)(<break-start />)(.*)\2\n(.*)#siu', $text, $patch))
 		{
-			//Fix for lists - confirmation needed
+			//Fix for lists - XenForo Wysiwyg Parser
 			$text = $patch[1].$patch[3].nl2br($patch[4]);
 		}
 		else
 		{
-			$text = nl2br($text);
+			if($this->_nl2br)
+			{
+				$text = nl2br($text);
+			}
 		}
 		
 		if(!$this->_mergeAdjacentTextNodes)
@@ -827,6 +1002,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 	public function renderTree(array $tree, array $rendererStates)
 	{
 		$output = $this->renderSubTree($tree, $rendererStates);
+
 		return trim($output);
 	}
 
@@ -862,9 +1038,19 @@ class Sedo_TinyQuattro_Helper_MiniParser
 	public function renderTag(array $element, array $rendererStates)
 	{
 		$tagName = $element['tag'];
+		
 		$tagRules = $this->getTagRules($tagName, $rendererStates);
 
-		if (!$tagRules)
+		$tagId = $element['tagId'];
+		$validTag = true;
+
+		if(isset($this->_openedTagsInfo[$tagId]) && empty($this->_openedTagsInfo[$tagId]['validClosingTag']))
+		{
+			$validTag = false;
+			$rendererStates['invalidClosingTag'] = true;
+		}
+
+		if (!$tagRules || !$validTag)
 		{
 			return $this->renderInvalidTag($element, $rendererStates);
 		}
@@ -881,11 +1067,23 @@ class Sedo_TinyQuattro_Helper_MiniParser
 		}
 		else if (!empty($tagRules['replace']))
 		{
-			$text = $this->renderSubTree($tag['children'], $rendererStates);
+			if(empty($tagRules['replaceContent']))
+			{
+				$text = $this->renderSubTree($tag['children'], $rendererStates);
+			}
+			else
+			{
+				$text = $tagRules['replaceContent'];
+			}
+			
 			$option = $this->filterString($tag['option'], $rendererStates);
 
 			list($prepend, $append) = $tagInfo['replace'];
 			return $this->wrapInHtml($prepend, $append, $text, $option);
+		}
+		else if(!empty($tagRules['stringReplace']))
+		{
+			return $tagRules['stringReplace'];
 		}
 
 		return $this->renderInvalidTag($tag);
@@ -899,8 +1097,12 @@ class Sedo_TinyQuattro_Helper_MiniParser
 		if (!empty($tag['original']) && is_array($tag['original']))
 		{
 			list($prepend, $append) = $tag['original'];
-			$prepend = $this->filterString($prepend);
-			$append = $this->filterString($append);
+			$prepend = $this->filterString($prepend, $rendererStates);
+			
+			if(empty($rendererStates['invalidClosingTag']))
+			{
+				$append = $this->filterString($append, $rendererStates);
+			}
 		}
 
 		return $this->wrapInHtml(
@@ -934,3 +1136,4 @@ class Sedo_TinyQuattro_Helper_MiniParser
 }
 
 //Source: http://www.weirdog.com/blog/php/un-parser-html-des-plus-leger.html
+//Zend_Debug::dump($abc);
