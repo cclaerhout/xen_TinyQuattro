@@ -106,28 +106,44 @@
 	**************************************************************************/
 	XenForo.QuickReplyTrigger = function($trigger)
 	{
+		var xen14 = (XenForo.MultiQuote !== _undefined && 
+				XenForo.MultiQuote.prototype !== _undefined && 
+				XenForo.MultiQuote.prototype.quickReplyDataPrepare !== _undefined);
+
 		$trigger.click(function(e)
 		{
 			var $form = null,
 				xhr = null,
-				queryData = null;
+				queryData = {},
+				$quoteSelected = null,
+				dataPrepare = null;
 
 			if ($trigger.is('.MultiQuote'))
 			{
 				$form = $($trigger.data('form'));
 
-				queryData =
-				{
-					postIds: $($trigger.data('inputs')).map(function()
+				if(!xen14){
+					queryData =
 					{
-						return this.value;
-					}).get()
-				};
+						postIds: $($trigger.data('inputs')).map(function()
+						{
+							return this.value;
+						}).get()
+					};
+				}
 			}
 			else
 			{
 				$form = $('#QuickReply');
 				$form.data('QuickReply').scrollAndFocus();
+			}
+			
+			if(xen14){
+				// fire event to get additional data
+				dataPrepare = new $.Event('QuickReplyDataPrepare');
+				dataPrepare.$trigger = $trigger;
+				dataPrepare.queryData = queryData;
+				$(document).trigger(dataPrepare);
 			}
 
 			if (!xhr)
