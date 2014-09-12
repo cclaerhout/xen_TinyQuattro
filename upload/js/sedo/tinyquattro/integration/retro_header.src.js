@@ -26,7 +26,15 @@
 		{
 			if (window.tinyMCE)
 			{
-				try { window.tinyMCE.triggerSave(); } catch (e) {}
+				try { 
+					var mce = window.tinyMCE, ev = 'xenMceBeforeSubmit', args = {};
+
+					mce.each(mce.editors, function(editor){
+						editor.fire(ev, args);
+					});
+
+					mce.triggerSave();
+				} catch (e) {}
 			}
 
 			return this._quattro_jqSerialize();
@@ -37,7 +45,15 @@
 		{
 			if (window.tinyMCE)
 			{
-				try { window.tinyMCE.triggerSave(); } catch (e) {}
+				try { 
+					var mce = window.tinyMCE, ev = 'xenMceBeforeSubmit', args = {};
+
+					mce.each(mce.editors, function(editor){
+						editor.fire(ev, args);
+					});
+
+					mce.triggerSave();
+				} catch (e) {}
 			}
 
 			return this._quattro_jqSerializeArray();

@@ -22,6 +22,7 @@ class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_Con
 		$isEmail = $this->_input->filterSingle('isEmail', XenForo_Input::STRING);
 		$urlDatas = $this->_input->filterSingle('urlDatas', XenForo_Input::JSON_ARRAY);
 		$attachmentData = $this->_input->filterSingle('attach', XenForo_Input::JSON_ARRAY);
+		$anchors = $this->_input->filterSingle('anchorList', XenForo_Input::JSON_ARRAY);
 
 		/*Convert needed strings to booleans*/
 		$isUrl = filter_var($isUrl, FILTER_VALIDATE_BOOLEAN);
@@ -76,6 +77,23 @@ class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_Con
 			}
 		}
 		
+		/*Anchors management*/
+		$selectedAnchor = null;
+		if(is_array($anchors))
+		{
+			foreach($anchors as $anchor)
+			{
+				if(!empty($anchor['selected']))
+				{
+					$selectedAnchor = $anchor;
+				}
+			}
+		}
+		else
+		{
+			$anchors = array();
+		}
+
 		/* Create ViewParams */
 		$viewParams = array(
 			'selection' => array(
@@ -88,7 +106,9 @@ class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_Con
 			'isEmail' => $isEmail,
 			'urlDatas' => $urlDatas,
 			'attachments' =>  $attachments,
-			'imgAttachments' => $imgAttachments
+			'imgAttachments' => $imgAttachments,
+			'anchors' => $anchors,
+			'selectedAnchor' => $selectedAnchor
 		);
 
 		/* Extend ViewParams */

@@ -275,7 +275,8 @@ class Sedo_TinyQuattro_Helper_MceConfig
 			'paste_retain_style_properties' => $xenOptions->quattro_retain_style_properties,
 			'contextmenu' => 'xen_link inserttable | cell row column xen_tableskin deletetable',
 			'xen_attach' => "{$attachType},{$attachId},{$attachHash}",
-			'nonbreaking_force_tab' => true
+			'nonbreaking_force_tab' => true,
+			'extended_valid_elements' => 'anchor[id]'
 		);
 
 		//Editor Size
@@ -497,7 +498,17 @@ class Sedo_TinyQuattro_Helper_MceConfig
 		{
 			$mcePlugins[] = 'xenquote';
 		}		
-		
+
+		if(!empty($xenOptions->quattro_extra_bbcodes['hr']))
+		{
+			$mcePlugins[] = 'hr';
+		}
+
+		if(!empty($xenOptions->quattro_extra_bbcodes['anchor']))
+		{
+			$mcePlugins[] = 'anchor';
+		}		
+
 		return $mcePlugins;
 	}
 
@@ -581,9 +592,9 @@ class Sedo_TinyQuattro_Helper_MceConfig
 		}
 
 		/* Insert Menu */
-		$insertMenuItems = array('xen_image', 'xen_media', 'xen_link', 'xen_unlink', '@insert_1', '|', 
+		$insertMenuItems = array('xen_image', 'xen_media', 'xen_link', 'xen_unlink', 'anchor', '@insert_1', '|', 
 			'xen_smilies', 'xen_smilies_picker', 'xen_quote', 'xen_spoiler', '@insert_2', '|', 
-			'xen_code', 'charmap', 'xen_nonbreaking', '@insert_3'
+			'xen_code', 'charmap', 'hr', 'xen_nonbreaking', '@insert_3'
 		);
 		
 		if($this->buttonIsEnabled('xen_smilies_picker'))

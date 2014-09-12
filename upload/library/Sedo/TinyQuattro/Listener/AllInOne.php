@@ -18,6 +18,15 @@ class Sedo_TinyQuattro_Listener_AllInOne
 			//No matter here mobiles or only tablets, stwich off the overlay edit
 			$options->messageInlineEdit = 0;
 		}
+
+		if($controller->getResponseType() != 'json')
+		{
+			$requestPaths = XenForo_Application::get('requestPaths');
+			$data = array(
+				'noJsonRequestPaths' => $requestPaths
+			);
+			XenForo_Application::getSession()->set('sedoQuattro', $data);
+		}
 	}
 
 	/***
@@ -220,6 +229,7 @@ class Sedo_TinyQuattro_Listener_AllInOne
 			 array &$containerParams
 	)
 	{	
+		//to do: try to see if the XenForo_Application::getSession can't be used instead in an earlier listener
 		if(!XenForo_Visitor::getUserId())
 		{
 			return;

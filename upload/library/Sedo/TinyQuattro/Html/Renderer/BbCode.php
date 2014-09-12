@@ -4,10 +4,13 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 	/**
 	 * Custom MCE tags name
 	 */
+	protected $_quattroEnable = false;
 	protected $_mceBackgroundColorTagName = 'bcolor';
 	protected $_mceTableTagName = 'xtable';
 	protected $_mceSubTagName = 'sub';
 	protected $_mceSupTagName = 'sup';
+	protected $_mceAnchorTagName = 'anchor';
+	protected $_mceHrTagName = 'hr';
 
 	/**
 	 * Extend the class constructor to detect the background color css property
@@ -17,7 +20,7 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 	public function __construct(array $options = array())
 	{
 		$xenOptions = XenForo_Application::get('options');
-		$quattroEnable = Sedo_TinyQuattro_Helper_Quattro::isEnabled();
+		$this->_quattroEnable = $quattroEnable = Sedo_TinyQuattro_Helper_Quattro::isEnabled();
 		
 		if(is_array($this->_cssHandlers) && Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('bcolor'))
 		{
@@ -81,6 +84,28 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 		{
 			$this->_mceSupTagName = Sedo_TinyQuattro_Helper_BbCodes::getQuattroBbCodeTagName('sup');
 			$this->_handlers['sup'] = array('filterCallback' => array('$this', 'handleTagMceSup'), 'skipCss' => true);		
+		}
+
+		if(	is_array($this->_handlers) 
+			&&
+			Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('hr')
+			&&
+			$quattroEnable
+		)
+		{
+			$this->_mceHrTagName = Sedo_TinyQuattro_Helper_BbCodes::getQuattroBbCodeTagName('hr');
+			$this->_handlers['hr'] = array('filterCallback' => array('$this', 'handleTagMceHr'), 'skipCss' => true);
+		}
+
+		if(	is_array($this->_handlers) 
+			&&
+			Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('anchor')
+			&&
+			$quattroEnable
+		)
+		{
+			$this->_mceAnchorTagName = Sedo_TinyQuattro_Helper_BbCodes::getQuattroBbCodeTagName('anchor');
+			$this->_handlers['anchor'] = array('filterCallback' => array('$this', 'handleTagMceAnchor'), 'skipCss' => true);
 		}
 		
 		return parent::__construct($options);
@@ -149,6 +174,16 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 	}
 
 	/**
+	 * Mce horizontal rule tag handler
+	 */
+	public function handleTagMceHr($text, XenForo_Html_Tag $tag)
+	{
+		$tag = $this->_mceHrTagName;
+		
+		return "[$tag][/$tag]";
+	}
+
+	/**
 	 * Mce Blockquote tag handler
 	 */
 	public function handleTagMceBlockquote($text, XenForo_Html_Tag $tag)
@@ -197,6 +232,33 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 		return "{$openTag}{$text}{$closingTag}";
 	}
 
+
+	/**
+	 * Anchor (fake) tag handler
+	 */
+	public function handleTagMceAnchor($text, XenForo_Html_Tag $tag)
+	{
+		$id = $tag->attribute('id');
+		$tagName = $this->_mceAnchorTagName;
+				
+		return "[$tagName]{$id}[/$tagName]";
+	}
+
+	//extend <a> tag handle to get url starting with '#' and make them use the anchor tag
+	public function handleTagA($text, XenForo_Html_Tag $tag)
+	{
+		$href = trim($tag->attribute('href'));
+
+		if (!$href || $href[0] != '#' || !Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('anchor'))
+		{
+			return parent::handleTagA($text, $tag);
+		}
+		
+		$tagName = $this->_mceAnchorTagName;
+		
+		return "[$tagName=$href]{$text}[/$tagName]";		
+	}
+		
 	/**
 	 * Table tag handler
 	 */

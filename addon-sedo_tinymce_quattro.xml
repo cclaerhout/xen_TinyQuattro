@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.3.1" version_id="68" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.4.0" version_id="69" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -158,7 +158,6 @@
 }]]></template>
     <template title="tiny_quattro_buttons_admin.css"><![CDATA[<xen:comment>
 	TINYMCE BUTTONS FOR ALL BROWSERS EXCEPT IE7
-	This css template is a copy from the public template
 </xen:comment>
 
 @font-face
@@ -190,12 +189,16 @@
 	font-family: 'tinymce',Arial;
 	font-style: normal;
 	font-weight: normal;
+	font-variant: normal;
 	font-size: 16px;
 	line-height: 16px;
+	speak:none;
 	vertical-align: text-top;
 	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 	display: inline-block;
 	background: transparent center center;
+	background-size: cover;
 	width: 16px;
 	height: 16px;
 	color: #333;
@@ -253,7 +256,7 @@
 
 .mce-i-pastetext:before
 {
-	content: "\e008";
+	content: "\e035";
 }
 
 .mce-i-searchreplace:before
@@ -331,7 +334,7 @@
 	content: "\e017";
 }
 
-.mce-i-inserttime:before
+.mce-i-insertdatetime:before
 {
 	content: "\e018";
 }
@@ -494,13 +497,13 @@
 i.mce-i-backcolor
 {
 	text-shadow: none;
-	background: #BBB;
+	background: {xen:property tinyquattro_icon_bckg_color};
 }
+
 
 <xen:comment>
 	Buttons - XenForo config
 </xen:comment>
-
 @font-face
 {
 	font-family:'xenforo-small';
@@ -526,16 +529,18 @@ i.mce-i-backcolor
 	font-style:normal;
 }
 
-.mce-xenforo-icons
+.mce-ico.mce-xenforo-icons
 {
 	font-family: 'xenforo',Arial;
 }
 
-.mce-btn-small .mce-xenforo-icons
+.mce-btn-small .mce-ico.mce-xenforo-icons
 {
 	font-family: 'xenforo-small',Arial;
 }
 
+<xen:comment>Original icon set</xen:comment>
+.mce-i-xen_nonbreaking:before		{ content: "\e025"; }
 
 <xen:comment>XenForo custom buttons - original icon set</xen:comment>
 
@@ -547,12 +552,13 @@ i.mce-i-backcolor
 .mce-i-xen_smilies:before		{ content: "\e021"; }
 .mce-i-xen_nonbreaking:before		{ content: "\e025"; }
 
-<xen:comment>XenForo custom buttons - xenforo icon set</xen:comment>
-
+<xen:comment>XenForo icon set</xen:comment>
 .mce-i-xen_switch:before		{ content: "\e01a"; }
 .mce-i-xen_code:before			{ content: "\e000"; }
 .mce-i-xen_quote:before			{ content: "\e009"; }
 .mce-i-xen_smilies_picker:before	{ content: "\e035"; }
+.mce-i-xen_fontfamily:before		{ content: "\e447"; }
+.mce-i-xen_fontsize:before		{ content: "\e448"; }
 .mce-i-xen_spoiler:before		{ content: "\e02c"; }]]></template>
   </admin_templates>
   <admin_template_modifications/>
@@ -796,19 +802,35 @@ limited={xen:phrase sedo_quattro_everywhere_but_bbcodes_content}</edit_format_pa
 justify={xen:phrase sedo_quattro_extra_bbcodes_justify}
 xtable={xen:phrase sedo_quattro_extra_bbcodes_xtable}
 sub={xen:phrase sedo_quattro_extra_bbcodes_subscript}
-sup={xen:phrase sedo_quattro_extra_bbcodes_superscript}</edit_format_params>
+sup={xen:phrase sedo_quattro_extra_bbcodes_superscript}
+hr={xen:phrase sedo_quattro_extra_bbcodes_hr}
+anchor={xen:phrase sedo_quattro_extra_bbcodes_anchor}</edit_format_params>
       <sub_options>bcolor
 justify
 xtable
 sub
-sup</sub_options>
+sup
+hr
+anchor</sub_options>
       <relation group_id="tiny_quattro_bbcodes" display_order="100"/>
+    </option>
+    <option option_id="quattro_extra_bbcodes_anchor_tag" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value>anchor</default_value>
+      <edit_format_params>size=8</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro_bbcodes" display_order="133"/>
     </option>
     <option option_id="quattro_extra_bbcodes_bcolor_tag" edit_format="textbox" data_type="string" can_backup="1">
       <default_value>bcolor</default_value>
       <edit_format_params>size=8</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro_bbcodes" display_order="110"/>
+    </option>
+    <option option_id="quattro_extra_bbcodes_hr_tag" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value>hr</default_value>
+      <edit_format_params>size=8</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro_bbcodes" display_order="132"/>
     </option>
     <option option_id="quattro_extra_bbcodes_sub_tag" edit_format="textbox" data_type="string" can_backup="1">
       <default_value>sub</default_value>
@@ -1257,9 +1279,13 @@ This patch is enable by default.]]></phrase>
     <phrase title="option_quattro_extralists" version_id="0" version_string="1.0"><![CDATA[Enable extra lists?]]></phrase>
     <phrase title="option_quattro_extralists_explain" version_id="0" version_string="1.0"><![CDATA[The TinyMCE default list buttons have several options incompatible with the XenForo parser (it would need to be extendable to try to integrate them). This option must be set to "no" until XenForo becomes more open.]]></phrase>
     <phrase title="option_quattro_extra_bbcodes" version_id="13" version_string="1.1.6"><![CDATA[Extra Bb Codes]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_anchor_tag" version_id="68" version_string="2.4.1"><![CDATA[Anchor tag]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_anchor_tag_explain" version_id="68" version_string="2.4.1"><![CDATA[If you want to change the tag name for this  bb code, do it here but do it only once. If you change the tag name a few time using it, all previous bb codes won't be able to be parsed. Default is: <b>anchor</b>.]]></phrase>
     <phrase title="option_quattro_extra_bbcodes_bcolor_tag" version_id="16" version_string="1.2.2"><![CDATA[Background color tag]]></phrase>
     <phrase title="option_quattro_extra_bbcodes_bcolor_tag_explain" version_id="16" version_string="1.2.2"><![CDATA[If you want to change the tag name for this  bb code, do it here but do it only once. If you change the tag name a few time using it, all previous bb codes won't be able to be parsed. Default is: <b>bcolor</b>.]]></phrase>
     <phrase title="option_quattro_extra_bbcodes_explain" version_id="13" version_string="1.1.6"><![CDATA[These Bb Codes will be added to XenForo (<b>only > 1.2</b>) and will work with their TinyMCE Quattro functions, which means they will have a Wysiwyg output. They should work with the XenForo redactor too, but these functions and their buttons will have to be coded or activated (if someone wants this, feel free to do it, but I will not).]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_hr_tag" version_id="68" version_string="2.4.1"><![CDATA[Hr tag]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_hr_tag_explain" version_id="68" version_string="2.4.1"><![CDATA[If you want to change the tag name for this  bb code, do it here but do it only once. If you change the tag name a few time using it, all previous bb codes won't be able to be parsed. Default is: <b>hr</b>.]]></phrase>
     <phrase title="option_quattro_extra_bbcodes_sub_tag" version_id="48" version_string="2.0.0"><![CDATA[Subscript tag]]></phrase>
     <phrase title="option_quattro_extra_bbcodes_sub_tag_explain" version_id="48" version_string="2.0.0"><![CDATA[If you want to change the tag name for this  bb code, do it here but do it only once. If you change the tag name a few time using it, all previous bb codes won't be able to be parsed. Default is: <b>sub</b>.]]></phrase>
     <phrase title="option_quattro_extra_bbcodes_sup_tag" version_id="48" version_string="2.0.0"><![CDATA[Superscript tag]]></phrase>
@@ -1426,6 +1452,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="quattro_smilies_modal_allinone" version_id="34" version_string="1.6.5.0"><![CDATA[Modal all-in-one]]></phrase>
     <phrase title="quattro_smilies_modal_slider" version_id="34" version_string="1.6.5.0"><![CDATA[Modal slider]]></phrase>
     <phrase title="sedo_quattro_advanced" version_id="60" version_string="2.1.3"><![CDATA[Advanced]]></phrase>
+    <phrase title="sedo_quattro_anchors" version_id="68" version_string="2.4.1"><![CDATA[Anchors]]></phrase>
     <phrase title="sedo_quattro_bbcode_editor" version_id="49" version_string="2.0.1"><![CDATA[Bb Code editor]]></phrase>
     <phrase title="sedo_quattro_bold" version_id="50" version_string="2.1.0"><![CDATA[Bold]]></phrase>
     <phrase title="sedo_quattro_characters" version_id="0" version_string="1.0"><![CDATA[Characters: {0}]]></phrase>
@@ -1442,7 +1469,9 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_edit" version_id="49" version_string="2.0.1"><![CDATA[Edit]]></phrase>
     <phrase title="sedo_quattro_everywhere" version_id="33" version_string="1.6.4.2"><![CDATA[Yes - with Bb Code content]]></phrase>
     <phrase title="sedo_quattro_everywhere_but_bbcodes_content" version_id="33" version_string="1.6.4.2"><![CDATA[Yes - without Bb Code content]]></phrase>
+    <phrase title="sedo_quattro_extra_bbcodes_anchor" version_id="68" version_string="2.4.1"><![CDATA[Anchor BbCode: [anchor]]]></phrase>
     <phrase title="sedo_quattro_extra_bbcodes_bcolor" version_id="13" version_string="1.1.6"><![CDATA[Background Color BbCode: [bcolor]]]></phrase>
+    <phrase title="sedo_quattro_extra_bbcodes_hr" version_id="68" version_string="2.4.1"><![CDATA[Hr BbCode: [hr]]]></phrase>
     <phrase title="sedo_quattro_extra_bbcodes_justify" version_id="13" version_string="1.1.6"><![CDATA[Justify Align BbCode: [justify]]]></phrase>
     <phrase title="sedo_quattro_extra_bbcodes_subscript" version_id="48" version_string="2.0.0"><![CDATA[Subscript BbCode: [sub]]]></phrase>
     <phrase title="sedo_quattro_extra_bbcodes_superscript" version_id="48" version_string="2.0.0"><![CDATA[Superscript BbCode: [sup]]]></phrase>
@@ -2414,7 +2443,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <template title="quattro_dialog_image.css" version_id="33" version_string="1.6.4.2"><![CDATA[.mce-xen-body #quattro_image dd input{
 	width: 95%;
 }]]></template>
-    <template title="quattro_dialog_link" version_id="50" version_string="2.1.0"><![CDATA[<xen:require css="quattro_dialog.css" />
+    <template title="quattro_dialog_link" version_id="68" version_string="2.4.1"><![CDATA[<xen:require css="quattro_dialog.css" />
 <xen:require css="quattro_dialog_link.css" />
 <xen:require js="js/sedo/tinyquattro/templates/link.js" />
 
@@ -2423,6 +2452,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 <div class="mceTabs">
 	<div id="xentabs_url">{xen:phrase sedo_quattro_link}</div>
 	<div id="xentabs_email" class="{xen:if '{$isEmail}', 'mceActive'}">{xen:phrase sedo_quattro_mail}</div>
+	<div id="xentabs_anchors" class="anchor_el {xen:if '!{$anchors}', 'mceAnchorHidden'}">{xen:phrase sedo_quattro_anchors}</div>
 </div>
 
 <div id="xenlink" class="mcePanes">
@@ -2471,8 +2501,20 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 			</dd>
 		</dl>
 	</div>
+
+	<div id="xenpane_anchors" class="anchor_el {xen:if '!{$anchors}', 'mceAnchorHidden'}">
+		<ul class="quattro-anchor-list">
+			<xen:comment>
+				The above code is just for information, since the content of the list will
+				be (re)populated by a JavaScript function
+			</xen:comment>
+			 <xen:foreach loop="$anchors" value="$anchor">
+					<li class="quattro-anchor-item {xen:if '{$anchor.selected}', 'selected'}" data-value="{$anchor.value}">{$anchor.text}</li>
+			 </xen:foreach>
+		</ul>
+	</div>
 </div>]]></template>
-    <template title="quattro_dialog_link.css" version_id="33" version_string="1.6.4.2"><![CDATA[.mce-xen-body #xenlink dt{
+    <template title="quattro_dialog_link.css" version_id="68" version_string="2.4.1"><![CDATA[.mce-xen-body #xenlink dt{
 	max-width:150px;
 	width:100%;
 }
@@ -2483,6 +2525,34 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 
 .mce-xen-body.responsive #xenlink dd input{
 	width:auto;
+}
+
+.mce-xen-body .mceAnchorHidden{
+	display:none;
+}
+
+.mce-xen-body .quattro-anchor-list{
+	width: 100%;
+	height: 112px;
+	white-space: normal;
+	overflow: auto;
+}
+
+.mce-xen-body .quattro-anchor-list .quattro-anchor-item{
+	border: 1px dotted {xen:property primaryMedium};
+	cursor: pointer;
+	display: inline-block;
+	margin: 2px;
+	padding: 5px;
+	zoom: 1;
+        *display: inline;
+}
+
+
+.mce-xen-body .quattro-anchor-list .quattro-anchor-item.selected{
+	border: none;
+	background-color: {xen:property primaryMedium};
+	color: {xen:property primaryLightest};
 }]]></template>
     <template title="quattro_dialog_media" version_id="50" version_string="2.1.0"><![CDATA[<xen:require css="quattro_dialog.css" />
 <xen:require css="quattro_dialog_media.css" />

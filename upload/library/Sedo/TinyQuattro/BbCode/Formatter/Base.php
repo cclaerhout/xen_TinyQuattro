@@ -8,6 +8,8 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 	protected $_mceTableTagName = 'xtable';
 	protected $_mceSubTagName = 'sub';
 	protected $_mceSupTagName = 'sup';
+	protected $_mceHrTagName = 'hr';
+	protected $_mceAnchorTagName = 'anchor';
 
 	/**
 	 * Table default skin
@@ -98,6 +100,30 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 				
 				$this->_xenOptionsMceTable = Sedo_TinyQuattro_Helper_BbCodes::getMceTableXenOptions();
 			}
+
+			if(Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('hr'))
+			{
+				$hrTag = Sedo_TinyQuattro_Helper_BbCodes::getQuattroBbCodeTagName('hr');
+				$this->_mceHrTagName = $hrTag;
+				
+				$parentTags += array(
+					$hrTag => array(
+						'callback' => array($this, 'renderTagSedoHr')
+					)
+				);			
+			}
+
+			if(Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('anchor'))
+			{
+				$anchorTag = Sedo_TinyQuattro_Helper_BbCodes::getQuattroBbCodeTagName('anchor');
+				$this->_mceAnchorTagName = $anchorTag;
+				
+				$parentTags += array(
+					$anchorTag => array(
+						'callback' => array($this, 'renderTagSedoAnchor')
+					)
+				);			
+			}						
 		}
 		
 		return $parentTags;
@@ -216,6 +242,108 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 		}
 		
 		return $parentOuput;
+	}
+
+	/**
+	 * Mce Horizontal rule tag
+	 */
+	public function renderTagSedoHr(array $tag, array $rendererStates)
+	{
+		return "<hr />";
+	}
+
+	/**
+	 * Mce Anchor tag
+	 */
+	protected $_quattroRequestPaths;
+	protected $_quattroJsonResponse = null;
+	
+	public function renderTagSedoAnchor(array $tag, array $rendererStates)
+	{
+		$content = htmlspecialchars(trim($this->renderSubTree($tag['children'], $rendererStates)));
+		$anchorPrefix = 'message-anchor';
+
+		/*Anchor point*/
+		if(empty($tag['option']))
+		{
+			$anchor = strtolower($content);
+			return "<a id='{$anchorPrefix}-{$anchor}' class='quattro_anchor'></a>";
+		}
+
+		/*Anchor link*/
+		$anchor = strtolower(htmlspecialchars(trim($tag['option'])));
+		
+		if($anchor[0] != '#')
+		{
+			$anchor = "#{$anchorPrefix}-{$anchor}";
+		}
+		else
+		{
+			$anchor = "#{$anchorPrefix}-".substr($anchor, 1); 
+		}
+
+		//Json Response check
+		if($this->_quattroJsonResponse === null)
+		{
+			$fc = XenForo_Application::get('fc');
+			$route = $fc->route();
+			$this->_quattroJsonResponse = ($route->getResponseType() == 'json');
+		}
+
+		$jsonResponse = $this->_quattroJsonResponse;
+		
+		//Request Paths Management
+		if(!$this->_quattroRequestPaths)
+		{
+			$this->_quattroRequestPaths = XenForo_Application::get('requestPaths');
+		}
+	
+		$requestPaths = $this->_quattroRequestPaths;
+
+		if($jsonResponse)
+		{
+			//If the response type is json, the request paths will be the one from the json view, so try to get the data from the previous html response
+			$sessionCache = XenForo_Application::getSession()->get('sedoQuattro');
+			
+			if(!empty($sessionCache['noJsonRequestPaths']))
+			{
+				$requestPaths = $sessionCache['noJsonRequestPaths'];
+			}
+		}
+
+		//Get url & text
+		$url = $requestPaths['fullUri'] . "{$anchor}";
+		$text = $content;
+
+		/*Copy of XenForo url tag handler without the proxy feature*/
+		$url = $this->_getValidUrl($url);
+		if (!$url)
+		{
+			return $text;
+		}
+		else
+		{
+			list($class, $target, $type) = XenForo_Helper_String::getLinkClassTarget($url);
+			if ($type == 'internal')
+			{
+				$noFollow = '';
+			}
+			else
+			{
+				$noFollow = (empty($rendererStates['noFollowDefault']) ? '' : ' rel="nofollow"');
+			}
+
+			$href = XenForo_Helper_String::censorString($url);
+
+			$class = $class ? " class=\"$class\"" : '';
+			$target = $target ? " target=\"$target\"" : '';
+
+			return $this->_wrapInHtml(
+				'<a href="' . htmlspecialchars($href) . '"' . $target . $class . $noFollow . '>',
+				'</a>',
+				$text
+			);
+		}
 	}
 
 	/**

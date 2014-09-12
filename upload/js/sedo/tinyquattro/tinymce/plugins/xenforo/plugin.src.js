@@ -87,6 +87,11 @@
 			this.$textarea = $(ed.getElement());
 			this.isOldXen = src.getParam('oldXen');
 
+			/* Get Form function */
+			this.getForm = function(){
+				return $(ed.getContainer()).closest('form');
+			};
+
 			/*Extend events*/
 			ed.on('init', function(e) {
 				var win = ed.windowManager, winOpen = win.open;
@@ -117,7 +122,7 @@
 				else
 					return ed.plugins.fullscreen.isFullscreen();
 			};
-			
+
 			/*Create a static mirror*/
 			xenMCE.Lib.Tools = this;
 
@@ -162,7 +167,7 @@
 				the "name" parameter of a tag, this tag will be automatically filled.
 				
 				When submitting the form, TinyMCE automatically passes the input tags in a data object inside the event. If you need
-				to get the the content of another tag, just add this tag a "data-value" parametter, you can put what you want in the value
+				to get the the content of another tag, just add this tag a "data-value" parameter, you can put what you want in the value
 				You will have both the content of the data-value and the content of the tag
 			**/
 
@@ -212,6 +217,9 @@
 				isLink = !isEmail;
 			}
 
+			/*Get anchors*/
+			var anchors = $.toJSON(self.getAnchors(url_href));
+
 			/*Get attachments key params*/
 			var attachData = editor.settings.xen_attach.split(',');
 			
@@ -233,7 +241,8 @@
 					text: url_text,
 					href: url_href,
 					anchorElm: anchorElm
-				}
+				},
+				anchorList: anchors
 			}
 
 			var targetWindow = this.findTargetWindow(dialog);
@@ -268,6 +277,7 @@
 					text: url_text,
 					href: url_href
 				},
+				anchorList: anchors,
 				attach: this.xenAttach
 			};
 
@@ -445,9 +455,8 @@
 
       						/* Private onsubmit callback */
       						if(params.onsubmit != false){
-      							var xenDatas = getDatas($overlay);
-      							$.extend(e.data, xenDatas);
-      							
+							var xenDatas = getDatas($overlay);
+	      						$.extend(e.data, xenDatas);
       							params.src[params.onsubmit](e, $overlay, editor, self);
       						}
 
@@ -458,23 +467,24 @@
 
       						/* Private onclose callback */
       						if(params.onclose != false){
-      							var xenDatas = getDatas($overlay);
-      							$.extend(e.data, xenDatas);
+							var xenDatas = getDatas($overlay);
+	      						$.extend(e.data, xenDatas);
       							params.src[params.onclose](e, $overlay, editor, self);
       						}
-
+      						
       						targetWindow.close();
       					}},
       					{text: buttonCancel, subtype: 'xenCancel', onclick: function(e) {
       						var $overlay = $(targetWindow.getEl());
 
       						/* Private onclose callback */
+     						
       						if(params.onclose != false){
-      							var xenDatas = getDatas($overlay);
-      							$.extend(e.data, xenDatas);
+							var xenDatas = getDatas($overlay);
+	      						$.extend(e.data, xenDatas);
       							params.src[params.onclose](e, $overlay, editor, self);
-      						}							
-      						
+      						}
+
       						targetWindow.close();
       					}}
       				];
@@ -607,14 +617,20 @@
 			}
 
       			/* Afterload Callback*/				
-      			if(params.onafterload != false)
+      			if(params.onafterload != false){
       				params.src[params.onafterload]($overlay, data, editor, self);
+      			}else{
+				//new method
+				if(self.isDefined(xenMCE.Templates[Dialog], 'onafterload')){
+					xenMCE.Templates[Dialog].onafterload($overlay, data, editor, self);
+				}
+      			}
       				
       			self.xenOverlayIsloading = false;		
 		},
 		_onFastReload: function($overlay, data)
 		{
-			var self = this, inputsTags = self.getInputTags();
+			var self = this, inputsTags = self.getInputTags(), href = '';
 
 			inputsTags.push('textarea');
 			
@@ -631,12 +647,13 @@
 				}
 				$overlay.find(urlTarget).val(urlDatas.href);
 				$overlay.find(urlTarget+'Text').val(urlDatas.text);				
+				href = urlDatas.href;
 			}else{
 				$.each(inputsTags, function(i, v){
 					$overlay.find(v+'.MceSelec').val(data.selectedText);
 					$overlay.find(v+'.MceSelecHtml').val(data.selectedHtml);				
 				});
-			}			
+			}
 		},
 		_inlineLink: function(data)
 		{
@@ -1184,6 +1201,26 @@
 		},
 		getInputTags: function(){
 			return ['input','textarea','select'];
+		},
+		getAnchors: function(url){
+			var editor = this.getEditor(), 
+				anchorList = [];
+
+			tinymce.each(editor.dom.select('a:not([href])'), function(anchor) {
+				var id = anchor.name || anchor.id;
+				
+				if(!url) url = '';
+
+				if (id) {
+					anchorList.push({
+						text: id,
+						value: '#' + id,
+						selected: url.indexOf('#' + id) != -1
+					});
+				}
+			});
+
+			return anchorList;
 		},
 		ucfirst: function(string)
 		{
@@ -1959,8 +1996,7 @@
 
 			/* 2013/08/28: These two fixes don't seem to be needed anymore. I'm going to wait a little then I will exclude them (just need to comment) from the minify version*/
 			ed.on('postrender', function(e) {
-				var doc = ed.getDoc();
-				$form = $(ed.getContainer()).parents('form');
+				var doc = ed.getDoc(), $form = parent.getForm();
 				
 				if (!tinymce.isIE && $form.hasClass(inlineEd)) {
 					try {
@@ -2805,6 +2841,7 @@
 
 			$.extend(this, {
 				ed: ed,
+				$form: parent.getForm(),
 				draftText: parent.getPhrase('draft'),
 				$textarea: parent.$textarea,
 				autoSaveUrl: parent.$textarea.data('auto-save-url')		
@@ -2876,7 +2913,7 @@
 		initAutoSave: function()
 		{
 			var self = this, 
-				$form = $(this.ed.getContainer()).parents('form'),
+				$form = this.$form,
 				options = self.$textarea.data('options'),
 				content = this.ed.getContent();
 
@@ -2896,8 +2933,8 @@
 		},
 		saveDraft: function(forceUpdate, deleteDraft)
 		{
-			var 	self = this, 
-				$form = $(this.ed.getContainer()).parents('form'),
+			var self = this, 
+				$form = this.$form,
 				wmn = this.ed.windowManager,
 				args = {content: this.ed.getContent()},
 				content = '';
@@ -3107,6 +3144,51 @@
 			
 			ed.on('FullscreenStateChanged', function(e){
 				ed.execCommand('xenFullEditor', true);//e.state				
+			});
+		}
+	});
+
+	/***
+	*	XenForo Anchor Integration
+	*	Independent plugin
+	***/
+	tinymce.create(xenPlugin+'.XenAnchor', {
+		XenAnchor: function(parent, ed) 
+		{
+			//The below listener is trigger before XenForo uses the jQuery serialize function
+			ed.on('xenMceBeforeSubmit XenSwitchToBbCode', function(e){
+     				var proceed = true,
+      					dom = ed.dom,
+      					body = ed.getBody(),
+      					bodyClone = dom.clone(body, true),
+      					doc = ed.getDoc();
+
+      				//Find anchors to create a fake anchor tag
+      				tinymce.each(dom.select('a', body), function(n) {
+      					if(dom.hasClass(n, 'mce-item-anchor')){
+      						var fakeAnchor, id = dom.getAttrib(n, 'id');
+      						fakeAnchor = dom.create('anchor', { id: id }, 'mce-anchor');
+      						dom.replace(fakeAnchor, n);
+     					}
+      				}, 'childNodes');
+
+				//Get the modified body content
+      				var content, args = { 'quattroEvent': 'xenMceBeforeSubmit'};
+				content = ed.getContent(args);
+				
+				//Get back the original body
+				dom.replace(bodyClone, body);
+
+				//Inject the modified html when saving
+      				ed.on('SaveContent', function(e){
+      					if(!proceed || !content) return;
+					e.content = content;
+      					proceed = false;
+				});
+
+				if(e.type == 'xenswitchtobbcode'){
+					e.content = content;
+				}
 			});
 		}
 	});

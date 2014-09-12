@@ -16,6 +16,18 @@ class Sedo_TinyQuattro_Helper_BbCodes
 			case "table":
 				$selectedTagName = $xenOptions->quattro_extra_bbcodes_xtable_tag;
 				break;
+			case "sub":
+				$selectedTagName = $xenOptions->quattro_extra_bbcodes_sub_tag;
+				break;
+			case "sup":
+				$selectedTagName = $xenOptions->quattro_extra_bbcodes_sup_tag;
+				break;
+			case "hr":
+				$selectedTagName = $xenOptions->quattro_extra_bbcodes_hr_tag;
+				break;
+			case "anchor":
+				$selectedTagName = $xenOptions->quattro_extra_bbcodes_anchor_tag;
+				break;
 			default:
 				$selectedTagName = '';
 		}

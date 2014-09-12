@@ -8,6 +8,8 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 	protected $_mceTableTagName = 'xtable';
 	protected $_mceSubTagName = 'sub';
 	protected $_mceSupTagName = 'sup';
+	protected $_mceHrTagName = 'hr';
+	protected $_mceAnchorTagName = 'anchor';
 
 	/**
 	 * Table default skin
@@ -121,7 +123,31 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 				$parentTags['quote'] = array(
 					'callback' => array($this, 'renderTagMceQuote')
 				);			
-			}			
+			}
+
+			if(Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('hr') && $quattroEnable)
+			{
+				$hrTag = Sedo_TinyQuattro_Helper_BbCodes::getQuattroBbCodeTagName('hr');
+				$this->_mceHrTagName = $hrTag;
+				
+				$parentTags += array(
+					$hrTag => array(
+						'callback' => array($this, 'renderTagMceHr')
+					)
+				);			
+			}
+
+			if(Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('anchor') && $quattroEnable)
+			{
+				$anchorTag = Sedo_TinyQuattro_Helper_BbCodes::getQuattroBbCodeTagName('anchor');
+				$this->_mceAnchorTagName = $anchorTag;
+				
+				$parentTags += array(
+					$anchorTag => array(
+						'callback' => array($this, 'renderTagMceAnchor')
+					)
+				);			
+			}									
 		}
 		
 		return $parentTags;
@@ -251,6 +277,39 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 		return '<blockquote class="mce_quote" data-mcequote="true" ' . $data . '>' . $content . '</blockquote>';
 	}
 
+	/**
+	 * Mce Hr Bb Code Renderer
+	 */
+	public function renderTagMceHr(array $tag, array $rendererStates)
+	{
+		return '<hr />';
+	}
+
+	/**
+	 * Mce Anchor Bb Code Renderer
+	 */
+	public function renderTagMceAnchor(array $tag, array $rendererStates)
+	{
+		$content = trim($this->renderSubTree($tag['children'], $rendererStates));
+
+		//Anchor point
+		if(empty($tag['option']))
+		{
+			return "<a id='{$content}'></a>";
+		}
+		
+		//Anchor link
+		$anchor = htmlspecialchars(trim($tag['option']));
+		$text = $content;
+
+		if($anchor[0] != '#')
+		{
+			$anchor = "#$anchor";
+		}
+
+		return "<a href='{$anchor}'>$text</a>";		
+	}
+	
 	/**
 	 * Mce Table Master Bb Code Renderer
 	 */

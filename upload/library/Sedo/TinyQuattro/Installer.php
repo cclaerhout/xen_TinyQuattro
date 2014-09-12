@@ -116,7 +116,22 @@ class Sedo_TinyQuattro_Installer
 		if(empty($addon) || $addon['version_id'] < 64)
 		{
 			Sedo_TinyQuattro_Helper_Smilie::cacheMceSmiliesByCategory();
-		}					
+		}
+
+		if(empty($addon) || $addon['version_id'] < 68)
+		{
+			$newButtons = array(
+				'anchor' => array(262, 262, 2, 1, 'tinymce'),
+				'hr' => array(285, 285, 2, 0, 'tinymce')
+			);
+			self::insertButtons($newButtons, 'default');
+
+			$buttonsToReset = array(
+				'xen_smilies' => array(270, 270, 2, 0, 'tinymce'), //font error
+				'xen_unlink' => array(260, 260, 2, 0, 'tinymce') //remove separator (cf anchor)
+			);
+			self::resetButtons($buttonsToReset, 'default');
+		}							
 	}
 
 	public static function insertButtons(array $buttons, $category, $reset = false)
