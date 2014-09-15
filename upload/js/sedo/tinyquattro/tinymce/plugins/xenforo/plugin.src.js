@@ -218,7 +218,7 @@
 			}
 
 			/*Get anchors*/
-			var anchors = $.toJSON(self.getAnchors(url_href));
+			var anchors = self.getAnchors(url_href);
 
 			/*Get attachments key params*/
 			var attachData = editor.settings.xen_attach.split(',');
