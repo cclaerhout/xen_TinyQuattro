@@ -118,7 +118,7 @@ class Sedo_TinyQuattro_Installer
 			Sedo_TinyQuattro_Helper_Smilie::cacheMceSmiliesByCategory();
 		}
 
-		if(empty($addon) || $addon['version_id'] < 68)
+		if(empty($addon) || $addon['version_id'] < 70)
 		{
 			$newButtons = array(
 				'anchor' => array(262, 262, 2, 1, 'tinymce'),
