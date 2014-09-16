@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.4.1" version_id="70" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.4.2" version_id="71" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -1452,6 +1452,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="quattro_smilies_modal_allinone" version_id="34" version_string="1.6.5.0"><![CDATA[Modal all-in-one]]></phrase>
     <phrase title="quattro_smilies_modal_slider" version_id="34" version_string="1.6.5.0"><![CDATA[Modal slider]]></phrase>
     <phrase title="sedo_quattro_advanced" version_id="60" version_string="2.1.3"><![CDATA[Advanced]]></phrase>
+    <phrase title="sedo_quattro_anchor" version_id="70" version_string="2.4.1"><![CDATA[Anchor]]></phrase>
     <phrase title="sedo_quattro_anchors" version_id="68" version_string="2.4.1"><![CDATA[Anchors]]></phrase>
     <phrase title="sedo_quattro_bbcode_editor" version_id="49" version_string="2.0.1"><![CDATA[Bb Code editor]]></phrase>
     <phrase title="sedo_quattro_bold" version_id="50" version_string="2.1.0"><![CDATA[Bold]]></phrase>
@@ -1484,6 +1485,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_format" version_id="49" version_string="2.0.1"><![CDATA[Format]]></phrase>
     <phrase title="sedo_quattro_fullscreen" version_id="0" version_string="1.0"><![CDATA[Fullscreen]]></phrase>
     <phrase title="sedo_quattro_full_picker" version_id="0" version_string="1.0"><![CDATA[Full picker]]></phrase>
+    <phrase title="sedo_quattro_hr" version_id="70" version_string="2.4.1"><![CDATA[Horizontal line]]></phrase>
     <phrase title="sedo_quattro_html" version_id="0" version_string="1.0"><![CDATA[HTML]]></phrase>
     <phrase title="sedo_quattro_insert" version_id="49" version_string="2.0.1"><![CDATA[Insert]]></phrase>
     <phrase title="sedo_quattro_insert_edit_image" version_id="10" version_string="1.1.3"><![CDATA[Insert edit image]]></phrase>
@@ -1576,6 +1578,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_table_inserttable" version_id="17" version_string="1.3.0"><![CDATA[Insert table]]></phrase>
     <phrase title="sedo_quattro_table_left" version_id="17" version_string="1.3.0"><![CDATA[Left]]></phrase>
     <phrase title="sedo_quattro_table_mergecells" version_id="17" version_string="1.3.0"><![CDATA[Merge cells]]></phrase>
+    <phrase title="sedo_quattro_table_name" version_id="70" version_string="2.4.1"><![CDATA[Name]]></phrase>
     <phrase title="sedo_quattro_table_none" version_id="17" version_string="1.3.0"><![CDATA[None]]></phrase>
     <phrase title="sedo_quattro_table_pasterowafter" version_id="17" version_string="1.3.0"><![CDATA[Paste row after]]></phrase>
     <phrase title="sedo_quattro_table_pasterowbefore" version_id="17" version_string="1.3.0"><![CDATA[Paste row before]]></phrase>
@@ -5226,7 +5229,7 @@ blockquote.mce_quote {
 
 <xen:edithint template="tiny_quattro_iframe.css" />
 <xen:edithint template="tiny_quattro_framework.css" />]]></template>
-    <template title="tiny_quattro_phrases" version_id="60" version_string="2.1.3"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_phrases" version_id="70" version_string="2.4.1"><![CDATA[<xen:comment>
 	We are inside a JavaScript file. All phrases must be escaped
 </xen:comment>
 	<xen:comment>xenphrases</xen:comment>
@@ -5311,6 +5314,7 @@ blockquote.mce_quote {
 		"Insert row before": "{xen:jsescape {xen:phrase sedo_quattro_table_insertrowbefore}}",
 		"Insert table": "{xen:jsescape {xen:phrase sedo_quattro_table_inserttable}}",
 		"Merge cells": "{xen:jsescape {xen:phrase sedo_quattro_table_mergecells}}",
+		"Name": "{xen:jsescape {xen:phrase sedo_quattro_table_name}}",
 		"None": "{xen:jsescape {xen:phrase sedo_quattro_table_none}}",
 		"Paste row after": "{xen:jsescape {xen:phrase sedo_quattro_table_pasterowafter}}",
 		"Paste row before": "{xen:jsescape {xen:phrase sedo_quattro_table_pasterowbefore}}",
@@ -5337,6 +5341,12 @@ blockquote.mce_quote {
 	</xen:if>
 	<xen:if is="{$xenOptions.quattro_extra_bbcodes.sup}">
 		"Superscript": "{xen:jsescape {xen:phrase sedo_quattro_superscript}}",
+	</xen:if>
+	<xen:if is="{$xenOptions.quattro_extra_bbcodes.anchor}">
+		"Anchor": "{xen:jsescape {xen:phrase sedo_quattro_anchor}}",
+	</xen:if>	
+	<xen:if is="{$xenOptions.quattro_extra_bbcodes.hr}">
+		"Horizontal line": "{xen:jsescape {xen:phrase sedo_quattro_hr}}",
 	</xen:if>
 	<xen:if is="{$xenOptions.quattro_wysiwyg_quote}">
 		"Quote properties" : "{xen:jsescape {xen:phrase sedo_quattro_quote_properties}}",

@@ -3,10 +3,10 @@
 {
 	if(typeof xenMCE === undefined) xenMCE = {};
 
-	xenMCE.BbCodeWysiwygEditor = function($editor) { 
+	xenMCE.BbCodeWysiwygEditor = function($editor, setupCallback) { 
 		var self = this;
 		//setTimeout is needed to wait the template to be totally loaded and get access to xenMCE
-		setTimeout(function(){self.__construct($editor)}, 0);
+		setTimeout(function(){self.__construct($editor, setupCallback)}, 0);
 	};
 
 	/**
@@ -23,7 +23,7 @@
 
 	xenMCE.BbCodeWysiwygEditor.prototype =
 	{
-		__construct: function($editor)
+		__construct: function($editor, setupCallback)
 		{
 			var quattroData = $editor.data('quattro'),
 				redactorData = $editor.data('redactor'),
@@ -132,6 +132,10 @@
 					//Load all functions
 					this(ed);
 				});
+				
+				if(typeof setupCallback === 'function'){
+					setupCallback(ed);
+				}
 			};
 
 			//Loader selection
