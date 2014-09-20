@@ -10,6 +10,7 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 	protected $_mceSupTagName = 'sup';
 	protected $_mceHrTagName = 'hr';
 	protected $_mceAnchorTagName = 'anchor';
+	protected $_mceFormatTagName = 'format';
 
 	/**
 	 * Table default skin
@@ -147,6 +148,18 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 						'callback' => array($this, 'renderTagMceAnchor')
 					)
 				);			
+			}
+
+			if(Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('format') && $quattroEnable)
+			{
+				$formatTag = Sedo_TinyQuattro_Helper_BbCodes::getQuattroBbCodeTagName('format');
+				$this->_mceFormatTagName = $formatTag;
+				
+				$parentTags += array(
+					$formatTag => array(
+						'callback' => array($this, 'renderTagMceFormat')
+					)
+				);			
 			}									
 		}
 		
@@ -274,7 +287,7 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 		
 		$data = (!empty($data)) ? implode($data, ' ') : '';
 
-		return '<blockquote class="mce_quote" data-mcequote="true" ' . $data . '>' . $content . '</blockquote>';
+		return $this->_wrapInHtml('<blockquote class="mce_quote" data-mcequote="true" ' . $data . '>', '</blockquote>', $content);
 	}
 
 	/**
@@ -307,7 +320,46 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 			$anchor = "#$anchor";
 		}
 
-		return "<a href='{$anchor}'>$text</a>";		
+		return $this->_wrapInHtml("<a href='{$anchor}'>", '</a>', $text);
+	}
+
+	/**
+	 * Mce Format Bb Code Renderer
+	 */
+	public function renderTagMceFormat(array $tag, array $rendererStates)
+	{
+		$content = $this->renderSubTree($tag['children'], $rendererStates);
+
+		//Anchor point
+		if(empty($tag['option']))
+		{
+			return $content;
+		}
+		
+		$option = trim($tag['option']);
+		$headings = array('h1', 'h2', 'h3', 'h4', 'h5', 'h6');
+		$customSpan = array('cust1', 'cust2', 'cust3');
+		
+		if(in_array($option, $headings) && XenForo_Template_Helper_Core::styleProperty("quattro_sf_{$option}_text"))
+		{
+			return $this->_wrapInHtml("<{$option} class='quattro_sf {$option}'>", "</{$option}>", $content);
+		}
+		
+		$customKey = array_search($option, $customSpan);
+		
+		if($customKey === false)
+		{
+			return $content;
+		}
+
+		$customKeyIndex = $customKey+1;
+
+		if(XenForo_Template_Helper_Core::styleProperty("quattro_sf_custom{$customKeyIndex}_text"))
+		{
+			return $this->_wrapInHtml("<span class='quattro_sf {$option}'>", "</span>", $content);
+		}
+
+		return $content;
 	}
 	
 	/**

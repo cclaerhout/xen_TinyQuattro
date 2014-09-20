@@ -11,6 +11,7 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 	protected $_mceSupTagName = 'sup';
 	protected $_mceAnchorTagName = 'anchor';
 	protected $_mceHrTagName = 'hr';
+	protected $_mceFormatTagName = 'format';
 
 	/**
 	 * Extend the class constructor to detect the background color css property
@@ -106,6 +107,17 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 		{
 			$this->_mceAnchorTagName = Sedo_TinyQuattro_Helper_BbCodes::getQuattroBbCodeTagName('anchor');
 			$this->_handlers['anchor'] = array('filterCallback' => array('$this', 'handleTagMceAnchor'), 'skipCss' => true);
+		}
+
+		if(	is_array($this->_handlers) 
+			&&
+			Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('format')
+			&&
+			$quattroEnable
+		)
+		{
+			$this->_mceFormatTagName = Sedo_TinyQuattro_Helper_BbCodes::getQuattroBbCodeTagName('format');
+			$this->_handlers['xformat'] = array('filterCallback' => array('$this', 'handleTagMceFormat'), 'skipCss' => true);
 		}
 		
 		return parent::__construct($options);
@@ -242,6 +254,17 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 		$tagName = $this->_mceAnchorTagName;
 				
 		return "[$tagName]{$id}[/$tagName]";
+	}
+
+	/**
+	 * Format (fake) tag handler
+	 */
+	public function handleTagMceFormat($text, XenForo_Html_Tag $tag)
+	{
+		$formatName = $tag->attribute('name');
+		$tagName = $this->_mceFormatTagName;
+				
+		return "[$tagName=$formatName]{$text}[/$tagName]";
 	}
 
 	//extend <a> tag handle to get url starting with '#' and make them use the anchor tag

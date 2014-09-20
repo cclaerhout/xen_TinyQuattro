@@ -131,7 +131,15 @@ class Sedo_TinyQuattro_Installer
 				'xen_unlink' => array(260, 260, 2, 0, 'tinymce') //remove separator (cf anchor)
 			);
 			self::resetButtons($buttonsToReset, 'default');
-		}							
+		}
+
+		if(empty($addon) || $addon['version_id'] < 72)
+		{
+			$newButtons = array(
+				'styleselect' => array(85, 85, 1, 1, 'text')
+			);
+			self::insertButtons($newButtons, 'default');
+		}									
 	}
 
 	public static function insertButtons(array $buttons, $category, $reset = false)

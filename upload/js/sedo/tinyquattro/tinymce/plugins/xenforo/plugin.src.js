@@ -81,7 +81,7 @@
 			this.getEditor = function (){ return ed; };
 
 			ed.on('init', function(e) {
-				$(ed.getElement()).data('mce4', true);
+				$(ed.getElement()).data('mce4', true).attr('disabled', false);
 			});
 			
 			this.$textarea = $(ed.getElement());
@@ -1222,6 +1222,128 @@
 
 			return anchorList;
 		},
+		alterTagBeforeComplete: function(selector, convertFct, mergeAdjoinedTags)
+		{
+			/***
+			 * This function is a very convenient way to rename an html tag before the content 
+			 * is sent and managed by the XenForo html=>Bb Code formatter
+			 *
+			 * Note: don't forget to declare if needed the fake tag in the MCE "extended_valid_elements" variable
+			 ***/
+
+			var editor = this.getEditor(), 
+				each = tinymce.each,
+				self = this;
+
+			if(this._alterTagQueue === undefined){
+				this._alterTagQueue = [];
+			}
+
+			//Put mods in queue list
+			this._alterTagQueue.push([selector, convertFct, mergeAdjoinedTags]);
+			
+			//The below listeners are triggered before XenForo process HTML to Bb Codes
+			editor.on('xenMceBeforeSubmit XenSwitchToBbCode', function(e){
+     				var proceed = true,
+      					dom = editor.dom,
+      					body = editor.getBody(),
+      					bodyClone = dom.clone(body, true),
+      					adjoinedCompatibleTags = ['SPAN'];      					
+      					
+				var alterDom = function(selector, convertFct, mergeAdjoinedTags){
+					//Note: to reverse this function, you need to use the function "_wrapInHtml" inside the  "BbCode=>Html" XenForo formatter
+	     				var catchupContent = [];
+	      				each(dom.select(selector, body), function(currentItem, i) {
+	      					if(mergeAdjoinedTags && tinymce.inArray(adjoinedCompatibleTags, currentItem.nodeName) != -1){
+							var q = tinymce.dom.DomQuery,
+								nextItem = q(currentItem).next(),
+								blank = ' ',
+								brToDelete = false,
+								hasSimilarTags = $(currentItem).nextAll(selector).length,
+								currentText = q(currentItem).text(),
+								parentText = q(currentItem).parent().text(),
+								textDiff = (currentText != parentText);
+	
+	      						if(!hasSimilarTags && !textDiff){
+								// adjoined <span> separated by <p>
+	      							nextItem = q(currentItem).parent('p').next().children().first();
+	      							blank = '<br />';
+	      						}else if(hasSimilarTags && q(nextItem).is('br')){
+								// adjoined <span> in a same <p> separated by <br>
+	      							brToDelete = nextItem;
+	      							blank = '<br />';
+	      							nextItem = q(nextItem).next();
+
+								var br = currentItem.nextSibling,
+									nextBr = br.nextSibling,
+									textNode = (nextBr && nextBr.nodeType === 3);
+									
+								if(textNode){
+									nextItem = false;
+								}
+	      						}
+	
+		      					nextItem = nextItem[0];
+	
+	      						if(nextItem){
+	      							var nextItemTag = nextItem.nodeName,
+		      							nextItemClass = dom.getAttrib(nextItem, 'class'),
+	      								currentItemTag = currentItem.nodeName,
+	      								currentItemClass = dom.getAttrib(currentItem, 'class');
+	      						
+			      					if(currentItemTag == nextItemTag && currentItemClass == nextItemClass){
+	      								catchupContent.push(currentItem.innerHTML);
+	
+	      								var parentItem = dom.getParent(currentItem, 'p');
+	      								dom.remove(currentItem);
+	      								
+	      								if(parentItem && !parentItem.innerHTML){
+	      									dom.remove(parentItem);	
+	      								}else if(brToDelete){
+	      									dom.remove(brToDelete);
+	      								}
+	      								return;
+	      							}
+	      						}
+	      					}
+	      					
+	      					var newItem = convertFct(dom, currentItem);
+	      					
+						if(newItem){
+		     					if(mergeAdjoinedTags && catchupContent.length > 0){
+		      						var previousContent = catchupContent.join(blank)+blank;
+	      							newItem.innerHTML = previousContent+newItem.innerHTML;
+	      						}
+							dom.replace(newItem, currentItem);
+							catchupContent = [];
+						}
+	      				}, 'childNodes');
+				};
+
+				//Alter the dom using the queue
+				each(self._alterTagQueue, function(data){
+					alterDom.apply(self, data);
+				});
+
+				//Get the modified body content
+      				var content, args = { 'quattroEvent': 'xenMceBeforeSubmit'};
+				content = editor.getContent(args);
+				
+				//Get back the original body
+				dom.replace(bodyClone, body);
+
+				//Inject the modified html when saving
+      				editor.on('SaveContent', function(e){
+      					if(!proceed || !content) return;
+					e.content = content;
+      					proceed = false;
+				});
+
+				if(e.type == 'xenswitchtobbcode'){
+					e.content = content;
+				}
+			});
+		},
 		ucfirst: function(string)
 		{
 			return string.charAt(0).toUpperCase() + string.slice(1);
@@ -1511,14 +1633,20 @@
 			this.ed.fire('XenSwitchToBbCode', args);
 			var html = args.content;
 
-			XenForo.ajax(
-				'index.php?editor/to-bb-code',
-				{ html: html },
-				$.proxy(this, 'wysiwygToBbCodeSuccess')
-			);
+			if(html){
+				XenForo.ajax(
+					'index.php?editor/to-bb-code',
+					{ html: html },
+					$.proxy(this, 'wysiwygToBbCodeSuccess')
+				);
+			}else{
+				
+				this.wysiwygToBbCodeSuccess({bbCode: ''});
+			}
 		},
 		wysiwygToBbCodeSuccess: function(ajaxData)
 		{
+			
 			if (XenForo.hasResponseError(ajaxData) || ajaxData.bbCode === undefined) 
 				return;
 
@@ -1530,10 +1658,11 @@
 				$existingTextArea = $(this.ed.getElement()),
 				$textContainer = $('<div class="bbCodeEditorContainer" />'),
 				$newTextArea = $('<textarea class="textCtrl Elastic" rows="5" />');
-	
+
+
 			if ($existingTextArea.attr('disabled'))
 				return; // already using this
-	
+
 			var uniqId = $existingTextArea.attr('name').replace(/_html(]|$)/, '');
 			$newTextArea
 				.attr('id', uniqId)
@@ -1550,6 +1679,7 @@
 				);
 	
 			$existingTextArea.attr('disabled', true);
+
 			$container.after($textContainer).hide();
 			$textContainer.xfActivate();
 			$newTextArea.focus();
@@ -1559,11 +1689,17 @@
 		},
 		bbCodeToWysiwyg: function()
 		{
-			XenForo.ajax(
-				'index.php?editor/to-html',
-				{ bbCode: this.$bbCodeTextArea.val() },
-				$.proxy(this, 'bbCodeToWysiwygSuccess')
-			);
+			var content = this.stripTags(this.$bbCodeTextArea.val());
+	
+			if(content && content != '&nbsp;'){
+				XenForo.ajax(
+					'index.php?editor/to-html',
+					{ bbCode: this.$bbCodeTextArea.val() },
+					$.proxy(this, 'bbCodeToWysiwygSuccess')
+				);
+			}else{
+				this.bbCodeToWysiwygSuccess({html:''});
+			}
 		},
 		bbCodeToWysiwygSuccess: function(ajaxData)
 		{
@@ -1576,13 +1712,12 @@
 				
 			var $container = $(this.ed.getContainer()),
 				$existingTextArea = $(this.ed.getElement());
-	
+
 			if(!$existingTextArea.attr('disabled'))
 				return; // already using
 	
 			$existingTextArea.attr('disabled', false);
 			$container.show();
-
 
 			var args = {content: ajaxData.html};
 			this.ed.fire('XenSwitchToWysiwyg', args);
@@ -3155,41 +3290,49 @@
 	tinymce.create(xenPlugin+'.XenAnchor', {
 		XenAnchor: function(parent, ed) 
 		{
-			//The below listener is trigger before XenForo uses the jQuery serialize function
-			ed.on('xenMceBeforeSubmit XenSwitchToBbCode', function(e){
-     				var proceed = true,
-      					dom = ed.dom,
-      					body = ed.getBody(),
-      					bodyClone = dom.clone(body, true),
-      					doc = ed.getDoc();
+			var convertFct = function(dom, item){
+				if(dom.hasClass(item, 'mce-item-anchor')){
+      					var id = dom.getAttrib(item, 'id');
+      					return dom.create('anchor', { id: id }, 'mce-anchor');
+     				}
+     				return false;				
+			}
+			
+			parent.alterTagBeforeComplete('a', convertFct);
+		}
+	});
 
-      				//Find anchors to create a fake anchor tag
-      				tinymce.each(dom.select('a', body), function(n) {
-      					if(dom.hasClass(n, 'mce-item-anchor')){
-      						var fakeAnchor, id = dom.getAttrib(n, 'id');
-      						fakeAnchor = dom.create('anchor', { id: id }, 'mce-anchor');
-      						dom.replace(fakeAnchor, n);
-     					}
-      				}, 'childNodes');
-
-				//Get the modified body content
-      				var content, args = { 'quattroEvent': 'xenMceBeforeSubmit'};
-				content = ed.getContent(args);
-				
-				//Get back the original body
-				dom.replace(bodyClone, body);
-
-				//Inject the modified html when saving
-      				ed.on('SaveContent', function(e){
-      					if(!proceed || !content) return;
-					e.content = content;
-      					proceed = false;
-				});
-
-				if(e.type == 'xenswitchtobbcode'){
-					e.content = content;
+	/***
+	*	XenForo Anchor Integration
+	*	Independent plugin
+	***/
+	tinymce.create(xenPlugin+'.CustomFormats', {
+		CustomFormats: function(parent, ed) 
+		{
+			var convertFct = function(dom, item){
+				var headings = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6'],
+					tag = item.nodeName, content, format = false;
+					
+				if(tinymce.inArray(headings, tag) !== -1){
+					format = tag.toLowerCase();
+				}else{
+					if(dom.hasClass(item, 'cust1')){
+						format = 'cust1';
+					}else if(dom.hasClass(item, 'cust2')){
+						format = 'cust2';
+					}else if(dom.hasClass(item, 'cust3')){
+						format = 'cust3';
+					}
 				}
-			});
+
+				if(format){
+					content = item.innerHTML;
+					return dom.create('xformat', { 'name': format }, content);
+				}
+				return false;
+			}
+
+			parent.alterTagBeforeComplete('.quattro_sf', convertFct, true);
 		}
 	});
 	

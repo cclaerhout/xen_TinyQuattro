@@ -10,6 +10,7 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 	protected $_mceSupTagName = 'sup';
 	protected $_mceHrTagName = 'hr';
 	protected $_mceAnchorTagName = 'anchor';
+	protected $_mceFormatTagName = 'format';
 
 	/**
 	 * Table default skin
@@ -50,7 +51,7 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 					'justify' => array(
 						'hasOption' => false,
 						'callback' => array($this, 'renderTagAlign'),
-						'trimLeadingLinesAfter' => 1,
+						'trimLeadingLinesAfter' => 1
 					)
 				);			
 			}
@@ -123,7 +124,19 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 						'callback' => array($this, 'renderTagSedoAnchor')
 					)
 				);			
-			}						
+			}
+
+			if(Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('format'))
+			{
+				$formatTag = Sedo_TinyQuattro_Helper_BbCodes::getQuattroBbCodeTagName('format');
+				$this->_mceFormatTagName = $formatTag;
+				
+				$parentTags += array(
+					$formatTag => array(
+						'callback' => array($this, 'renderTagSedoFormat')
+					)
+				);			
+			}									
 		}
 		
 		return $parentTags;
@@ -344,6 +357,74 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 				$text
 			);
 		}
+	}
+
+	/**
+	 * Mce Format tag
+	 */
+	public function renderTagSedoFormat(array $tag, array $rendererStates)
+	{
+		$content = $this->renderSubTree($tag['children'], $rendererStates);
+		$option = trim($tag['option']);
+		$headings = array('h1', 'h2', 'h3', 'h4', 'h5', 'h6');
+		$customSpan = array('cust1', 'cust2', 'cust3');
+		$isHeading = in_array($option, $headings);
+		
+		if(empty($tag['option']))
+		{
+			return $content;
+		}
+		
+		//HEADING FORMAT
+		if($isHeading && XenForo_Template_Helper_Core::styleProperty("quattro_sf_{$option}_text"))
+		{
+			return "<{$option} class='quattro_sf {$option}'>{$content}</{$option}>";
+		}
+		
+		//CUSTOM FORMAT
+		$customKey = array_search($option, $customSpan);
+		
+		if($customKey === false)
+		{
+			return $content;
+		}
+
+		$customKeyIndex = $customKey+1;
+
+		if(XenForo_Template_Helper_Core::styleProperty("quattro_sf_custom{$customKeyIndex}_text"))
+		{
+			return "<span class='quattro_sf {$option}'>{$content}</span>";
+		}
+
+		return $content;
+	}
+
+	//@extend renderTag function to modify trimLeadingLinesAfter value
+	public function renderTag(array $element, array $rendererStates, &$trimLeadingLines)
+	{
+		if(!isset($element['tag']))
+		{
+			return parent::renderTag($element, $rendererStates, $trimLeadingLines);
+		}
+		
+		$tagName = $element['tag'];
+		
+		if($tagName  == $this->_mceFormatTagName)
+		{
+			$headings = array('h1', 'h2', 'h3', 'h4', 'h5', 'h6');
+			$option = trim($element['option']);
+			
+			if(in_array($option, $headings))
+			{
+				$this->_tags[$tagName]['trimLeadingLinesAfter'] = 1;			
+			}
+			else
+			{
+				$this->_tags[$tagName]['trimLeadingLinesAfter'] = 0;
+			}
+		}
+
+		return parent::renderTag($element, $rendererStates, $trimLeadingLines);
 	}
 
 	/**

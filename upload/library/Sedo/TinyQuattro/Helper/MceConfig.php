@@ -247,6 +247,49 @@ class Sedo_TinyQuattro_Helper_MceConfig
 			$menubar = true;
 		}
 
+		//Style formats
+		$style_formats = array();
+		$headingItems = array();
+		$customFormatsItems = array();
+		
+		$H1 = $this->getTextStyleProperty('quattro_sf_h1_text');
+		$H2 = $this->getTextStyleProperty('quattro_sf_h2_text');
+		$H3 = $this->getTextStyleProperty('quattro_sf_h3_text');
+		$H4 = $this->getTextStyleProperty('quattro_sf_h4_text');
+		$H5 = $this->getTextStyleProperty('quattro_sf_h5_text');
+		$H6 = $this->getTextStyleProperty('quattro_sf_h6_text');
+		
+		if($H1){ array_push($headingItems, array('title' => $H1, 'block' => 'h1', 'classes' => 'quattro_sf h1')); }
+		if($H2){ array_push($headingItems, array('title' => $H2, 'block' => 'h2', 'classes' => 'quattro_sf h2')); }
+		if($H3){ array_push($headingItems, array('title' => $H3, 'block' => 'h3', 'classes' => 'quattro_sf h3')); }
+		if($H4){ array_push($headingItems, array('title' => $H4, 'block' => 'h4', 'classes' => 'quattro_sf h4')); }
+		if($H5){ array_push($headingItems, array('title' => $H5, 'block' => 'h5', 'classes' => 'quattro_sf h5')); }
+		if($H6){ array_push($headingItems, array('title' => $H6, 'block' => 'h6', 'classes' => 'quattro_sf h6')); }
+		$heading = array('title' => 'Headings', 'items' => $headingItems);
+
+		$CUSTOM1 = $this->getTextStyleProperty('quattro_sf_custom1_text');
+		$CUSTOM2 = $this->getTextStyleProperty('quattro_sf_custom2_text');
+		$CUSTOM3 = $this->getTextStyleProperty('quattro_sf_custom3_text');
+
+		if($CUSTOM1){ array_push($customFormatsItems, array('title' => $CUSTOM1, 'inline' => 'span', 'classes' => 'quattro_sf cust1')); }
+		if($CUSTOM2){ array_push($customFormatsItems, array('title' => $CUSTOM2, 'inline' => 'span', 'classes' => 'quattro_sf cust2')); }
+		if($CUSTOM3){ array_push($customFormatsItems, array('title' => $CUSTOM3, 'inline' => 'span', 'classes' => 'quattro_sf cust3')); }
+		$customFormats = array('title' => 'Custom formats', 'items' => $customFormatsItems);
+
+		if(!empty($headingItems) && !empty($customFormatsItems))
+		{
+			array_push($style_formats, $heading);
+			array_push($style_formats, $customFormats);
+		}
+		elseif(!empty($headingItems) && empty($customFormatsItems))
+		{
+			$style_formats = $headingItems;
+		}
+		elseif(empty($headingItems) && !empty($customFormatsItems))
+		{
+			$style_formats = $customFormats;
+		}
+
 		/*MCE Settings*/
 		$mceSettings = array(
 			'theme'			=> 'modern',
@@ -276,7 +319,8 @@ class Sedo_TinyQuattro_Helper_MceConfig
 			'contextmenu' => 'xen_link inserttable | cell row column xen_tableskin deletetable',
 			'xen_attach' => "{$attachType},{$attachId},{$attachHash}",
 			'nonbreaking_force_tab' => true,
-			'extended_valid_elements' => 'anchor[id]'
+			'extended_valid_elements' => 'anchor[id],xformat[name]',
+			'style_formats' => $style_formats
 		);
 
 		//Editor Size
@@ -370,6 +414,11 @@ class Sedo_TinyQuattro_Helper_MceConfig
 		);	
 
 		return array($mceSettings, $mceParams, $mceBtnCss);
+	}
+
+	public function getTextStyleProperty($property)
+	{
+		return XenForo_Template_Helper_Core::jsEscape(XenForo_Template_Helper_Core::styleProperty($property));
 	}
 
 	public function getXenCustomBbCodes()

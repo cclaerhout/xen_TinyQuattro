@@ -25,6 +25,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 	 */
 	private $__debug_displayStackError = false;
 	private $__debug_tagChecker = false;
+	private $__debug_parserSpeed = false;
 
 	/**
 	 * Original text
@@ -194,10 +195,22 @@ class Sedo_TinyQuattro_Helper_MiniParser
 			}
 		}
 
+		if($this->__debug_parserSpeed)
+		{
+			$mem = memory_get_usage();
+			$startTime = microtime(true);
+		}
+
 		$this->_text = $text;
 		$this->_matches = $this->_getMatchesFromSplitRegex($text);
 		reset($this->_matches);
 		$this->_tree = $this->_buildTree();
+
+		if($this->__debug_parserSpeed)
+		{
+			echo "Time:  " . number_format(( microtime(true) - $startTime), 4) . " Seconds --- Memory: " . (memory_get_usage() - $mem) / (1024 * 1024) . "<br />";
+		}
+		
 		return;
 		
 		$output = $this->render();

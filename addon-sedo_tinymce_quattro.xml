@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.4.2" version_id="71" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.5.0" version_id="72" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -804,14 +804,16 @@ xtable={xen:phrase sedo_quattro_extra_bbcodes_xtable}
 sub={xen:phrase sedo_quattro_extra_bbcodes_subscript}
 sup={xen:phrase sedo_quattro_extra_bbcodes_superscript}
 hr={xen:phrase sedo_quattro_extra_bbcodes_hr}
-anchor={xen:phrase sedo_quattro_extra_bbcodes_anchor}</edit_format_params>
+anchor={xen:phrase sedo_quattro_extra_bbcodes_anchor}
+format={xen:phrase sedo_quattro_extra_bbcodes_format}</edit_format_params>
       <sub_options>bcolor
 justify
 xtable
 sub
 sup
 hr
-anchor</sub_options>
+anchor
+format</sub_options>
       <relation group_id="tiny_quattro_bbcodes" display_order="100"/>
     </option>
     <option option_id="quattro_extra_bbcodes_anchor_tag" edit_format="textbox" data_type="string" can_backup="1">
@@ -825,6 +827,12 @@ anchor</sub_options>
       <edit_format_params>size=8</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro_bbcodes" display_order="110"/>
+    </option>
+    <option option_id="quattro_extra_bbcodes_format_tag" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value>format</default_value>
+      <edit_format_params>size=8</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro_bbcodes" display_order="134"/>
     </option>
     <option option_id="quattro_extra_bbcodes_hr_tag" edit_format="textbox" data_type="string" can_backup="1">
       <default_value>hr</default_value>
@@ -1283,7 +1291,11 @@ This patch is enable by default.]]></phrase>
     <phrase title="option_quattro_extra_bbcodes_anchor_tag_explain" version_id="68" version_string="2.4.1"><![CDATA[If you want to change the tag name for this  bb code, do it here but do it only once. If you change the tag name a few time using it, all previous bb codes won't be able to be parsed. Default is: <b>anchor</b>.]]></phrase>
     <phrase title="option_quattro_extra_bbcodes_bcolor_tag" version_id="16" version_string="1.2.2"><![CDATA[Background color tag]]></phrase>
     <phrase title="option_quattro_extra_bbcodes_bcolor_tag_explain" version_id="16" version_string="1.2.2"><![CDATA[If you want to change the tag name for this  bb code, do it here but do it only once. If you change the tag name a few time using it, all previous bb codes won't be able to be parsed. Default is: <b>bcolor</b>.]]></phrase>
-    <phrase title="option_quattro_extra_bbcodes_explain" version_id="13" version_string="1.1.6"><![CDATA[These Bb Codes will be added to XenForo (<b>only > 1.2</b>) and will work with their TinyMCE Quattro functions, which means they will have a Wysiwyg output. They should work with the XenForo redactor too, but these functions and their buttons will have to be coded or activated (if someone wants this, feel free to do it, but I will not).]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_explain" version_id="71" version_string="2.4.2"><![CDATA[These Bb Codes will be added to XenForo (<b>only > 1.2</b>) and will work with their TinyMCE Quattro functions, which means they will have a Wysiwyg output. They should work with the XenForo redactor too, but these functions and their buttons will have to be coded or activated (if someone wants this, feel free to do it, but I will not). <br />
+<br />
+The "format" Bb Code must have an option: [format=option]. It can be: h1, h2, h3, h4, h5, h6, cust1, cust2 or cust3.]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_format_tag" version_id="71" version_string="2.4.2"><![CDATA[Format tag]]></phrase>
+    <phrase title="option_quattro_extra_bbcodes_format_tag_explain" version_id="71" version_string="2.4.2"><![CDATA[If you want to change the tag name for this  bb code, do it here but do it only once. If you change the tag name a few time using it, all previous bb codes won't be able to be parsed. Default is: <b>anchor</b>.]]></phrase>
     <phrase title="option_quattro_extra_bbcodes_hr_tag" version_id="68" version_string="2.4.1"><![CDATA[Hr tag]]></phrase>
     <phrase title="option_quattro_extra_bbcodes_hr_tag_explain" version_id="68" version_string="2.4.1"><![CDATA[If you want to change the tag name for this  bb code, do it here but do it only once. If you change the tag name a few time using it, all previous bb codes won't be able to be parsed. Default is: <b>hr</b>.]]></phrase>
     <phrase title="option_quattro_extra_bbcodes_sub_tag" version_id="48" version_string="2.0.0"><![CDATA[Subscript tag]]></phrase>
@@ -1463,6 +1475,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_colors_picker" version_id="0" version_string="1.0"><![CDATA[Colors picker]]></phrase>
     <phrase title="sedo_quattro_copy" version_id="50" version_string="2.1.0"><![CDATA[Copy]]></phrase>
     <phrase title="sedo_quattro_custom_3dots" version_id="60" version_string="2.1.3"><![CDATA[Custom...]]></phrase>
+    <phrase title="sedo_quattro_custom_formats" version_id="71" version_string="2.4.2"><![CDATA[Custom]]></phrase>
     <phrase title="sedo_quattro_cut" version_id="50" version_string="2.1.0"><![CDATA[Cut]]></phrase>
     <phrase title="sedo_quattro_default_bbmbuttons" version_id="50" version_string="2.1.0"><![CDATA[Bbm Buttons]]></phrase>
     <phrase title="sedo_quattro_default_buttons" version_id="50" version_string="2.1.0"><![CDATA[Default buttons]]></phrase>
@@ -1472,6 +1485,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_everywhere_but_bbcodes_content" version_id="33" version_string="1.6.4.2"><![CDATA[Yes - without Bb Code content]]></phrase>
     <phrase title="sedo_quattro_extra_bbcodes_anchor" version_id="68" version_string="2.4.1"><![CDATA[Anchor BbCode: [anchor]]]></phrase>
     <phrase title="sedo_quattro_extra_bbcodes_bcolor" version_id="13" version_string="1.1.6"><![CDATA[Background Color BbCode: [bcolor]]]></phrase>
+    <phrase title="sedo_quattro_extra_bbcodes_format" version_id="71" version_string="2.4.2"><![CDATA[Format BbCode: [format]]]></phrase>
     <phrase title="sedo_quattro_extra_bbcodes_hr" version_id="68" version_string="2.4.1"><![CDATA[Hr BbCode: [hr]]]></phrase>
     <phrase title="sedo_quattro_extra_bbcodes_justify" version_id="13" version_string="1.1.6"><![CDATA[Justify Align BbCode: [justify]]]></phrase>
     <phrase title="sedo_quattro_extra_bbcodes_subscript" version_id="48" version_string="2.0.0"><![CDATA[Subscript BbCode: [sub]]]></phrase>
@@ -1483,6 +1497,16 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_font_family" version_id="0" version_string="1.0"><![CDATA[Font family]]></phrase>
     <phrase title="sedo_quattro_font_size" version_id="0" version_string="1.0"><![CDATA[Font size]]></phrase>
     <phrase title="sedo_quattro_format" version_id="49" version_string="2.0.1"><![CDATA[Format]]></phrase>
+    <phrase title="sedo_quattro_formats" version_id="71" version_string="2.4.2"><![CDATA[Formats]]></phrase>
+    <phrase title="sedo_quattro_formats_custom1" version_id="71" version_string="2.4.2"><![CDATA[Custom 1]]></phrase>
+    <phrase title="sedo_quattro_formats_custom2" version_id="71" version_string="2.4.2"><![CDATA[Custom 2]]></phrase>
+    <phrase title="sedo_quattro_formats_custom3" version_id="71" version_string="2.4.2"><![CDATA[Custom 3]]></phrase>
+    <phrase title="sedo_quattro_formats_h1" version_id="71" version_string="2.4.2"><![CDATA[H1]]></phrase>
+    <phrase title="sedo_quattro_formats_h2" version_id="71" version_string="2.4.2"><![CDATA[H2]]></phrase>
+    <phrase title="sedo_quattro_formats_h3" version_id="71" version_string="2.4.2"><![CDATA[H3]]></phrase>
+    <phrase title="sedo_quattro_formats_h4" version_id="71" version_string="2.4.2"><![CDATA[H4]]></phrase>
+    <phrase title="sedo_quattro_formats_h5" version_id="71" version_string="2.4.2"><![CDATA[H5]]></phrase>
+    <phrase title="sedo_quattro_formats_h6" version_id="71" version_string="2.4.2"><![CDATA[H6]]></phrase>
     <phrase title="sedo_quattro_fullscreen" version_id="0" version_string="1.0"><![CDATA[Fullscreen]]></phrase>
     <phrase title="sedo_quattro_full_picker" version_id="0" version_string="1.0"><![CDATA[Full picker]]></phrase>
     <phrase title="sedo_quattro_hr" version_id="70" version_string="2.4.1"><![CDATA[Horizontal line]]></phrase>
@@ -1570,6 +1594,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_table_footer" version_id="17" version_string="1.3.0"><![CDATA[Footer]]></phrase>
     <phrase title="sedo_quattro_table_header" version_id="17" version_string="1.3.0"><![CDATA[Header]]></phrase>
     <phrase title="sedo_quattro_table_headercell" version_id="17" version_string="1.3.0"><![CDATA[Header cell]]></phrase>
+    <phrase title="sedo_quattro_table_headings" version_id="71" version_string="2.4.2"><![CDATA[Headings]]></phrase>
     <phrase title="sedo_quattro_table_height" version_id="17" version_string="1.3.0"><![CDATA[Height]]></phrase>
     <phrase title="sedo_quattro_table_Insertcolumnafter" version_id="17" version_string="1.3.0"><![CDATA[Insert column after]]></phrase>
     <phrase title="sedo_quattro_table_insertcolumnbefore" version_id="17" version_string="1.3.0"><![CDATA[Insert column before]]></phrase>
@@ -1606,6 +1631,8 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="sedo_quattro_you_should_not_be_there" version_id="59" version_string="2.1.2"><![CDATA[You should not be there]]></phrase>
     <phrase title="style_property_group_sedo_tinyquattro_master" version_id="0" version_string="1.0"><![CDATA[TinyMCE Quattro]]></phrase>
     <phrase title="style_property_group_sedo_tinyquattro_master_desc" version_id="0" version_string="1.0"><![CDATA[Configure the layout of TinyMCE 4]]></phrase>
+    <phrase title="style_property_group_sedo_tinyquattro_stylef_master" version_id="71" version_string="2.4.2"><![CDATA[TinyMCE Quattro - Style formats]]></phrase>
+    <phrase title="style_property_group_sedo_tinyquattro_stylef_master_desc" version_id="71" version_string="2.4.2"><![CDATA[Configure your Style formats]]></phrase>
     <phrase title="style_property_group_sedo_tinyquattro_table_1_master" version_id="17" version_string="1.3.0"><![CDATA[TinyMCE Quattro - Table bb code (1/2)]]></phrase>
     <phrase title="style_property_group_sedo_tinyquattro_table_1_master_desc" version_id="17" version_string="1.3.0"><![CDATA[Configure your Wysiwyg table bb code]]></phrase>
     <phrase title="style_property_group_sedo_tinyquattro_table_2_master" version_id="17" version_string="1.3.0"><![CDATA[TinyMCE Quattro - Table bb code (2/2)]]></phrase>
@@ -1642,6 +1669,42 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="style_property_quattroTextBoxBckg_master" version_id="22" version_string="1.4.2"><![CDATA[quattroTextBoxBckg]]></phrase>
     <phrase title="style_property_quattroTooltipBckg_description_master" version_id="22" version_string="1.4.2"><![CDATA[]]></phrase>
     <phrase title="style_property_quattroTooltipBckg_master" version_id="22" version_string="1.4.2"><![CDATA[quattroTooltipBckg]]></phrase>
+    <phrase title="style_property_quattro_sf_custom1_description_master" version_id="71" version_string="2.4.2"><![CDATA[]]></phrase>
+    <phrase title="style_property_quattro_sf_custom1_master" version_id="71" version_string="2.4.2"><![CDATA[Custom 1]]></phrase>
+    <phrase title="style_property_quattro_sf_custom1_text_description_master" version_id="71" version_string="2.4.2"><![CDATA[If you need this text to be multilingual, keep the default entry "# Custom 1" and edit the phrase "quattro_formats_custom1". To disable it in the menu, just set a blank value.]]></phrase>
+    <phrase title="style_property_quattro_sf_custom1_text_master" version_id="71" version_string="2.4.2"><![CDATA[Custom 1 Text]]></phrase>
+    <phrase title="style_property_quattro_sf_custom2_description_master" version_id="71" version_string="2.4.2"><![CDATA[]]></phrase>
+    <phrase title="style_property_quattro_sf_custom2_master" version_id="71" version_string="2.4.2"><![CDATA[Custom 2]]></phrase>
+    <phrase title="style_property_quattro_sf_custom2_text_description_master" version_id="71" version_string="2.4.2"><![CDATA[If you need this text to be multilingual, keep the default entry "# Custom 2" and edit the phrase "quattro_formats_custom2". To disable it in the menu, just set a blank value.]]></phrase>
+    <phrase title="style_property_quattro_sf_custom2_text_master" version_id="71" version_string="2.4.2"><![CDATA[Custom 2 Text]]></phrase>
+    <phrase title="style_property_quattro_sf_custom3_description_master" version_id="71" version_string="2.4.2"><![CDATA[]]></phrase>
+    <phrase title="style_property_quattro_sf_custom3_master" version_id="71" version_string="2.4.2"><![CDATA[Custom 3]]></phrase>
+    <phrase title="style_property_quattro_sf_custom3_text_description_master" version_id="71" version_string="2.4.2"><![CDATA[If you need this text to be multilingual, keep the default entry "# Custom 3" and edit the phrase "quattro_formats_custom3". To disable it in the menu, just set a blank value.]]></phrase>
+    <phrase title="style_property_quattro_sf_custom3_text_master" version_id="71" version_string="2.4.2"><![CDATA[Custom 3 Text]]></phrase>
+    <phrase title="style_property_quattro_sf_h1_description_master" version_id="71" version_string="2.4.2"><![CDATA[]]></phrase>
+    <phrase title="style_property_quattro_sf_h1_master" version_id="71" version_string="2.4.2"><![CDATA[H1]]></phrase>
+    <phrase title="style_property_quattro_sf_h1_text_description_master" version_id="71" version_string="2.4.2"><![CDATA[If you need this text to be multilingual, keep the default entry "H1" (in caps) and edit the phrase "sedo_quattro_formats_h1". To disable it in the menu, just set a blank value.]]></phrase>
+    <phrase title="style_property_quattro_sf_h1_text_master" version_id="71" version_string="2.4.2"><![CDATA[H1 Text]]></phrase>
+    <phrase title="style_property_quattro_sf_h2_description_master" version_id="71" version_string="2.4.2"><![CDATA[]]></phrase>
+    <phrase title="style_property_quattro_sf_h2_master" version_id="71" version_string="2.4.2"><![CDATA[H2]]></phrase>
+    <phrase title="style_property_quattro_sf_h2_text_description_master" version_id="71" version_string="2.4.2"><![CDATA[If you need this text to be multilingual, keep the default entry "H2" (in caps) and edit the phrase "sedo_quattro_formats_h2". To disable it in the menu, just set a blank value.]]></phrase>
+    <phrase title="style_property_quattro_sf_h2_text_master" version_id="71" version_string="2.4.2"><![CDATA[H2 Text]]></phrase>
+    <phrase title="style_property_quattro_sf_h3_description_master" version_id="71" version_string="2.4.2"><![CDATA[]]></phrase>
+    <phrase title="style_property_quattro_sf_h3_master" version_id="71" version_string="2.4.2"><![CDATA[H3]]></phrase>
+    <phrase title="style_property_quattro_sf_h3_text_description_master" version_id="71" version_string="2.4.2"><![CDATA[If you need this text to be multilingual, keep the default entry "H3" (in caps) and edit the phrase "sedo_quattro_formats_h3". To disable it in the menu, just set a blank value.]]></phrase>
+    <phrase title="style_property_quattro_sf_h3_text_master" version_id="71" version_string="2.4.2"><![CDATA[H3 Text]]></phrase>
+    <phrase title="style_property_quattro_sf_h4_description_master" version_id="71" version_string="2.4.2"><![CDATA[]]></phrase>
+    <phrase title="style_property_quattro_sf_h4_master" version_id="71" version_string="2.4.2"><![CDATA[H4]]></phrase>
+    <phrase title="style_property_quattro_sf_h4_text_description_master" version_id="71" version_string="2.4.2"><![CDATA[If you need this text to be multilingual, keep the default entry "H4" (in caps) and edit the phrase "sedo_quattro_formats_h4". To disable it in the menu, just set a blank value.]]></phrase>
+    <phrase title="style_property_quattro_sf_h4_text_master" version_id="71" version_string="2.4.2"><![CDATA[H4 Text]]></phrase>
+    <phrase title="style_property_quattro_sf_h5_description_master" version_id="71" version_string="2.4.2"><![CDATA[]]></phrase>
+    <phrase title="style_property_quattro_sf_h5_master" version_id="71" version_string="2.4.2"><![CDATA[H5]]></phrase>
+    <phrase title="style_property_quattro_sf_h5_text_description_master" version_id="71" version_string="2.4.2"><![CDATA[If you need this text to be multilingual, keep the default entry "H5" (in caps) and edit the phrase "sedo_quattro_formats_h5". To disable it in the menu, just set a blank value.]]></phrase>
+    <phrase title="style_property_quattro_sf_h5_text_master" version_id="71" version_string="2.4.2"><![CDATA[H5 Text]]></phrase>
+    <phrase title="style_property_quattro_sf_h6_description_master" version_id="71" version_string="2.4.2"><![CDATA[]]></phrase>
+    <phrase title="style_property_quattro_sf_h6_master" version_id="71" version_string="2.4.2"><![CDATA[H6]]></phrase>
+    <phrase title="style_property_quattro_sf_h6_text_description_master" version_id="71" version_string="2.4.2"><![CDATA[If you need this text to be multilingual, keep the default entry "H6" (in caps) and edit the phrase "sedo_quattro_formats_h6". To disable it in the menu, just set a blank value.]]></phrase>
+    <phrase title="style_property_quattro_sf_h6_text_master" version_id="71" version_string="2.4.2"><![CDATA[H6 Text]]></phrase>
     <phrase title="style_property_quattro_table_skin1_caption_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the caption html tag. Note: users might override some of them with the bb code options.]]></phrase>
     <phrase title="style_property_quattro_table_skin1_caption_master" version_id="17" version_string="1.3.0"><![CDATA[[Skin 1] Caption]]></phrase>
     <phrase title="style_property_quattro_table_skin1_table_description_master" version_id="17" version_string="1.3.0"><![CDATA[Default style for the table html tag. Note: users might override some of them with the bb code options.]]></phrase>
@@ -1802,17 +1865,39 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <property property_name="tinyquattro_modal_responsive" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Small screens - responsive Modal" description="Modal windows on TinyMCE 4 suits tablets but not that much small screens (cf mobile phones). A solution has been developed to overcome this. Do you want to activate it? (Not compatible with XenForo 1.1.x)" css_components="" scalar_type="boolean" scalar_parameters="" display_order="300" sub_group="responsive"><![CDATA[1]]></property>
     <property property_name="tinyquattro_fontsize_menu" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Font Size Menu" description="Configure here the width and the height of the menu" css_components="layout" scalar_type="" scalar_parameters="" display_order="10" sub_group=""><![CDATA[{"height":"80px","width":"150px"}]]></property>
     <property property_name="tinyquattro_fontfamily_menu" property_type="css" definition="1" group_name="sedo_tinyquattro" title="Font Family Menu" description="Configure here the width and the height of the menu" css_components="layout" scalar_type="" scalar_parameters="" display_order="20" sub_group=""><![CDATA[{"height":"80px","width":"180px"}]]></property>
-    <group group_name="sedo_tinyquattro" display_order="13207">
+    <property property_name="quattro_sf_h1" property_type="css" definition="1" group_name="sedo_tinyquattro_stylef" title="H1" description="" css_components="text,background,border,layout" scalar_type="" scalar_parameters="" display_order="10" sub_group=""><![CDATA[{"font-size":"2em","margin-all":"0","padding-left":"3px","padding-right":"3px"}]]></property>
+    <property property_name="quattro_sf_h2" property_type="css" definition="1" group_name="sedo_tinyquattro_stylef" title="H2" description="" css_components="text,background,border,layout" scalar_type="" scalar_parameters="" display_order="20" sub_group=""><![CDATA[{"font-size":"1.5em","margin-all":"0","padding-left":"3px","padding-right":"3px"}]]></property>
+    <property property_name="quattro_sf_h3" property_type="css" definition="1" group_name="sedo_tinyquattro_stylef" title="H3" description="" css_components="text,background,border,layout" scalar_type="" scalar_parameters="" display_order="30" sub_group=""><![CDATA[{"font-size":"1.17em","margin-all":"0","padding-left":"3px","padding-right":"3px"}]]></property>
+    <property property_name="quattro_sf_h4" property_type="css" definition="1" group_name="sedo_tinyquattro_stylef" title="H4" description="" css_components="text,background,border,layout" scalar_type="" scalar_parameters="" display_order="40" sub_group=""><![CDATA[{"font-size":"1em","margin-all":"0","padding-left":"3px","padding-right":"3px"}]]></property>
+    <property property_name="quattro_sf_h5" property_type="css" definition="1" group_name="sedo_tinyquattro_stylef" title="H5" description="" css_components="text,background,border,layout" scalar_type="" scalar_parameters="" display_order="50" sub_group=""><![CDATA[{"font-size":".83em","margin-all":"0","padding-left":"3px","padding-right":"3px"}]]></property>
+    <property property_name="quattro_sf_h6" property_type="css" definition="1" group_name="sedo_tinyquattro_stylef" title="H6" description="" css_components="text,background,border,layout" scalar_type="" scalar_parameters="" display_order="60" sub_group=""><![CDATA[{"font-size":".75em","margin-all":"0","padding-left":"3px","padding-right":"3px"}]]></property>
+    <property property_name="quattro_sf_h1_text" property_type="scalar" definition="1" group_name="sedo_tinyquattro_stylef" title="H1 Text" description="If you need this text to be multilingual, keep the default entry &quot;H1&quot; (in caps) and edit the phrase &quot;sedo_quattro_formats_h1&quot;. To disable it in the menu, just set a blank value." css_components="" scalar_type="" scalar_parameters="" display_order="10" sub_group="text"><![CDATA[H1]]></property>
+    <property property_name="quattro_sf_h2_text" property_type="scalar" definition="1" group_name="sedo_tinyquattro_stylef" title="H2 Text" description="If you need this text to be multilingual, keep the default entry &quot;H2&quot; (in caps) and edit the phrase &quot;sedo_quattro_formats_h2&quot;. To disable it in the menu, just set a blank value." css_components="" scalar_type="" scalar_parameters="" display_order="20" sub_group="text"><![CDATA[H2]]></property>
+    <property property_name="quattro_sf_h3_text" property_type="scalar" definition="1" group_name="sedo_tinyquattro_stylef" title="H3 Text" description="If you need this text to be multilingual, keep the default entry &quot;H3&quot; (in caps) and edit the phrase &quot;sedo_quattro_formats_h3&quot;. To disable it in the menu, just set a blank value." css_components="" scalar_type="" scalar_parameters="" display_order="30" sub_group="text"><![CDATA[H3]]></property>
+    <property property_name="quattro_sf_h4_text" property_type="scalar" definition="1" group_name="sedo_tinyquattro_stylef" title="H4 Text" description="If you need this text to be multilingual, keep the default entry &quot;H4&quot; (in caps) and edit the phrase &quot;sedo_quattro_formats_h4&quot;. To disable it in the menu, just set a blank value." css_components="" scalar_type="" scalar_parameters="" display_order="40" sub_group="text"><![CDATA[H4]]></property>
+    <property property_name="quattro_sf_h5_text" property_type="scalar" definition="1" group_name="sedo_tinyquattro_stylef" title="H5 Text" description="If you need this text to be multilingual, keep the default entry &quot;H5&quot; (in caps) and edit the phrase &quot;sedo_quattro_formats_h5&quot;. To disable it in the menu, just set a blank value." css_components="" scalar_type="" scalar_parameters="" display_order="50" sub_group="text"><![CDATA[H5]]></property>
+    <property property_name="quattro_sf_h6_text" property_type="scalar" definition="1" group_name="sedo_tinyquattro_stylef" title="H6 Text" description="If you need this text to be multilingual, keep the default entry &quot;H6&quot; (in caps) and edit the phrase &quot;sedo_quattro_formats_h6&quot;. To disable it in the menu, just set a blank value." css_components="" scalar_type="" scalar_parameters="" display_order="60" sub_group="text"><![CDATA[H6]]></property>
+    <property property_name="quattro_sf_custom1" property_type="css" definition="1" group_name="sedo_tinyquattro_stylef" title="Custom 1" description="" css_components="text" scalar_type="" scalar_parameters="" display_order="70" sub_group=""><![CDATA[[]]]></property>
+    <property property_name="quattro_sf_custom2" property_type="css" definition="1" group_name="sedo_tinyquattro_stylef" title="Custom 2" description="" css_components="text" scalar_type="" scalar_parameters="" display_order="80" sub_group=""><![CDATA[[]]]></property>
+    <property property_name="quattro_sf_custom3" property_type="css" definition="1" group_name="sedo_tinyquattro_stylef" title="Custom 3" description="" css_components="text" scalar_type="" scalar_parameters="" display_order="90" sub_group=""><![CDATA[[]]]></property>
+    <property property_name="quattro_sf_custom1_text" property_type="scalar" definition="1" group_name="sedo_tinyquattro_stylef" title="Custom 1 Text" description="If you need this text to be multilingual, keep the default entry &quot;# Custom 1&quot; and edit the phrase &quot;quattro_formats_custom1&quot;. To disable it in the menu, just set a blank value." css_components="" scalar_type="" scalar_parameters="" display_order="70" sub_group="text"><![CDATA[# Custom 1]]></property>
+    <property property_name="quattro_sf_custom2_text" property_type="scalar" definition="1" group_name="sedo_tinyquattro_stylef" title="Custom 2 Text" description="If you need this text to be multilingual, keep the default entry &quot;# Custom 2&quot; and edit the phrase &quot;quattro_formats_custom2&quot;. To disable it in the menu, just set a blank value." css_components="" scalar_type="" scalar_parameters="" display_order="80" sub_group="text"><![CDATA[# Custom 2]]></property>
+    <property property_name="quattro_sf_custom3_text" property_type="scalar" definition="1" group_name="sedo_tinyquattro_stylef" title="Custom 3 Text" description="If you need this text to be multilingual, keep the default entry &quot;# Custom 3&quot; and edit the phrase &quot;quattro_formats_custom3&quot;. To disable it in the menu, just set a blank value." css_components="" scalar_type="" scalar_parameters="" display_order="90" sub_group="text"><![CDATA[# Custom 3]]></property>
+    <group group_name="sedo_tinyquattro" display_order="13100">
       <title>TinyMCE Quattro</title>
       <description>Configure the layout of TinyMCE 4</description>
     </group>
-    <group group_name="sedo_tinyquattro_table_1" display_order="13208">
+    <group group_name="sedo_tinyquattro_table_1" display_order="13110">
       <title>TinyMCE Quattro - Table bb code (1/2)</title>
       <description>Configure your Wysiwyg table bb code</description>
     </group>
-    <group group_name="sedo_tinyquattro_table_2" display_order="13209">
+    <group group_name="sedo_tinyquattro_table_2" display_order="13111">
       <title>TinyMCE Quattro - Table bb code (2/2)</title>
       <description>Configure your Wysiwyg table bb code</description>
+    </group>
+    <group group_name="sedo_tinyquattro_stylef" display_order="13105">
+      <title>TinyMCE Quattro - Style formats</title>
+      <description>Configure your Style formats</description>
     </group>
   </style_properties>
   <templates>
@@ -2675,6 +2760,16 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 .mce-xen-body .mceSlidesTabs a:hover{
 	text-decoration:none;
 }]]></template>
+    <template title="quattro_extra.css" version_id="71" version_string="2.4.2"><![CDATA[.baseHtml h1.quattro_sf{{xen:property quattro_sf_h1}}
+.baseHtml h2.quattro_sf{{xen:property quattro_sf_h2}}
+.baseHtml h3.quattro_sf{{xen:property quattro_sf_h3}}
+.baseHtml h4.quattro_sf{{xen:property quattro_sf_h4}}
+.baseHtml h5.quattro_sf{{xen:property quattro_sf_h5}}
+.baseHtml h6.quattro_sf{{xen:property quattro_sf_h6}}
+
+.baseHtml .quattro_sf.cust1{{xen:property quattro_sf_custom1}}
+.baseHtml .quattro_sf.cust2{{xen:property quattro_sf_custom2}}
+.baseHtml .quattro_sf.cust3{{xen:property quattro_sf_custom3}}]]></template>
     <template title="quattro_mobile_user_option" version_id="4" version_string="1.0.4"><![CDATA[	<xen:set var="$tinymce_fix_mobile">{$visitor.quattro_rte_mobile}</xen:set>
 	<xen:set var="$tinymce_fix_mobile_chk">{xen:if '{$tinymce_fix_mobile} == 1', 'checked="checked"', ''}</xen:set>
 
@@ -3331,7 +3426,7 @@ i.mce-i-backcolor
 
 
 ]]></template>
-    <template title="tiny_quattro_common_css.css" version_id="61" version_string="2.2.0"><![CDATA[<xen:set var="$_mcePrimaryDark">{xen:property quattroDark}</xen:set>
+    <template title="tiny_quattro_common_css.css" version_id="71" version_string="2.4.2"><![CDATA[<xen:set var="$_mcePrimaryDark">{xen:property quattroDark}</xen:set>
 <xen:set var="$_mcePrimaryLightish">{xen:property quattroLightish}</xen:set>
 <xen:set var="$_mcePrimaryLight">{xen:property quattroLight}</xen:set>
 <xen:set var="$_mcePrimaryLighter">{xen:property quattroLighter}</xen:set>
@@ -4803,7 +4898,7 @@ i.mce-i-resize {
 	border-width:0 0 0 1px
 }
 .mce-textbox {
-	background:{$mceTextboxBackground};
+
 	border:1px solid {$_mcePrimaryLight};
 	-webkit-border-radius:3px;
 	-moz-border-radius:3px;
@@ -5065,7 +5160,7 @@ i.mce-i-resize {
 	position: static;
 	margin: 3px;
 }]]></template>
-    <template title="tiny_quattro_iframe.css" version_id="45" version_string="1.7.1.3"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_iframe.css" version_id="71" version_string="2.4.2"><![CDATA[<xen:comment>
 	EDITOR IFRAME CONTENT CSS
 </xen:comment>
 
@@ -5197,6 +5292,16 @@ blockquote.mce_quote {
 	background-color: {xen:property secondaryLightest};
 }
 
+h1.quattro_sf{{xen:property quattro_sf_h1}}
+h2.quattro_sf{{xen:property quattro_sf_h2}}
+h3.quattro_sf{{xen:property quattro_sf_h3}}
+h4.quattro_sf{{xen:property quattro_sf_h4}}
+h5.quattro_sf{{xen:property quattro_sf_h5}}
+h6.quattro_sf{{xen:property quattro_sf_h6}}
+
+.quattro_sf.cust1{{xen:property quattro_sf_custom1}}
+.quattro_sf.cust2{{xen:property quattro_sf_custom2}}
+.quattro_sf.cust3{{xen:property quattro_sf_custom3}}
 
 <xen:include template="bb_code_base.css" />
 <xen:include template="bb_code.css" />
@@ -5229,7 +5334,7 @@ blockquote.mce_quote {
 
 <xen:edithint template="tiny_quattro_iframe.css" />
 <xen:edithint template="tiny_quattro_framework.css" />]]></template>
-    <template title="tiny_quattro_phrases" version_id="70" version_string="2.4.1"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_phrases" version_id="71" version_string="2.4.2"><![CDATA[<xen:comment>
 	We are inside a JavaScript file. All phrases must be escaped
 </xen:comment>
 	<xen:comment>xenphrases</xen:comment>
@@ -5352,6 +5457,9 @@ blockquote.mce_quote {
 		"Quote properties" : "{xen:jsescape {xen:phrase sedo_quattro_quote_properties}}",
 		"Username": "{xen:jsescape {xen:phrase sedo_quattro_quote_username}}",
 	</xen:if>
+		"# Custom 1": "{xen:jsescape {xen:phrase sedo_quattro_formats_custom1}}",
+		"# Custom 2": "{xen:jsescape {xen:phrase sedo_quattro_formats_custom2}}",
+		"# Custom 3": "{xen:jsescape {xen:phrase sedo_quattro_formats_custom3}}",
 		"Bb Code editor": "{xen:jsescape {xen:phrase sedo_quattro_bbcode_editor}}",
 		"Bold": "{xen:jsescape {xen:phrase sedo_quattro_bold}}",
 		"Clear formatting": "{xen:jsescape {xen:phrase sedo_quattro_clearformatting}}",
@@ -5359,12 +5467,21 @@ blockquote.mce_quote {
 		"Color": "{xen:jsescape {xen:phrase sedo_quattro_phrase_color}}",
 		"Copy": "{xen:jsescape {xen:phrase sedo_quattro_copy}}",
 		"Custom...": "{xen:jsescape {xen:phrase sedo_quattro_custom_3dots}}",
+		"Custom formats": "{xen:jsescape {xen:phrase sedo_quattro_custom_formats}}",		
 		"Cut": "{xen:jsescape {xen:phrase sedo_quattro_cut}}",
 		"drop_files_here_to_upload" : "{xen:jsescape {xen:phrase drop_files_here_to_upload}}",
 		"Edit": "{xen:jsescape {xen:phrase sedo_quattro_edit}}",
 		"Find": "{xen:jsescape {xen:phrase sedo_quattro_find}}",
 		"Find and replace": "{xen:jsescape {xen:phrase sedo_quattro_find_and_replace}}",
+		"Formats": "{xen:jsescape {xen:phrase sedo_quattro_formats}}",
 		"Fullscreen": "{xen:jsescape {xen:phrase sedo_quattro_fullscreen}}",
+		"H1": "{xen:jsescape {xen:phrase sedo_quattro_formats_h1}}",
+		"H2": "{xen:jsescape {xen:phrase sedo_quattro_formats_h2}}",
+		"H3": "{xen:jsescape {xen:phrase sedo_quattro_formats_h3}}",
+		"H4": "{xen:jsescape {xen:phrase sedo_quattro_formats_h4}}",
+		"H5": "{xen:jsescape {xen:phrase sedo_quattro_formats_h5}}",
+		"H6": "{xen:jsescape {xen:phrase sedo_quattro_formats_h6}}",
+		"Headings": "{xen:jsescape {xen:phrase sedo_quattro_table_headings}}",
 		"Image": "{xen:jsescape {xen:phrase image}}",
 		"Insert": "{xen:jsescape {xen:phrase sedo_quattro_insert}}",
 		"Insert spoiler": "{xen:jsescape {xen:phrase sedo_quattro_insert_spoiler}}",
@@ -5542,6 +5659,11 @@ $1<xen:include template="quattro_mobile_user_option"></xen:include>
 $1</xen:if>
 $0]]></replace>
     </modification>
+    <modification template="EXTRA.css" modification_key="quattro_extra" description="Add some extra css" execution_order="10" enabled="1" action="preg_replace">
+      <find><![CDATA[/^.*$/s]]></find>
+      <replace><![CDATA[<xen:include template="quattro_extra.css" />
+$0]]></replace>
+    </modification>
     <modification template="editor_smilies" modification_key="quattro_mce_editor_smilies" description="Add Quattro Css to Xen Editor Smilies" execution_order="10" enabled="1" action="preg_replace">
       <find><![CDATA[#^.*#s]]></find>
       <replace><![CDATA[<xen:if is="{$mce}">
@@ -5596,7 +5718,7 @@ $0]]></replace_value>
       <search_value><![CDATA[>{$messageHtml}]]></search_value>
       <replace_value><![CDATA[{xen:if '{$mceConfig} AND {$loadQuattro}', ' data-quattro="{xen:escape {xen:helper json, $mceConfig}}"'}>{$messageHtml}]]></replace_value>
     </modification>
-  </template_modifications>
+  </template_modifications>  
   <bb_code_media_sites/>
   <bb_codes/>
 </addon>
