@@ -89,7 +89,11 @@
 
 			/* Get Form function */
 			this.getForm = function(){
-				return $(ed.getContainer()).closest('form');
+				var $form = $(ed.getContainer()).closest('form');
+				if(!$form.length){
+					console.info('Form not found - check mce event');
+				}
+				return $form;
 			};
 
 			/*Extend events*/
@@ -2976,7 +2980,7 @@
 
 			$.extend(this, {
 				ed: ed,
-				$form: parent.getForm(),
+				getForm: parent.getForm,
 				draftText: parent.getPhrase('draft'),
 				$textarea: parent.$textarea,
 				autoSaveUrl: parent.$textarea.data('auto-save-url')		
@@ -3048,7 +3052,7 @@
 		initAutoSave: function()
 		{
 			var self = this, 
-				$form = this.$form,
+				$form = this.getForm(),
 				options = self.$textarea.data('options'),
 				content = this.ed.getContent();
 
@@ -3069,7 +3073,7 @@
 		saveDraft: function(forceUpdate, deleteDraft)
 		{
 			var self = this, 
-				$form = this.$form,
+				$form = this.getForm(),
 				wmn = this.ed.windowManager,
 				args = {content: this.ed.getContent()},
 				content = '';
