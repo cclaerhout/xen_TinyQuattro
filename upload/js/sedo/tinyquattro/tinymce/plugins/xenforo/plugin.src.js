@@ -1250,14 +1250,13 @@
 			editor.on('xenMceBeforeSubmit XenSwitchToBbCode', function(e){
      				var proceed = true,
       					dom = editor.dom,
-      					body = editor.getBody(),
-      					bodyClone = dom.clone(body, true),
+      					bodyClone = dom.clone(editor.getBody(), true),
       					adjoinedCompatibleTags = ['SPAN'];      					
       					
 				var alterDom = function(selector, convertFct, mergeAdjoinedTags){
 					//Note: to reverse this function, you need to use the function "_wrapInHtml" inside the  "BbCode=>Html" XenForo formatter
 	     				var catchupContent = [];
-	      				each(dom.select(selector, body), function(currentItem, i) {
+	      				each(dom.select(selector, bodyClone), function(currentItem, i) {
 	      					if(mergeAdjoinedTags && tinymce.inArray(adjoinedCompatibleTags, currentItem.nodeName) != -1){
 							var q = tinymce.dom.DomQuery,
 								nextItem = q(currentItem).next(),
@@ -1329,12 +1328,17 @@
 					alterDom.apply(self, data);
 				});
 
-				//Get the modified body content
-      				var content, args = { 'quattroEvent': 'xenMceBeforeSubmit'};
-				content = editor.getContent(args);
+				/**
+				 * Get the modified body content using a simplified copy of the getContent function 
+				 * This method prevents to modify the original body to only get content
+				 **/
+				var args = {
+					format: 'html',
+					get: true,
+					getInner: true
+				};
 				
-				//Get back the original body
-				dom.replace(bodyClone, body);
+				var content = editor.serializer.serialize(bodyClone, args);
 
 				//Inject the modified html when saving
       				editor.on('SaveContent', function(e){

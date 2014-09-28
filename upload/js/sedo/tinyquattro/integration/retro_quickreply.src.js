@@ -84,19 +84,6 @@
 						$QR = $(qrEditor.getElement());
 
 					qrEditor.setContent('');
-					
-					/**
-					 * It seems MCE doesn't keep some events after an auto complete (cf user tagging)
-					 * So the solution is to remove MCE from the textarea and to load it again
-					 * To avoid any glitch, the best solution is to load a second time MCE and just
-					 * before the new rte editor init, remove the previous session
-					 **/
-					 
-					var setupCallback = function(newEd){
-						qrEditor.remove();
-					};
-					
-					new xenMCE.BbCodeWysiwygEditor($QR, setupCallback);
 				}
 	
 				if (window.sessionStorage)
