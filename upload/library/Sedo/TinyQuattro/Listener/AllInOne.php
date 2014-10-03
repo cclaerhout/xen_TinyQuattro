@@ -186,6 +186,10 @@ class Sedo_TinyQuattro_Listener_AllInOne
 				'playwithcolors' => array('Sedo_TinyQuattro_Helper_PlayWithColors', 'init')
 			);
 		}
+
+		XenForo_Template_Helper_Core::$helperCallbacks += array(
+			'get_mce_js_version' => array('Sedo_TinyQuattro_Helper_Quattro', 'getMceJsVersion')
+		);		
 	}
 
 	/***

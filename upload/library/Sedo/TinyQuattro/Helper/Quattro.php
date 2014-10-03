@@ -15,7 +15,7 @@ class Sedo_TinyQuattro_Helper_Quattro
 		$visitor = XenForo_Visitor::getInstance();
 		$enable = true;
 
-		if($options->currentVersionId > 1020031)
+		if(!self::isOldXen())
 		{
 			//Only for XenForo 1.2: Check if addon is activated
 			$activeAddons = array();
@@ -121,9 +121,14 @@ class Sedo_TinyQuattro_Helper_Quattro
 	}
 
 	/*For private use*/
+	public static function isOldXen()
+	{
+		return (XenForo_Application::get('options')->get('currentVersionId') < 1020031);
+	}
+	
 	public static function canUseQuattroBbCode($tagName)
 	{
-		if(XenForo_Application::get('options')->get('currentVersionId') < 1020031)
+		if(self::isOldXen())
 		{
 			return false; //Only for XenForo 1.2
 		}
@@ -134,5 +139,20 @@ class Sedo_TinyQuattro_Helper_Quattro
 		
 		return (!empty($quattroBbCodes[$tagName]) ? true : false);
 	}
+
+	public static function getMceJsVersion()
+	{
+		if(self::isOldXen())
+		{
+			return '';
+		}
+
+		$addons = XenForo_Application::get('addOns');
+		$xenJsVersion = XenForo_Application::$jsVersion;
+		$mceVersion = (isset($addons['sedo_tinymce_quattro']))? $addons['sedo_tinymce_quattro'] : 0;
+		$xenMceJsVersion = substr(md5($xenJsVersion.$mceVersion), 0, 8);
+	
+		return "?_v=$xenMceJsVersion";
+	}	
 }
 //Zend_Debug::dump($abc);
