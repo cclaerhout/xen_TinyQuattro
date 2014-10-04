@@ -140,7 +140,7 @@ class Sedo_TinyQuattro_Helper_Quattro
 		return (!empty($quattroBbCodes[$tagName]) ? true : false);
 	}
 
-	public static function getMceJsVersion()
+	public static function getMceJsVersion($formatted = true)
 	{
 		if(self::isOldXen())
 		{
@@ -151,6 +151,12 @@ class Sedo_TinyQuattro_Helper_Quattro
 		$xenJsVersion = XenForo_Application::$jsVersion;
 		$mceVersion = (isset($addons['sedo_tinymce_quattro']))? $addons['sedo_tinymce_quattro'] : 0;
 		$xenMceJsVersion = substr(md5($xenJsVersion.$mceVersion), 0, 8);
+
+
+		if($formatted === 'raw')
+		{
+			return $xenMceJsVersion;
+		}
 	
 		return "?_v=$xenMceJsVersion";
 	}	

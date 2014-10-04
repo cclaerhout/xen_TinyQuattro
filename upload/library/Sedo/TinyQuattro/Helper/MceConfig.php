@@ -320,7 +320,8 @@ class Sedo_TinyQuattro_Helper_MceConfig
 			'xen_attach' => "{$attachType},{$attachId},{$attachHash}",
 			'nonbreaking_force_tab' => true,
 			'extended_valid_elements' => 'anchor[id],xformat[name]',
-			'style_formats' => $style_formats
+			'style_formats' => $style_formats,
+			'cacheString' => Sedo_TinyQuattro_Helper_Quattro::getMceJsVersion('raw')
 		);
 
 		//Editor Size
