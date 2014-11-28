@@ -321,7 +321,7 @@ class Sedo_TinyQuattro_Helper_MceConfig
 			'nonbreaking_force_tab' => true,
 			'extended_valid_elements' => 'anchor[id],xformat[name]',
 			'style_formats' => $style_formats,
-			'cacheString' => Sedo_TinyQuattro_Helper_Quattro::getMceJsVersion('raw')
+			'cache_suffix' => Sedo_TinyQuattro_Helper_Quattro::getMceJsVersion('raw')
 		);
 
 		//Editor Size

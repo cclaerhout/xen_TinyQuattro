@@ -201,7 +201,7 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 			$text = $this->renderSubTree($tag['children'], $rendererStates);
 			return $this->_wrapInHtml('<p style="text-align: ' . $tag['tag'] . '">', '</p>', $text) . "<break-start />\n";
 		}
-		
+
 		return $parentOuput;
 	}
 
@@ -287,7 +287,7 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 		
 		$data = (!empty($data)) ? implode($data, ' ') : '';
 
-		return $this->_wrapInHtml('<blockquote class="mce_quote" data-mcequote="true" ' . $data . '>', '</blockquote>', $content);
+		return '<blockquote class="mce_quote" data-mcequote="true" ' . $data . '>' . $content . '</blockquote>';
 	}
 
 	/**

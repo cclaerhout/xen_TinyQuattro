@@ -165,6 +165,22 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 		return $parentOutput;
 	}	
 
+	protected function _postRender($text)
+	{
+		do
+		{
+			$newText = preg_replace('#\[/(justify)\]([\r\n]*)\[\\1\]#i', '\\2', $text);
+			if ($newText === null || $newText == $text)
+			{
+				break;
+			}
+			$text = $newText;
+		}
+		while (true);
+
+		return parent::_postRender($text);		
+	}
+
 	/**
 	 * Mce Subscript tag handler
 	 */
