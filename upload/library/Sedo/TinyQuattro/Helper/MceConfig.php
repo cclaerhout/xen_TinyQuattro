@@ -1224,7 +1224,7 @@ class Sedo_TinyQuattro_Helper_MceConfig
 	
 		public function getTemplateObject()
 		{
-			return $this->templateObj;
+			return $this->templateObject;
 		}
 
 		public function isMobile()
