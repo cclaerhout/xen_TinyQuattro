@@ -26,10 +26,6 @@ class Sedo_TinyQuattro_Listener_AllInOne
 				'noJsonRequestPaths' => $requestPaths
 			);
 
-			if (XenForo_Application::isRegistered('session'))
-			{
-
-			}
 			XenForo_Application::getSession()->set('sedoQuattro', $data);
 		}
 	}
