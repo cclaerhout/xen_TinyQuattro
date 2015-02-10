@@ -25,6 +25,11 @@ class Sedo_TinyQuattro_Listener_AllInOne
 			$data = array(
 				'noJsonRequestPaths' => $requestPaths
 			);
+
+			if (XenForo_Application::isRegistered('session'))
+			{
+
+			}
 			XenForo_Application::getSession()->set('sedoQuattro', $data);
 		}
 	}
@@ -88,15 +93,17 @@ class Sedo_TinyQuattro_Listener_AllInOne
 		   	break;
 	   		
 	   		case 'XenForo_DataWriter_DiscussionMessage_Post':
-	   			if (XenForo_Application::get('options')->get('quattro_parser_wysiwyg_to_bb'))
+	   			if (XenForo_Application::get('options')->get('quattro_parser_fourws_to_tab'))
 				{
+		   			//2015/02/10: Should not be needed anymore with Sedo_TinyQuattro_Html_Renderer_BbCode::preFilter
 		   			$extend[] = 'Sedo_TinyQuattro_Datawriter_DiscussionMessage';
 		   		}
 		   	break;
 
 	   		case 'XenForo_DataWriter_ConversationMessage':
-	   			if (XenForo_Application::get('options')->get('quattro_parser_wysiwyg_to_bb'))
+	   			if (XenForo_Application::get('options')->get('quattro_parser_fourws_to_tab'))
 				{
+		   			//2015/02/10: Should not be needed anymore with Sedo_TinyQuattro_Html_Renderer_BbCode::preFilter
 		   			$extend[] = 'Sedo_TinyQuattro_Datawriter_ConversationMessage';
 		   		}
 		   	break;	

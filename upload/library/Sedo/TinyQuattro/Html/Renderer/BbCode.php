@@ -1,6 +1,10 @@
 <?php
 class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_Renderer_BbCode
 {
+	protected static $_sedoBypass = array(
+		'tab' => '{sedo:\x09}'
+	);
+
 	/**
 	 * Custom MCE tags name
 	 */
@@ -124,15 +128,16 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 	}
 
 	/**
-	 * Extend renderFromHtml to convert 4 whitespaces to a tab when viewing (even occurs before the parser)
+	 * Use the preFilter & _postRender functions instead to convert globally 4 whitespaces to a tab when viewing (even occurs before the parser)
+	 * Note: the conversion is also done in the datawriter (not needed but keep it for retro compatibility) of posts & conversations
 	 */
-	public static function renderFromHtml($html, array $options = array())
+	public function preFilter($html)
 	{
-		$html = parent::renderFromHtml($html, $options);
-		
-		if(XenForo_Application::get('options')->get('quattro_parser_wysiwyg_to_bb'))
+		$html = parent::preFilter($html);
+
+		if(XenForo_Application::get('options')->get('quattro_parser_fourws_to_tab'))
 		{
-			$html = preg_replace('# {4}#', "\t", $html); 
+			$html = preg_replace('#(&nbsp;| ){4}#', self::$_sedoBypass['tab'], $html);
 		}
 
 		return $html;
@@ -177,6 +182,11 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 			$text = $newText;
 		}
 		while (true);
+
+		if(XenForo_Application::get('options')->get('quattro_parser_fourws_to_tab'))
+		{
+			$text = str_replace(self::$_sedoBypass['tab'], "\t", $text);
+		}
 
 		return parent::_postRender($text);		
 	}

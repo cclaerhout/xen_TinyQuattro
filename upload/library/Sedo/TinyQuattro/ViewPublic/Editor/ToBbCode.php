@@ -8,18 +8,35 @@ class Sedo_TinyQuattro_ViewPublic_Editor_ToBbCode extends XFCP_Sedo_TinyQuattro_
 	public function renderJson()
 	{
 		$parent = parent::renderJson();
-
-		$options = XenForo_Application::get('options');
 		
-		if(!isset($parent['bbCode']) || !$options->quattro_converter_html_to_bbcode)
+		if(!isset($parent['bbCode']))
 		{
 			return $parent;
 		}
 
+		$options = XenForo_Application::get('options');
 		$content = $parent['bbCode'];
-		
+
 		/*Fix Tabs*/
-		$content = preg_replace('# {4}#', "\t", $content);
+		if($options->quattro_parser_fourws_to_tab)
+		{
+			$content = preg_replace('# {4}#', "\t", $content);
+		}
+
+		/* Detect if the user is no more connected */
+		$visitor = XenForo_Visitor::getInstance();
+		$parent['isConnected'] = ($visitor->user_id) ? 1 : 0;
+		if(!$visitor->user_id)
+		{
+			$parent['notConnectedMessage'] = new XenForo_Phrase('quattro_no_more_connected');
+		}
+
+		/* Do not continue if the converter is not enabled*/
+		if(!$options->quattro_converter_html_to_bbcode)
+		{
+			$parent['bbCode'] = $content;
+			return $parent;
+		}
 
 		/*Clean BbCodes - step 1*/
       		$guiltyTags = implode('|', array_filter(explode(',', $options->tinyquattro_guilty_tags)));
@@ -32,14 +49,6 @@ class Sedo_TinyQuattro_ViewPublic_Editor_ToBbCode extends XFCP_Sedo_TinyQuattro_
 
 		/*Save and return modifications*/
 		$parent['bbCode'] = $content;
-
-		/* Detect if the user is no more connected */
-		$visitor = XenForo_Visitor::getInstance();
-		$parent['isConnected'] = ($visitor->user_id) ? 1 : 0;
-		if(!$visitor->user_id)
-		{
-			$parent['notConnectedMessage'] = new XenForo_Phrase('quattro_no_more_connected');
-		}
 		
 		return $parent;
 	}

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.5.2" version_id="76" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.5.3" version_id="77" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -747,25 +747,25 @@ step=5</edit_format_params>
       <default_value>0</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro_paser" display_order="920"/>
+      <relation group_id="tiny_quattro_paser" display_order="9930"/>
     </option>
     <option option_id="quattro_converter_html_to_bbcode" edit_format="onoff" data_type="boolean" can_backup="1">
       <default_value>1</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro_paser" display_order="910"/>
+      <relation group_id="tiny_quattro_paser" display_order="9910"/>
     </option>
     <option option_id="quattro_disable_mobile_inline_edit" edit_format="onoff" data_type="boolean" can_backup="1">
       <default_value>0</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="5002"/>
+      <relation group_id="tiny_quattro" display_order="5010"/>
     </option>
     <option option_id="quattro_disable_on_mobiles" edit_format="onoff" data_type="boolean" can_backup="1">
       <default_value>0</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="5000"/>
+      <relation group_id="tiny_quattro" display_order="5005"/>
     </option>
     <option option_id="quattro_emulate_allwhitespace_html" edit_format="select" data_type="string" can_backup="1">
       <default_value>no</default_value>
@@ -773,7 +773,7 @@ step=5</edit_format_params>
 full={xen:phrase sedo_quattro_everywhere}
 limited={xen:phrase sedo_quattro_everywhere_but_bbcodes_content}</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro_paser" display_order="940"/>
+      <relation group_id="tiny_quattro_paser" display_order="120"/>
     </option>
     <option option_id="quattro_emulate_tabs_html" edit_format="select" data_type="string" can_backup="1">
       <default_value>no</default_value>
@@ -781,7 +781,7 @@ limited={xen:phrase sedo_quattro_everywhere_but_bbcodes_content}</edit_format_pa
 full={xen:phrase sedo_quattro_everywhere}
 limited={xen:phrase sedo_quattro_everywhere_but_bbcodes_content}</edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro_paser" display_order="930"/>
+      <relation group_id="tiny_quattro_paser" display_order="110"/>
     </option>
     <option option_id="quattro_enable_browser_spellcheck" edit_format="radio" data_type="boolean" can_backup="1">
       <default_value>0</default_value>
@@ -794,7 +794,7 @@ limited={xen:phrase sedo_quattro_everywhere_but_bbcodes_content}</edit_format_pa
       <default_value>0</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="5020"/>
+      <relation group_id="tiny_quattro" display_order="6030"/>
     </option>
     <option option_id="quattro_extra_bbcodes" edit_format="checkbox" data_type="array" can_backup="1">
       <default_value></default_value>
@@ -1031,37 +1031,38 @@ small={xen:phrase sedo_quattro_small}</edit_format_params>
       <default_value>0</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="5010"/>
+      <relation group_id="tiny_quattro" display_order="6020"/>
     </option>
     <option option_id="quattro_parser_bb_to_wysiwyg" edit_format="onoff" data_type="boolean" can_backup="1">
       <default_value>1</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro_paser" display_order="800"/>
+      <relation group_id="tiny_quattro_paser" display_order="9920"/>
     </option>
     <option option_id="quattro_parser_bypass_ie7limit" edit_format="onoff" data_type="boolean" can_backup="1">
       <default_value>0</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro" display_order="5005"/>
+      <relation group_id="tiny_quattro" display_order="5015"/>
     </option>
     <option option_id="quattro_parser_bypass_mobile_limit" edit_format="onoff" data_type="boolean" can_backup="1">
       <default_value>0</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro_paser" display_order="10"/>
+      <relation group_id="tiny_quattro" display_order="5014"/>
+    </option>
+    <option option_id="quattro_parser_fourws_to_tab" edit_format="select" data_type="boolean" can_backup="1">
+      <default_value>1</default_value>
+      <edit_format_params>0={xen:phrase no}
+1={xen:phrase yes}</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro_paser" display_order="100"/>
     </option>
     <option option_id="quattro_parser_mobile_user_option" edit_format="onoff" data_type="boolean" can_backup="1">
       <default_value>0</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro_paser" display_order="20"/>
-    </option>
-    <option option_id="quattro_parser_wysiwyg_to_bb" edit_format="onoff" data_type="boolean" can_backup="1">
-      <default_value>1</default_value>
-      <edit_format_params></edit_format_params>
-      <sub_options></sub_options>
-      <relation group_id="tiny_quattro_paser" display_order="800"/>
+      <relation group_id="tiny_quattro" display_order="5000"/>
     </option>
     <option option_id="quattro_paste_as_text" edit_format="radio" data_type="boolean" can_backup="1">
       <default_value>1</default_value>
@@ -1212,7 +1213,7 @@ step=1</edit_format_params>
       <default_value>left,center,right,b,i,u,s,font,color,size,bcolor,justify</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro_paser" display_order="980"/>
+      <relation group_id="tiny_quattro_paser" display_order="9980"/>
     </option>
   </optiongroups>
   <permissions>
@@ -1275,9 +1276,9 @@ This patch is enable by default.]]></phrase>
     <phrase title="option_quattro_emulate_allwhitespace_html" version_id="33" version_string="1.6.4.2"><![CDATA[Emulate all whitespaces in html?]]></phrase>
     <phrase title="option_quattro_emulate_allwhitespace_html_explain" version_id="33" version_string="1.6.4.2"><![CDATA[This option is the same than the one above but for all whitespaces. Use this option only if you have to.]]></phrase>
     <phrase title="option_quattro_emulate_tabs_html" version_id="30" version_string="1.6.3.2"><![CDATA[Emulate tabs in html?]]></phrase>
-    <phrase title="option_quattro_emulate_tabs_html_explain" version_id="33" version_string="1.6.4.2"><![CDATA[This function will emulate tabs in html by finding them in the raw text, wrapping them with a span tag which has the css property "white-space' set on "pre". Recommended value if you need that function: "Yes, without Bb Code content". <br />
+    <phrase title="option_quattro_emulate_tabs_html_explain" version_id="76" version_string="2.5.2"><![CDATA[This function will emulate tabs in html by finding them in the raw text, wrapping them with a span tag which has the css property "white-space' set on "pre". Recommended value if you need that function: "Yes, without Bb Code content". <br />
  <br />
-<b>Important:</b> This option requires the "Wysiwyg HTML > BbCode Parser Patch" to be activated.]]></phrase>
+<b>Important:</b> This option requires the above setting ("Conversion of 4 whitespaces into a tab") to be activated.]]></phrase>
     <phrase title="option_quattro_enable_browser_spellcheck" version_id="6" version_string="1.0.6"><![CDATA[Enable browser spellcheck?]]></phrase>
     <phrase title="option_quattro_enable_browser_spellcheck_explain" version_id="6" version_string="1.0.6"><![CDATA[With TinyMCE the browser spellcheck is disabled by default. If you want to activate it, select yes.]]></phrase>
     <phrase title="option_quattro_extended_insert" version_id="27" version_string="1.6.2"><![CDATA[Extend MCE insert command?]]></phrase>
@@ -1356,28 +1357,19 @@ The "format" Bb Code must have an option: [format=option]. It can be: h1, h2, h3
     <phrase title="option_quattro_noattach_img" version_id="24" version_string="1.5.1"><![CDATA["No Attachment" editors - Force image insertion]]></phrase>
     <phrase title="option_quattro_noattach_img_explain" version_id="24" version_string="1.5.1"><![CDATA[With the last version of the XenForo Resources Manager, it can have several editors on the same page. By default the attachment manager will only allow you to load an image inside the main editor. Other editors have the class "No Attachment" that  prevents them to have any image inserted. With this addon, images can be inserted in all editors by default. But inserted attachments will not be in the "view" so will be displayed as an "attachment" (the image will not display. A solution to bypass this is to insert the link of the image between the Bb Code image. If you want to use this workaround, activate this option.]]></phrase>
     <phrase title="option_quattro_parser_bb_to_wysiwyg" version_id="4" version_string="1.0.4"><![CDATA[Activate the BbCode > Wysiwyg HTML Parser Patch?]]></phrase>
-    <phrase title="option_quattro_parser_bb_to_wysiwyg_explain" version_id="4" version_string="1.0.4"><![CDATA[This option will activate some fixes when you <span style="text-decoration:underline">edit </span> a message with the RTE editor and when you <span style="text-decoration:underline">toggle</span> the Bb Code editor to the RTE editor. <br />
- <br />
-The fixes are relative to the Pacman problem (eaten space between the end of a list and the next paragraph) & the tabulation problem (tabs are modified to 4 blanks characters). <br />
- <br />
-This patch is enable by default.]]></phrase>
-    <phrase title="option_quattro_parser_bypass_ie7limit" version_id="33" version_string="1.6.4.2"><![CDATA[Bypass IE7 limit]]></phrase>
+    <phrase title="option_quattro_parser_bb_to_wysiwyg_explain" version_id="76" version_string="2.5.2"><![CDATA[This option will activate some fixes when you <span style="text-decoration:underline">edit </span> a message with the RTE editor and when you <span style="text-decoration:underline">toggle</span> the Bb Code editor to the RTE editor. <br />
+<br />
+This option is enabled by default.]]></phrase>
+    <phrase title="option_quattro_parser_bypass_ie7limit" version_id="76" version_string="2.5.2"><![CDATA[Bypass IE7 limit (xen > 1.2) ?]]></phrase>
     <phrase title="option_quattro_parser_bypass_ie7limit_explain" version_id="33" version_string="1.6.4.2"><![CDATA[Since XenForo 1.2.x, the Wysiwyg Editor will not load with Internet Explorer 7. Do you want to bypass this limit with TinyMCE?]]></phrase>
-    <phrase title="option_quattro_parser_bypass_mobile_limit" version_id="4" version_string="1.0.4"><![CDATA[Activate the RTE Editor on mobile devices?]]></phrase>
+    <phrase title="option_quattro_parser_bypass_mobile_limit" version_id="76" version_string="2.5.2"><![CDATA[Activate the RTE Editor on mobile devices (xen < 1.2) ?]]></phrase>
     <phrase title="option_quattro_parser_bypass_mobile_limit_explain" version_id="4" version_string="1.0.4"><![CDATA[This option will bypass the XenForo protection (all version below the 1.2) that prevents to load the Rich Text Editor (wysiwyg) on mobile devices.]]></phrase>
+    <phrase title="option_quattro_parser_fourws_to_tab" version_id="76" version_string="2.5.2"><![CDATA[Activate the conversion of 4 whitespaces into a tab before saving]]></phrase>
+    <phrase title="option_quattro_parser_fourws_to_tab_explain" version_id="76" version_string="2.5.2"><![CDATA[This option will allow to convert 4 white spaces from the RTE editor to a real tabulation  when you <span style="text-decoration:underline">save</span> your message.<br />
+<br />
+This option is enabled by default.]]></phrase>
     <phrase title="option_quattro_parser_mobile_user_option" version_id="4" version_string="1.0.4"><![CDATA[Enable an user option for the RTE?]]></phrase>
     <phrase title="option_quattro_parser_mobile_user_option_explain" version_id="4" version_string="1.0.4"><![CDATA[This will enable & activate an option to let users decide if they want to use or not the RTE editor on their personal mobile device.]]></phrase>
-    <phrase title="option_quattro_parser_wysiwyg_to_bb" version_id="4" version_string="1.0.4"><![CDATA[Activate the Wysiwyg HTML >  BbCode  Parser Patch?]]></phrase>
-    <phrase title="option_quattro_parser_wysiwyg_to_bb_explain" version_id="33" version_string="1.6.4.2"><![CDATA[This option will activate a small but important patch that will convert 4 white spaces from the RTE editor to a real tabulation  when you <span style="text-decoration:underline">save</span> your message.<br />
-<br />
-<span style="font-weight:bolder">Important:</span> this patch will only save tabulations in posts and conversations. With XenForo 1.2, it will also convert 4 whitespaces into a tab in the view for all other pages (but the modifications will be done on the fly and not when saving inside the database. If you want to enable that last function with XenForo 1.1, you will have to:<br/>
-<br/>
-- Edit the following class: <span style="color:orange;font-style:italic">XenForo_Html_Renderer_BbCode</span><br />
-- Find the function <span style="color:orange;font-style:italic">renderFromHtml</span><br />
-- Just before: <span style="background-color:#E3E3CE; color: black; display: block; font-size: 9pt; margin: 4px; padding: 2px; white-space: pre;">return $rendered;</span><br />
-- Add: <span style="background-color: #E3E3CE; color: black; display: block; font-size: 9pt; margin: 4px; padding: 2px; white-space: pre;"> $rendered = preg_replace('# {4}#', "\t", $rendered); </span><br/>
-<br />
- This patch is enable by default.]]></phrase>
     <phrase title="option_quattro_paste_as_text" version_id="6" version_string="1.0.6"><![CDATA[Plain text mode by default]]></phrase>
     <phrase title="option_quattro_paste_as_text_explain" version_id="6" version_string="1.0.6"><![CDATA[Select this option if you want to activate by default the plain text mode when a user pastes a text inside the editor. He will be able to enable it again if you have inserted the plain text button inside the buttons bar.]]></phrase>
     <phrase title="option_quattro_resize_editor" version_id="33" version_string="1.6.4.2"><![CDATA[Manually Resize Editor?]]></phrase>

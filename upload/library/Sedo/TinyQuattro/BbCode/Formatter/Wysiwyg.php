@@ -186,6 +186,8 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 		//Fix for tabs (From DB to RTE editor && from Bb Code editor to rte Editor)
 		$parent = preg_replace('#\t#', '&nbsp;&nbsp;&nbsp;&nbsp;', $parent);
 
+		//Fix MCE bug #7378
+		$parent = preg_replace('#<br />\s+<br />#', '<br /><br />', $parent);
 		return $parent;
 	}
 
