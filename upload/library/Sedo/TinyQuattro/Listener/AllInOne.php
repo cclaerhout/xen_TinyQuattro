@@ -19,6 +19,11 @@ class Sedo_TinyQuattro_Listener_AllInOne
 			$options->messageInlineEdit = 0;
 		}
 
+		if(!XenForo_Application::isRegistered('session'))
+		{
+			return;
+		}
+
 		if($controller->getResponseType() != 'json')
 		{
 			$requestPaths = XenForo_Application::get('requestPaths');
