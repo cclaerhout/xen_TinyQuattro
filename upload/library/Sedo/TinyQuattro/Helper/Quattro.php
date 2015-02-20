@@ -109,6 +109,12 @@ class Sedo_TinyQuattro_Helper_Quattro
 		}
 
 		list($controllerName, $controllerAction, $viewName) = $ccv;
+
+		//TINYMCE IS DISABLED IN THE ADMIN CONTROLLER
+		if(strpos($controllerName, 'ControllerAdmin') !== false || strpos($viewName, 'ViewAdmin') !== false)
+		{
+			return array(false, $fallback);	
+		}
 		
 		$bbmParams = BBM_Helper_Buttons::getConfig($controllerName, $controllerAction, $viewName);
 
