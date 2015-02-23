@@ -81,6 +81,7 @@ class Sedo_TinyQuattro_Model_TinyQuattro extends XenForo_Model
 			{
 				case 'icons_xen': $button_font = 'xenforo'; break;
 				case 'icons_mce': $button_font = 'tinymce'; break;
+				case 'icons_fa': $button_font = 'fa'; break;
 				case 'text':
 				case 'manual':  $button_font = 'text'; break;
 				default: $button_font = 'text';
@@ -94,7 +95,7 @@ class Sedo_TinyQuattro_Model_TinyQuattro extends XenForo_Model
 			{
 				$font_text = $button['quattro_button_type_opt'];
 			}
-			elseif(in_array($button_font, array('xenforo', 'tinymce')) && !empty($button['quattro_button_type_opt']))
+			elseif(in_array($button_font, array('xenforo', 'tinymce', 'fa')) && !empty($button['quattro_button_type_opt']))
 			{
 				$font_icon =  $button['quattro_button_type_opt'];
 			}

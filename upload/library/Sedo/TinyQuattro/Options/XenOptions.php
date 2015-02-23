@@ -31,20 +31,24 @@ class Sedo_TinyQuattro_Options_XenOptions
       	
       	public static function prepareCheckbox(&$buttons, $optionValue)
       	{
-
 	        foreach($buttons as &$button)
 	        {
 			$buttonName = $button['button_name'];
 			$buttonFont = $button['button_font'];
 			$fontText = (!empty($button['extra']['text'])) ? $button['extra']['text'] : $buttonName;
-			
+
 			if($buttonFont == 'text')
 			{
 				$buttonTemplateCode = "<div class='button_item text'>{$fontText}</div>";
 			}
+			elseif($buttonFont == 'fa')
+			{
+				$faClass = $button['extra']['icon'];
+				$buttonTemplateCode = "<div class='button_item'><i class='fa {$faClass}'></i></div>";			
+			}
 			else
 			{
-				$classFont = ($buttonFont == 'tinymce') ? "mce-ico" : "mce-xenforo-icons";
+				$classFont = ($buttonFont == 'tinymce') ? "mce-ico" : "mce-ico mce-xenforo-icons";
 				$buttonTemplateCode = "<div class='JsOnly button_item font $classFont mce-i-{$buttonName}' title='{$fontText}'>&nbsp;</div>";			
 			}
 

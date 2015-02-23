@@ -64,7 +64,11 @@
 	</div>
 	</xen:html>
 </xen:controlunit>]]></template>
-    <template title="option_quattro_force_button.css"><![CDATA[#quattro_force_button .buttons_wrapper .buttons_title{
+    <template title="option_quattro_force_button.css"><![CDATA[#quattro_force_button .buttons_trigger{
+	font-weight: bold;
+}
+
+#quattro_force_button .buttons_wrapper .buttons_title{
 	font-size: 12pt;
 	font-weight: 600;
 	padding: 5px 0;
@@ -561,7 +565,13 @@ i.mce-i-backcolor
 .mce-i-xen_fontsize:before		{ content: "\e448"; }
 .mce-i-xen_spoiler:before		{ content: "\e02c"; }]]></template>
   </admin_templates>
-  <admin_template_modifications/>
+  <admin_template_modifications>
+    <modification template="header" modification_key="sedo_mc4_admin_fa_integration" description="Integration of FA in the admin side" execution_order="10" enabled="1" action="preg_replace">
+      <find><![CDATA[#^.*$#sui]]></find>
+      <replace><![CDATA[<xen:include template="bbm_fa_integration" />
+$0]]></replace>
+    </modification>
+  </admin_template_modifications>
   <code_events>
     <event event_id="tinyquattro_setup"><![CDATA[<p>Called when TinyMCE is initialized. There's no event hit here.</p>
 
@@ -5710,7 +5720,7 @@ $0]]></replace_value>
       <search_value><![CDATA[>{$messageHtml}]]></search_value>
       <replace_value><![CDATA[{xen:if '{$mceConfig} AND {$loadQuattro}', ' data-quattro="{xen:escape {xen:helper json, $mceConfig}}"'}>{$messageHtml}]]></replace_value>
     </modification>
-  </template_modifications> 
+  </template_modifications>   
   <bb_code_media_sites/>
   <bb_codes/>
 </addon>
