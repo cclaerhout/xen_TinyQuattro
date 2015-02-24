@@ -95,7 +95,7 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 					$tableTag => array(
 						'callback' => array($this, 'renderTagSedoXtable'),
 						'stopLineBreakConversion' => true,
-						'trimLeadingLinesAfter' => 2,
+						'trimLeadingLinesAfter' => 2
 					)
 				);
 				
@@ -109,7 +109,8 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 				
 				$parentTags += array(
 					$hrTag => array(
-						'callback' => array($this, 'renderTagSedoHr')
+						'callback' => array($this, 'renderTagSedoHr'),
+						'trimLeadingLinesAfter' => 1
 					)
 				);			
 			}
