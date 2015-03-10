@@ -313,7 +313,6 @@ class Sedo_TinyQuattro_ControllerPublic_Editor extends XFCP_Sedo_TinyQuattro_Con
 		$parent = parent::actionSmilies();
 		$mce = $this->_input->filterSingle('mce', XenForo_Input::STRING);
 		$parent->params['mce'] = ($mce == 'mce4');
-		
 		return $parent;
 	}
 

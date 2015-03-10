@@ -794,6 +794,72 @@ class Sedo_TinyQuattro_Helper_MceConfig
 			$this->mceSettings += $settings;
 		}
 
+		public function setMceExtendedValidElement($newElementName, array $newElementOptions = array())
+		{
+			$setting = $this->getMceSetting('extended_valid_elements');
+
+			if($setting === null)
+			{
+				$setting = array();
+			}
+			
+			$extendedValidElements = explode(',',  $setting);
+			$newElementManaged = false;
+			
+			foreach($extendedValidElements as &$el)
+			{
+				$tmp = explode('[', $el);
+				$elementName = $tmp[0];
+				
+				if($newElementName != $elementName)
+				{
+					continue;
+				}
+				elseif($newElementName == $elementName && empty($newElementOptions))
+				{
+					$newElementManaged = true;
+					break;
+				}
+				elseif(!isset($tmp[1]))
+				{
+					continue;
+				}
+				
+				$elementOptions = explode('|', substr($tmp[1], 0, -1));
+				foreach($newElementOptions as $newElementOption)
+				{
+					if(in_array($newElementOption, $elementOptions))
+					{
+						continue;
+					}
+					else
+					{
+						$elementOptions[] = $newElementOption;
+					}
+				}
+				
+				$elementOptions = implode('|', $elementOptions);
+				$el = "{$newElementName}[$elementOptions]";
+				$newElementManaged = true;
+			}
+			
+			if(!$newElementManaged)
+			{
+				if(empty($newElementOptions))
+				{
+					$extendedValidElements[] = $newElementName;
+				}
+				else
+				{
+					$elementOptions = implode('|', $newElementOptions);
+					$extendedValidElements[] = "{$newElementName}[$elementOptions]";
+				}
+			}
+			
+			$extendedValidElements = implode(',',  $extendedValidElements);
+			$this->setMceSetting('extended_valid_elements', $extendedValidElements);
+		}
+
 		public function getMceGrid()
 		{
 			return $this->getMceSetting('mceGrid');
