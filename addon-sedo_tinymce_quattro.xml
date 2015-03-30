@@ -2784,13 +2784,14 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 			<p class="hint">{xen:phrase quattro_rte_mobile_explain}</p>
 		</label>
 	</li>]]></template>
-    <template title="quattro_xenbox_smilies_12.css" version_id="55" version_string="2.1.0.5"><![CDATA[	.redactor_smilies.mce
+    <template title="quattro_xenbox_smilies_12.css" version_id="80" version_string="2.5.5"><![CDATA[	.redactor_smilies.mce
 	{
 		border-top: {xen:property rteContainer.border-bottom-width} {xen:property rteContainer.border-bottom-style} {xen:property rteContainer.border-bottom-color};
 		max-height: 150px;
 		line-height: 0;
 		border: 1px solid {xen:property primaryLighterStill};
-		overflow: auto; *zoom: 1;
+	    overflow-x: hidden;
+		overflow-y: auto; *zoom: 1;
 		margin-top: 5px;
 	}
 
@@ -2808,7 +2809,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 			cursor: pointer;
 			line-height: 1.6;
 		}]]></template>
-    <template title="quattro_xenbox_smilies_13.css" version_id="55" version_string="2.1.0.5"><![CDATA[	.redactor_smilies.mce
+    <template title="quattro_xenbox_smilies_13.css" version_id="80" version_string="2.5.5"><![CDATA[	.redactor_smilies.mce
 	{
 		font-size: 0;
 		border: 1px solid {xen:property primaryLighterStill};
@@ -2817,7 +2818,8 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 		overflow: hidden;
 		
 		max-height: 150px;
-		overflow: auto; *zoom: 1;
+	    overflow-x: hidden;
+		overflow-y: auto; *zoom: 1;
 
 		margin-top: 5px;		
 	}
@@ -5884,7 +5886,7 @@ $0]]></replace_value>
       <search_value><![CDATA[>{$messageHtml}]]></search_value>
       <replace_value><![CDATA[{xen:if '{$mceConfig} AND {$loadQuattro}', ' data-quattro="{xen:escape {xen:helper json, $mceConfig}}"'}>{$messageHtml}]]></replace_value>
     </modification>
-  </template_modifications>    
+  </template_modifications>  
   <bb_code_media_sites/>
   <bb_codes/>
 </addon>
