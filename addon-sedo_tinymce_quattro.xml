@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.5.4" version_id="79" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.5.5" version_id="80" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -4946,7 +4946,7 @@ i.mce-i-resize {
 	position:static;
 	height:50px
 }]]></template>
-    <template title="tiny_quattro_editor.css" version_id="58" version_string="2.1.1.2"><![CDATA[<xen:comment>Official css for all browsers (XenForo integration)</xen:comment>
+    <template title="tiny_quattro_editor.css" version_id="79" version_string="2.5.4"><![CDATA[<xen:comment>Official css for all browsers (XenForo integration)</xen:comment>
 <xen:if is="{xen:property tinyquattro_css_integration} AND !{$pageIsRtl}">
 	<xen:include template="tiny_quattro_common_css.css" />
 </xen:if>
@@ -4959,6 +4959,12 @@ i.mce-i-resize {
 	<xen:include template="tiny_quattro_buttons.css" />
 </xen:if>
 <xen:include template="tiny_quattro_xenbuttons.css" />
+
+<xen:if is="!{xen:property tinyquattro_css_integration} OR {$pageIsRtl}">
+	<xen:include template="tiny_quattro_fa_forced.css">
+		<xen:set var="$faCssPrefix">.mce-container </xen:set>
+	</xen:include>
+</xen:if>
 
 <xen:edithint template="tiny_quattro_iframe.css" />]]></template>
     <template title="tiny_quattro_editor_ie7.css" version_id="58" version_string="2.1.1.2"><![CDATA[<xen:comment>Official css for all browsers (XenForo integration)</xen:comment>
@@ -4976,7 +4982,165 @@ i.mce-i-resize {
 <xen:include template="tiny_quattro_xenbuttons_ie7.css" />
 
 <xen:edithint template="tiny_quattro_iframe.css" />]]></template>
-    <template title="tiny_quattro_framework.css" version_id="65" version_string="2.3.0"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_fa_forced.css" version_id="79" version_string="2.5.4"><![CDATA[<xen:comment>With the default TinyMCE skin, Font-Awesome main css properties needs to be loaded after.
+	Let's add a prefix to avoid any problems. FA source: 4.3.0</xen:comment>
+
+{$faCssPrefix} .fa {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translate(0, 0);
+}
+/* makes the font 33% larger relative to the icon container */
+{$faCssPrefix} .fa-lg {
+  font-size: 1.33333333em;
+  line-height: 0.75em;
+  vertical-align: -15%;
+}
+{$faCssPrefix} .fa-2x {
+  font-size: 2em;
+}
+{$faCssPrefix} .fa-3x {
+  font-size: 3em;
+}
+{$faCssPrefix} .fa-4x {
+  font-size: 4em;
+}
+{$faCssPrefix} .fa-5x {
+  font-size: 5em;
+}
+{$faCssPrefix} .fa-fw {
+  width: 1.28571429em;
+  text-align: center;
+}
+{$faCssPrefix} .fa-ul {
+  padding-left: 0;
+  margin-left: 2.14285714em;
+  list-style-type: none;
+}
+{$faCssPrefix} .fa-ul > li {
+  position: relative;
+}
+{$faCssPrefix} .fa-li {
+  position: absolute;
+  left: -2.14285714em;
+  width: 2.14285714em;
+  top: 0.14285714em;
+  text-align: center;
+}
+{$faCssPrefix} .fa-li{$faCssPrefix} .fa-lg {
+  left: -1.85714286em;
+}
+{$faCssPrefix} .fa-border {
+  padding: .2em .25em .15em;
+  border: solid 0.08em #eeeeee;
+  border-radius: .1em;
+}
+.pull-right {
+  float: right;
+}
+.pull-left {
+  float: left;
+}
+{$faCssPrefix} .fa.pull-left {
+  margin-right: .3em;
+}
+{$faCssPrefix} .fa.pull-right {
+  margin-left: .3em;
+}
+{$faCssPrefix} .fa-spin {
+  -webkit-animation: fa-spin 2s infinite linear;
+  animation: fa-spin 2s infinite linear;
+}
+{$faCssPrefix} .fa-pulse {
+  -webkit-animation: fa-spin 1s infinite steps(8);
+  animation: fa-spin 1s infinite steps(8);
+}
+@-webkit-keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+@keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+{$faCssPrefix} .fa-rotate-90 {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+{$faCssPrefix} .fa-rotate-180 {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+  -webkit-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+{$faCssPrefix} .fa-rotate-270 {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+  -webkit-transform: rotate(270deg);
+  -ms-transform: rotate(270deg);
+  transform: rotate(270deg);
+}
+{$faCssPrefix} .fa-flip-horizontal {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1);
+  -webkit-transform: scale(-1, 1);
+  -ms-transform: scale(-1, 1);
+  transform: scale(-1, 1);
+}
+{$faCssPrefix} .fa-flip-vertical {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1);
+  -webkit-transform: scale(1, -1);
+  -ms-transform: scale(1, -1);
+  transform: scale(1, -1);
+}
+:root {$faCssPrefix} .fa-rotate-90,
+:root {$faCssPrefix} .fa-rotate-180,
+:root {$faCssPrefix} .fa-rotate-270,
+:root {$faCssPrefix} .fa-flip-horizontal,
+:root {$faCssPrefix} .fa-flip-vertical {
+  filter: none;
+}
+{$faCssPrefix} .fa-stack {
+  position: relative;
+  display: inline-block;
+  width: 2em;
+  height: 2em;
+  line-height: 2em;
+  vertical-align: middle;
+}
+{$faCssPrefix} .fa-stack-1x,
+{$faCssPrefix} .fa-stack-2x {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+{$faCssPrefix} .fa-stack-1x {
+  line-height: inherit;
+}
+{$faCssPrefix} .fa-stack-2x {
+  font-size: 2em;
+}
+{$faCssPrefix} .fa-inverse {
+  color: #ffffff;
+}]]></template>
+    <template title="tiny_quattro_framework.css" version_id="79" version_string="2.5.4"><![CDATA[<xen:comment>
 	XenForo Framework addons
 </xen:comment>
 
@@ -5720,7 +5884,7 @@ $0]]></replace_value>
       <search_value><![CDATA[>{$messageHtml}]]></search_value>
       <replace_value><![CDATA[{xen:if '{$mceConfig} AND {$loadQuattro}', ' data-quattro="{xen:escape {xen:helper json, $mceConfig}}"'}>{$messageHtml}]]></replace_value>
     </modification>
-  </template_modifications>  
+  </template_modifications>    
   <bb_code_media_sites/>
   <bb_codes/>
 </addon>
