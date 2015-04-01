@@ -1093,7 +1093,7 @@
 					self.value(value);
 					
 					if(self.resetText){
-						self.text(false);
+						self.text('');
 					}
 				});
 			};
@@ -1175,9 +1175,14 @@
 			var editor = this.getEditor(),
 				xenParams = editor.getParam('xenParams');
 
-			if(this.isDefined(xenParams, name)){
+			if(xenParams === undefined){
+				return null;
+			}
+						
+			if(xenParams[name] !== undefined){
 				return xenParams[name];
 			} else {
+				console.log("This param was not found: "+name);
 				return null;
 			}
 		},
@@ -1441,6 +1446,7 @@
 	});
 
 	tinymce.PluginManager.add('xenforo', xenMCE.Tools);
+
 	tinymce.PluginManager.add('xenReady', function(editor){
 		editor.fire('XenReady');
 	});	
@@ -1785,7 +1791,7 @@
 
 						if(width < 450 || smallFontBtn){
 							ctrl.resetText = true;
-							ctrl.text(false);
+							ctrl.text('');
 							
 							if(!activated){
 								ctrl.icon(ctrl._name+' '+xenIcon);

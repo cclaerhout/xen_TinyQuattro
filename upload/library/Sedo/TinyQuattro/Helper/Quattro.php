@@ -115,6 +115,12 @@ class Sedo_TinyQuattro_Helper_Quattro
 		{
 			return array(false, $fallback);	
 		}
+
+		//Check if the Bbm has been switched off
+		if(!self::bbmIsEnabled())
+		{
+			return array(null, $fallback);			
+		}
 		
 		$bbmParams = BBM_Helper_Buttons::getConfig($controllerName, $controllerAction, $viewName);
 
@@ -165,6 +171,41 @@ class Sedo_TinyQuattro_Helper_Quattro
 		}
 	
 		return "?_v=$xenMceJsVersion";
-	}	
+	}
+
+	public static function bbmIsEnabled()
+	{
+		if(!XenForo_Application::isRegistered('addOns'))
+		{
+			//XenForo 1.1: check only the class & method
+			return self::callbackChecker('BBM_Helper_Buttons', 'getConfig');
+		}
+
+		$activeAddons = XenForo_Application::get('addOns');
+		
+		return isset($activeAddons['BBM']);	
+	}
+
+	public static function checkIfAddonActive($addonId, $realReturn = false)
+	{
+		if(!XenForo_Application::isRegistered('addOns'))
+		{
+			return ($realReturn) ? false : true; //XenForo 1.1
+		}
+
+		$activeAddons = XenForo_Application::get('addOns');
+		
+		return isset($activeAddons[$addonId]);
+	}
+
+	public static function callbackChecker($class, $method)
+	{
+		if(!empty($method))
+		{
+			return (class_exists($class) && method_exists($class, $method));
+		}
+		
+		return class_exists($class);
+	}
 }
 //Zend_Debug::dump($abc);
