@@ -1867,15 +1867,33 @@
 			};
 
 			ed.addButton('xen_'+fs, fontSizeConfig);
+			
+			var fontFamilyNames = 'Andale Mono|Arial|Arial Black|Book Antiqua|Courier New|Georgia|Helvetica|'
+						+'Impact|Tahoma|Times New Roman|Trebuchet MS|Verdana';
+			
+			var fontFamilyValues = 'andale mono,times|arial,helvetica,sans-serif|arial black,avant garde|book antiqua,palatino|'
+						+'courier new,courier|georgia,palatino|helvetica|impact,chicago|tahoma,arial,helvetica,sans-serif|'
+						+'times new roman,times|trebuchet ms,geneva|verdana,geneva';
+
+				//Custom Font Family Format (official mce option)
+				var customFontFamilyConfig = ed.getParam('font_formats');
+				if(customFontFamilyConfig != undefined){
+					var customFontFamilyConfig = customFontFamilyConfig.split(';'),
+						tempFontFamilyNames = [], tempFontFamilyValues = [];
+					
+					$.each(customFontFamilyConfig, function(i, v){
+						v = v.split('=');
+						tempFontFamilyNames.push(v[0]);
+						tempFontFamilyValues.push(v[1]);
+					});
+					
+					fontFamilyNames = tempFontFamilyNames.join('|');
+					fontFamilyValues = tempFontFamilyValues.join('|');				
+				}
 
 			menuFam = parent.buildMenuItems(
-					'Andale Mono|Arial|Arial Black|Book Antiqua|Courier New|Georgia|Helvetica|'
-					+'Impact|Tahoma|Times New Roman|Trebuchet MS|Verdana',
-					
-					'andale mono,times|arial,helvetica,sans-serif|arial black,avant garde|book antiqua,palatino|'
-					+'courier new,courier|georgia,palatino|helvetica|impact,chicago|tahoma,arial,helvetica,sans-serif|'
-					+'times new roman,times|trebuchet ms,geneva|verdana,geneva',
-					
+					fontFamilyNames,
+					fontFamilyValues,
 					fontFamily+':{v}',
 					famClass
 				);
