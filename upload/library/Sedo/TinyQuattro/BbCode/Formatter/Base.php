@@ -405,10 +405,15 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 	{
 		if(!isset($element['tag']))
 		{
-			return parent::renderTag($element, $rendererStates, $trimLeadingLines);
+			return $this->_metaRenderTag(parent::renderTag($element, $rendererStates, $trimLeadingLines), $rendererStates);
 		}
 		
 		$tagName = $element['tag'];
+
+		if(!empty($rendererStates['stopLineBreakConversion']) && !empty($this->forceLineBreakConversionExceptForThoseTags) && !in_array($tagName, ($this->forceLineBreakConversionExceptForThoseTags)))
+		{
+			$rendererStates['stopLineBreakConversion'] = false;
+		}
 		
 		if($tagName  == $this->_mceFormatTagName)
 		{
@@ -425,7 +430,60 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 			}
 		}
 
-		return parent::renderTag($element, $rendererStates, $trimLeadingLines);
+		return $this->_metaRenderTag(parent::renderTag($element, $rendererStates, $trimLeadingLines), $rendererStates);
+	}
+
+	/**
+	*	Management of rendered tags by XenForo formatter
+	*	Detect them, replace them with a placeholder, parse the mini parser tags, get back the XenForo formatted tags
+	*	Purpose: avoid the nl2br php function breaks the rendered html of xen tags
+	**/
+	protected $_rTag = 1;
+	protected $_tagHolders = array();
+	public $forceLineBreakConversionExceptForThoseTags = array();	
+
+	protected function _metaRenderTag($output, $rendererStates)
+	{
+		if(!empty($rendererStates['parsedTagInfoWrapper']))
+		{
+			$rTag = 'rTag_'.$this->_rTag;
+			$this->_rTag++;
+			return "[$rTag]".$output."[/$rTag]";
+		}
+		else
+		{
+			return $output;
+		}	
+	}
+
+	public function xenTagsHolderisation($content)
+	{
+		return preg_replace_callback('#\[(rTag_(\d{1,3}))](.*?)\[/\1](?:\r\n)?#s', array($this, '_xenTagsHolderisationRegex'), $content);
+	}
+	
+	protected function _xenTagsHolderisationRegex($matches)
+	{
+		$id = $matches[2];
+		$content = $matches[3];
+		$this->_tagHolders[$id] = $content;
+		return "[xentagHolders_$id/]";
+	}
+	public function unXenTagsHolderisation($content)
+	{
+		foreach($this->_tagHolders as $id => $replacement)
+		{
+			$content = str_replace("[xentagHolders_$id/]", $replacement, $content);
+		}
+		
+		$this->resetRtags();
+		return $content;
+	}
+
+	public function resetRtags()
+	{
+		$this->_tagHolders = array();
+		$this->_rTag = 1;
+		$this->forceLineBreakConversionExceptForThoseTags = array();
 	}
 
 	/**
@@ -439,7 +497,11 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 		$tableOptionsChecker = new Sedo_TinyQuattro_Helper_TableOptions($tagName, $tagOptions, $this->_xenOptionsMceTable);
 		list($attributes, $css, $extraClass) = $tableOptionsChecker->getValidOptions();
 
+		$this->forceLineBreakConversionExceptForThoseTags = array($tagName);
+		$rendererStates['parsedTagInfoWrapper'] = true;
+
 		$content = $this->renderSubTree($tag['children'], $rendererStates);
+		$content = $this->xenTagsHolderisation($content);		
 
 		$slaveTags = array(
 			'thead' => array(
@@ -509,6 +571,7 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 
 		$miniParser =  new Sedo_TinyQuattro_Helper_MiniParser($content, $slaveTags, $tag, $miniParserOptions);
 		$content = $miniParser->render();
+		$content = $this->unXenTagsHolderisation($content);
 
 		if(!preg_match('#skin\d{1,2}#', $extraClass, $match))
 		{
