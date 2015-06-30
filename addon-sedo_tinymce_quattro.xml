@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.5.6" version_id="81" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.5.6" version_id="85" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -1777,8 +1777,6 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="style_property_tinyquattro_css_integration_master" version_id="21" version_string="1.4.1"><![CDATA[XenForo Style Properties Integration]]></phrase>
     <phrase title="style_property_tinyquattro_css_skin_description_master" version_id="19" version_string="1.3.1"><![CDATA[Only works if the above option is unchecked. Default skin name: lightgray  (must match the foldername of the skin). You can create another skin with the TinyMCE skin creator tool (http://skin.tinymce.com).]]></phrase>
     <phrase title="style_property_tinyquattro_css_skin_master" version_id="19" version_string="1.3.1"><![CDATA[TinyMCE skin name]]></phrase>
-    <phrase title="style_property_tinyquattro_flatdesign_description_master" version_id="19" version_string="1.3.1"><![CDATA[This option will disable the background gradient effects. It requires the Official Css Integration.]]></phrase>
-    <phrase title="style_property_tinyquattro_flatdesign_master" version_id="17" version_string="1.3.0"><![CDATA[Flat design]]></phrase>
     <phrase title="style_property_tinyquattro_fontfamily_menu_description_master" version_id="38" version_string="1.7.0.3"><![CDATA[Configure here the width and the height of the menu]]></phrase>
     <phrase title="style_property_tinyquattro_fontfamily_menu_master" version_id="38" version_string="1.7.0.3"><![CDATA[Font Family Menu]]></phrase>
     <phrase title="style_property_tinyquattro_fontsize_menu_description_master" version_id="38" version_string="1.7.0.3"><![CDATA[Configure here the width and the height of the menu]]></phrase>
@@ -1808,7 +1806,6 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <property property_name="tinyquattro_smiliesbtn_height" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies button menu height" description="Default value: 70px." css_components="" scalar_type="number" scalar_parameters="" display_order="211" sub_group="smilies"><![CDATA[70px]]></property>
     <property property_name="tinyquattro_smiliespicker_width" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies picker modal width" description="Default value: 380px." css_components="" scalar_type="number" scalar_parameters="" display_order="212" sub_group="smilies"><![CDATA[380px]]></property>
     <property property_name="tinyquattro_smiliespicker_height" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Smilies picker modal height" description="Default value: 160px." css_components="" scalar_type="number" scalar_parameters="" display_order="213" sub_group="smilies"><![CDATA[160px]]></property>
-    <property property_name="tinyquattro_flatdesign" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Flat design" description="This option will disable the background gradient effects. It requires the Official Css Integration." css_components="" scalar_type="boolean" scalar_parameters="" display_order="100" sub_group="design"><![CDATA[0]]></property>
     <property property_name="quattro_table_skin1_table" property_type="css" definition="1" group_name="sedo_tinyquattro_table_1" title="[Skin 1] Table" description="Default style for the table html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="1000" sub_group=""><![CDATA[{"extra":"border-collapse: collapse;"}]]></property>
     <property property_name="quattro_table_skin2_table" property_type="css" definition="1" group_name="sedo_tinyquattro_table_1" title="[Skin 2] Table" description="Default style for the table html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="2000" sub_group=""><![CDATA[{"background-color":"@primaryLighter","border-color":"rgb(0, 0, 0)","border-style":"solid","border-width":"1px","extra":"border-collapse: collapse;"}]]></property>
     <property property_name="quattro_table_skin3_table" property_type="css" definition="1" group_name="sedo_tinyquattro_table_2" title="[Skin 3] Table" description="Default style for the table html tag. Note: users might override some of them with the bb code options." css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="1000" sub_group=""><![CDATA[{"extra":"border-collapse: separate;\nborder-spacing: 3px;"}]]></property>
@@ -1857,7 +1854,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <property property_name="quattroTextBoxBckg" property_type="scalar" definition="1" group_name="color" title="quattroTextBoxBckg" description="" css_components="text,background,border,layout,extra" scalar_type="color" scalar_parameters="" display_order="27800014" sub_group="quattro"><![CDATA[@contentBackground]]></property>
     <property property_name="quattroBorderColor" property_type="scalar" definition="1" group_name="color" title="quattroBorderColor" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="27800016" sub_group="quattro"><![CDATA[@faintTextColor]]></property>
     <property property_name="quattroMiscColor" property_type="scalar" definition="1" group_name="color" title="quattroMiscColor" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="27800018" sub_group="quattro"><![CDATA[@textCtrlBackground]]></property>
-    <property property_name="quattroGridBorder" property_type="scalar" definition="1" group_name="color" title="quattroGridBorder" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="27800020" sub_group="quattro"><![CDATA[#d6d6d6]]></property>
+    <property property_name="quattroGridBorder" property_type="scalar" definition="1" group_name="color" title="quattroGridBorder" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="27800020" sub_group="quattro"><![CDATA[rgb(52, 152, 219)]]></property>
     <property property_name="quattroPanelBorder" property_type="scalar" definition="1" group_name="color" title="quattroPanelBorder" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="27800022" sub_group="quattro"><![CDATA[#9e9e9E]]></property>
     <property property_name="quattroTooltipBckg" property_type="scalar" definition="1" group_name="color" title="quattroTooltipBckg" description="" css_components="" scalar_type="color" scalar_parameters="" display_order="27800024" sub_group="quattro"><![CDATA[@primaryDarker]]></property>
     <property property_name="tinyquattro_iconshadow" property_type="scalar" definition="1" group_name="sedo_tinyquattro" title="Icon Text Shadow" description="This option will add a shadow to icons. It requires the Official Css Integration." css_components="" scalar_type="boolean" scalar_parameters="" display_order="110" sub_group="design"><![CDATA[1]]></property>
@@ -2855,7 +2852,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 			cursor: pointer;
 			line-height: 1.6;
 		}]]></template>
-    <template title="tiny_quattro_buttons.css" version_id="59" version_string="2.1.2"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_buttons.css" version_id="81" version_string="2.5.5"><![CDATA[<xen:comment>
 	TINYMCE BUTTONS FOR ALL BROWSERS EXCEPT IE7
 </xen:comment>
 
@@ -2941,6 +2938,11 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 .mce-i-alignjustify:before
 {
 	content: "\e006";
+}
+
+.mce-i-alignnone:before 
+{
+	content:"\e003";
 }
 
 .mce-i-cut:before
@@ -3183,6 +3185,73 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 	content: "\e034";
 }
 
+.mce-i-rotateleft:before {
+	content:"\eaa8"
+}
+.mce-i-rotateright:before {
+	content:"\eaa9"
+}
+.mce-i-crop:before {
+	content:"\ee78"
+}
+.mce-i-editimage:before {
+	content:"\e914"
+}
+.mce-i-options:before {
+	content:"\ec6a"
+}
+.mce-i-flipv:before {
+	content:"\eaaa"
+}
+.mce-i-fliph:before {
+	content:"\eaac"
+}
+.mce-i-zoomin:before {
+	content:"\eb35"
+}
+.mce-i-zoomout:before {
+	content:"\eb36"
+}
+.mce-i-sun:before {
+	content:"\eccc"
+}
+.mce-i-moon:before {
+	content:"\eccd"
+}
+.mce-i-arrowleft:before {
+	content:"\edc0"
+}
+.mce-i-arrowright:before {
+	content:"\edb8"
+}
+.mce-i-drop:before {
+	content:"\e934"
+}
+.mce-i-contrast:before {
+	content:"\ecd4"
+}
+.mce-i-sharpen:before {
+	content:"\eba7"
+}
+.mce-i-palette:before {
+	content:"\e92a"
+}
+.mce-i-resize2:before {
+	content:"\edf9"
+}
+.mce-i-orientation:before {
+	content:"\e601"
+}
+.mce-i-invert:before {
+	content:"\e602"
+}
+.mce-i-gamma:before {
+	content:"\e600"
+}
+.mce-i-remove:before {
+	content:"\ed6a"
+}
+
 .mce-i-checkbox:before,.mce-i-selected:before
 {
 	content: "\e033";
@@ -3199,7 +3268,7 @@ i.mce-i-backcolor
 	background: {xen:property tinyquattro_icon_bckg_color};
 }
 ]]></template>
-    <template title="tiny_quattro_buttons_ie7.css" version_id="59" version_string="2.1.2"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_buttons_ie7.css" version_id="81" version_string="2.5.5"><![CDATA[<xen:comment>
 	TINYMCE BUTTONS FOR IE7
 </xen:comment>
 
@@ -3275,6 +3344,9 @@ i.mce-i-backcolor
 }
 .mce-i-alignjustify {
 	-ie7-icon:"\e006"
+}
+.mce-i-alignnone {
+	-ie7-icon:"\e003"
 }
 .mce-i-cut {
 	-ie7-icon:"\e007"
@@ -3417,6 +3489,74 @@ i.mce-i-backcolor
 .mce-i-browse {
 	-ie7-icon:"\e034"
 }
+
+.mce-i-rotateleft {
+	-ie7-icon:"\eaa8"
+}
+.mce-i-rotateright {
+	-ie7-icon:"\eaa9"
+}
+.mce-i-crop {
+	-ie7-icon:"\ee78"
+}
+.mce-i-editimage {
+	-ie7-icon:"\e914"
+}
+.mce-i-options {
+	-ie7-icon:"\ec6a"
+}
+.mce-i-flipv {
+	-ie7-icon:"\eaaa"
+}
+.mce-i-fliph {
+	-ie7-icon:"\eaac"
+}
+.mce-i-zoomin {
+	-ie7-icon:"\eb35"
+}
+.mce-i-zoomout {
+	-ie7-icon:"\eb36"
+}
+.mce-i-sun {
+	-ie7-icon:"\eccc"
+}
+.mce-i-moon {
+	-ie7-icon:"\eccd"
+}
+.mce-i-arrowleft {
+	-ie7-icon:"\edc0"
+}
+.mce-i-arrowright {
+	-ie7-icon:"\edb8"
+}
+.mce-i-drop {
+	-ie7-icon:"\e934"
+}
+.mce-i-contrast {
+	-ie7-icon:"\ecd4"
+}
+.mce-i-sharpen {
+	-ie7-icon:"\eba7"
+}
+.mce-i-palette {
+	-ie7-icon:"\e92a"
+}
+.mce-i-resize2 {
+	-ie7-icon:"\edf9"
+}
+.mce-i-orientation {
+	-ie7-icon:"\e601"
+}
+.mce-i-invert {
+	-ie7-icon:"\e602"
+}
+.mce-i-gamma {
+	-ie7-icon:"\e600"
+}
+.mce-i-remove {
+	-ie7-icon:"\ed6a"
+}
+
 .mce-i-checkbox,.mce-i-selected {
 	-ie7-icon:"\e033"
 }
@@ -3425,12 +3565,8 @@ i.mce-i-backcolor
 }
 .mce-i-backcolor {
 	background: {xen:property tinyquattro_icon_bckg_color}
-}
-
-
-
-]]></template>
-    <template title="tiny_quattro_common_css.css" version_id="76" version_string="2.5.2"><![CDATA[<xen:set var="$_mcePrimaryDark">{xen:property quattroDark}</xen:set>
+}]]></template>
+    <template title="tiny_quattro_common_css.css" version_id="83" version_string="2.5.5"><![CDATA[<xen:set var="$_mcePrimaryDark">{xen:property quattroDark}</xen:set>
 <xen:set var="$_mcePrimaryLightish">{xen:property quattroLightish}</xen:set>
 <xen:set var="$_mcePrimaryLight">{xen:property quattroLight}</xen:set>
 <xen:set var="$_mcePrimaryLighter">{xen:property quattroLighter}</xen:set>
@@ -3503,9 +3639,9 @@ i.mce-i-backcolor
 <xen:set var="$mcePrimaryActiveGradientTo">{xen:helper playwithcolors, '{$mcePrimaryGradientTo}', 'darken', 10, 'hex'}</xen:set>
 <xen:set var="$mcePrimaryActiveGradientFallback">{xen:helper playwithcolors, '{$mcePrimaryActiveGradientFrom}', 'mix', '{$mcePrimaryActiveGradientTo}', 50, 'hex'}</xen:set>
 
-<xen:set var="$mceMenuItHvrGradientFrom">{$_mcePrimaryLighter}</xen:set>
-<xen:set var="$mceMenuItHvrGradientTo">{$_mcePrimaryLight}</xen:set>
-<xen:set var="$mceMenuItHvrGradientFallback">{xen:helper playwithcolors, '{$mceMenuItHvrGradientFrom}', 'mix', '{$mceMenuItHvrGradientTo}', 50, 'hex'}</xen:set>
+<xen:set var="$mceMenuItHvrGradientFrom">{$_mcePrimaryLightish}</xen:set>
+<xen:set var="$mceMenuItHvrGradientTo">{$_mcePrimaryDark}</xen:set>
+<xen:set var="$mceMenuItHvrGradientFallback">{xen:helper playwithcolors, '{$mceMenuItHvrGradientFrom}', 'mix', '{$mceMenuItHvrGradientTo}', 20, 'hex'}</xen:set>
 
 .mce-container,.mce-container *,.mce-widget,.mce-widget *,.mce-reset {
 	margin:0;
@@ -3516,7 +3652,7 @@ i.mce-i-backcolor
 	background:transparent;
 	text-decoration:none;
 	color:{$mceText};
-	font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-family:Helvetica,"Helvetica Neue",Arial,sans-serif;
 	font-size:14px;
 	text-shadow:none;
 	float:none;
@@ -3576,9 +3712,6 @@ div.mce-fullscreen {
 }
 .mce-tinymce {
 	display:block;
-	-webkit-border-radius:2px;
-	-moz-border-radius:2px;
-	border-radius:2px
 }
 .mce-wordcount {
 	position:absolute;
@@ -3604,10 +3737,11 @@ div.mce-edit-area {
 }
 .mce-charmap td {
 	cursor:default;
-	border:1px solid {$_mcePrimaryLighter};
+	border:1px solid {$mcePanelBorder};
 	width:20px;
 	height:20px;
 	line-height:20px;
+	*line-height:16px;
 	text-align:center;
 	vertical-align:middle;
 	padding:2px
@@ -3647,7 +3781,7 @@ div.mce-edit-area {
 	border-color:{$mceGridBorder}
 }
 .mce-grid-border {
-	margin:0 4px 0 4px
+	margin:0 4px
 }
 .mce-grid-border a {
 	border-color:{$mceGridBorder};
@@ -3656,7 +3790,7 @@ div.mce-edit-area {
 }
 .mce-grid-border a:hover,.mce-grid-border a.mce-active {
 	border-color:{$mceGridBorder};
-	background:{$_mceSecondaryLight}
+	background:{$mceGridBorder}
 }
 .mce-text-center {
 	text-align:center
@@ -3664,9 +3798,6 @@ div.mce-edit-area {
 
 div.mce-tinymce-inline {
 	width:100%;
-	-webkit-box-shadow:none;
-	-moz-box-shadow:none;
-	box-shadow:none
 }
 
 .mce-colorbtn-trans div {
@@ -3679,7 +3810,7 @@ div.mce-tinymce-inline {
 }
 
 .mce-toolbar-grp {
-	padding-bottom:2px
+	padding:2px 0
 }
 .mce-toolbar-grp .mce-flow-layout-item {
 	margin-bottom:0
@@ -3689,6 +3820,77 @@ div.mce-tinymce-inline {
 	left:0;
 	right:auto
 }
+
+.mce-croprect-container {
+	position:absolute;
+	top:0;
+	left:0
+}
+.mce-croprect-handle {
+	position:absolute;
+	top:0;
+	left:0;
+	width:20px;
+	height:20px;
+	border:2px solid #fff
+}
+.mce-croprect-handle-nw {
+	border-width:2px 0 0 2px;
+	margin:-2px 0 0 -2px;
+	cursor:nw-resize;
+	top:100px;
+	left:100px
+}
+.mce-croprect-handle-ne {
+	border-width:2px 2px 0 0;
+	margin:-2px 0 0 -20px;
+	cursor:ne-resize;
+	top:100px;
+	left:200px
+}
+.mce-croprect-handle-sw {
+	border-width:0 0 2px 2px;
+	margin:-20px 2px 0 -2px;
+	cursor:sw-resize;
+	top:200px;
+	left:100px
+}
+.mce-croprect-handle-se {
+	border-width:0 2px 2px 0;
+	margin:-20px 0 0 -20px;
+	cursor:se-resize;
+	top:200px;
+	left:200px
+}
+.mce-croprect-handle-move {
+	position:absolute;
+	cursor:move;
+	border:0
+}
+.mce-croprect-block {
+	opacity:.3;
+	filter:alpha(opacity=30);
+	zoom:1;
+	position:absolute;
+	background:#000
+}
+.mce-imagepanel {
+	overflow:auto;
+	background:#000
+}
+.mce-imagepanel img {
+	position:absolute
+}
+.mce-imagetool.mce-btn .mce-ico {
+	display:block;
+	width:20px;
+	height:20px;
+	text-align:center;
+	line-height:20px;
+	font-size:20px;
+	padding:5px
+}
+
 .mce-container,.mce-container-body {
 	display:block
 }
@@ -3720,9 +3922,6 @@ div.mce-tinymce-inline {
 	border-color:rgba(85,85,85,0.6);
 	width:5px;
 	height:100%;
-	-webkit-border-radius:7px;
-	-moz-border-radius:7px;
-	border-radius:7px
 }
 .mce-scrollbar-h .mce-scrollbar-thumb {
 	width:100%;
@@ -3733,20 +3932,13 @@ div.mce-tinymce-inline {
 	opacity:.6;
 	filter:alpha(opacity=60);
 	zoom:1;
-	-webkit-border-radius:7px;
-	-moz-border-radius:7px;
-	border-radius:7px
 }
 .mce-scroll {
 	position:relative
 }
 .mce-panel {
 	border:0 solid {$_mcePrimaryLighter};
-	<xen:if is="!{xen:property tinyquattro_flatdesign}">
-		{xen:helper playwithcolors, '{$mcePanelGradientFrom}', 'gradient', '{$mcePanelGradientTo}', '{$mcePanelGradientFallback}'}
-	<xen:else />
-		background-color:{$mcePanelGradientFallback};
-	</xen:if>	
+	background-color:{$mceBtnGradientFallback};
 }
 .mce-floatpanel {
 	position:absolute;
@@ -3772,27 +3964,22 @@ div.mce-tinymce-inline {
 .mce-floatpanel.mce-popover {
 	filter:progid:DXImageTransform.Microsoft.gradient(enabled = false);
 	background:transparent;
-	-webkit-border-radius:6px;
-	-moz-border-radius:6px;
-	border-radius:6px;
-	-webkit-box-shadow:0 5px 10px rgba(0,0,0,0);
-	-moz-box-shadow:0 5px 10px rgba(0,0,0,0);
-	box-shadow:0 5px 10px rgba(0,0,0,0);
 	top:0;
 	left:0;
-	background:#fff;
-	border:1px solid #9e9e9e; //to check
-	border:1px solid rgba(0,0,0,0.25)
+	background:{$_mceMiscColor};
+	border:1px solid rgba(0,0,0,.2);
+	border:1px solid rgba(0,0,0,.25)
 }
 .mce-floatpanel.mce-popover.mce-bottom {
-	margin-top:10px
+	margin-top:10px;
+	*margin-top:0
 }
 .mce-floatpanel.mce-popover.mce-bottom>.mce-arrow {
 	left:50%;
 	margin-left:-11px;
 	border-top-width:0;
-	border-bottom-color:#000;
-	border-bottom-color:rgba(0,0,0,0.25);
+	border-bottom-color:rgba(0,0,0,.2);
+	border-bottom-color:rgba(0,0,0,.25);
 	top:-11px
 }
 .mce-floatpanel.mce-popover.mce-bottom>.mce-arrow:after {
@@ -3819,7 +4006,6 @@ div.mce-tinymce-inline {
 	padding:0;
 	margin:0;
 	overflow:hidden;
-	background:{$_mceMiscColor} 
 	height:100%
 }
 div.mce-fullscreen {
@@ -3847,9 +4033,6 @@ div.mce-fullscreen {
 	cursor:move
 }
 .mce-window {
-	-webkit-border-radius:6px;
-	-moz-border-radius:6px;
-	border-radius:6px;
 	filter:progid:DXImageTransform.Microsoft.gradient(enabled = false);
 	background:transparent;
 	background:{$_mcePrimaryLightest};
@@ -3897,9 +4080,6 @@ div.mce-fullscreen {
 	display:block;
 	background-color:{$_mcePrimaryLightest};
 	border-top:1px solid {$_mcePrimaryLighter};
-	-webkit-border-radius:0 0 6px 6px;
-	-moz-border-radius:0 0 6px 6px;
-	border-radius:0 0 6px 6px
 }
 .mce-window-head .mce-dragh {
 	position:absolute;
@@ -3913,10 +4093,8 @@ div.mce-fullscreen {
 	width:100%;
 	height:100%
 }
-.mce-window.mce-fullscreen,.mce-window.mce-fullscreen .mce-foot {
-	-webkit-border-radius:0;
-	-moz-border-radius:0;
-	border-radius:0
+.mce-window-body .mce-listbox {
+	border-color:#ccc
 }
 .mce-rtl .mce-window-head .mce-close {
 	position:absolute;
@@ -3956,15 +4134,11 @@ body .mce-abs-layout-item,.mce-abs-end {
 	background-color:{xen:property quattroTooltipBckg};
 	color:{$mceToolTipColor};
 	max-width:200px;
-	padding:5px 8px 4px 8px;
+	padding:5px 8px 4px;
 	text-align:center;
 	white-space:normal
 }
-.mce-tooltip-inner {
-	-webkit-border-radius:3px;
-	-moz-border-radius:3px;
-	border-radius:3px
-}
+
 .mce-tooltip-arrow {
 	position:absolute;
 	width:0;
@@ -4057,28 +4231,19 @@ body .mce-abs-layout-item,.mce-abs-end {
 }
 .mce-btn {
 	border:1px solid {$mceBorderColorMix};
-	border-color:{$mceBorderColor};
+	border-color:transparent transparent transparent transparent;
 	position:relative;
-	text-shadow:0 1px 1px rgba(165,202,228,0.75);
+	text-shadow:0 1px 1px rgba(255,255,255,.75);
 	display:inline-block;
 	*display:inline;
 	*zoom:1;
-	-webkit-border-radius:3px;
-	-moz-border-radius:3px;
-	border-radius:3px;
-	<xen:if is="!{xen:property tinyquattro_flatdesign}">
-		{xen:helper playwithcolors, '{$mceBtnGradientFrom}', 'gradient', '{$mceBtnGradientTo}', '{$mceBtnGradientFallback}'}
-	<xen:else />
-		background-color:{$mceBtnGradientFallback};
-	</xen:if>		
+	background-color:{$mceBtnGradientFallback};
+	
 }
 .mce-btn:hover,.mce-btn:focus {
 	color:{$mceText};
-	<xen:if is="!{xen:property tinyquattro_flatdesign}">
-		{xen:helper playwithcolors, '{$mceBtnHoverGradientFrom}', 'gradient', '{$mceBtnHoverGradientTo}', '{$mceBtnHoverGradientFallback}'}
-	<xen:else />
-		background-color:{$mceBtnHoverGradientFallback};
-	</xen:if>
+	background-color:{$mceBtnHoverGradientFallback};
+	border-color:#ccc;
 }
 .mce-btn.mce-disabled button,.mce-btn.mce-disabled:hover button {
 	cursor:default;
@@ -4087,23 +4252,17 @@ body .mce-abs-layout-item,.mce-abs-end {
 	zoom:1
 }
 .mce-btn.mce-active,.mce-btn.mce-active:hover {
-	<xen:if is="!{xen:property tinyquattro_flatdesign}">
-		{xen:helper playwithcolors, '{$mceBtnActiveGradientFrom}', 'gradient', '{$mceBtnActiveGradientTo}', '{$mceBtnActiveGradientFallback}'}
-	<xen:else />
-		background-color:{$mceBtnActiveGradientFallback};
-	</xen:if>	
+	background-color:{$mceBtnActiveGradientFallback};
+	border-color:#ccc	
 }
 
 .mce-btn:active {
-	<xen:if is="!{xen:property tinyquattro_flatdesign}">
-		{xen:helper playwithcolors, '{$mceBtnActiveGradientFrom}', 'gradient', '{$mceBtnActiveGradientTo}', '{$mceBtnActiveGradientFallback}'}
-	<xen:else />
-		background-color:{$mceBtnActiveGradientFallback};
-	</xen:if>
+	background-color:{$mceBtnActiveGradientFallback};
+	border-color:#ccc
 }
 
 .mce-btn button {
-	padding:4px 10px;
+	padding:4px 8px;
 	font-size:14px;
 	line-height:20px;
 	*line-height:16px;
@@ -4120,27 +4279,20 @@ body .mce-abs-layout-item,.mce-abs-end {
 
 <xen:if is="{xen:property tinyquattro_iconshadow}">
 	.mce-btn i {
-		text-shadow:1px 1px {xen:property tinyquattro_iconshadow_color}
+		text-shadow:1px 1px none
 	}
 </xen:if>
 	
 .mce-primary {
 	min-width:50px;
-	color:{$_mceSecondaryDark};
-	border:1px solid {$mceBorderColorMix};
-	border-color:{$mceBorderColor};
-	<xen:if is="!{xen:property tinyquattro_flatdesign}">
-		{xen:helper playwithcolors, '{$mcePrimaryGradientFrom}', 'gradient', '{$mcePrimaryGradientTo}', '{$mcePrimaryGradientFallback}'}
-	<xen:else />
-		background-color:{$mcePrimaryGradientFallback};
-	</xen:if>
+	color:{$_mceMiscColor};
+	border:1px solid transparent;
+	border-color:transparent;
+	background-color:{$mcePrimaryGradientFallback};
 }
 .mce-primary:hover,.mce-primary:focus {
-	<xen:if is="!{xen:property tinyquattro_flatdesign}">
-		{xen:helper playwithcolors, '{$mcePrimaryHoverGradientFrom}', 'gradient', '{$mcePrimaryHoverGradientTo}', '{$mcePrimaryHoverGradientFallback}'}
-	<xen:else />
-		background-color:{$mcePrimaryHoverGradientFallback};
-	</xen:if>
+	background-color:{$mcePrimaryHoverGradientFallback};
+	border-color:transparent;
 }
 .mce-primary.mce-disabled button,.mce-primary.mce-disabled:hover button {
 	cursor:default;
@@ -4149,23 +4301,16 @@ body .mce-abs-layout-item,.mce-abs-end {
 	zoom:1
 }
 .mce-primary.mce-active,.mce-primary.mce-active:hover,.mce-primary:not(.mce-disabled):active {
-	<xen:if is="!{xen:property tinyquattro_flatdesign}">
-		{xen:helper playwithcolors, '{$mcePrimaryActiveGradientFrom}', 'gradient', '{$mcePrimaryActiveGradientTo}', '{$mcePrimaryActiveGradientFallback}'}
-	<xen:else />
-		background-color:{$mcePrimaryActiveGradientFallback};
-	</xen:if>
+	background-color:{$mcePrimaryActiveGradientFallback};
 }
 .mce-primary button,.mce-primary button i {
 	color:{$_mceSecondaryDark};
-	text-shadow:1px 1px {$_mceSecondaryLightest}
+	text-shadow:1px 1px none;
 }
 .mce-btn-large button {
 	padding:9px 14px;
 	font-size:16px;
-	line-height:normal;
-	-webkit-border-radius:5px;
-	-moz-border-radius:5px;
-	border-radius:5px
+	line-height:normal
 }
 .mce-btn-large i {
 	margin-top:2px
@@ -4209,69 +4354,57 @@ body .mce-abs-layout-item,.mce-abs-end {
 }
 .mce-btn-flat {
 	border:0;
-	background:transparent;
-	-webkit-border-radius:0;
-	-moz-border-radius:0;
-	border-radius:0;
-	-webkit-box-shadow:none;
-	-moz-box-shadow:none;
-	box-shadow:none;
+	background:0 0;
 	filter:none
 }
 .mce-btn-flat:hover,.mce-btn-flat.mce-active,.mce-btn-flat:focus,.mce-btn-flat:active {
 	border:0;
 	background:{$mceMenubarBgActive};
 	filter:none;
-	-webkit-box-shadow:none;
-	-moz-box-shadow:none;
-	box-shadow:none
+}
+.mce-btn-has-text .mce-ico {
+	padding-right:5px
 }
 .mce-rtl .mce-btn button {
 	direction:rtl
 }
 .mce-btn-group .mce-btn {
-	border-width:1px 0 1px 0;
+	border-width:1px;
 	margin:0;
-	-webkit-border-radius:0;
-	-moz-border-radius:0;
-	border-radius:0
+	margin-left:2px
+}
+.mce-btn-group:not(:first-child) {
+	border-left:1px solid #d9d9d9; //check
+	padding-left:3px;
+	margin-left:3px
 }
 .mce-btn-group .mce-first {
-	border-left:1px solid {$mceBorderColorMix};
-	border-left:1px solid {$mceBorderColor};
-	-webkit-border-radius:3px 0 0 3px;
-	-moz-border-radius:3px 0 0 3px;
-	border-radius:3px 0 0 3px
-}
-.mce-btn-group .mce-last {
-	border-right:1px solid {$mceBorderColorMix};
-	border-right:1px solid {$mceBorderColor};
-	-webkit-border-radius:0 3px 3px 0;
-	-moz-border-radius:0 3px 3px 0;
-	border-radius:0 3px 3px 0
-}
-.mce-btn-group .mce-first.mce-last {
-	-webkit-border-radius:3px;
-	-moz-border-radius:3px;
-	border-radius:3px
+	margin-left:0
 }
 .mce-btn-group .mce-btn.mce-flow-layout-item {
 	margin:0
 }
+.mce-rtl .mce-btn-group .mce-btn {
+	margin-left:0;
+	margin-right:2px
+}
+.mce-rtl .mce-btn-group .mce-first {
+	margin-right:0
+}
+.mce-rtl .mce-btn-group:not(:first-child) {
+	border-left:none;
+	border-right:1px solid #d9d9d9; //check
+	padding-right:4px;
+	margin-right:4px
+}
+
 .mce-checkbox {
 	cursor:pointer
 }
 i.mce-i-checkbox {
 	margin:0 3px 0 0;
 	border:1px solid {$_mcePrimaryDark};
-	-webkit-border-radius:3px;
-	-moz-border-radius:3px;
-	border-radius:3px;
-	<xen:if is="!{xen:property tinyquattro_flatdesign}">
-		{xen:helper playwithcolors, '{$mceBtnGradientFrom}', 'gradient', '{$mceBtnGradientTo}', '{$mceBtnGradientFallback}'}
-	<xen:else />
-		background-color:{$mceBtnGradientFallback};
-	</xen:if>
+	background-color:{$mceBtnGradientFallback};
 	text-indent:-10em;
 	*font-size:0;
 	*line-height:0;
@@ -4290,6 +4423,9 @@ i.mce-i-checkbox {
 .mce-checkbox.mce-disabled .mce-label,.mce-checkbox.mce-disabled i.mce-i-checkbox {
 	color:{$mceCheckBoxDisable}
 }
+.mce-checkbox .mce-label {
+	vertical-align:middle
+}
 .mce-rtl .mce-checkbox {
 	direction:rtl;
 	text-align:right
@@ -4301,9 +4437,6 @@ i.mce-i-checkbox {
 	display:inline-block;
 	*display:inline;
 	*zoom:1;
-	-webkit-border-radius:3px;
-	-moz-border-radius:3px;
-	border-radius:3px;
 	*height:32px
 }
 .mce-combobox input {
@@ -4314,16 +4447,10 @@ i.mce-i-checkbox {
 .mce-combobox.mce-disabled input {
 	color:#adadad
 }
-.mce-combobox.mce-has-open input {
-	-webkit-border-radius:4px 0 0 4px;
-	-moz-border-radius:4px 0 0 4px;
-	border-radius:4px 0 0 4px
-}
+
 .mce-combobox .mce-btn {
-	border-left:0;
-	-webkit-border-radius:0 4px 4px 0;
-	-moz-border-radius:0 4px 4px 0;
-	border-radius:0 4px 4px 0
+	border:1px solid {$mceBorderColorMix};
+	border-left:0
 }
 .mce-combobox button {
 	padding-right:8px;
@@ -4331,9 +4458,6 @@ i.mce-i-checkbox {
 }
 .mce-combobox.mce-disabled .mce-btn button {
 	cursor:default;
-	-webkit-box-shadow:none;
-	-moz-box-shadow:none;
-	box-shadow:none;
 	opacity:.4;
 	filter:alpha(opacity=40);
 	zoom:1
@@ -4350,7 +4474,8 @@ i.mce-i-checkbox {
 	margin:4px
 }
 .mce-colorbutton button {
-	padding-right:4px
+	padding-right:6px;
+	padding-left:6px
 }
 .mce-colorbutton .mce-preview {
 	padding-right:3px;
@@ -4358,7 +4483,7 @@ i.mce-i-checkbox {
 	position:absolute;
 	left:50%;
 	top:50%;
-	margin-left:-14px;
+	margin-left:-17px;
 	margin-top:7px;
 	background:gray;
 	width:13px;
@@ -4371,16 +4496,14 @@ i.mce-i-checkbox {
 	width:16px
 }
 .mce-colorbutton .mce-open {
-	padding-left:4px;
-	border-left:1px solid transparent;
-	border-right:1px solid transparent
+	border-color:#ccc
 }
 .mce-colorbutton:hover .mce-open {
 	border-left-color:{$_mcePrimaryLighter};
 	border-right-color:{$_mcePrimaryLighter}
 }
 .mce-colorbutton.mce-btn-small .mce-open {
-	padding:0 3px 0 3px
+	padding:0 3px
 }
 .mce-rtl .mce-colorbutton {
 	direction:rtl
@@ -4388,14 +4511,12 @@ i.mce-i-checkbox {
 .mce-rtl .mce-colorbutton .mce-preview {
 	margin-left:0;
 	padding-right:0;
-	padding-left:4px;
-	margin-right:-14px
+	padding-left:3px
 }
 .mce-rtl .mce-colorbutton.mce-btn-small .mce-preview {
 	margin-left:0;
 	padding-right:0;
-	margin-right:-17px;
-	padding-left:0
+	padding-left:2px
 }
 .mce-rtl .mce-colorbutton button {
 	padding-right:10px;
@@ -4403,7 +4524,8 @@ i.mce-i-checkbox {
 }
 .mce-rtl .mce-colorbutton .mce-open {
 	padding-left:4px;
-	padding-right:4px
+	padding-right:4px;
+	border-left:0
 }
 
 .mce-colorpicker {
@@ -4516,16 +4638,13 @@ i.mce-i-checkbox {
 }
 .mce-fieldset {
 	border:0 solid {$mcePanelBorder};
-	-webkit-border-radius:3px;
-	-moz-border-radius:3px;
-	border-radius:3px
 }
 .mce-fieldset>.mce-container-body {
 	margin-top:-15px
 }
 .mce-fieldset-title {
 	margin-left:5px;
-	padding:0 5px 0 5px
+	padding:0 5px
 }
 .mce-fit-layout {
 	display:inline-block;
@@ -4563,7 +4682,7 @@ i.mce-i-checkbox {
 	margin-left:2px
 }
 .mce-iframe {
-	border:0 solid {$_mcePrimaryLighter};
+	border:0 solid rgba(0,0,0,.2);
 	width:100%;
 	height:100%
 }
@@ -4589,14 +4708,11 @@ i.mce-i-checkbox {
 }
 .mce-menubar .mce-menubtn {
 	border-color:transparent;
-	background:transparent;
-	-webkit-border-radius:0;
-	-moz-border-radius:0;
-	border-radius:0;
+	background:0 0;
 	filter:none
 }
 .mce-menubar {
-	border:1px solid {$mceMenuBarBorder}
+	border:1px solid rgba(217,217,217,.52) //to check //	border:1px solid {$mceMenuBarBorder}
 }
 .mce-menubar .mce-menubtn button span {
 	color:{$mceText}
@@ -4605,8 +4721,8 @@ i.mce-i-checkbox {
 	border-top-color:{$mceText}
 }
 .mce-menubar .mce-menubtn:hover,.mce-menubar .mce-menubtn.mce-active,.mce-menubar .mce-menubtn:focus {
-	border-color:transparent;
-	background:{$mceMenubarBgActive};
+	border-color:#ccc;
+	background:{$_mceMiscColor};
 	filter:none
 }
 .mce-menubtn.mce-disabled span {
@@ -4633,28 +4749,14 @@ i.mce-i-checkbox {
 .mce-menubtn .mce-caret {
 	*margin-top:6px
 }
+
+.mce-menubtn .mce-caret {
+	*margin-top:6px
+}
+
 .mce-rtl .mce-menubtn button {
 	direction:rtl;
 	text-align:right
-}
-.mce-listbox button {
-	text-align:left;
-	padding-right:20px;
-	position:relative
-}
-.mce-listbox .mce-caret {
-	position:absolute;
-	margin-top:-2px;
-	right:8px;
-	top:50%
-}
-.mce-rtl .mce-listbox .mce-caret {
-	right:auto;
-	left:8px
-}
-.mce-rtl .mce-listbox button {
-	padding-right:10px;
-	padding-left:20px
 }
 .mce-menu-item {
 	display:block;
@@ -4676,9 +4778,11 @@ i.mce-i-checkbox {
 	color:{$mceMenuItDisable}
 }
 .mce-menu-item:hover .mce-text,.mce-menu-item.mce-selected .mce-text, .mce-menu-item:focus .mce-text {
-	color:{$_mceMiscColor} }
+	color: {$_mcePrimaryLightest}
+}
 .mce-menu-item:hover .mce-ico,.mce-menu-item.mce-selected .mce-ico,.mce-menu-item:focus .mce-ico {
-	color:{$_mceMiscColor} }
+	color: {$_mcePrimaryLightest}
+}
 .mce-menu-item.mce-disabled:hover {
 	background:#ccc
 }
@@ -4693,7 +4797,8 @@ i.mce-i-checkbox {
 	padding:0 15px 0 20px
 }
 .mce-menu-item:hover .mce-menu-shortcut,.mce-menu-item.mce-selected .mce-menu-shortcut,.mce-menu-item:focus .mce-menu-shortcut {
-	color:{$_mceMiscColor} }
+	color:{$_mcePrimaryLight} 
+}
 .mce-menu-item .mce-caret {
 	margin-top:4px;
 	*margin-top:3px;
@@ -4703,7 +4808,11 @@ i.mce-i-checkbox {
 	border-left:4px solid #141414
 }
 .mce-menu-item.mce-selected .mce-caret,.mce-menu-item:focus .mce-caret,.mce-menu-item:hover .mce-caret {
-	border-left-color:{$_mceMiscColor} }
+	border-left-color:{$_mcePrimaryLighter}
+}
+.mce-menu-align .mce-menu-shortcut {
+	*margin-top:-2px
+}
 .mce-menu-align .mce-menu-shortcut {
 	*margin-top:-2px
 }
@@ -4732,11 +4841,7 @@ i.mce-i-checkbox {
 .mce-menu-item:hover,.mce-menu-item.mce-selected,.mce-menu-item:focus {
 	text-decoration:none;
 	color:{$_mceMiscColor};
-	<xen:if is="!{xen:property tinyquattro_flatdesign}">
-		{xen:helper playwithcolors, '{$mceMenuItHvrGradientFrom}', 'gradient', '{$mceMenuItHvrGradientTo}', '{$mceMenuItHvrGradientFallback}'}
-	<xen:else />
-		background:{$mceMenuItHvrGradientFallback};
-	</xen:if>		
+	background-color:{$mceMenuItHvrGradientFallback};
 }
 
 div.mce-menu .mce-menu-item-sep,.mce-menu-item-sep:hover {
@@ -4745,8 +4850,8 @@ div.mce-menu .mce-menu-item-sep,.mce-menu-item-sep:hover {
 	height:1px;
 	margin:9px 1px;
 	overflow:hidden;
-	background:{$_mcePrimaryLighterStill};
-	border-bottom:1px solid {$_mcePrimaryLightest};
+	background:0 0;
+	border-bottom:1px solid rgba(0,0,0,.1);
 	cursor:default;
 	filter:none
 }
@@ -4772,7 +4877,7 @@ div.mce-menu .mce-menu-item-sep,.mce-menu-item-sep:hover {
 }
 .mce-rtl .mce-menu-item.mce-selected .mce-caret,.mce-rtl .mce-menu-item:focus .mce-caret,.mce-rtl .mce-menu-item:hover .mce-caret {
 	border-left-color:transparent;
-	border-right-color:#fff
+	border-right-color:{$_mceMiscColor}
 }
 .mce-menu {
 	position:absolute;
@@ -4781,15 +4886,12 @@ div.mce-menu .mce-menu-item-sep,.mce-menu-item-sep:hover {
 	filter:progid:DXImageTransform.Microsoft.gradient(enabled = false);
 	background:transparent;
 	z-index:1000;
-	padding:5px 0 5px 0;
-	margin:2px 0 0;
+	padding:5px 0;
+	margin:-1px 0 0;
 	min-width:160px;
 	background:{$_mcePrimaryLightest};
 	border:1px solid {$_mcePrimaryLighter};
 	z-index:1002;
-	-webkit-border-radius:6px;
-	-moz-border-radius:6px;
-	border-radius:6px;
 	max-height:400px;
 	overflow:auto;
 	overflow-x:hidden
@@ -4813,6 +4915,25 @@ div.mce-menu .mce-menu-item-sep,.mce-menu-item-sep:hover {
 .mce-menu-sub-bl-br {
 	margin:6px 0 0 1px
 }
+.mce-listbox button {
+	text-align:left;
+	padding-right:20px;
+	position:relative
+}
+.mce-listbox .mce-caret {
+	position:absolute;
+	margin-top:-2px;
+	right:8px;
+	top:50%
+}
+.mce-rtl .mce-listbox .mce-caret {
+	right:auto;
+	left:8px
+}
+.mce-rtl .mce-listbox button {
+	padding-right:10px;
+	padding-left:20px
+}
 .mce-container-body .mce-resizehandle {
 	position:absolute;
 	right:0;
@@ -4829,42 +4950,64 @@ div.mce-menu .mce-menu-item-sep,.mce-menu-item-sep:hover {
 i.mce-i-resize {
 	color:{$mceText}
 }
+.mce-slider {
+	border:1px solid #aaa;
+	background:#eee;
+	width:100px;
+	height:10px;
+	position:relative;
+	display:block
+}
+.mce-slider.mce-vertical {
+	width:10px;
+	height:100px
+}
+.mce-slider-handle {
+	border:1px solid #bbb;
+	background:#ddd;
+	display:block;
+	width:13px;
+	height:13px;
+	position:absolute;
+	top:0;
+	left:0;
+	margin-left:-1px;
+	margin-top:-2px
+}
 .mce-spacer {
 	visibility:hidden
 }
 .mce-splitbtn .mce-open {
 	border-left:1px solid transparent;
-	border-right:1px solid transparent
 }
 .mce-splitbtn:hover .mce-open {
-	border-left-color:{$_mcePrimaryLighter};
-	border-right-color:{$_mcePrimaryLighter}
+	border-left-color:#ccc
 }
 .mce-splitbtn button {
-	padding-right:4px
+	padding-right:6px;
+	padding-left:6px
 }
 .mce-splitbtn .mce-open {
+	padding-right:4px;
 	padding-left:4px
 }
 .mce-splitbtn .mce-open.mce-active {
-	-webkit-box-shadow:inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
-	-moz-box-shadow:inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
-	box-shadow:inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05)
+	background-color: {$mceBtnActiveGradientFallback};
+	outline:1px solid #ccc
 }
 .mce-splitbtn.mce-btn-small .mce-open {
-	padding:0 3px 0 3px
+	padding:0 3px
 }
 .mce-rtl .mce-splitbtn {
 	direction:rtl;
 	text-align:right
 }
 .mce-rtl .mce-splitbtn button {
-	padding-right:10px;
-	padding-left:10px
+	padding-right:4px;
+	padding-left:4px
 }
 .mce-rtl .mce-splitbtn .mce-open {
-	padding-left:4px;
-	padding-right:4px
+	border-left:0
 }
 .mce-stack-layout-item {
 	display:block
@@ -4872,6 +5015,9 @@ i.mce-i-resize {
 .mce-tabs {
 	display:block;
 	border-bottom:1px solid {$_mcePrimaryLightish}
+}
+.mce-tabs,.mce-tabs+.mce-container-body {
+	background:{$_mceMiscColor}
 }
 .mce-tab {
 	display:inline-block;
@@ -4902,17 +5048,13 @@ i.mce-i-resize {
 	border-width:0 0 0 1px
 }
 .mce-textbox {
-
 	border:1px solid {$_mcePrimaryLight};
-	-webkit-border-radius:3px;
-	-moz-border-radius:3px;
-	border-radius:3px;
 	display:inline-block;
 	-webkit-transition:border linear .2s,box-shadow linear .2s;
 	transition:border linear .2s,box-shadow linear .2s;
 	height:28px;
 	resize:none;
-	padding:0 4px 0 4px;
+	padding:0 4px;
 	white-space:pre-wrap;
 	*white-space:pre;
 	color:{$mceText}
@@ -5886,7 +6028,7 @@ $0]]></replace_value>
       <search_value><![CDATA[>{$messageHtml}]]></search_value>
       <replace_value><![CDATA[{xen:if '{$mceConfig} AND {$loadQuattro}', ' data-quattro="{xen:escape {xen:helper json, $mceConfig}}"'}>{$messageHtml}]]></replace_value>
     </modification>
-  </template_modifications>  
+  </template_modifications> 
   <bb_code_media_sites/>
   <bb_codes/>
 </addon>

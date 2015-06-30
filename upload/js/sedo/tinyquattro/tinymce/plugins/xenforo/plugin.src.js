@@ -716,7 +716,7 @@
 					repos_left = 1;
 					
 					/*Tag some Elements with the responsive class*/
-					modal.addClass(responsive);
+					modal.classes.add(responsive);
 					$overlay.children().add($xenMceBody).addClass(responsive);
 
 					var autoWidthVal = $(window).width(),
@@ -1100,6 +1100,7 @@
 		},
 		fixBtnFullscreen: function(btnCtrl, type, directEl)
 		{
+//			return; //sedo
 			/***
 			 * For some unknow reasons, the fullscreen mode is buggy on XenForo & Firefox, let's fix it
 			 * The above function must be called using the onshow callback
@@ -1500,8 +1501,8 @@
 					config.onPostRender = function() {
 						var xenCustBtn = this, 
 							$xenCustBtn = $(xenCustBtn.getEl());
-						
-						xenCustBtn.addClass('xen-custom');
+
+						xenCustBtn.classes.add('xen-custom');
 					};
 				}
 				else{
@@ -1815,7 +1816,7 @@
 							ctrl.resetText = false;
 							ctrl.text(getText());
 							ctrl.icon(false);
-							ctrl.addClass(fw);
+							ctrl.classes.add(fw);
 							activated = false;
 						}
 					}
@@ -1854,7 +1855,7 @@
 				values: menuSize,
 				onPostRender: parent.createListBoxChangeHandler(menuSize, fs, extraFct),
 				onShow: function(e) {
-					e.control.addClass(sizeClass+'-menu');
+					e.control.classes.add(sizeClass+'-menu');
 					e.control.initLayoutRect();
 					parent.fixBtnFullscreen(this, 'menu');
 					onShowScrollToSelection(this);
@@ -1909,7 +1910,7 @@
 				values: menuFam,
 				onPostRender: parent.createListBoxChangeHandler(menuFam, 'fontname', extraFct),
 				onShow: function(e) {
-					e.control.addClass(famClass+'-menu');
+					e.control.classes.add(famClass+'-menu');
 					e.control.initLayoutRect();
 					parent.fixBtnFullscreen(this, 'menu');
 					onShowScrollToSelection(this);
@@ -2058,7 +2059,7 @@
 				}
 				
 				if(className){
-					modal.addClass(className);
+					modal.classes.add(className);
 				}
 				
 				/*IE Btn Size fix - #bug:6538*/

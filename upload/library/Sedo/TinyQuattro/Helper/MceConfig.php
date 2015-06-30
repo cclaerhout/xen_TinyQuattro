@@ -501,7 +501,7 @@ class Sedo_TinyQuattro_Helper_MceConfig
 
 		$mcePlugins = array('advlist', 'lists', 'charmap', 'visualchars',
 			'fullscreen', 'directionality', 'searchreplace',
-			'paste', 'textcolor', 'autoresize'
+			'paste', 'textcolor', 'autoresize'//, 'imagetools'
 		);
 
 		if(XenForo_Application::debugMode())
