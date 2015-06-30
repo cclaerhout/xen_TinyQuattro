@@ -13,6 +13,18 @@
 			this.editor = editor;
 			var src = this;
 			
+            editor.on('PastePreProcess', function(e){
+                e.content = e.content.replace(/(.|^)<a\s[^>]*data-user="(\d+, [^"]+)"[^>]*>([\w\W]+?)<\/a>/gi,
+                    function(match, prefix, user, username) {
+                        var userInfo = user.split(', ');
+                        if (!parseInt(userInfo[0], 10))
+                        {
+                            return match;
+                        }
+                        return prefix + (prefix == '@' ? '' : '@') + userInfo[1].replace(/^@/, '');
+                    }
+                );
+            });
 			editor.on('init', function(e) {
 				var 	$textarea = $(editor.getElement()),
 					$ed = $(editor.getBody()),
