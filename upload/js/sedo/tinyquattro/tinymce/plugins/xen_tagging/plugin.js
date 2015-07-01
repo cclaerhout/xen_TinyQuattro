@@ -14,10 +14,8 @@
 			var src = this;
 			
 			editor.on('PastePreProcess', function(e){
-				e.content = e.content.replace(/(.|^)?<a\s[^>]*data-user="(\d+, [^"]+)"[^>]*>([\w\W]+?)<\/a>/gi,
+				e.content = e.content.replace(/(.|^)<a\s[^>]*data-user="(\d+, [^"]+)"[^>]*>([\w\W]+?)<\/a>/gmi,
 						function(match, prefix, user, username) {
-							if(!prefix) prefix = '';
-							
 							var userInfo = user.split(', ');
 							if (!parseInt(userInfo[0], 10)){
 								return match;
