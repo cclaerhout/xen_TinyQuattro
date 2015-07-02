@@ -405,7 +405,7 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 	{
 		if(!isset($element['tag']))
 		{
-			return $this->_metaRenderTag(parent::renderTag($element, $rendererStates, $trimLeadingLines), $rendererStates);
+			return parent::renderTag($element, $rendererStates, $trimLeadingLines);
 		}
 		
 		$tagName = $element['tag'];
@@ -430,7 +430,7 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 			}
 		}
 
-		return $this->_metaRenderTag(parent::renderTag($element, $rendererStates, $trimLeadingLines), $rendererStates);
+		return $this->_metaRenderTag(parent::renderTag($element, $rendererStates, $trimLeadingLines),  $element, $rendererStates);
 	}
 
 	/**
@@ -440,14 +440,23 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 	**/
 	protected $_rTag = 1;
 	protected $_tagHolders = array();
+	protected $_mceRtagSkipForTags = array('b' => 0, 'i'=> 0, 'u'=> 0, 's'=> 0);
 	public $forceLineBreakConversionExceptForThoseTags = array();	
 
-	protected function _metaRenderTag($output, $rendererStates)
+	protected function _metaRenderTag($output,  $element, $rendererStates)
 	{
-		if(!empty($rendererStates['parsedTagInfoWrapper']))
+		if(!empty($rendererStates['parsedTagInfoWrapper']) && empty($rendererStates['bbmPreCacheInit']))
 		{
+			$xenTag = strtolower($element['tag']);
+		
+			if(!empty($this->_mceRtagSkipForTags[$xenTag]))
+			{
+				return $output;
+			}
+
 			$rTag = 'rTag_'.$this->_rTag;
 			$this->_rTag++;
+
 			return "[$rTag]".$output."[/$rTag]";
 		}
 		else
@@ -465,20 +474,33 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 	{
 		$id = $matches[2];
 		$content = $matches[3];
+		
+		$content = $this->xenTagsHolderisation($content);
 		$this->_tagHolders[$id] = $content;
+					
 		return "[xentagHolders_$id/]";
 	}
-	public function unXenTagsHolderisation($content)
+	
+	public function unXenTagsHolderisation($content, $reset = true)
 	{
 		foreach($this->_tagHolders as $id => $replacement)
 		{
-			$content = str_replace("[xentagHolders_$id/]", $replacement, $content);
+			if(strpos($content, "[xentagHolders_$id/]") !== false)
+			{
+				unset($this->_tagHolders[$id]);				
+				$replacement = $this->unXenTagsHolderisation($replacement, false);
+				$content = str_replace("[xentagHolders_$id/]", $replacement, $content);
+			}
 		}
-		
-		$this->resetRtags();
+	
+		if($reset)
+		{
+			$this->resetRtags();
+		}
+	
 		return $content;
 	}
-
+	
 	public function resetRtags()
 	{
 		$this->_tagHolders = array();
@@ -501,7 +523,7 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 		$rendererStates['parsedTagInfoWrapper'] = true;
 
 		$content = $this->renderSubTree($tag['children'], $rendererStates);
-		$content = $this->xenTagsHolderisation($content);		
+		$content = $this->xenTagsHolderisation($content);
 
 		$slaveTags = array(
 			'thead' => array(

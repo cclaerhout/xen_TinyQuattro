@@ -134,8 +134,15 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 	public function preFilter($html)
 	{
 		$html = parent::preFilter($html);
+		$xenOptions = XenForo_Application::get('options');
+		$extraWysiwygTags = $xenOptions->quattro_extra_bbcodes;
 
-		if(XenForo_Application::get('options')->get('quattro_parser_fourws_to_tab'))
+		if(!empty($extraWysiwygTags['xtable']))
+		{
+			$html = preg_replace('#(<td>)(?:[\r\n]|\r\n)#', "$1", $html); //New: Prevent to create a carriage return after the td tag
+		}
+
+		if($xenOptions->quattro_parser_fourws_to_tab)
 		{
 			$html = preg_replace('#(&nbsp;| ){4}#', self::$_sedoBypass['tab'], $html);
 		}
