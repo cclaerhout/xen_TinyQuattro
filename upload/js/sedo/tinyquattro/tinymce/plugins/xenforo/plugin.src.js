@@ -1796,7 +1796,7 @@
 							
 							if(!activated){
 								ctrl.icon(ctrl._name+' '+xenIcon);
-								ctrl.removeClass(fw);
+								ctrl.classes.remove(fw);
 								activated = true;
 							}
 						}else if(width >= 450 && activated){
