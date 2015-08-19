@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.5.6" version_id="85" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.5.7" version_id="86" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -670,9 +670,7 @@ $0]]></replace>
     <listener event_id="load_class_bb_code" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="BbCodeWysiwygFormatter" active="1" hint="XenForo_BbCode_Formatter_Wysiwyg" description="Extend Bb Code Wysiwyg Formatter"/>
     <listener event_id="load_class_bb_code" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="BbCodeBaseFormatter" active="1" hint="XenForo_BbCode_Formatter_Base" description="Extend Bb Code Base Formatter"/>
     <listener event_id="load_class_controller" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="ControllerPublicEditor" active="1" hint="XenForo_ControllerPublic_Editor" description="Extend Controller Public Editor"/>
-    <listener event_id="load_class_datawriter" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="ExtendDatawriter" active="1" hint="XenForo_DataWriter_User" description="Extend XenForo_DataWriter_User"/>
-    <listener event_id="load_class_datawriter" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="ExtendDatawriter" active="1" hint="XenForo_DataWriter_DiscussionMessage_Post" description="Extend XenForo_DataWriter_DiscussionMessage_Post"/>
-    <listener event_id="load_class_datawriter" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="ExtendDatawriter" active="1" hint="XenForo_DataWriter_ConversationMessage" description="Extend XenForo_DataWriter_ConversationMessage"/>
+    <listener event_id="load_class_datawriter" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="ExtendDatawriter" active="1" hint="" description="Extend Datawriter"/>
     <listener event_id="load_class_model" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="ExtendSmilieModel" active="1" hint="XenForo_Model_Smilie" description="Extend Smilie Model"/>
     <listener event_id="load_class_view" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="ViewPublicEditorToHtml" active="1" hint="XenForo_ViewPublic_Editor_ToHtml" description="Extend XenForo_ViewPublic_Editor_ToHtml"/>
     <listener event_id="load_class_view" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="ViewPublicEditorToBbCode" active="1" hint="XenForo_ViewPublic_Editor_ToBbCode" description="Extend XenForo_ViewPublic_Editor_ToBbCode"/>
@@ -3568,7 +3566,7 @@ i.mce-i-backcolor
 .mce-i-backcolor {
 	background: {xen:property tinyquattro_icon_bckg_color}
 }]]></template>
-    <template title="tiny_quattro_common_css.css" version_id="83" version_string="2.5.5"><![CDATA[<xen:set var="$_mcePrimaryDark">{xen:property quattroDark}</xen:set>
+    <template title="tiny_quattro_common_css.css" version_id="85" version_string="2.5.6"><![CDATA[<xen:set var="$_mcePrimaryDark">{xen:property quattroDark}</xen:set>
 <xen:set var="$_mcePrimaryLightish">{xen:property quattroLightish}</xen:set>
 <xen:set var="$_mcePrimaryLight">{xen:property quattroLight}</xen:set>
 <xen:set var="$_mcePrimaryLighter">{xen:property quattroLighter}</xen:set>
@@ -4713,8 +4711,11 @@ i.mce-i-checkbox {
 	background:0 0;
 	filter:none
 }
+.mce-menubar .mce-menubtn button {
+	color:{$mceText}
+}
 .mce-menubar {
-	border:1px solid rgba(217,217,217,.52) //to check //	border:1px solid {$mceMenuBarBorder}
+	border:1px solid {$mceMenuBarBorder}
 }
 .mce-menubar .mce-menubtn button span {
 	color:{$mceText}
@@ -4729,12 +4730,6 @@ i.mce-i-checkbox {
 }
 .mce-menubtn.mce-disabled span {
 	color:{$mceBorderColor}
-}
-.mce-menubtn span {
-	color:{$mceText};
-	margin-right:2px;
-	line-height:20px;
-	*line-height:16px
 }
 .mce-menubtn.mce-btn-small span {
 	font-size:12px;
@@ -6005,6 +6000,8 @@ $0]]></replace>
 </xen:if>]]></replace>
     </modification>
   </public_template_modifications>
+  <bb_code_media_sites/>
+  <bb_codes/>
   <template_modifications>
     <modification title="RTE Quattro Mobile Option" template_title="account_preferences" execute_order="10" modification_type="preg_replace" callback_class="" callback_method="" description="User field" version_id="4" version_string="1.0.4" active="1">
       <search_value><![CDATA[#([ \t]*)<li>.+?ctrl_enable_rte(?s).+?</li>#i]]></search_value>
@@ -6031,6 +6028,4 @@ $0]]></replace_value>
       <replace_value><![CDATA[{xen:if '{$mceConfig} AND {$loadQuattro}', ' data-quattro="{xen:escape {xen:helper json, $mceConfig}}"'}>{$messageHtml}]]></replace_value>
     </modification>
   </template_modifications> 
-  <bb_code_media_sites/>
-  <bb_codes/>
 </addon>
