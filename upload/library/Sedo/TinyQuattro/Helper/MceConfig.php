@@ -30,6 +30,9 @@ class Sedo_TinyQuattro_Helper_MceConfig
 
 		/* Word count configuration */
 		$this->_manageWordCount();
+
+		/* Manage Buttons Extra Config */
+		$this->_manageMceButtonsExtraConfig();
 		
 		/* Manage Mce Menu */
 		$this->_manageMceMenu();
@@ -594,12 +597,36 @@ class Sedo_TinyQuattro_Helper_MceConfig
 		$this->addMenuItem('code', 'tools', '#end', true);
 	}
 
+	protected function _manageMceButtonsExtraConfig()
+	{
+		$quattroExtra = XenForo_Application::get('options')->get('quattro_extra_bbcodes');
+		
+		/*Sub & super buttons*/
+		$hasSubScript = !empty($quattroExtra['sub']);
+		$hasSuperScript = !empty($quattroExtra['sup']);
+
+		if(!$hasSubScript)
+		{
+			$buttonsToDelete[] = 'subscript';
+		}
+
+		if(!$hasSuperScript)
+		{
+			$buttonsToDelete[] = 'superscript';
+		}
+
+		/*Action*/
+		$this->deleteButtons($buttonsToDelete);	
+	}
+
 	protected function _manageMceMenu()
 	{
 		if(!$this->mceSettings['menubar'])
 		{
 			return;
 		}
+
+		$quattroExtra = XenForo_Application::get('options')->get('quattro_extra_bbcodes');
 
 		/* Default layout & variables */
 		$this->mceSettings['menubar'] = array('format', 'edit', 'insert', 'table', 'tools', 'view');
@@ -618,7 +645,37 @@ class Sedo_TinyQuattro_Helper_MceConfig
 		);
 
 		/* Format Menu */
-		$formatMenuItems = array('bold', 'italic', 'underline', 'strikethrough', '@format_1', '|', 'superscript', 'subscript', '@format_2', '|', 'removeformat', '@format_3');
+		$formatMenuItems = array('bold', 'italic', 'underline', 'strikethrough', '@format_1');
+
+		$hasSubScript = in_array('subscript', $availableButtons);
+		$hasSuperScript = in_array('superscript', $availableButtons);
+				
+		if($hasSubScript || $hasSuperScript)
+		{
+			$formatMenuItems[] = '|';
+			
+			if($hasSubScript)
+			{
+				$formatMenuItems[] = 'subscript';
+			}
+
+			if($hasSuperScript)
+			{
+				$formatMenuItems[] = 'superscript';
+			}			
+
+			$formatMenuItems[]= '@format_2';
+		}
+		else
+		{
+			//To keep former logic
+			$formatMenuItems[]= '@format_2';		
+		}
+
+		$formatMenuItems = array_merge_recursive($formatMenuItems, array('|', 'removeformat', '@format_3'));
+		/*Former code*/
+		//$formatMenuItems = array('bold', 'italic', 'underline', 'strikethrough', '@format_1', '|', 'superscript', 'subscript', '@format_2', '|', 'removeformat', '@format_3');
+
 		$formatMenuItems = array_intersect($formatMenuItems, $availableButtons);
 
 		$root['format'] = array('title' => 'Format', 'items' => $formatMenuItems);
