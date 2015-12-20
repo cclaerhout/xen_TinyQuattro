@@ -35,7 +35,7 @@ class Sedo_TinyQuattro_ViewPublic_Editor_ToHtml extends XFCP_Sedo_TinyQuattro_Vi
 		$this->_initTagPollution();
 		$content = $this->_createTagPollution($content);
 
-		if($this->debug_pollution === true) { Zend_Debug::dump($content); break; }
+		if($this->debug_pollution === true) { Zend_Debug::dump($content); throw new Exception('Break'); }
 
 		//Fix Wrapped List
 		$content = preg_replace_callback($this->regexMatchWrappedList, array($this, '_fixWrappedList'), $content);
@@ -558,7 +558,7 @@ class Sedo_TinyQuattro_ViewPublic_Editor_ToHtml extends XFCP_Sedo_TinyQuattro_Vi
 
 		$list = preg_replace_callback('#^.+$#mui', array($this, '_fixWrappedList_L1'), $list);
 
-		if($this->debug_WrappedList === true) {	Zend_Debug::dump($list); break; }
+		if($this->debug_WrappedList === true) {	Zend_Debug::dump($list); throw new Exception('Break'); }
 
 		return $list;
 	}

@@ -106,7 +106,7 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 						'trimLeadingLinesAfter' => 2
 					)
 				);
-				
+
 				$this->_xenOptionsMceTable = Sedo_TinyQuattro_Helper_BbCodes::getMceTableXenOptions();
 			}
 

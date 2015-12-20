@@ -2264,6 +2264,20 @@
 				onShow: selectedSkin,
 				menu:  menu
 			});
+
+			/*Table float panel fix || ref: https://github.com/tinymce/tinymce/pull/2574*/
+			ed.on('submit', function(e){
+
+				function getContextToolbars() {
+					return ed.contextToolbars || [];
+				}
+			
+				tinymce.each(getContextToolbars(), function(toolbar) {
+					if (toolbar.panel) {
+						toolbar.panel.hide();
+					}
+				});
+			});
 		}
 	});
 
