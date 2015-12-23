@@ -604,6 +604,7 @@ class Sedo_TinyQuattro_Helper_MceConfig
 		/*Sub & super buttons*/
 		$hasSubScript = !empty($quattroExtra['sub']);
 		$hasSuperScript = !empty($quattroExtra['sup']);
+		$buttonsToDelete = array();
 
 		if(!$hasSubScript)
 		{
