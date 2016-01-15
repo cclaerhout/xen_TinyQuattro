@@ -19,7 +19,7 @@ class Sedo_TinyQuattro_Helper_Smilie
 		{
 			$mceSmilie = XenForo_Application::getSimpleCacheData('mce_smilie');
 
-			if(!is_array($mceSmilie))
+			if(!is_array($mceSmilie) || empty($mceSmilie))
 			{
 				$mceSmilie = self::prepareSmilies();
 			}
@@ -129,11 +129,6 @@ class Sedo_TinyQuattro_Helper_Smilie
 		if (!is_array($smilies))
 		{
 			$smilies = self::getSmilies();
-			
-			if(empty($smilies))
-			{
-				return array();
-			}
 		}
 
 		$output = array();
@@ -178,6 +173,7 @@ class Sedo_TinyQuattro_Helper_Smilie
 		
 		if($xenCurrentVersionId < 1030031) 
 		{
+			XenForo_Application::setSimpleCacheData('mce_smilie', array());
 			return;
 		}
 
