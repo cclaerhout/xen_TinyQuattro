@@ -129,6 +129,11 @@ class Sedo_TinyQuattro_Helper_Smilie
 		if (!is_array($smilies))
 		{
 			$smilies = self::getSmilies();
+			
+			if(empty($smilies))
+			{
+				return array();
+			}
 		}
 
 		$output = array();
