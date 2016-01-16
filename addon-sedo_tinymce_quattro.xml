@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.5.8.1" version_id="88" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.5.9" version_id="89" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -1240,7 +1240,6 @@ step=1</edit_format_params>
     </interface_groups>
   </permissions>
   <phrases>
-    <phrase title="Italic" version_id="50" version_string="2.1.0"><![CDATA[Italic]]></phrase>
     <phrase title="option_group_tiny_quattro" version_id="0" version_string="1.0"><![CDATA[TinyQuattro - Editor options]]></phrase>
     <phrase title="option_group_tiny_quattro_bbcodes" version_id="17" version_string="1.3.0"><![CDATA[TinyQuattro - Wysiwyg bb codes]]></phrase>
     <phrase title="option_group_tiny_quattro_bbcodes_description" version_id="17" version_string="1.3.0"><![CDATA[Options for some Wysiwyg BbCodes provided with TinyQuattro]]></phrase>
@@ -5525,7 +5524,7 @@ i.mce-i-resize {
 {$faCssPrefix} .fa-inverse {
   color: #ffffff;
 }]]></template>
-    <template title="tiny_quattro_framework.css" version_id="79" version_string="2.5.4"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_framework.css" version_id="88" version_string="2.5.8.1"><![CDATA[<xen:comment>
 	XenForo Framework addons
 </xen:comment>
 
@@ -5574,17 +5573,19 @@ i.mce-i-resize {
 </xen:comment>
 
 
-<xen:foreach loop="$customBbCodes" key="$bbCodeTag" value="$bbCode">
-	<xen:if is="{$bbCode.editor_icon_url}">
-		html .mce-tinymce .mce-xen-custom .mce-i-custom_{$bbCodeTag}
-		{
-			background-image: url('{$bbCode.editor_icon_url}');
-			<xen:if is="{$bbCode.sprite_mode} AND {$bbCode.sprite_params}">
-				background-position: {$bbCode.sprite_params.x}px {$bbCode.sprite_params.y}px;
-			</xen:if>
-		}
-	</xen:if>
-</xen:foreach>
+<xen:if is="{$customBbCodes}">
+	<xen:foreach loop="$customBbCodes" key="$bbCodeTag" value="$bbCode">
+		<xen:if is="{$bbCode.editor_icon_url}">
+			html .mce-tinymce .mce-xen-custom .mce-i-custom_{$bbCodeTag}
+			{
+				background-image: url('{$bbCode.editor_icon_url}');
+				<xen:if is="{$bbCode.sprite_mode} AND {$bbCode.sprite_params}">
+					background-position: {$bbCode.sprite_params.x}px {$bbCode.sprite_params.y}px;
+				</xen:if>
+			}
+		</xen:if>
+	</xen:foreach>
+</xen:if>
 
 
 <xen:comment>
