@@ -26,7 +26,7 @@ class Sedo_TinyQuattro_ViewPublic_Editor_ToHtml extends XFCP_Sedo_TinyQuattro_Vi
 			return $this->connexionCheck($parent);
 		}
 
-		$this->oldXen = ($xenOptions->currentVersionId  < 1020031);
+		$this->oldXen = Sedo_TinyQuattro_Helper_Quattro::isOldXen();
 		$this->quattroEnable = Sedo_TinyQuattro_Helper_Quattro::isEnabled();
 		
 		$content = $this->_params['bbCode'];

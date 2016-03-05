@@ -80,6 +80,17 @@ class Sedo_TinyQuattro_Listener_AllInOne
 	}
 
 	/***
+	 * Extend the html renderer BbCode (html=>bbcode) ; ie: background-color
+	 **/
+	public static function LoadClassControllerHelperEditor($class, array &$extend)
+	{
+		if ($class == 'XenForo_ControllerHelper_Editor')
+        	{
+			$extend[] = 'Sedo_TinyQuattro_ControllerHelper_Editor';
+		}
+	}
+
+	/***
 	 * Extend DW
 	 **/
 	public static function ExtendDatawriter($class, array &$extend)

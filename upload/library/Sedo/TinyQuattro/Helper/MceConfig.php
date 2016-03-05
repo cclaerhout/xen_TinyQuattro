@@ -184,7 +184,7 @@ class Sedo_TinyQuattro_Helper_MceConfig
 		{
 			$mceGrid = array(
 				'1' => array('removeformat', 'undo', 'redo', 'pastetext', 'restoredraft', '|',
-						'xen_fontfamily', 'xen_fontsize', 'forecolor', 'backcolor', '|',
+						'xen_fontfamily', 'xen_fontsize', '|', 'forecolor', 'backcolor', 'styleselect', '|',
 						'bold', 'italic', 'underline', 'strikethrough', '|',
 						'alignleft', 'aligncenter', 'alignright', 'alignjustify', '|',
 						'fullscreen', 'xen_switch'
@@ -560,7 +560,7 @@ class Sedo_TinyQuattro_Helper_MceConfig
 		if(!empty($xenOptions->quattro_extra_bbcodes['anchor']))
 		{
 			$mcePlugins[] = 'anchor';
-		}		
+		}
 
 		return $mcePlugins;
 	}

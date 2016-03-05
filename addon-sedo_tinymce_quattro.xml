@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.5.9" version_id="89" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.6.0" version_id="90" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -667,6 +667,7 @@ $0]]></replace>
     <listener event_id="front_controller_pre_view" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="controllerPreView" active="1" hint="" description="Create mceParams app"/>
     <listener event_id="init_dependencies" execute_order="20" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="init_helpers" active="1" hint="" description="Load Template Helper"/>
     <listener event_id="load_class" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="LoadClassRendererBbCode" active="1" hint="XenForo_Html_Renderer_BbCode" description="Extend XenForo_Html_Renderer_BbCode (html=&gt;bbcode)"/>
+    <listener event_id="load_class" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="LoadClassControllerHelperEditor" active="1" hint="XenForo_ControllerHelper_Editor" description="Extend XenForo_ControllerHelper_Editor"/>
     <listener event_id="load_class_bb_code" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="BbCodeWysiwygFormatter" active="1" hint="XenForo_BbCode_Formatter_Wysiwyg" description="Extend Bb Code Wysiwyg Formatter"/>
     <listener event_id="load_class_bb_code" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="BbCodeBaseFormatter" active="1" hint="XenForo_BbCode_Formatter_Base" description="Extend Bb Code Base Formatter"/>
     <listener event_id="load_class_controller" execute_order="10" callback_class="Sedo_TinyQuattro_Listener_AllInOne" callback_method="ControllerPublicEditor" active="1" hint="XenForo_ControllerPublic_Editor" description="Extend Controller Public Editor"/>
@@ -1276,9 +1277,9 @@ If you need to use the browser original menu when you click on the right button 
     <phrase title="option_quattro_converter_bb_to_html_explain" version_id="4" version_string="1.0.4"><![CDATA[This option will activate some fixes when you <span style="text-decoration:underline">toggle</span> the BbCode editor to the RTE editor. This fix generates a virtual BbCode pollution to look like the Html tags format.<br />
 <br />
 This patch is disabled by default. Reason:  its code is quite "acrobatic". On the other side, I've been using this html converter patch for several months without any problems on several boards. If you see any problems after having activated it, just disable it.]]></phrase>
-    <phrase title="option_quattro_converter_html_to_bbcode" version_id="4" version_string="1.0.4"><![CDATA[Activate the HTML >  BbCode Converter Patch?]]></phrase>
-    <phrase title="option_quattro_converter_html_to_bbcode_explain" version_id="4" version_string="1.0.4"><![CDATA[This option will activate some fixes when you <span style="text-decoration:underline">toggle</span> the RTE editor to the BbCode editor<br />
-<br />
+    <phrase title="option_quattro_converter_html_to_bbcode" version_id="90" version_string="2.6.0"><![CDATA[Activate the HTML >  BbCode Converter Patch?]]></phrase>
+    <phrase title="option_quattro_converter_html_to_bbcode_explain" version_id="90" version_string="2.6.0"><![CDATA[On old versions of XenForo (&lt; 1.2), this option will enable some fixes when you <span style="text-decoration:underline">toggle</span> the RTE editor to the BbCode editor<br /><br />
+On recent versions of XenForo (&gt; 1.2), this option will enable some fixes <span style="text-decoration:underline">every time</span> the html content of the editor is converted to Bb Codes.<br /><br />
 This patch is enable by default.]]></phrase>
     <phrase title="option_quattro_disable_mobile_inline_edit" version_id="37" version_string="1.7.0.2"><![CDATA[Disable inline edits on mobile devices?]]></phrase>
     <phrase title="option_quattro_disable_mobile_inline_edit_explain" version_id="37" version_string="1.7.0.2"><![CDATA[When you edit a message, this option will disable the overlay and will load instead a new page. This option will only work with TinyMCE Quattro (and TinyMCE 3.x on XenForo 1.1.x).]]></phrase>
@@ -2853,7 +2854,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 			cursor: pointer;
 			line-height: 1.6;
 		}]]></template>
-    <template title="tiny_quattro_buttons.css" version_id="86" version_string="2.5.7"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_buttons.css" version_id="90" version_string="2.6.0"><![CDATA[<xen:comment>
 	TINYMCE BUTTONS FOR ALL BROWSERS EXCEPT IE7
 </xen:comment>
 
@@ -3126,11 +3127,6 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 	content: "\e028";
 }
 
-.mce-i-untitled:before
-{
-	content: "\e029";
-}
-
 .mce-i-bold:before
 {
 	content: "\e02a";
@@ -3196,7 +3192,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 	content:"\ee78"
 }
 .mce-i-editimage:before {
-	content:"\e914"
+	content:"\e915"
 }
 .mce-i-options:before {
 	content:"\ec6a"
@@ -3223,19 +3219,16 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 	content:"\edc0"
 }
 .mce-i-arrowright:before {
-	content:"\edb8"
+	content:"\e93c"
 }
 .mce-i-drop:before {
-	content:"\e934"
+	content:"\e935"
 }
 .mce-i-contrast:before {
 	content:"\ecd4"
 }
 .mce-i-sharpen:before {
 	content:"\eba7"
-}
-.mce-i-palette:before {
-	content:"\e92a"
 }
 .mce-i-resize2:before {
 	content:"\edf9"
@@ -3297,6 +3290,96 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 .mce-i-codesample:before {
 	content:"\e603"
 }
+.mce-i-fill:before {
+	content:"\e902"
+}
+.mce-i-borderwidth:before {
+	content:"\e903"
+}
+.mce-i-line:before {
+	content:"\e904"
+}
+.mce-i-count:before {
+	content:"\e905"
+}
+.mce-i-translate:before {
+	content:"\e907"
+}
+.mce-i-drag:before {
+	content:"\e908"
+}
+.mce-i-home:before {
+	content:"\e90b"
+}
+.mce-i-upload:before {
+	content:"\e914"
+}
+.mce-i-bubble:before {
+	content:"\e91c"
+}
+.mce-i-user:before {
+	content:"\e91d"
+}
+.mce-i-lock:before {
+	content:"\e926"
+}
+.mce-i-unlock:before {
+	content:"\e927"
+}
+.mce-i-settings:before {
+	content:"\e928"
+}
+.mce-i-remove2:before {
+	content:"\e92a"
+}
+.mce-i-menu:before {
+	content:"\e92d"
+}
+.mce-i-warning:before {
+	content:"\e930"
+}
+.mce-i-question:before {
+	content:"\e931"
+}
+.mce-i-pluscircle:before {
+	content:"\e932"
+}
+.mce-i-info:before {
+	content:"\e933"
+}
+.mce-i-notice:before {
+	content:"\e934"
+}
+.mce-i-arrowup:before {
+	content:"\e93b"
+}
+.mce-i-arrowdown:before {
+	content:"\e93d"
+}
+.mce-i-arrowup2:before {
+	content:"\e93f"
+}
+.mce-i-arrowdown2:before {
+	content:"\e940"
+}
+.mce-i-menu2:before {
+	content:"\e941"
+}
+.mce-i-newtab:before {
+	content:"\e961"
+}
+.mce-i-a11y:before {
+	content:"\e900"
+}
+.mce-i-plus:before {
+	content:"\e93a"
+}
+.mce-i-minus:before {
+	content:"\e939"
+}
+.mce-i-books:before {
+	content:"\e911"
+}
 .mce-i-checkbox:before,.mce-i-selected:before {
 	content: "\e033";
 }
@@ -3310,7 +3393,7 @@ i.mce-i-backcolor {
 	background: {xen:property tinyquattro_icon_bckg_color};
 }
 ]]></template>
-    <template title="tiny_quattro_buttons_ie7.css" version_id="86" version_string="2.5.7"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_buttons_ie7.css" version_id="89" version_string="2.5.9"><![CDATA[<xen:comment>
 	TINYMCE BUTTONS FOR IE7
 </xen:comment>
 
@@ -3498,9 +3581,6 @@ i.mce-i-backcolor {
 .mce-i-restoredraft {
 	-ie7-icon:"\e028"
 }
-.mce-i-untitled {
-	-ie7-icon:"\e029"
-}
 .mce-i-bold {
 	-ie7-icon:"\e02a"
 }
@@ -3545,7 +3625,7 @@ i.mce-i-backcolor {
 	-ie7-icon:"\ee78"
 }
 .mce-i-editimage {
-	-ie7-icon:"\e914"
+	-ie7-icon:"\e915"
 }
 .mce-i-options {
 	-ie7-icon:"\ec6a"
@@ -3572,19 +3652,16 @@ i.mce-i-backcolor {
 	-ie7-icon:"\edc0"
 }
 .mce-i-arrowright {
-	-ie7-icon:"\edb8"
+	-ie7-icon:"\e93c"
 }
 .mce-i-drop {
-	-ie7-icon:"\e934"
+	-ie7-icon:"\e935"
 }
 .mce-i-contrast {
 	-ie7-icon:"\ecd4"
 }
 .mce-i-sharpen {
 	-ie7-icon:"\eba7"
-}
-.mce-i-palette {
-	-ie7-icon:"\e92a"
 }
 .mce-i-resize2 {
 	-ie7-icon:"\edf9"
@@ -3646,6 +3723,96 @@ i.mce-i-backcolor {
 .mce-i-codesample {
 	-ie7-icon:"\e603"
 }
+.mce-i-fill {
+	-ie7-icon:"\e902"
+}
+.mce-i-borderwidth {
+	-ie7-icon:"\e903"
+}
+.mce-i-line {
+	-ie7-icon:"\e904"
+}
+.mce-i-count {
+	-ie7-icon:"\e905"
+}
+.mce-i-translate {
+	-ie7-icon:"\e907"
+}
+.mce-i-drag {
+	-ie7-icon:"\e908"
+}
+.mce-i-home {
+	-ie7-icon:"\e90b"
+}
+.mce-i-upload {
+	-ie7-icon:"\e914"
+}
+.mce-i-bubble {
+	-ie7-icon:"\e91c"
+}
+.mce-i-user {
+	-ie7-icon:"\e91d"
+}
+.mce-i-lock {
+	-ie7-icon:"\e926"
+}
+.mce-i-unlock {
+	-ie7-icon:"\e927"
+}
+.mce-i-settings {
+	-ie7-icon:"\e928"
+}
+.mce-i-remove2 {
+	-ie7-icon:"\e92a"
+}
+.mce-i-menu {
+	-ie7-icon:"\e92d"
+}
+.mce-i-warning {
+	-ie7-icon:"\e930"
+}
+.mce-i-question {
+	-ie7-icon:"\e931"
+}
+.mce-i-pluscircle {
+	-ie7-icon:"\e932"
+}
+.mce-i-info {
+	-ie7-icon:"\e933"
+}
+.mce-i-notice {
+	-ie7-icon:"\e934"
+}
+.mce-i-arrowup {
+	-ie7-icon:"\e93b"
+}
+.mce-i-arrowdown {
+	-ie7-icon:"\e93d"
+}
+.mce-i-arrowup2 {
+	-ie7-icon:"\e93f"
+}
+.mce-i-arrowdown2 {
+	-ie7-icon:"\e940"
+}
+.mce-i-menu2 {
+	-ie7-icon:"\e941"
+}
+.mce-i-newtab {
+	-ie7-icon:"\e961"
+}
+.mce-i-a11y {
+	-ie7-icon:"\e900"
+}
+.mce-i-plus {
+	-ie7-icon:"\e93a"
+}
+.mce-i-minus {
+	-ie7-icon:"\e939"
+}
+.mce-i-books {
+	-ie7-icon:"\e911"
+}
 .mce-i-checkbox,.mce-i-selected {
 	-ie7-icon:"\e033"
 }
@@ -3655,7 +3822,7 @@ i.mce-i-backcolor {
 .mce-i-backcolor {
 	background: {xen:property tinyquattro_icon_bckg_color}
 }]]></template>
-    <template title="tiny_quattro_common_css.css" version_id="86" version_string="2.5.7"><![CDATA[<xen:set var="$_mcePrimaryDark">{xen:property quattroDark}</xen:set>
+    <template title="tiny_quattro_common_css.css" version_id="89" version_string="2.5.9"><![CDATA[<xen:set var="$_mcePrimaryDark">{xen:property quattroDark}</xen:set>
 <xen:set var="$_mcePrimaryLightish">{xen:property quattroLightish}</xen:set>
 <xen:set var="$_mcePrimaryLight">{xen:property quattroLight}</xen:set>
 <xen:set var="$_mcePrimaryLighter">{xen:property quattroLighter}</xen:set>
@@ -4133,10 +4300,11 @@ div.mce-fullscreen {
 	top:0;
 	left:0;
 	opacity:0;
-	-webkit-transition:opacity 150ms ease-in;
-	transition:opacity 150ms ease-in
+	transform:scale(.1);
+	transition:transform 100ms ease-in,opacity 150ms ease-in
 }
 .mce-window.mce-in {
+	transform:scale(1);
 	opacity:1
 }
 .mce-window-head {
@@ -4146,17 +4314,17 @@ div.mce-fullscreen {
 }
 .mce-window-head .mce-close {
 	position:absolute;
-	right:15px;
-	top:9px;
-	font-size:20px;
-	font-weight:bold;
-	line-height:20px;
-	color:{$mceWindowHeadClose};
-	cursor:pointer;
-	height:20px;
-	overflow:hidden
+	right:0;
+	top:0;
+	height:38px;
+	width:38px;
+	text-align:center;
+	cursor:pointer
 }
-.mce-close:hover {
+.mce-window-head .mce-close i {
+	color:{$mceWindowHeadClose}
+}
+.mce-close:hover i{
 	color:{$mceWindowHeadCloseHover}
 }
 .mce-window-head .mce-title {
@@ -4164,7 +4332,7 @@ div.mce-fullscreen {
 	font-size:20px;
 	font-weight:bold;
 	text-rendering:optimizelegibility;
-	padding-right:10px
+	padding-right:20px
 }
 .mce-window .mce-container-body {
 	display:block
@@ -4329,8 +4497,7 @@ div.mce-fullscreen {
 	margin-bottom:auto;
 	font-size:14px;
 	width:40px;
-	color:{$mceText};
-	text-shadow:1px 1px none
+	color:{$mceText}
 }
 .mce-bar {
 	display:block;
@@ -4345,12 +4512,16 @@ div.mce-fullscreen {
 	background-color:{$mceBtnGradientFallback};
 	padding:5px;
 	margin-top:5px;
-	opacity:.8;
-	filter:alpha(opacity=80);
-	zoom:1;
 	border-width:1px;
 	border-style:solid;
-	border-color:#ccc
+	border-color:#ccc;
+	transform:scale(.1);
+	transition:transform 100ms ease-in,opacity 150ms ease-in;
+	opacity:0
+}
+.mce-notification.mce-in {
+	opacity:1;
+	transform:scale(1)
 }
 .mce-notification-success {
 	background-color:#dff0d8;
@@ -4924,6 +5095,60 @@ i.mce-i-checkbox {
 	width:100%;
 	height:100%
 }
+.mce-infobox {
+	display:inline-block;
+	*display:inline;
+	*zoom:1;
+	text-shadow:0 1px 1px rgba(255,255,255,0.75);
+	overflow:hidden;
+	border:1px solid red
+}
+.mce-infobox div {
+	display:block;
+	margin:5px
+}
+.mce-infobox div button {
+	position:absolute;
+	top:50%;
+	right:4px;
+	cursor:pointer;
+	margin-top:-8px;
+	display:none
+}
+.mce-infobox div button:focus {
+	outline:2px solid #ccc
+}
+.mce-infobox.mce-has-help div {
+	margin-right:25px
+}
+.mce-infobox.mce-has-help button {
+	display:block
+}
+.mce-infobox.mce-success {
+	background:#dff0d8;
+	border-color:#d6e9c6
+}
+.mce-infobox.mce-success div {
+	color:#3c763d
+}
+.mce-infobox.mce-warning {
+	background:#fcf8e3;
+	border-color:#faebcc
+}
+.mce-infobox.mce-warning div {
+	color:#8a6d3b
+}
+.mce-infobox.mce-error {
+	background:#f2dede;
+	border-color:#ebccd1
+}
+.mce-infobox.mce-error div {
+	color:#a94442
+}
+.mce-rtl .mce-infobox div {
+	text-align:right;
+	direction:rtl
+}
 .mce-label {
 	display:inline-block;
 	*display:inline;
@@ -4939,6 +5164,15 @@ i.mce-i-checkbox {
 }
 .mce-label.mce-multiline {
 	white-space:pre-wrap
+}
+.mce-label.mce-success {
+	color:#468847
+}
+.mce-label.mce-warning {
+	color:#c09853
+}
+.mce-label.mce-error {
+	color:#b94a48
 }
 .mce-rtl .mce-label {
 	text-align:right;
@@ -5113,6 +5347,26 @@ div.mce-menu .mce-menu-item-sep,.mce-menu-item-sep:hover {
 .mce-rtl .mce-menu-item.mce-selected .mce-caret,.mce-rtl .mce-menu-item:focus .mce-caret,.mce-rtl .mce-menu-item:hover .mce-caret {
 	border-left-color:transparent;
 	border-right-color:{$_mceMiscColor}
+}
+
+.mce-throbber {
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	opacity:.6;
+	filter:alpha(opacity=60);
+	zoom:1;
+	background:{$_mceMiscColor} url('styles/sedo/tinyquattro/img/loader.gif') no-repeat center center
+}
+.mce-throbber-inline {
+	position:static;
+	height:50px
+}
+.mce-menu .mce-throbber-inline {
+	height:25px;
+	background-size:contain
 }
 .mce-menu {
 	position:absolute;
@@ -5314,23 +5568,8 @@ i.mce-i-resize {
 .mce-rtl .mce-textbox {
 	text-align:right;
 	direction:rtl
-}
-.mce-throbber {
-	position:absolute;
-	top:0;
-	left:0;
-	width:100%;
-	height:100%;
-	opacity:.6;
-	filter:alpha(opacity=60);
-	zoom:1;
-	background:{$_mceMiscColor} url('styles/sedo/tinyquattro/img/loader.gif') no-repeat center center
-}
-.mce-throbber-inline {
-	position:static;
-	height:50px
 }]]></template>
-    <template title="tiny_quattro_editor.css" version_id="79" version_string="2.5.4"><![CDATA[<xen:comment>Official css for all browsers (XenForo integration)</xen:comment>
+    <template title="tiny_quattro_editor.css" version_id="90" version_string="2.6.0"><![CDATA[<xen:comment>Official css for all browsers (XenForo integration)</xen:comment>
 <xen:if is="{xen:property tinyquattro_css_integration} AND !{$pageIsRtl}">
 	<xen:include template="tiny_quattro_common_css.css" />
 </xen:if>
@@ -5712,7 +5951,7 @@ i.mce-i-resize {
 	position: static;
 	margin: 3px;
 }]]></template>
-    <template title="tiny_quattro_iframe.css" version_id="71" version_string="2.4.2"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_iframe.css" version_id="89" version_string="2.5.9"><![CDATA[<xen:comment>
 	EDITOR IFRAME CONTENT CSS
 </xen:comment>
 
@@ -5743,14 +5982,14 @@ body.mce-content-body {
 	
 	{xen:property editorContent}
 	
-	scrollbar-3dlight-color: #f0f0ee;
-	scrollbar-arrow-color: #676662;
-	scrollbar-base-color: #f0f0ee;
-	scrollbar-darkshadow-color: #ddd;
-	scrollbar-face-color: #e0e0dd;
-	scrollbar-highlight-color: #f0f0ee;
-	scrollbar-shadow-color: #f0f0ee;
-	scrollbar-track-color: #f5f5f5;
+	scrollbar-3dlight-color:#f0f0ee;
+	scrollbar-arrow-color:#676662;
+	scrollbar-base-color:#f0f0ee;
+	scrollbar-darkshadow-color:#ddd;
+	scrollbar-face-color:#e0e0dd;
+	scrollbar-highlight-color:#f0f0ee;
+	scrollbar-shadow-color:#f0f0ee;
+	scrollbar-track-color:#f5f5f5
 }
 
 body, td, pre
@@ -5762,66 +6001,173 @@ body, td, pre
 p { margin: 0; padding: 0; }
 
 td,th {
-    font-family: Verdana,Arial,Helvetica,sans-serif;
-    font-size: 11px;
+	font-family: Verdana,Arial,Helvetica,sans-serif;
+	font-size: 11px;
+}
+
+.mce-content-body .mce-reset {
+	margin:0;
+	padding:0;
+	border:0;
+	outline:0;
+	vertical-align:top;
+	background:transparent;
+	text-decoration:none;
+	color:{xen:property contentText};
+	font-family:Georgia, "Times New Roman", Times, serif;
+	font-size:11pt;
+	text-shadow:none;
+	float:none;
+	position:static;
+	width:auto;
+	height:auto;
+	white-space:nowrap;
+	cursor:inherit;
+	line-height:normal;
+	font-weight:normal;
+	text-align:left;
+	-webkit-tap-highlight-color:transparent;
+	-moz-box-sizing:content-box;
+	-webkit-box-sizing:content-box;
+	box-sizing:content-box;
+	direction:ltr;
+	max-width:none
 }
 
 .mce-object {
-    border: 1px dotted #3a3a3a;
-    background: #d5d5d5 url(styles/sedo/tinyquattro/img/object.gif) no-repeat center;
+	border: 1px dotted #3a3a3a;
+	background: #d5d5d5 url(styles/sedo/tinyquattro/img/object.gif) no-repeat center;
 }
 
+.mce-preview-object {
+	display:inline-block;
+	position:relative;
+	margin:0 2px 0 2px;
+	line-height:0;
+	border:1px solid gray
+}
+.mce-preview-object .mce-shim {
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background:url(data:image/gif;
+	base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7)
+}
+figure.align-left {
+	float:left
+}
+figure.align-right {
+	float:right
+}
+figure.image.align-center {
+	display:table;
+	margin-left:auto;
+	margin-right:auto
+}
+figure.image {
+	display:inline-block;
+	border:1px solid gray;
+	margin:0 2px 0 1px;
+	background:#f5f2f0
+}
+figure.image img {
+	margin:8px 8px 0 8px
+}
+figure.image figcaption {
+	margin:6px 8px 6px 8px;
+	text-align:center
+}
+.mce-preview-object[data-mce-selected="2"] .mce-shim {
+	display:none
+}
 .mce-pagebreak {
-    cursor: default;
-    display: block;
-    border: 0;
-    width: 100%;
-    height: 5px;
-    border: 1px dashed #666;
-    margin-top: 15px;
+	cursor: default;
+	display: block;
+	border: 0;
+	width: 100%;
+	height: 5px;
+	border: 1px dashed #666;
+	margin-top: 15px;
+	page-break-before:always
+}
+@media print {
+	.mce-pagebreak {
+		border:0
+	}
 }
 
 .mce-item-anchor {
-    cursor: default;
-    display: inline-block;
-    -webkit-user-select: all;
-    -webkit-user-modify: read-only;
-    -moz-user-select: all;
-    -moz-user-modify: read-only;
-    width: 9px!important;
-    height: 9px!important;
-    border: 1px dotted #3a3a3a;
-    background: #d5d5d5 url(styles/sedo/tinyquattro/img/anchor.gif) no-repeat center;
+	cursor:default;
+	display:inline-block;
+	-webkit-user-select:all;
+	-webkit-user-modify:read-only;
+	-moz-user-select:all;
+	-moz-user-modify:read-only;
+	user-select:all;
+	user-modify:read-only;
+	width:9px !important;
+	height:9px !important;
+	border:1px dotted #3a3a3a;
+	background: #d5d5d5 url(styles/sedo/tinyquattro/img/anchor.gif) no-repeat center;
 }
 
-.mce-nbsp {
-    background: #AAA;
+.mce-nbsp,.mce-shy {
+	background:#aaa
+}
+.mce-shy::after {
+	content:'-'
 }
 
 hr {
-    cursor: default;
+	cursor: default;
 }
 
 .mce-match-marker {
-    background: green;
-    color: #fff;
+	background:#aaa;
+	color:#fff
+}
+.mce-match-marker-selected {
+	background:#39f;
+	color:#fff
 }
 
 .mce-spellchecker-word {
-    background: url(styles/sedo/tinyquattro/img/wline.gif) repeat-x bottom left;
-    cursor: default;
+	border-bottom:2px solid #f00;
+	cursor:default
+}
+.mce-spellchecker-grammar {
+	border-bottom:2px solid #008000;
+	cursor:default
 }
 
 .mce-item-table,.mce-item-table td,.mce-item-table th,.mce-item-table caption {
-    border: 1px dashed {xen:property primaryDark};
+	border: 1px dashed {xen:property primaryDark};
 }
 
 td.mce-item-selected,th.mce-item-selected {
-    background-color: #39f!important;
+	background-color: #39f!important;
 }
 
 .mce-edit-focus {
-    outline: 1px dotted #333;
+	outline: 1px dotted #333;
+}
+
+.mce-content-body *[contentEditable=false] *[contentEditable=true]:focus {
+	outline:2px solid #2d8ac7
+}
+.mce-content-body *[contentEditable=false] *[contentEditable=true]:hover {
+	outline:2px solid #7acaff
+}
+.mce-content-body *[contentEditable=false][data-mce-selected] {
+	outline:2px solid #2d8ac7
+}
+.mce-resize-bar-dragging {
+	background-color:blue;
+	opacity:.25;
+	filter:alpha(opacity=25);
+	zoom: 1
 }
 
 a:link,
@@ -6246,8 +6592,6 @@ $0]]></replace>
 </xen:if>]]></replace>
     </modification>
   </public_template_modifications>
-  <bb_code_media_sites/>
-  <bb_codes/>
   <template_modifications>
     <modification title="RTE Quattro Mobile Option" template_title="account_preferences" execute_order="10" modification_type="preg_replace" callback_class="" callback_method="" description="User field" version_id="4" version_string="1.0.4" active="1">
       <search_value><![CDATA[#([ \t]*)<li>.+?ctrl_enable_rte(?s).+?</li>#i]]></search_value>
@@ -6274,4 +6618,6 @@ $0]]></replace_value>
       <replace_value><![CDATA[{xen:if '{$mceConfig} AND {$loadQuattro}', ' data-quattro="{xen:escape {xen:helper json, $mceConfig}}"'}>{$messageHtml}]]></replace_value>
     </modification>
   </template_modifications> 
+  <bb_code_media_sites/>
+  <bb_codes/>
 </addon>

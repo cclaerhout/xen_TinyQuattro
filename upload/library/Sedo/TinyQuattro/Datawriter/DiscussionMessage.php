@@ -7,7 +7,12 @@ class Sedo_TinyQuattro_Datawriter_DiscussionMessage extends XFCP_Sedo_TinyQuattr
 		
 		if(isset($this->_newData['xf_post']['message']))
 		{
-			$this->_newData['xf_post']['message'] = preg_replace('# {4}#', "\t", $this->_newData['xf_post']['message']);
+			if(Sedo_TinyQuattro_Helper_Quattro::isOldXen())
+			{
+				$message = &$this->_newData['xf_post']['message'];
+				$message = preg_replace('# {4}#', "\t", $message);
+				$message = Sedo_TinyQuattro_Helper_Editor::tagsFixer($message);
+			}
 		}
 	}
 }
