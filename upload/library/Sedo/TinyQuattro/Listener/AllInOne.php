@@ -93,6 +93,7 @@ class Sedo_TinyQuattro_Listener_AllInOne
 	/***
 	 * Extend DW
 	 **/
+	protected static $_loadedXen11 = array(); //Fix a bug with XenForo 1.1 (mostly for test purpose)
 	public static function ExtendDatawriter($class, array &$extend)
 	{
 		switch ($class)
@@ -105,18 +106,28 @@ class Sedo_TinyQuattro_Listener_AllInOne
 		   	break;
 	   		
 	   		case 'XenForo_DataWriter_DiscussionMessage_Post':
-	   			if (XenForo_Application::get('options')->get('quattro_parser_fourws_to_tab'))
+	   			if (XenForo_Application::get('options')->get('quattro_parser_fourws_to_tab') && Sedo_TinyQuattro_Helper_Quattro::isOldXen())
 				{
 		   			//2015/02/10: Should not be needed anymore with Sedo_TinyQuattro_Html_Renderer_BbCode::preFilter
-		   			$extend[] = 'Sedo_TinyQuattro_Datawriter_DiscussionMessage';
+		   			$name = 'Sedo_TinyQuattro_Datawriter_DiscussionMessage_Post';
+		   			if(!isset(self::$_loadedXen11[$name]))
+		   			{
+			   			$extend[] = $name;
+			   			self::$_loadedXen11[$name] = true;
+			   		}
 		   		}
 		   	break;
 
 	   		case 'XenForo_DataWriter_ConversationMessage':
-	   			if (XenForo_Application::get('options')->get('quattro_parser_fourws_to_tab'))
+	   			if (XenForo_Application::get('options')->get('quattro_parser_fourws_to_tab') && Sedo_TinyQuattro_Helper_Quattro::isOldXen())
 				{
 		   			//2015/02/10: Should not be needed anymore with Sedo_TinyQuattro_Html_Renderer_BbCode::preFilter
-		   			$extend[] = 'Sedo_TinyQuattro_Datawriter_ConversationMessage';
+		   			$name = 'Sedo_TinyQuattro_Datawriter_ConversationMessage';
+		   			if(!isset(self::$_loadedXen11[$name]))
+		   			{
+			   			$extend[] = $name;
+			   			self::$_loadedXen11[$name] = true;
+			   		}
 		   		}
 		   	break;	
 		}
