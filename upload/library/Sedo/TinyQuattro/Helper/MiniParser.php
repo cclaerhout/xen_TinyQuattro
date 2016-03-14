@@ -1,5 +1,5 @@
 <?php
-/* Mini Parser BbCodes to Html - v1.3 by Sedo - CC by 3.0*/
+/* Mini Parser BbCodes to Html - v1.3wip by Sedo - CC by 3.0*/
 class Sedo_TinyQuattro_Helper_MiniParser
 {
 	/**
@@ -1015,6 +1015,8 @@ class Sedo_TinyQuattro_Helper_MiniParser
 	 * Renderer Mode => Fixer
 	 * Use the 'fixer' to check the Bb Code tags structure after a conversion from Html to Bb Code
 	 */
+	private $fixerDebug = false;
+	
 	protected $_fixerMode = false;
 	
 	public function isfixerModeEnable()
@@ -1027,6 +1029,12 @@ class Sedo_TinyQuattro_Helper_MiniParser
 		$this->_fixerMode = true;
 		$render = $this->render();
 		$this->_fixerMode = false;
+
+		if($this->fixerDebug)
+		{
+			var_dump("#######################\r\nOutput is:\r\n $render");
+		}		
+
 		return $render;
 	}
 
@@ -1193,13 +1201,12 @@ class Sedo_TinyQuattro_Helper_MiniParser
 			$prevMerge = $nextMerge = true;
 		}
 
+		$contextIt = new Sedo_TinyQuattro_Helper_MiniIterator($rendererStates['currentTree'], $tag);
+
 		/*Check if siblings are the same (compatible blank space nodes) - [b]test[b] [b]test 2[/b]*/
-		$contextIt = null;
 		if((!$prevMerge && !$nextMerge))
 		{
-			$contextIt = new Sedo_TinyQuattro_Helper_MiniIterator($rendererStates['currentTree'], $tag);
 			list($prevMergeWip, $nextMergeWip) = $contextIt->sibblingRoutine();
-
 			if($prevMergeWip || $nextMergeWip) $contextIt->setModifiedSiblings();
 			if($prevMergeWip) $prevMerge = true;
 			if($nextMergeWip) $nextMerge = true;
@@ -1219,9 +1226,12 @@ class Sedo_TinyQuattro_Helper_MiniParser
 
 			do{
 				$parentContextIt = $rendererStates['parentTreesIt'][$wipDepth];
-				list($prevMergeWip, $nextMergeWip) = $this->_detectNestedIdenticalBbCodePattern($parentContextIt, $tag, $wipDepth);
-
-				if($prevMergeWip || $nextMergeWip) $contextIt->setModifiedSiblings(); // do not forget to do it ;)
+				list($prevMergeWip, $nextMergeWip) = $this->_detectNestedIdenticalBbCodePattern($parentContextIt, $contextIt, $tag, $wipDepth);
+				
+				if($prevMergeWip || $nextMergeWip){
+					$contextIt->setModifiedSiblings(); // do not forget to do it ;)
+				}
+				
 				if($prevMergeWip) $prevMerge = true;
 				if($nextMergeWip) $nextMerge = true;
 
@@ -1235,7 +1245,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 			
 			unset($wipDepth);
 		}
-		
+
 		if($prevMerge && $nextMerge)
 		{
 			$prepend = '';
@@ -1258,36 +1268,41 @@ class Sedo_TinyQuattro_Helper_MiniParser
 			$append = "[/{$tagName}]";		
 		}
 
-		if($contextIt != null)
-		{
-			//Why save iterator and not simply branch? => iterator keeps the tag position
-			$rendererStates['parentTreesIt'][$tag['depth']] = $contextIt;
-		}
+		//Why save iterator and not simply branch? => iterator keeps the tag position
+		$rendererStates['parentTreesIt'][$tag['depth']] = $contextIt;
 
 		$text = $this->renderSubTree($tag['children'], $rendererStates);
 
 		return $prepend.$text.$append;
 	}
 
-	protected function _detectNestedIdenticalBbCodePattern(Sedo_TinyQuattro_Helper_MiniIterator $parentContextIt, array &$tag, $parentDepth = 1)
+	protected function _detectNestedIdenticalBbCodePattern(
+		Sedo_TinyQuattro_Helper_MiniIterator &$parentContextIt, 
+		Sedo_TinyQuattro_Helper_MiniIterator &$contextIt, 
+		array &$tag, $parentDepth = 1
+	)
 	{
 		$tagName = $tag['tag'];
 		$tagId = $tag['tagId'];
-		$option = $tag['option'];
+		$tagOption = $tag['option'];
 		$parentTagId = $tag['parentTagId'];
 		
 		$parentDepth = ($parentDepth  <= 0) ?  1 : $parentDepth;
-		$recursiveLevel = $tag['depth'] - $parentDepth;
+		$tagDepth = $tag['depth'];
+		$recursiveLevel = $tagDepth - $parentDepth;
 		
 		$prevMerge = $nextMerge = false;
 		$currentTree = array_filter($parentContextIt->getChildrenFromTag());
 
-		$contextItNoBlank = new Sedo_TinyQuattro_Helper_MiniIterator($currentTree, $tag);
-		list($currentIsUniq, $currentIsFirst, $currentIsLast) = $contextItNoBlank->checkCurrentPositions();
+		$wipContextItNoBlank = new Sedo_TinyQuattro_Helper_MiniIterator($currentTree, $tag);
+		list($currentIsUniq, $currentIsFirst, $currentIsLast) = $wipContextItNoBlank->checkCurrentPositions();
 
-		if($currentIsUniq || $currentIsLast)
+		$debugCondition = array();
+
+		if($currentIsFirst || $currentIsLast)
 		{
-			$parentContextIt->rewind(); // should not be needed "inside the box"
+			$debugCondition[] = 'p1';
+			$parentContextIt->rewind();
 			$parentContextIt->prevNoBlank();
 
 			$childrenFromPrevSiblingParent = $parentContextIt->getNestedChildrenByRecursiveLevel($recursiveLevel);
@@ -1296,13 +1311,19 @@ class Sedo_TinyQuattro_Helper_MiniParser
 			
 			if($firstChildTagFromPrevSibling == $tagName)
 			{
-				$firstChildOptionFromPrevSibling = $childrenFromPrevSiblingParentIt->getCurrentOption();
-				$prevMerge = (empty($tagOption)) ? true : ($tagOption == $firstChildOptionFromPrevSibling);
+				$contextIt->rewind();
+				if(empty($contextIt->nextNoBlank())) // The pattern requires no any nodes after
+				{
+					$debugCondition[] = 'p2';
+					$firstChildOptionFromPrevSibling = $childrenFromPrevSiblingParentIt->getCurrentOption();
+					$prevMerge = (empty($tagOption)) ? true : ($tagOption == $firstChildOptionFromPrevSibling);
+				}
 			}
 		}
 
 		if($currentIsUniq || $currentIsFirst)
 		{
+			$debugCondition[] = 'n1';
 			$parentContextIt->rewind();
 			$parentContextIt->nextNoBlank();
 	
@@ -1313,9 +1334,19 @@ class Sedo_TinyQuattro_Helper_MiniParser
 
 			if($lastChildTagFromNextSibling == $tagName)
 			{
+				$debugCondition[] = 'n2';
 				$lastChildOptionFromNextSibling = $childrenFromNextSiblingParentIt->getCurrentOption();
 				$nextMerge = (empty($tagOption)) ? true : ($tagOption == $lastChildOptionFromNextSibling);
 			}				
+		}
+
+		if($this->fixerDebug)
+		{
+			$debugOption = (empty($tagOption)) ? '' : "(option is '$tagOption')";
+			$debugPrev = (!$prevMerge) ? '0' : '1';
+			$debugNext = (!$nextMerge) ? '0' : '1';	
+			$debugCondition = implode('->', $debugCondition);		
+			var_dump("Depth/level: $tagDepth/$recursiveLevel - Prev/next: $debugPrev/$debugNext - Tag: '$tagName' $debugOption - Cond: $debugCondition" );
 		}
 		
 		return array($prevMerge, $nextMerge);
@@ -1657,11 +1688,12 @@ class Sedo_TinyQuattro_Helper_MiniIterator implements Iterator
 	{
 		$index = $this->index;
 		$lastIndex = $this->totalTreeEl-1;
-		
+		$isOnlyTextNode = ($this->totalTreeEl == 0);
+
 		$isFirstPos = ($index == 0);
-		$isLastPos = ($index == $lastIndex);
+		$isLastPos = ($index == $lastIndex || $isOnlyTextNode);
 		$isUniq = ($isFirstPos && $isLastPos);
-		
+
 		return array($isUniq, $isFirstPos, $isLastPos);
 	}
 
