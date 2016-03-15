@@ -1,5 +1,5 @@
 <?php
-/* Mini Parser BbCodes to Html - v1.3wip by Sedo - CC by 3.0*/
+/* Mini Parser BbCodes to Html - v1.31 by Sedo - CC by 3.0*/
 class Sedo_TinyQuattro_Helper_MiniParser
 {
 	/**
@@ -27,7 +27,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 	private $__debug_displayStackError = false;
 	private $__debug_tagChecker = false;
 	private $__debug_parserSpeed = false;
-	private $__debug_fixer = false;
+	private $__debug_fixer = true;
 
 	/**
 	 * Original text
@@ -1025,6 +1025,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 
 	public function fixer()
 	{
+		$this->_externalFormatter = false;
 		$this->_fixerMode = true;
 		$render = $this->render();
 		$this->_fixerMode = false;
@@ -1184,32 +1185,53 @@ class Sedo_TinyQuattro_Helper_MiniParser
 
 	public function fixerValidTag(array $tagRules, array $tag, array &$rendererStates)
 	{
-		$option = $this->filterString($tag['option'], $rendererStates);
+		/*Debug*/
+		$_stopfix_1 = false;
+		$_stopfix_2 = false;
+		$_stopfix_3 = false;
+		$_stopfix_4 = false;
 
+		/*Get data*/
+		$option = $this->filterString($tag['option'], $rendererStates);
 		$tagName = $tag['tag'];
 		$tagId = $tag['tagId'];
 
 		$prevMerge = $nextMerge = false;
+		$contextIt = new Sedo_TinyQuattro_Helper_MiniIterator($rendererStates['currentTree'], $tag);
 
 		/*Check if current and parent are the same - [b]test[b]test 2[/b]test3[/b]*/
 		$parentTagName = $tag['parentTag'];
 		$parentTagOption = $this->filterString($tag['parentOption'], $rendererStates);
 
-		if($tagName == $parentTagName && $option == $parentTagOption)
+		if($tagName == $parentTagName && $option == $parentTagOption && !$_stopfix_1)
 		{
 			$prevMerge = $nextMerge = true;
+			$contextIt->setModifiedParent();
 		}
 
-		$contextIt = new Sedo_TinyQuattro_Helper_MiniIterator($rendererStates['currentTree'], $tag);
-
-		/* If the opening tag has been merged and the content is empty make sure the ending tag is also merged */
-		if($contextIt->isEmptyTag())
+		/* If the opening tag has been merged and the content is empty make sure the ending tag follows a similar logic */
+		if($contextIt->isEmptyTag() && !$_stopfix_2)
 		{
-			$prevMerge = $nextMerge = true;		
+			if(!empty($tagRules['allowEmpty']) || !isset($tagRules['allowEmpty']))
+			{
+				//The tag can have an empty content, do nothing || if nothing is set, this is the standard behaviour
+				$rendererStates['parentTreesIt'][$tag['depth']] = $contextIt;
+				$prepend = ($option) ? "[{$tagName}={$option}]" : "[{$tagName}]";
+				$append = "[/{$tagName}]";		
+				$text = $this->renderSubTree($tag['children'], $rendererStates);
+		
+				return $prepend.$text.$append;				
+			}
+			else
+			{
+				//The tag can't have an empty content, merge prev & next
+				$prevMerge = $nextMerge = true;			
+				$contextIt->setModifiedSiblings();/*to check*/
+			}
 		}
 
 		/*Check if siblings are the same (compatible blank space nodes) - [b]test[b] [b]test 2[/b]*/
-		if((!$prevMerge && !$nextMerge))
+		if((!$prevMerge && !$nextMerge) && !$_stopfix_3)
 		{
 			list($prevMergeWip, $nextMergeWip) = $contextIt->sibblingRoutine();
 			if($prevMergeWip || $nextMergeWip) $contextIt->setModifiedSiblings();
@@ -1225,7 +1247,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 		 **/
 
 		$parentDepth = $tag['depth'] - 1;
-		if((!$prevMerge && !$nextMerge) && isset($rendererStates['parentTreesIt'], $rendererStates['parentTreesIt'][$parentDepth]))
+		if((!$prevMerge && !$nextMerge) && isset($rendererStates['parentTreesIt'], $rendererStates['parentTreesIt'][$parentDepth]) && !$_stopfix_4)
 		{
 			$wipDepth = $parentDepth;
 
@@ -1304,7 +1326,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 
 		$debugCondition = array();
 
-		if($currentIsFirst || $currentIsLast)
+		if($currentIsUniq || $currentIsLast)
 		{
 			$debugCondition[] = 'p1';
 			$parentContextIt->rewind();
@@ -1342,7 +1364,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 				$debugCondition[] = 'n2';
 				$lastChildOptionFromNextSibling = $childrenFromNextSiblingParentIt->getCurrentOption();
 				$nextMerge = (empty($tagOption)) ? true : ($tagOption == $lastChildOptionFromNextSibling);
-			}				
+			}
 		}
 
 		if($this->__debug_fixer)
@@ -1649,6 +1671,24 @@ class Sedo_TinyQuattro_Helper_MiniIterator implements Iterator
 		return $this->current();
 	}
 
+	public function isLast()
+	{
+		$maxIndex = $this->totalTreeEl-1;
+		return ($this->index == $maxIndex);
+	}
+
+	public function isLastNoBlank()
+	{
+		$isLast = false;
+		$this->save();
+		
+		if($this->last()) $isLast = true;
+		if($this->nextNoBlank() === null) $isLast = true;
+		
+		$this->restore();
+		return $isLast;
+	}
+
 	public function key()
 	{
 		return $this->index;
@@ -1688,6 +1728,18 @@ class Sedo_TinyQuattro_Helper_MiniIterator implements Iterator
 	{
 		$this->tree = array_reverse($this->tree);
 		$this->rewind();
+	}
+
+	/*Modified Parent functions*/
+	protected $_modifiedParent = false;
+	public function setModifiedParent()
+	{
+		$this->_modifiedParent = true;
+	}
+	
+	public function isModifiedParent()
+	{
+		return $this->_modifiedParent;
 	}
 
 	/*Modified Siblings functions*/
