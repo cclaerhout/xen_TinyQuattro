@@ -1,5 +1,5 @@
 <?php
-/* Mini Parser BbCodes to Html - v1.3wip by Sedo - CC by 3.0*/
+/* Mini Parser BbCodes to Html - v1.31 by Sedo - CC by 3.0*/
 class Sedo_TinyQuattro_Helper_MiniParser
 {
 	/**
@@ -1025,6 +1025,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 
 	public function fixer()
 	{
+		$this->_externalFormatter = false;
 		$this->_fixerMode = true;
 		$render = $this->render();
 		$this->_fixerMode = false;
@@ -1184,8 +1185,14 @@ class Sedo_TinyQuattro_Helper_MiniParser
 
 	public function fixerValidTag(array $tagRules, array $tag, array &$rendererStates)
 	{
-		$option = $this->filterString($tag['option'], $rendererStates);
+		/*Debug*/
+		$_stopfix_1 = false;
+		$_stopfix_2 = false;
+		$_stopfix_3 = false;
+		$_stopfix_4 = false;
 
+		/*Get data*/
+		$option = $this->filterString($tag['option'], $rendererStates);
 		$tagName = $tag['tag'];
 		$tagId = $tag['tagId'];
 
@@ -1195,21 +1202,34 @@ class Sedo_TinyQuattro_Helper_MiniParser
 		$parentTagName = $tag['parentTag'];
 		$parentTagOption = $this->filterString($tag['parentOption'], $rendererStates);
 
-		if($tagName == $parentTagName && $option == $parentTagOption)
+		if($tagName == $parentTagName && $option == $parentTagOption && !$_stopfix_1)
 		{
 			$prevMerge = $nextMerge = true;
 		}
 
 		$contextIt = new Sedo_TinyQuattro_Helper_MiniIterator($rendererStates['currentTree'], $tag);
 
-		/* If the opening tag has been merged and the content is empty make sure the ending tag is also merged */
-		if($contextIt->isEmptyTag())
+		/* If the opening tag has been merged and the content is empty make sure the ending tag follows a similar logic */
+		if($contextIt->isEmptyTag() && !$_stopfix_2)
 		{
-			$prevMerge = $nextMerge = true;		
+			if(!empty($tagRules['allowEmpty']) || !isset($tagRules['allowEmpty']))
+			{
+				//The tag can have an empty content, do nothing || if nothing is set, this is the standard behaviour
+				$prepend = ($option) ? "[{$tagName}={$option}]" : "[{$tagName}]";
+				$append = "[/{$tagName}]";		
+				$text = $this->renderSubTree($tag['children'], $rendererStates);
+		
+				return $prepend.$text.$append;				
+			}
+			else
+			{
+				//The tag can't have an empty content, merge prev & next
+				$prevMerge = $nextMerge = true;			
+			}
 		}
 
 		/*Check if siblings are the same (compatible blank space nodes) - [b]test[b] [b]test 2[/b]*/
-		if((!$prevMerge && !$nextMerge))
+		if((!$prevMerge && !$nextMerge) && !$_stopfix_3)
 		{
 			list($prevMergeWip, $nextMergeWip) = $contextIt->sibblingRoutine();
 			if($prevMergeWip || $nextMergeWip) $contextIt->setModifiedSiblings();
@@ -1225,7 +1245,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 		 **/
 
 		$parentDepth = $tag['depth'] - 1;
-		if((!$prevMerge && !$nextMerge) && isset($rendererStates['parentTreesIt'], $rendererStates['parentTreesIt'][$parentDepth]))
+		if((!$prevMerge && !$nextMerge) && isset($rendererStates['parentTreesIt'], $rendererStates['parentTreesIt'][$parentDepth]) && !$_stopfix_4)
 		{
 			$wipDepth = $parentDepth;
 
@@ -1302,6 +1322,10 @@ class Sedo_TinyQuattro_Helper_MiniParser
 		$wipContextItNoBlank = new Sedo_TinyQuattro_Helper_MiniIterator($currentTree, $tag);
 		list($currentIsUniq, $currentIsFirst, $currentIsLast) = $wipContextItNoBlank->checkCurrentPositions();
 
+		//Check if tag is last node
+		$contextIt->rewind();
+		$isLastNode = $contextIt->isLastNoBlank();
+
 		$debugCondition = array();
 
 		if($currentIsFirst || $currentIsLast)
@@ -1342,7 +1366,14 @@ class Sedo_TinyQuattro_Helper_MiniParser
 				$debugCondition[] = 'n2';
 				$lastChildOptionFromNextSibling = $childrenFromNextSiblingParentIt->getCurrentOption();
 				$nextMerge = (empty($tagOption)) ? true : ($tagOption == $lastChildOptionFromNextSibling);
-			}				
+			}
+		}
+
+		if($isLastNode && ($prevMerge != $nextMerge))
+		{
+			//If any difference is noticed whereas it is a last node, do nothing
+			$debugCondition[] = 'pn_safety';
+			$prevMerge = $nextMerge = false;
 		}
 
 		if($this->__debug_fixer)
@@ -1647,6 +1678,24 @@ class Sedo_TinyQuattro_Helper_MiniIterator implements Iterator
 		}
 		
 		return $this->current();
+	}
+
+	public function isLast()
+	{
+		$maxIndex = $this->totalTreeEl-1;
+		return ($this->index == $maxIndex);
+	}
+
+	public function isLastNoBlank()
+	{
+		$isLast = false;
+		$this->save();
+		
+		if($this->last()) $isLast = true;
+		if($this->nextNoBlank() === null) $isLast = true;
+		
+		$this->restore();
+		return $isLast;
 	}
 
 	public function key()
