@@ -27,6 +27,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 	private $__debug_displayStackError = false;
 	private $__debug_tagChecker = false;
 	private $__debug_parserSpeed = false;
+	private $__debug_fixer = false;
 
 	/**
 	 * Original text
@@ -1015,8 +1016,6 @@ class Sedo_TinyQuattro_Helper_MiniParser
 	 * Renderer Mode => Fixer
 	 * Use the 'fixer' to check the Bb Code tags structure after a conversion from Html to Bb Code
 	 */
-	private $fixerDebug = false;
-	
 	protected $_fixerMode = false;
 	
 	public function isfixerModeEnable()
@@ -1030,7 +1029,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 		$render = $this->render();
 		$this->_fixerMode = false;
 
-		if($this->fixerDebug)
+		if($this->__debug_fixer)
 		{
 			var_dump("#######################\r\nOutput is:\r\n $render");
 		}		
@@ -1203,6 +1202,12 @@ class Sedo_TinyQuattro_Helper_MiniParser
 
 		$contextIt = new Sedo_TinyQuattro_Helper_MiniIterator($rendererStates['currentTree'], $tag);
 
+		/* If the opening tag has been merged and the content is empty make sure the ending tag is also merged */
+		if($contextIt->isEmptyTag())
+		{
+			$prevMerge = $nextMerge = true;		
+		}
+
 		/*Check if siblings are the same (compatible blank space nodes) - [b]test[b] [b]test 2[/b]*/
 		if((!$prevMerge && !$nextMerge))
 		{
@@ -1340,7 +1345,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 			}				
 		}
 
-		if($this->fixerDebug)
+		if($this->__debug_fixer)
 		{
 			$debugOption = (empty($tagOption)) ? '' : "(option is '$tagOption')";
 			$debugPrev = (!$prevMerge) ? '0' : '1';
@@ -1658,6 +1663,20 @@ class Sedo_TinyQuattro_Helper_MiniIterator implements Iterator
 	{
 		$maxIndex = $this->totalTreeEl-1;
 		return ($this->index >= 0 && $this->index <= $maxIndex);
+	}
+
+	public function isEmptyTag()
+	{
+		$current = $this->current();
+
+		if(!isset($current['children'])) return null;
+
+		// Can not use array_filter... if the string is a zero
+		if(isset($current['children'][1])) return false;
+		
+		$firstChild = $current['children'][0];
+		
+		return (trim($firstChild) == '');
 	}
 
 	public function rewind()
