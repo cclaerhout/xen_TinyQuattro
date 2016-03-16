@@ -481,8 +481,17 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 		return "[xentagHolders_$id/]";
 	}
 	
-	public function unXenTagsHolderisation($content, $reset = true)
+	public function unXenTagsHolderisation($content, $reset = true, &$rendererStates = array())
 	{
+		if(!empty($rendererStates['XenTagsHolderisation']))
+		{
+			$reset = false;
+		}
+		else
+		{
+			$rendererStates['XenTagsHolderisation'] = true;
+		}
+
 		foreach($this->_tagHolders as $id => $replacement)
 		{
 			if(strpos($content, "[xentagHolders_$id/]") !== false)
@@ -587,13 +596,13 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 		$miniParserOptions = array(
 			'htmlspecialcharsForContent' => false,
 			'breakToBr' => true,
-			'renderStates' => array(),
-			//'externalFormatter' => array($this, 'renderTree')
+			'renderStates' => array()
 		);
 
 		$miniParser =  new Sedo_TinyQuattro_Helper_MiniParser($content, $slaveTags, $tag, $miniParserOptions);
 		$content = $miniParser->render();
-		$content = $this->unXenTagsHolderisation($content);
+
+		$content = $this->unXenTagsHolderisation($content, false, $rendererStates);
 
 		if(!preg_match('#skin\d{1,2}#', $extraClass, $match))
 		{

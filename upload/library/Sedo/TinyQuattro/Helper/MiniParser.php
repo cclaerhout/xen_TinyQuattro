@@ -27,7 +27,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 	private $__debug_displayStackError = false;
 	private $__debug_tagChecker = false;
 	private $__debug_parserSpeed = false;
-	private $__debug_fixer = true;
+	private $__debug_fixer = false;
 
 	/**
 	 * Original text
