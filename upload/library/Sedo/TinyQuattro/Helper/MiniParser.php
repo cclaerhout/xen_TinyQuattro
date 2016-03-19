@@ -1189,7 +1189,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 		$_stopfix_1 = false;
 		$_stopfix_2 = false;
 		$_stopfix_3 = false;
-		$_stopfix_4 = false;
+		$_stopfix_4 = true;
 
 		/*Get data*/
 		$option = $this->filterString($tag['option'], $rendererStates);
@@ -1240,6 +1240,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 		}
 
 		/**
+		 * ########DISABLE FOR NOW TOO DIFFICULT##############
 		 * Check if parent siblings have been modified. If it is:
 		 * > check if the current tag is a uniq tag in the tree or if it is the last tag, then look forward if the next sibling parent tag has a similar first child tag
 		 * > check if the current tag is a uniq tag in the tree or if it is the first tag, then look backward if the prev sibling parent tag has a similar last child tag
@@ -1298,9 +1299,9 @@ class Sedo_TinyQuattro_Helper_MiniParser
 		//Why save iterator and not simply branch? => iterator keeps the tag position
 		$rendererStates['parentTreesIt'][$tag['depth']] = $contextIt;
 
-		$text = $this->renderSubTree($tag['children'], $rendererStates);
+		$text = $prepend . $this->renderSubTree($tag['children'], $rendererStates) . $append;
 
-		return $prepend.$text.$append;
+		return $text;
 	}
 
 	protected function _detectNestedIdenticalBbCodePattern(
