@@ -1,5 +1,5 @@
 <?php
-/* Mini Parser BbCodes to Html - v1.32 by Sedo - CC by 3.0*/
+/* Mini Parser BbCodes to Html - v1.33 by Sedo - CC by 3.0*/
 class Sedo_TinyQuattro_Helper_MiniParser
 {
 	/**
@@ -1032,7 +1032,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 	{
 		$this->_externalFormatter = false;
 		$this->_fixerMode = true;
-		$this->generateTreeByLevel($this->_tree);
+		$this->recalibrateTreeByLevel($this->_tree);
 
 		$render = $this->render();
 		$this->_fixerMode = false;
@@ -1051,9 +1051,9 @@ class Sedo_TinyQuattro_Helper_MiniParser
 	protected $_tagsMapByTagsId = array();
 	protected $_tagsMapByTagsIdDone = false;
 
-	private $stopSiblingsPatch = true; //wait to fix all bugs
+	private $stopSiblingsPatch = false;
 	
-	public function generateTreeByLevel(array &$tree, $preventRecursive = false)
+	public function recalibrateTreeByLevel(array &$tree, $preventRecursive = false)
 	{
 		$tree = array_values($tree);
 
@@ -1136,7 +1136,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 					$this->_tagsMapByTagsId[$tagId]['deleted'] = true;
 
 					if($children != null && !$preventRecursive) {
-						$this->generateTreeByLevel($data['children']);
+						$this->recalibrateTreeByLevel($data['children']);
 					}
 					continue;
 				}
@@ -1150,28 +1150,43 @@ class Sedo_TinyQuattro_Helper_MiniParser
 				if($blankCatchUp != null)
 				{
 					/****
-					* Dealing with previous white spaces is the most difficult thing to do here since
-					* it can have a recursive patern that looks for previous tag with skipping blanks
-					* and adding them back whereas there are new ones we've just added. SSo use such a cmd will not work :
-					* $tree[$prevIndex]['children'][] = $tree[$n-1];
-					* Whereas it should be with a stop block:
-					* $tree[$prevIndex]['children'][] = $tree[$n-1].'stop';
-					* The safest solution is to insert the catchup text in the last position text node 
-					*	Ex:
+					* Dealing with previous white spaces is the most difficult thing to do 
+					* The sibling pattern can be recursive. We need to find the previous tag by skipping all nodes only made of white space
+					* (there's should only be one). This white space skipped must be added again. The safest solution is to put it back to 
+					* the last text node of children elements. This requires to use a recursive function. So doing the following thing will
+					* not be enough : $tree[$prevIndex]['children'][] = $tree[$n-1]; (to understand try: $tree[$prevIndex]['children'][] = $tree[$n-1].'stop';
+					* N.B: $tree[$n-1] and $tree[$prevIndex+1] should be the same
+					*/
+					
+					if($this->_insertCatchUpTextInLastRecursiveTextNode($tree[$prevIndex]['children'], $tree[$prevIndex+1]))
+					{
+						unset($tree[$prevIndex+1]); //Be sure to unset the blank space (branch) if it has found a location to be inserted in the children
+						// DO NOT REORDER ARRAY INDEX YET !
+					}
+					
+					/**					
+					* The above code will work with this kind of patterns:
+					*	<Ex 1>
 					*	[COLOR=#0c4acc][COLOR=#3474c8][B]Part 1[/B]Part 2[/COLOR][/COLOR]
 					*	[COLOR=#0c4acc][COLOR=#3474c8][B]Part 3[/B]Part 4[/COLOR][/COLOR]
 					*	[COLOR=#0c4acc][COLOR=#3474c8][B]Part 5[/B]Part 6[/COLOR][/COLOR]
-					*	=> must be the last pos text node, if not => [:recursive: children => last pos text node]
+					*
+					*	<EX 2>
+					*	[COLOR=#0c4acc][COLOR=#3474c8]AA[/COLOR]
+					*	[COLOR=#3474c8]BB[/COLOR]
+					*	CC[/COLOR]
+					*	[COLOR=#0c4acc][COLOR=#3474c8]DD[/COLOR][/COLOR]
+					*
+					* 	<Ex 3>
+					*	[COLOR=#0c4acc]
+					*	
+					*	[COLOR=#3474c8][B]Part 1[/B][/COLOR]
+					*	
+					*	[/COLOR]
+					*	[COLOR=#0c4acc][COLOR=#3474c8][B]Part 2[/B][/COLOR][/COLOR]
+					*	[COLOR=#0c4acc][COLOR=#3474c8][B]Part 3[/B][/COLOR][/COLOR]
+					*	[COLOR=#0c4acc][COLOR=#3474c8][B]Part 4[/B][/COLOR][/COLOR]
 					***/
-					
-/* small bug to fix
-[COLOR=#0c4acc][COLOR=#3474c8]AA[/COLOR]
-[COLOR=#3474c8]BB[/COLOR]
-CC[/COLOR]
-[COLOR=#0c4acc][COLOR=#3474c8]DD[/COLOR][/COLOR]
-*/
-					
-					$this->_insertCatchUpTextInLastRecursiveTextNode($tree[$prevIndex]['children'], $tree[$prevIndex+1]);
 				}
 				
 				foreach($data['children'] as $c)
@@ -1182,15 +1197,17 @@ CC[/COLOR]
 				}
 
 				$this->_tagsMapByTagsId[$tagId]['deleted'] = true;
+
 				unset($tree[$n]);
+				$tree = array_values($tree);
 
 				//Siblings detected, let's process again the modified tree branch to detect recursive patterns
-				$this->generateTreeByLevel($tree[$prevIndex]['children'], true); // => too much intensive for large strings
+				$this->recalibrateTreeByLevel($tree[$prevIndex]['children'], true); // disable recursion
 				continue;
 			}
 
 			if($children != null && !$preventRecursive) {
-				$this->generateTreeByLevel($data['children']);
+				$this->recalibrateTreeByLevel($data['children']);
 			}
 		}
 		
@@ -1209,13 +1226,20 @@ CC[/COLOR]
 	{
 		$lastTextNodeIndex = null;
 		$lastTagNodeIndex = null;
-		
+		$fallback = null;
 
 		foreach($tree as $n => &$data)
 		{
 			if(is_string($data) && $data != '')
 			{
-				$lastTextNodeIndex = $n;
+				if(trim($data) != '')
+				{
+					$lastTextNodeIndex = $n;
+				}
+				else
+				{
+					$fallback = $n;	
+				}
 			}
 			elseif(!empty($data['children']))
 			{
@@ -1229,21 +1253,29 @@ CC[/COLOR]
 		)
 		{
 			$tree[$lastTextNodeIndex] .= $catchUpText;
-			return;
+			return true;
 		}
 		else
 		{
-			if($lastTagNodeIndex === null) return;
-			$this->_insertCatchUpTextInLastRecursiveTextNode($tree[$lastTagNodeIndex]['children'], $catchUpText); 
-			return;
+			if($lastTagNodeIndex === null && $fallback === null) return;
+			
+			if($lastTagNodeIndex === null && $fallback !== null)
+			{
+				$tree[$fallback] .= $catchUpText;
+				return true;
+			}
+			
+			return $this->_insertCatchUpTextInLastRecursiveTextNode($tree[$lastTagNodeIndex]['children'], $catchUpText); 
 		}
+		
+		return false;
 	}
 
 	public function getTagsMapByTagsId()
 	{
 		if(empty($this->_tagsMapByTagsId) && !$this->_tagsMapByTagsIdDone)
 		{
-			$this->generateTreeByLevel($this->_tree);
+			$this->recalibrateTreeByLevel($this->_tree);
 		}
 		
 		return $this->_tagsMapByTagsId;
