@@ -1163,6 +1163,10 @@ class Sedo_TinyQuattro_Helper_MiniParser
 						unset($tree[$prevIndex+1]); //Be sure to unset the blank space (branch) if it has found a location to be inserted in the children
 						// DO NOT REORDER ARRAY INDEX YET !
 					}
+					else
+					{
+						continue; // It should not happen but if it does, we don't know what you're dealing with. Keep it safe, let's just ignore this.
+					}
 					
 					/**					
 					* The above code will work with this kind of patterns:
