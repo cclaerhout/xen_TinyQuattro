@@ -467,7 +467,7 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 
 	public function xenTagsHolderisation($content)
 	{
-		return preg_replace_callback('#\[(rTag_(\d{1,3}))](.*?)\[/\1](?:\r\n)?#s', array($this, '_xenTagsHolderisationRegex'), $content);
+		return preg_replace_callback('#\[(rTag_(\d+))](.*?)\[/\1](?:\r\n)?#s', array($this, '_xenTagsHolderisationRegex'), $content);
 	}
 	
 	protected function _xenTagsHolderisationRegex($matches)
