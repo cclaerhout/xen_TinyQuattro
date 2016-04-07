@@ -1671,6 +1671,8 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <phrase title="style_property_quattroPanelBorder_master" version_id="22" version_string="1.4.2"><![CDATA[quattroPanelBorder]]></phrase>
     <phrase title="style_property_quattroTextBoxBckg_description_master" version_id="22" version_string="1.4.2"><![CDATA[]]></phrase>
     <phrase title="style_property_quattroTextBoxBckg_master" version_id="22" version_string="1.4.2"><![CDATA[quattroTextBoxBckg]]></phrase>
+    <phrase title="style_property_quattroText_description_master" version_id="92" version_string="2.6.1"><![CDATA[Text colour for TinyMCE Quattro addon]]></phrase>
+    <phrase title="style_property_quattroText_master" version_id="92" version_string="2.6.1"><![CDATA[Quattro Text]]></phrase>
     <phrase title="style_property_quattroTooltipBckg_description_master" version_id="22" version_string="1.4.2"><![CDATA[]]></phrase>
     <phrase title="style_property_quattroTooltipBckg_master" version_id="22" version_string="1.4.2"><![CDATA[quattroTooltipBckg]]></phrase>
     <phrase title="style_property_quattro_sf_custom1_description_master" version_id="71" version_string="2.4.2"><![CDATA[]]></phrase>
@@ -1884,6 +1886,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
     <property property_name="quattro_sf_custom1_text" property_type="scalar" definition="1" group_name="sedo_tinyquattro_stylef" title="Custom 1 Text" description="If you need this text to be multilingual, keep the default entry &quot;# Custom 1&quot; and edit the phrase &quot;quattro_formats_custom1&quot;. To disable it in the menu, just set a blank value." css_components="" scalar_type="" scalar_parameters="" display_order="70" sub_group="text"><![CDATA[# Custom 1]]></property>
     <property property_name="quattro_sf_custom2_text" property_type="scalar" definition="1" group_name="sedo_tinyquattro_stylef" title="Custom 2 Text" description="If you need this text to be multilingual, keep the default entry &quot;# Custom 2&quot; and edit the phrase &quot;quattro_formats_custom2&quot;. To disable it in the menu, just set a blank value." css_components="" scalar_type="" scalar_parameters="" display_order="80" sub_group="text"><![CDATA[# Custom 2]]></property>
     <property property_name="quattro_sf_custom3_text" property_type="scalar" definition="1" group_name="sedo_tinyquattro_stylef" title="Custom 3 Text" description="If you need this text to be multilingual, keep the default entry &quot;# Custom 3&quot; and edit the phrase &quot;quattro_formats_custom3&quot;. To disable it in the menu, just set a blank value." css_components="" scalar_type="" scalar_parameters="" display_order="90" sub_group="text"><![CDATA[# Custom 3]]></property>
+    <property property_name="quattroText" property_type="scalar" definition="1" group_name="color" title="Quattro Text" description="Text colour for TinyMCE Quattro addon" css_components="" scalar_type="color" scalar_parameters="" display_order="27800000" sub_group="quattro"><![CDATA[@quattroDark]]></property>
     <group group_name="sedo_tinyquattro" display_order="13100">
       <title>TinyMCE Quattro</title>
       <description>Configure the layout of TinyMCE 4</description>
@@ -3822,7 +3825,7 @@ i.mce-i-backcolor {
 .mce-i-backcolor {
 	background: {xen:property tinyquattro_icon_bckg_color}
 }]]></template>
-    <template title="tiny_quattro_common_css.css" version_id="89" version_string="2.5.9"><![CDATA[<xen:set var="$_mcePrimaryDark">{xen:property quattroDark}</xen:set>
+    <template title="tiny_quattro_common_css.css" version_id="92" version_string="2.6.1"><![CDATA[<xen:set var="$_mcePrimaryDark">{xen:property quattroDark}</xen:set>
 <xen:set var="$_mcePrimaryLightish">{xen:property quattroLightish}</xen:set>
 <xen:set var="$_mcePrimaryLight">{xen:property quattroLight}</xen:set>
 <xen:set var="$_mcePrimaryLighter">{xen:property quattroLighter}</xen:set>
@@ -3832,9 +3835,12 @@ i.mce-i-backcolor {
 <xen:set var="$_mceSecondaryMedium">{xen:property quattroAltMedium}</xen:set>
 <xen:set var="$_mceSecondaryLight">{xen:property quattroAltLight}</xen:set>
 <xen:set var="$_mceSecondaryLightest">{xen:property quattroAltLightest}</xen:set>
+
+<xen:set var="$_mceText">{xen:property quattroText}</xen:set>
 <xen:set var="$_mceTextBoxBackground">{xen:property quattroTextBoxBckg}</xen:set>
 <xen:set var="$_mceBorderColor">{xen:property quattroBorderColor}</xen:set>
 <xen:set var="$_mceMiscColor">{xen:property quattroMiscColor}</xen:set>
+
 <xen:set var="$mceGridBorder">{xen:property quattroGridBorder}</xen:set>
 <xen:set var="$mcePanelBorder">{xen:property quattroPanelBorder}</xen:set>
 
@@ -3853,7 +3859,7 @@ i.mce-i-backcolor {
 <xen:set var="$mceMenuBarBorder">{xen:helper playwithcolors, '{$mcePanelBorder}', 'mix', '{$mcePanelBackground}', 60, 'hex'}</xen:set>
 
 <xen:set var="$mceTextboxBackground">{$_mceTextBoxBackground}</xen:set>
-<xen:set var="$mceText">{$_mcePrimaryDark}</xen:set>
+<xen:set var="$mceText">{$_mceText}</xen:set>
 <xen:set var="$mceTextboxDisable">{xen:helper playwithcolors, '{$mceText}', 'mix', '{$mceTextboxBackground}', 40, 'hex'}</xen:set>
 <xen:set var="$mceMenuItText">{$mceText}</xen:set>
 <xen:set var="$mceMenuItDisable">{xen:helper playwithcolors, '{$mceMenuItText}', 'mix', '{$mceMenuBackground}', 40, 'hex'}</xen:set>
@@ -4198,7 +4204,7 @@ div.mce-tinymce-inline {
 }
 .mce-panel {
 	border:0 solid {$_mcePrimaryLighter};
-	background-color:{$mceBtnGradientFallback};
+	background-color:{$mcePanelGradientFallback};
 }
 .mce-floatpanel {
 	position:absolute;
