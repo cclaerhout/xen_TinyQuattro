@@ -28,6 +28,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 	private $__debug_tagChecker = false;
 	private $__debug_parserSpeed = false;
 	private $__debug_fixer = false;
+	private $__debug_fixerSpeed = false;
 
 	/**
 	 * Original text
@@ -217,7 +218,8 @@ class Sedo_TinyQuattro_Helper_MiniParser
 
 		if($this->__debug_parserSpeed)
 		{
-			echo "Time:  " . number_format(( microtime(true) - $startTime), 4) . " Seconds --- Memory: " . (memory_get_usage() - $mem) / (1024 * 1024) . "<br />";
+			echo "ParserSpeed Time:  " . number_format(( microtime(true) - $startTime), 4) . 
+			" Seconds --- Memory: " . (memory_get_usage() - $mem) / (1024 * 1024) . "\r\n";
 		}
 
 		return;
@@ -1032,7 +1034,20 @@ class Sedo_TinyQuattro_Helper_MiniParser
 	{
 		$this->_externalFormatter = false;
 		$this->_fixerMode = true;
+
+		if($this->__debug_fixerSpeed)
+		{
+			$mem = memory_get_usage();
+			$startTime = microtime(true);
+		}
+
 		$this->recalibrateTreeByLevel($this->_tree);
+
+		if($this->__debug_fixerSpeed)
+		{
+			echo "FixerSpeed Time:  " . number_format(( microtime(true) - $startTime), 4) . 
+			" Seconds --- Memory: " . (memory_get_usage() - $mem) / (1024 * 1024) . "\r\n";
+		}
 
 		$render = $this->render();
 		$this->_fixerMode = false;
@@ -1057,10 +1072,14 @@ class Sedo_TinyQuattro_Helper_MiniParser
 	{
 		$tree = array_values($tree);
 
-		foreach($tree as $n => &$data) {
+		for($n=0; ; ++$n)
+		{
+			if(!isset($tree[$n])) break;
+			$data = &$tree[$n];
+
 			if(is_string($data)) continue;
 			
-			$tag =  $data['tag'];
+			$tag = $data['tag'];
 			$tagId = $data['tagId'];
 			$parentTagId = $data['parentTagId'];
 			$option = $data['option'];
@@ -1074,21 +1093,21 @@ class Sedo_TinyQuattro_Helper_MiniParser
 			if($parentTagId)
 			{
 				$wipParentTagId = $parentTagId;
-				$parentIt = $this->_tagsMapByTagsId[$parentTagId]['contextIt'];
+				$mergeWithParent = $this->_tagsMapByTagsId[$parentTagId]['mergeWithParent'];
 				$delta = 0;
 
-				if($parentIt->hasToMergeWithParent())
+				if($mergeWithParent)
 				{
 					do{
 						$wipParentTagId = $this->_tagsMapByTagsId[$wipParentTagId]['parentTagId'];
 						
 						if(!$wipParentTagId) break;
 						
-						$parentIt = $this->_tagsMapByTagsId[$wipParentTagId]['contextIt'];
+						$mergeWithParent = $this->_tagsMapByTagsId[$wipParentTagId]['mergeWithParent'];
 						$delta++;
 					
 					}
-					while($parentIt->hasToMergeWithParent() && $wipParentTagId);
+					while($mergeWithParent && $wipParentTagId);
 					
 					//Recalibration
 					$parentTagId = $wipParentTagId;
@@ -1105,7 +1124,8 @@ class Sedo_TinyQuattro_Helper_MiniParser
 				'parentTagId' => $parentTagId,
 				'depth' => $depth,
 				'children' => $children,
-				'contextIt' =>  $contextIt //iterator keeps the tag position :)
+				'mergeWithParent' => false,
+				//'contextIt' =>  $contextIt //iterator keeps the tag position :) // saving the iterator takes too much memory
 			);
 
 			/***FIX AFTER***/
@@ -1115,8 +1135,9 @@ class Sedo_TinyQuattro_Helper_MiniParser
 				$parentData = $this->_tagsMapByTagsId[$parentTagId];
 				if($tag == $parentData['tag'] && $option == $parentData['option'])
 				{
+					$this->_tagsMapByTagsId[$tagId]['mergeWithParent'] = true;
 					$contextIt->mergeWithParent();
-				
+					
 					$treeWip = array_slice($tree, 0, $n);
 					$treeEnd = array_slice($tree, $n+1, count($tree)-$n);
 
@@ -1193,11 +1214,12 @@ class Sedo_TinyQuattro_Helper_MiniParser
 					***/
 				}
 				
-				foreach($data['children'] as $c)
+				for($i=0; ; ++$i)
 				{
+					if(!isset($data['children'][$i])) break;
 					//Inject tag children to parent children
-					$tree[$prevIndex]['children'][] = $c;
-					$this->_tagsMapByTagsId[$prevTagId]['children'][] = $c;
+					$tree[$prevIndex]['children'][] = $data['children'][$i];
+					$this->_tagsMapByTagsId[$prevTagId]['children'][] = $data['children'][$i];
 				}
 
 				$this->_tagsMapByTagsId[$tagId]['deleted'] = true;
@@ -1345,7 +1367,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 	{
 		$output = '';
 
-		foreach ($tree AS $element)
+		foreach($tree AS $element)
 		{
 			$rendererStates['currentTree'] = array_values($tree);
 			$output .= $this->renderTreeElement($element, $rendererStates);
@@ -1356,7 +1378,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 
 	public function renderTreeElement($element, array &$rendererStates)
 	{
-		if (is_array($element))
+		if(is_array($element))
 		{
 			return $this->renderTag($element, $rendererStates);
 		}
@@ -1368,16 +1390,6 @@ class Sedo_TinyQuattro_Helper_MiniParser
 	
 	public function renderString($string, array &$rendererStates)
 	{
-		if($this->_fixerMode && !empty($rendererStates['catchUpStringsStack']))
-		{
-			$after = array_shift($rendererStates['catchUpStringsStack']);
-			$string .= $after;
-			if(empty($rendererStates['catchUpStringsStack']))
-			{
-				unset($rendererStates['catchUpStringsStack']);
-			}
-		}
-
 		return $this->filterString($string, $rendererStates);
 	}
 
@@ -1558,8 +1570,11 @@ class Sedo_TinyQuattro_Helper_MiniIterator implements Iterator
 		
 		if($refTagId)
 		{
-			foreach($tree as $i => $arr)
+			for($i=0; ; ++$i)
 			{
+				if(!isset($tree[$i])) break;
+				$arr = $tree[$i];
+
 				if(!isset($arr['tagId']))
 				{
 					continue;

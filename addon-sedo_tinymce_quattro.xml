@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.6.1" version_id="93" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.6.2" version_id="93" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -1278,8 +1278,9 @@ If you need to use the browser original menu when you click on the right button 
 <br />
 This patch is disabled by default. Reason:  its code is quite "acrobatic". On the other side, I've been using this html converter patch for several months without any problems on several boards. If you see any problems after having activated it, just disable it.]]></phrase>
     <phrase title="option_quattro_converter_html_to_bbcode" version_id="90" version_string="2.6.0"><![CDATA[Activate the HTML >  BbCode Converter Patch?]]></phrase>
-    <phrase title="option_quattro_converter_html_to_bbcode_explain" version_id="90" version_string="2.6.0"><![CDATA[On old versions of XenForo (&lt; 1.2), this option will enable some fixes when you <span style="text-decoration:underline">toggle</span> the RTE editor to the BbCode editor<br /><br />
-On recent versions of XenForo (&gt; 1.2), this option will enable some fixes <span style="text-decoration:underline">every time</span> the html content of the editor is converted to Bb Codes.<br /><br />
+    <phrase title="option_quattro_converter_html_to_bbcode_explain" version_id="92" version_string="2.6.1"><![CDATA[On old versions of XenForo (&lt; 1.2), this option will enable some fixes when you <span style="text-decoration:underline">toggle</span> the RTE editor to the BbCode editor. On recent versions of XenForo (&gt; 1.2), this option will be enabled <span style="text-decoration:underline">every time</span> the html content of the editor is converted to Bb Codes.<br /><br />
+To make it simple, there are two kinds of fixes. The first one detects if the a tag has the same parent ([b]test 1 [b]test 2[/b] test 3[/b]) and the second one checks identical siblings ([b]test[/b] [b]test 2[/b])... in a recursive way. In other words, this patch helps to have a cleaner code.<br /><br />
+This patch can be intensive for your server. With the default characters limit, it shouldn't be a problem. If you have set a high number or if you disable the limit and you have a very long message with many Bb Codes, then it would depend on your server configuration. It has been successfully tested with this kind of message and a server with a 128MB memory.<br /><br />
 This patch is enable by default.]]></phrase>
     <phrase title="option_quattro_disable_mobile_inline_edit" version_id="37" version_string="1.7.0.2"><![CDATA[Disable inline edits on mobile devices?]]></phrase>
     <phrase title="option_quattro_disable_mobile_inline_edit_explain" version_id="37" version_string="1.7.0.2"><![CDATA[When you edit a message, this option will disable the overlay and will load instead a new page. This option will only work with TinyMCE Quattro (and TinyMCE 3.x on XenForo 1.1.x).]]></phrase>
