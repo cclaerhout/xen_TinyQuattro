@@ -1,5 +1,5 @@
 <?php
-/* Mini Parser BbCodes to Html - v1.33 by Sedo - CC by 3.0*/
+/* Mini Parser BbCodes to Html - v1.34 by Sedo - CC by 3.0*/
 class Sedo_TinyQuattro_Helper_MiniParser
 {
 	/**
