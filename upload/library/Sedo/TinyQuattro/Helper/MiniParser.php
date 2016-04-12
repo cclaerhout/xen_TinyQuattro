@@ -1067,16 +1067,13 @@ class Sedo_TinyQuattro_Helper_MiniParser
 	protected $_tagsMapByTagsIdDone = false;
 
 	private $stopSiblingsPatch = false;
-	
+
 	public function recalibrateTreeByLevel(array &$tree, $preventRecursive = false)
 	{
 		$tree = array_values($tree);
 
-		for($n=0; ; ++$n)
+		foreach($tree as $n => &$data)
 		{
-			if(!isset($tree[$n])) break;
-			$data = &$tree[$n];
-
 			if(is_string($data)) continue;
 			
 			$tag = $data['tag'];
@@ -1214,12 +1211,11 @@ class Sedo_TinyQuattro_Helper_MiniParser
 					***/
 				}
 				
-				for($i=0; ; ++$i)
+				foreach($data['children'] as $c)
 				{
-					if(!isset($data['children'][$i])) break;
 					//Inject tag children to parent children
-					$tree[$prevIndex]['children'][] = $data['children'][$i];
-					$this->_tagsMapByTagsId[$prevTagId]['children'][] = $data['children'][$i];
+					$tree[$prevIndex]['children'][] = $c;
+					$this->_tagsMapByTagsId[$prevTagId]['children'][] = $c;
 				}
 
 				$this->_tagsMapByTagsId[$tagId]['deleted'] = true;
@@ -1570,11 +1566,8 @@ class Sedo_TinyQuattro_Helper_MiniIterator implements Iterator
 		
 		if($refTagId)
 		{
-			for($i=0; ; ++$i)
+			foreach($tree as $i => $arr)
 			{
-				if(!isset($tree[$i])) break;
-				$arr = $tree[$i];
-
 				if(!isset($arr['tagId']))
 				{
 					continue;
