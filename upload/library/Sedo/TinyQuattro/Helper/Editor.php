@@ -24,6 +24,13 @@ class Sedo_TinyQuattro_Helper_Editor
 		$tagsToCheck = array_fill_keys(explode(',', $xenOptions->tinyquattro_guilty_tags), array());
 		$tagsToCheck['plain'] = array('plainText' => true);
 		$miniParser= new Sedo_TinyQuattro_Helper_MiniParser($content, $tagsToCheck, array(), $parserOptions);
+		
+		if($xenOptions->tinyquattro_fixer_tags_limit)
+		{
+			//For reference : 1500-1800 is a high number of tags...
+			$miniParser->setFixerTagsLimit($xenOptions->tinyquattro_fixer_tags_limit);
+		}
+		
 		$content = $miniParser->fixer();
 		
 		return $content;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.6.2" version_id="93" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.6.2" version_id="94" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -766,7 +766,7 @@ step=5</edit_format_params>
       <default_value>1</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="tiny_quattro_paser" display_order="9910"/>
+      <relation group_id="tiny_quattro_paser" display_order="9810"/>
     </option>
     <option option_id="quattro_disable_mobile_inline_edit" edit_format="onoff" data_type="boolean" can_backup="1">
       <default_value>0</default_value>
@@ -1222,6 +1222,14 @@ step=1</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro" display_order="1530"/>
     </option>
+    <option option_id="tinyquattro_fixer_tags_limit" edit_format="spinbox" data_type="positive_integer" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params>min=0
+max=5000
+step=100</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="tiny_quattro_paser" display_order="9811"/>
+    </option>
     <option option_id="tinyquattro_guilty_tags" edit_format="textbox" data_type="string" can_backup="1">
       <default_value>left,center,right,b,i,u,s,font,color,size,bcolor,justify</default_value>
       <edit_format_params></edit_format_params>
@@ -1277,7 +1285,7 @@ If you need to use the browser original menu when you click on the right button 
     <phrase title="option_quattro_converter_bb_to_html_explain" version_id="4" version_string="1.0.4"><![CDATA[This option will activate some fixes when you <span style="text-decoration:underline">toggle</span> the BbCode editor to the RTE editor. This fix generates a virtual BbCode pollution to look like the Html tags format.<br />
 <br />
 This patch is disabled by default. Reason:  its code is quite "acrobatic". On the other side, I've been using this html converter patch for several months without any problems on several boards. If you see any problems after having activated it, just disable it.]]></phrase>
-    <phrase title="option_quattro_converter_html_to_bbcode" version_id="90" version_string="2.6.0"><![CDATA[Activate the HTML >  BbCode Converter Patch?]]></phrase>
+    <phrase title="option_quattro_converter_html_to_bbcode" version_id="93" version_string="2.6.2"><![CDATA[Improve the HTML >  BbCode Converter?]]></phrase>
     <phrase title="option_quattro_converter_html_to_bbcode_explain" version_id="92" version_string="2.6.1"><![CDATA[On old versions of XenForo (&lt; 1.2), this option will enable some fixes when you <span style="text-decoration:underline">toggle</span> the RTE editor to the BbCode editor. On recent versions of XenForo (&gt; 1.2), this option will be enabled <span style="text-decoration:underline">every time</span> the html content of the editor is converted to Bb Codes.<br /><br />
 To make it simple, there are two kinds of fixes. The first one detects if the a tag has the same parent ([b]test 1 [b]test 2[/b] test 3[/b]) and the second one checks identical siblings ([b]test[/b] [b]test 2[/b])... in a recursive way. In other words, this patch helps to have a cleaner code.<br /><br />
 This patch can be intensive for your server. With the default characters limit, it shouldn't be a problem. If you have set a high number or if you disable the limit and you have a very long message with many Bb Codes, then it would depend on your server configuration. It has been successfully tested with this kind of message and a server with a 128MB memory.<br /><br />
@@ -1450,6 +1458,10 @@ Information: only works with Firefox at the moment.]]></phrase>
     <phrase title="option_quattro_xsmilies_explain" version_id="0" version_string="1.0"><![CDATA[Select here the number of smilies you would like to display in the button menu. Set 0 if you want to display all of them.]]></phrase>
     <phrase title="option_quattro_xsmilies_slide" version_id="34" version_string="1.6.5.0"><![CDATA[[Modal slider] Number of smilies per slide?]]></phrase>
     <phrase title="option_quattro_xsmilies_slide_explain" version_id="34" version_string="1.6.5.0"><![CDATA[Select the number of smilies to display per slide. This option only works with the modal slider.]]></phrase>
+    <phrase title="option_tinyquattro_fixer_tags_limit" version_id="93" version_string="2.6.2"><![CDATA[HTML >  BbCode Converter tags limit]]></phrase>
+    <phrase title="option_tinyquattro_fixer_tags_limit_explain" version_id="93" version_string="2.6.2"><![CDATA[As stated above, the HTML >  BbCode Converter can be intensive for your server with huge posts full of Bb Codes. If you didn't increase the maximum characters number in a message, everything should be ok.  If you increased it, it might depend on the message and on your server configuration. 
+<br /><br />
+Instead of disabling this converter, you can enable it by setting the maximum tags to be processed (a Bb Code in a message might be processed several times to optimize the output). For reference, 1800 is a high number, 500 is a low number. If you don't want to set any limit, set 0 (default value).]]></phrase>
     <phrase title="option_tinyquattro_guilty_tags" version_id="4" version_string="1.0.4"><![CDATA[Converters Guily tags]]></phrase>
     <phrase title="option_tinyquattro_guilty_tags_explain" version_id="16" version_string="1.2.2"><![CDATA[<span style="color:red;font-weight:bolder">DO NOT CHANGE THIS UNLESS TO BE TOLD TO</span><br />
 Enter here the converters  guilty tags. Each tags must be without square brackets ([]) and must be separated with a coma. Default values: left,center,right,b,i,u,s,font,color,size,bcolor,justify]]></phrase>
@@ -5770,7 +5782,7 @@ i.mce-i-resize {
 {$faCssPrefix} .fa-inverse {
   color: #ffffff;
 }]]></template>
-    <template title="tiny_quattro_framework.css" version_id="88" version_string="2.5.8.1"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_framework.css" version_id="92" version_string="2.6.1"><![CDATA[<xen:comment>
 	XenForo Framework addons
 </xen:comment>
 
@@ -6624,7 +6636,7 @@ $0]]></replace_value>
       <search_value><![CDATA[>{$messageHtml}]]></search_value>
       <replace_value><![CDATA[{xen:if '{$mceConfig} AND {$loadQuattro}', ' data-quattro="{xen:escape {xen:helper json, $mceConfig}}"'}>{$messageHtml}]]></replace_value>
     </modification>
-  </template_modifications> 
+  </template_modifications>   
   <bb_code_media_sites/>
   <bb_codes/>
 </addon>

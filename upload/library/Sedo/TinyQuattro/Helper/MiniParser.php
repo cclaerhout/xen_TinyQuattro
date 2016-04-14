@@ -1,5 +1,5 @@
 <?php
-/* Mini Parser BbCodes to Html - v1.34 by Sedo - CC by 3.0*/
+/* Mini Parser BbCodes to Html - v1.35 by Sedo - CC by 3.0*/
 class Sedo_TinyQuattro_Helper_MiniParser
 {
 	/**
@@ -1065,24 +1065,44 @@ class Sedo_TinyQuattro_Helper_MiniParser
 	 */
 	protected $_tagsMapByTagsId = array();
 	protected $_tagsMapByTagsIdDone = false;
+	protected $_fixerTagsLimit = 0;
+	protected $_fixerTagsProcessed = 0;
 
 	private $stopSiblingsPatch = false;
 
+	public function setFixerTagsLimit($num = 0)
+	{
+		$this->_fixerTagsLimit = $num;
+	}
+	
 	public function recalibrateTreeByLevel(array &$tree, $preventRecursive = false)
 	{
 		$tree = array_values($tree);
-
-		foreach($tree as $n => &$data)
+		
+		for($n=0; ; $n++)
 		{
+			//if(!array_key_exists($n, $tree)) break; => the value should not be null, keep isset at the moment (faster)
+			if(!isset($tree[$n])) break;
+			$data = &$tree[$n];
+
 			if(is_string($data)) continue;
+
+			if($this->_fixerTagsLimit && $this->_fixerTagsProcessed > $this->_fixerTagsLimit && !$preventRecursive)
+			{
+				break;
+			}
+			
+			$this->_fixerTagsProcessed++;
+		
+			$data['children'] = array_values($data['children']);
 			
 			$tag = $data['tag'];
 			$tagId = $data['tagId'];
 			$parentTagId = $data['parentTagId'];
 			$option = $data['option'];
-			$children = (isset($data['children'])) ? $data['children'] : false;
+			$children = (isset($data['children'])) ? $data['children'] : array();
 			$depth = $data['depth'];
-									
+
 			$contextIt = new Sedo_TinyQuattro_Helper_MiniIterator($tree, $data);
 
 			/***FIX BEFORE***/
@@ -1121,8 +1141,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 				'parentTagId' => $parentTagId,
 				'depth' => $depth,
 				'children' => $children,
-				'mergeWithParent' => false,
-				//'contextIt' =>  $contextIt //iterator keeps the tag position :) // saving the iterator takes too much memory
+				'mergeWithParent' => false
 			);
 
 			/***FIX AFTER***/
@@ -1138,15 +1157,16 @@ class Sedo_TinyQuattro_Helper_MiniParser
 					$treeWip = array_slice($tree, 0, $n);
 					$treeEnd = array_slice($tree, $n+1, count($tree)-$n);
 
-					foreach($data['children'] as $c)
+					for($i=0; ; $i++)
 					{
-						$this->_depthParentIdRecalibration($c, $parentData);
-						$treeWip[] = $c;
+						if(!isset($children[$i])) break;
+						$this->_depthParentIdRecalibration($children[$i], $parentData);
+						$treeWip[] = $children[$i];
 					}
 
-					foreach($treeEnd as $e)
+					for($i=0, $iMax = count($treeEnd); $i < $iMax; $i++)
 					{
-						$treeWip[] = $e;		
+						$treeWip[] = $treeEnd[$i];
 					}
 
 					$tree = array_values($treeWip);
@@ -1178,6 +1198,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 					
 					if($this->_insertCatchUpTextInLastRecursiveTextNode($tree[$prevIndex]['children'], $tree[$prevIndex+1]))
 					{
+						//Zend_Debug::dump($tree[$prevIndex+1]);
 						unset($tree[$prevIndex+1]); //Be sure to unset the blank space (branch) if it has found a location to be inserted in the children
 						// DO NOT REORDER ARRAY INDEX YET !
 					}
@@ -1211,17 +1232,20 @@ class Sedo_TinyQuattro_Helper_MiniParser
 					***/
 				}
 				
-				foreach($data['children'] as $c)
+				for($i=0; ; ++$i)
 				{
+					if(!isset($children[$i])) break;
 					//Inject tag children to parent children
-					$tree[$prevIndex]['children'][] = $c;
-					$this->_tagsMapByTagsId[$prevTagId]['children'][] = $c;
+					$tree[$prevIndex]['children'][] = $children[$i];
+
+					$this->_tagsMapByTagsId[$prevTagId]['children'][] = $children[$i];
 				}
 
 				$this->_tagsMapByTagsId[$tagId]['deleted'] = true;
 
 				unset($tree[$n]);
 				$tree = array_values($tree);
+				$n--;// needed with for loop
 
 				//Siblings detected, let's process again the modified tree branch to detect recursive patterns
 				$this->recalibrateTreeByLevel($tree[$prevIndex]['children'], true); // disable recursion
@@ -1250,8 +1274,11 @@ class Sedo_TinyQuattro_Helper_MiniParser
 		$lastTagNodeIndex = null;
 		$fallback = null;
 
-		foreach($tree as $n => &$data)
+		for($n=0; ; $n++)
 		{
+			if(!isset($tree[$n])) break;
+			$data = &$tree[$n];
+			
 			if(is_string($data) && $data != '')
 			{
 				if(trim($data) != '')
@@ -1363,10 +1390,9 @@ class Sedo_TinyQuattro_Helper_MiniParser
 	{
 		$output = '';
 
-		foreach($tree AS $element)
+		for($i=0, $iMax = count($tree); $i < $iMax; $i++)
 		{
-			$rendererStates['currentTree'] = array_values($tree);
-			$output .= $this->renderTreeElement($element, $rendererStates);
+			$output .= $this->renderTreeElement($tree[$i], $rendererStates);
 		}
 
 		return $output;
@@ -1566,8 +1592,11 @@ class Sedo_TinyQuattro_Helper_MiniIterator implements Iterator
 		
 		if($refTagId)
 		{
-			foreach($tree as $i => $arr)
+			for($i=0; ; ++$i)
 			{
+				if(!isset($tree[$i])) break;
+				$arr = $tree[$i];
+
 				if(!isset($arr['tagId']))
 				{
 					continue;
