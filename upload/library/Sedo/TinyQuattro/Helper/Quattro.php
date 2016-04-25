@@ -15,6 +15,12 @@ class Sedo_TinyQuattro_Helper_Quattro
 		$visitor = XenForo_Visitor::getInstance();
 		$enable = true;
 
+		$requestPath = XenForo_Application::get('requestPaths');
+		if(!empty($requestPath['requestUri']) && preg_match('#/index\.php\?editor/to-html&rte=mce$#ui', $requestPath['requestUri']) && !$getConfig)
+		{
+			return true;
+		} 
+
 		if(!self::isOldXen())
 		{
 			//Only for XenForo 1.2: Check if addon is activated
@@ -33,13 +39,12 @@ class Sedo_TinyQuattro_Helper_Quattro
 			//TinyQuattro is disabled on mobiles
 			$enable = false;
 		}
-			
+
 		if(empty($visitor->permissions['sedo_quattro']['display']) || !$visitor->enable_rte)
 		{
 			//No permission to load TinyQuattro or RTE disabled
 			$enable = false;
 		}
-
 
 		if(XenForo_Application::isRegistered('mceConfig'))
 		{

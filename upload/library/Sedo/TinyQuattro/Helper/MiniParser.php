@@ -1,5 +1,5 @@
 <?php
-/* Mini Parser BbCodes to Html - v1.35 by Sedo - CC by 3.0*/
+/* Mini Parser BbCodes to Html - v1.36 by Sedo - CC by 3.0*/
 class Sedo_TinyQuattro_Helper_MiniParser
 {
 	/**
@@ -240,7 +240,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 		$poc = $this->_parserOpeningCharacterRegex;
 		$pcc = $this->_parserClosingCharacterRegex;
 
-		return preg_split('#'.$poc.'(/?)([^'.$pcc.']*)'.$pcc.'#u', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
+		return preg_split('#'.$poc.'(/?)([^'.$pcc.'|'.$poc.']*)'.$pcc.'#u', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
 	}
 	
 	protected $_stringTreePos = 0;
@@ -278,7 +278,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 					if ($closing)
 					{
 						$tagName = strtolower($value);
-						
+
 						//The fallback must use the value and not the tagName to output valid datas from mal formed closing tag (ie: [/quote)
 						$fallBack = $this->_parserOpeningCharacter.'/'.$value.$this->_parserClosingCharacter;
 
@@ -294,6 +294,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 
 						/*Unexpected Closing Tag Management*/
 						$expected = array_pop($this->_openedTagsStack);
+
 						$id = $expected['tagId'];
 						
 						if ($tagName != $expected['tagName'])
