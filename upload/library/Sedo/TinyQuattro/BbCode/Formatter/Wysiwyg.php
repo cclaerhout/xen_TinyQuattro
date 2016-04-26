@@ -189,6 +189,9 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 		//Fix MCE bug #7378
 		$parent = preg_replace('#<br />\s+<br />#', '<br /><br />', $parent);
 
+		//Fix Blockquote/paragraph order
+		$parent = str_replace(array('<blockquote><p>', '</p></blockquote>'), array('<p><blockquote>', '</blockquote></p>'), $parent);
+
 		return $parent;
 	}
 

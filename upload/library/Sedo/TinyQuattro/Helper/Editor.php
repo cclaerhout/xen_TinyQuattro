@@ -32,6 +32,11 @@ class Sedo_TinyQuattro_Helper_Editor
 		}
 		
 		$content = $miniParser->fixer();
+
+		/*XenForo specific adaptation*/
+			//Fix Blockquote/indent order - working with redactor
+			$content = preg_replace('#(\[SIZE=\d{1,2}\])(\[INDENT\])#i', '$2$1', $content);
+			$content = preg_replace('#(\[/INDENT\])(\[/SIZE\])#i', '$2$1', $content);
 		
 		return $content;
 	}
