@@ -240,7 +240,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 		$poc = $this->_parserOpeningCharacterRegex;
 		$pcc = $this->_parserClosingCharacterRegex;
 
-		return preg_split('#'.$poc.'(/?)([^'.$pcc.'|'.$poc.']*)'.$pcc.'#u', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
+		return preg_split('#'.$poc.'(/?)([^'.$pcc.$poc.']*)'.$pcc.'#u', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
 	}
 	
 	protected $_stringTreePos = 0;
