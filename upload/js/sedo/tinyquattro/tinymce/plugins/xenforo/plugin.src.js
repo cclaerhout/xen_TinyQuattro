@@ -2077,7 +2077,7 @@
 			var inlineEd = 'InlineMessageEditor';
 
 			/* 2013/08/28: fix for the autoresize plugin needed with the overlay and with some browsers (IE, Chrome) */
-			ed.on('postrender', function(e) { //other event possible: focus
+			ed.on('focus', function(e) { //other event possible: focus || move to focus event instead of postrender to avoid this bug:
 				$container = $(ed.getContainer());
 				if($container.parents('form').hasClass(inlineEd)){
 					tinyMCE.activeEditor.execCommand('mceAutoResize', false, e);
