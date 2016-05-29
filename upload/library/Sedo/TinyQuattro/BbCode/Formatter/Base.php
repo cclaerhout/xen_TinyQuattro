@@ -299,9 +299,16 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 		//Json Response check
 		if($this->_quattroJsonResponse === null)
 		{
-			$fc = XenForo_Application::get('fc');
-			$route = $fc->route();
-			$this->_quattroJsonResponse = ($route->getResponseType() == 'json');
+			if(!XenForo_Application::isRegistered('fc'))
+			{
+				$this->_quattroJsonResponse = true;
+			}
+			else
+			{
+				$fc = XenForo_Application::get('fc');
+				$route = $fc->route();
+				$this->_quattroJsonResponse = ($route->getResponseType() == 'json');
+			}
 		}
 
 		$jsonResponse = $this->_quattroJsonResponse;
