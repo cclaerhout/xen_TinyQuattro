@@ -269,7 +269,8 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 	/**
 	 * Mce Anchor tag
 	 */
-	protected $_quattroRequestPaths;
+	protected $_quattroNoAppRegistered  = null;
+	protected $_quattroRequestPaths = null;
 	protected $_quattroJsonResponse = null;
 	
 	public function renderTagSedoAnchor(array $tag, array $rendererStates)
@@ -296,44 +297,61 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 			$anchor = "#{$anchorPrefix}-".substr($anchor, 1); 
 		}
 
-		//Json Response check
-		if($this->_quattroJsonResponse === null)
+		if($this->_quattroNoAppRegistered === null)
 		{
-			if(!XenForo_Application::isRegistered('fc'))
-			{
-				$this->_quattroJsonResponse = true;
-			}
-			else
-			{
-				$fc = XenForo_Application::get('fc');
-				$route = $fc->route();
-				$this->_quattroJsonResponse = ($route->getResponseType() == 'json');
-			}
+			$this->_quattroNoAppRegistered = (
+				!XenForo_Application::isRegistered('fc')
+				&& !XenForo_Application::isRegistered('session')
+				&& !XenForo_Application::isRegistered('requestPaths')
+			);
 		}
 
-		$jsonResponse = $this->_quattroJsonResponse;
-		
-		//Request Paths Management
-		if(!$this->_quattroRequestPaths)
+		if($this->_quattroNoAppRegistered)
 		{
-			$this->_quattroRequestPaths = XenForo_Application::get('requestPaths');
+			$url = "{$anchor}";		
 		}
+		else
+		{
+			//Json Response check
+			if($this->_quattroJsonResponse === null)
+			{
+				if(!XenForo_Application::isRegistered('fc'))
+				{
+					$this->_quattroJsonResponse = (XenForo_Application::isRegistered('session'));
+				}
+				else
+				{
+					$fc = XenForo_Application::get('fc');
+					$route = $fc->route();
+					$this->_quattroJsonResponse = ($route->getResponseType() == 'json');
+				}
+			}
 	
-		$requestPaths = $this->_quattroRequestPaths;
-
-		if($jsonResponse)
-		{
-			//If the response type is json, the request paths will be the one from the json view, so try to get the data from the previous html response
-			$sessionCache = XenForo_Application::getSession()->get('sedoQuattro');
+			$jsonResponse = $this->_quattroJsonResponse;
 			
-			if(!empty($sessionCache['noJsonRequestPaths']))
+			//Request Paths Management
+			if(!$this->_quattroRequestPaths)
 			{
-				$requestPaths = $sessionCache['noJsonRequestPaths'];
+				$this->_quattroRequestPaths = XenForo_Application::get('requestPaths');
 			}
+		
+			$requestPaths = $this->_quattroRequestPaths;
+	
+			if($jsonResponse)
+			{
+				//If the response type is json, the request paths will be the one from the json view, so try to get the data from the previous html response
+				$sessionCache = XenForo_Application::getSession()->get('sedoQuattro');
+				
+				if(!empty($sessionCache['noJsonRequestPaths']))
+				{
+					$requestPaths = $sessionCache['noJsonRequestPaths'];
+				}
+			}
+
+			//Get url & text
+			$url = $requestPaths['fullUri'] . "{$anchor}";
 		}
 
-		//Get url & text
-		$url = $requestPaths['fullUri'] . "{$anchor}";
 		$text = $content;
 
 		/*Copy of XenForo url tag handler without the proxy feature*/
