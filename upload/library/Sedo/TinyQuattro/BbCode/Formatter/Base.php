@@ -269,8 +269,8 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 	/**
 	 * Mce Anchor tag
 	 */
+	protected $_quattroRequestPaths;
 	protected $_quattroNoAppRegistered  = null;
-	protected $_quattroRequestPaths = null;
 	protected $_quattroJsonResponse = null;
 	
 	public function renderTagSedoAnchor(array $tag, array $rendererStates)
