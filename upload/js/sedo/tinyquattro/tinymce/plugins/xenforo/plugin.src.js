@@ -1708,7 +1708,7 @@
 	
 			if(content && content != '&nbsp;'){
 				XenForo.ajax(
-					'index.php?editor/to-html&rte=mce',
+					'index.php?editor/to-html',
 					{ bbCode: this.$bbCodeTextArea.val() },
 					$.proxy(this, 'bbCodeToWysiwygSuccess')
 				);
@@ -2077,9 +2077,10 @@
 			var inlineEd = 'InlineMessageEditor';
 
 			/* 2013/08/28: fix for the autoresize plugin needed with the overlay and with some browsers (IE, Chrome) */
-			ed.on('focus', function(e) { //other event possible: focus || move to focus event instead of postrender to avoid this bug:
+			ed.on('focus', function(e) { //other event possible: focus|postrender => move to focus event instead of postrender to avoid this bug: #2885
 				$container = $(ed.getContainer());
 				if($container.parents('form').hasClass(inlineEd)){
+					console.log('bouh');
 					tinyMCE.activeEditor.execCommand('mceAutoResize', false, e);
 				}
 			});

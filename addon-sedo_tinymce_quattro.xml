@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.6.3" version_id="96" url="http://xenforo.com/community/threads/tinymce-quattro-demo.51289/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.7.0" version_id="98" url="https://xenforo.com/community/resources/tinymce-quattro-and-its-wysiwyg-bbcodes.1881/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -1230,12 +1230,6 @@ step=100</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="tiny_quattro_paser" display_order="9811"/>
     </option>
-    <option option_id="tinyquattro_guilty_tags" edit_format="textbox" data_type="string" can_backup="1">
-      <default_value>left,center,right,b,i,u,s,font,color,size,bcolor,justify</default_value>
-      <edit_format_params></edit_format_params>
-      <sub_options></sub_options>
-      <relation group_id="tiny_quattro_paser" display_order="9980"/>
-    </option>
   </optiongroups>
   <permissions>
     <permission_groups>
@@ -1462,9 +1456,6 @@ Information: only works with Firefox at the moment.]]></phrase>
     <phrase title="option_tinyquattro_fixer_tags_limit_explain" version_id="93" version_string="2.6.2"><![CDATA[As stated above, the HTML >  BbCode Converter can be intensive for your server with huge posts full of Bb Codes. If you didn't increase the maximum characters number in a message, everything should be ok.  If you increased it, it might depend on the message and on your server configuration. 
 <br /><br />
 Instead of disabling this converter, you can enable it by setting the maximum tags to be processed (a Bb Code in a message might be processed several times to optimize the output). For reference, 1800 is a high number, 500 is a low number. If you don't want to set any limit, set 0 (default value).]]></phrase>
-    <phrase title="option_tinyquattro_guilty_tags" version_id="4" version_string="1.0.4"><![CDATA[Converters Guily tags]]></phrase>
-    <phrase title="option_tinyquattro_guilty_tags_explain" version_id="16" version_string="1.2.2"><![CDATA[<span style="color:red;font-weight:bolder">DO NOT CHANGE THIS UNLESS TO BE TOLD TO</span><br />
-Enter here the converters  guilty tags. Each tags must be without square brackets ([]) and must be separated with a coma. Default values: left,center,right,b,i,u,s,font,color,size,bcolor,justify]]></phrase>
     <phrase title="permission_group_sedo_quattro" version_id="1" version_string="1.0.1"><![CDATA[TinyMCE Quattro]]></phrase>
     <phrase title="permission_interface_sedo_quattro" version_id="1" version_string="1.0.1"><![CDATA[TinyMCE Quattro]]></phrase>
     <phrase title="permission_sedo_quattro_display" version_id="1" version_string="1.0.1"><![CDATA[Use the editor]]></phrase>
@@ -2870,7 +2861,7 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 			cursor: pointer;
 			line-height: 1.6;
 		}]]></template>
-    <template title="tiny_quattro_buttons.css" version_id="90" version_string="2.6.0"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_buttons.css" version_id="98" version_string="2.7.0"><![CDATA[<xen:comment>
 	TINYMCE BUTTONS FOR ALL BROWSERS EXCEPT IE7
 </xen:comment>
 
@@ -3396,8 +3387,11 @@ Enter here the converters  guilty tags. Each tags must be without square bracket
 .mce-i-books:before {
 	content:"\e911"
 }
+.mce-i-checkmark:before {
+	content:"\e033"
+}
 .mce-i-checkbox:before,.mce-i-selected:before {
-	content: "\e033";
+	content: "\e033"
 }
 
 .mce-i-selected {
@@ -3409,7 +3403,7 @@ i.mce-i-backcolor {
 	background: {xen:property tinyquattro_icon_bckg_color};
 }
 ]]></template>
-    <template title="tiny_quattro_buttons_ie7.css" version_id="89" version_string="2.5.9"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_buttons_ie7.css" version_id="98" version_string="2.7.0"><![CDATA[<xen:comment>
 	TINYMCE BUTTONS FOR IE7
 </xen:comment>
 
@@ -3829,6 +3823,9 @@ i.mce-i-backcolor {
 .mce-i-books {
 	-ie7-icon:"\e911"
 }
+.mce-i-checkmark {
+	-ie7-icon:"\e033"
+}
 .mce-i-checkbox,.mce-i-selected {
 	-ie7-icon:"\e033"
 }
@@ -3838,7 +3835,7 @@ i.mce-i-backcolor {
 .mce-i-backcolor {
 	background: {xen:property tinyquattro_icon_bckg_color}
 }]]></template>
-    <template title="tiny_quattro_common_css.css" version_id="92" version_string="2.6.1"><![CDATA[<xen:set var="$_mcePrimaryDark">{xen:property quattroDark}</xen:set>
+    <template title="tiny_quattro_common_css.css" version_id="98" version_string="2.7.0"><![CDATA[<xen:set var="$_mcePrimaryDark">{xen:property quattroDark}</xen:set>
 <xen:set var="$_mcePrimaryLightish">{xen:property quattroLightish}</xen:set>
 <xen:set var="$_mcePrimaryLight">{xen:property quattroLight}</xen:set>
 <xen:set var="$_mcePrimaryLighter">{xen:property quattroLighter}</xen:set>
@@ -4153,6 +4150,12 @@ div.mce-tinymce-inline {
 	position:absolute;
 	background:#000
 }
+.mce-croprect-handle:focus {
+	border-color:{$_mceSecondaryLight}
+}
+.mce-croprect-handle-move:focus {
+	outline:1px solid {$_mceSecondaryLight}
+}
 .mce-imagepanel {
 	overflow:auto;
 	background:#000
@@ -4168,6 +4171,100 @@ div.mce-tinymce-inline {
 	line-height:20px;
 	font-size:20px;
 	padding:5px
+}
+
+.mce-arrow-up {
+	margin-top:12px
+}
+.mce-arrow-down {
+	margin-top:-12px
+}
+.mce-arrow:before,.mce-arrow:after {
+	position:absolute;
+	left:50%;
+	display:block;
+	width:0;
+	height:0;
+	border-style:solid;
+	border-color:transparent;
+	content:""
+}
+.mce-arrow.mce-arrow-up:before {
+	top:-9px;
+	border-bottom-color:rgba(0,0,0,0.2);
+	border-width:0 9px 9px;
+	margin-left:-9px
+}
+.mce-arrow.mce-arrow-down:before {
+	bottom:-9px;
+	border-top-color:rgba(0,0,0,0.2);
+	border-width:9px 9px 0;
+	margin-left:-9px
+}
+.mce-arrow.mce-arrow-up:after {
+	top:-8px;
+	border-bottom-color:{$mcePanelGradientFallback};
+	border-width:0 8px 8px;
+	margin-left:-8px
+}
+.mce-arrow.mce-arrow-down:after {
+	bottom:-8px;
+	border-top-color:{$mcePanelGradientFallback};
+	border-width:8px 8px 0;
+	margin-left:-8px
+}
+.mce-arrow.mce-arrow-left:before,.mce-arrow.mce-arrow-left:after {
+	margin:0
+}
+.mce-arrow.mce-arrow-left:before {
+	left:8px
+}
+.mce-arrow.mce-arrow-left:after {
+	left:9px
+}
+.mce-arrow.mce-arrow-right:before,.mce-arrow.mce-arrow-right:after {
+	left:auto;
+	margin:0
+}
+.mce-arrow.mce-arrow-right:before {
+	right:8px
+}
+.mce-arrow.mce-arrow-right:after {
+	right:9px
+}
+.mce-arrow.mce-arrow-center.mce-arrow.mce-arrow-left:before {
+	left:-9px;
+	top:50%;
+	border-right-color:rgba(0,0,0,0.2);
+	border-width:9px 9px 9px 0;
+	margin-top:-9px
+}
+.mce-arrow.mce-arrow-center.mce-arrow.mce-arrow-left:after {
+	left:-8px;
+	top:50%;
+	border-right-color:{$mcePanelGradientFallback};
+	border-width:8px 8px 8px 0;
+	margin-top:-8px
+}
+.mce-arrow.mce-arrow-center.mce-arrow.mce-arrow-left {
+	margin-left:12px
+}
+.mce-arrow.mce-arrow-center.mce-arrow.mce-arrow-right:before {
+	right:-9px;
+	top:50%;
+	border-left-color:rgba(0,0,0,0.2);
+	border-width:9px 0 9px 9px;
+	margin-top:-9px
+}
+.mce-arrow.mce-arrow-center.mce-arrow.mce-arrow-right:after {
+	right:-8px;
+	top:50%;
+	border-left-color:{$mcePanelGradientFallback};
+	border-width:8px 0 8px 8px;
+	margin-top:-8px
+}
+.mce-arrow.mce-arrow-center.mce-arrow.mce-arrow-right {
+	margin-left:-14px
 }
 
 .mce-container,.mce-container-body {
@@ -4534,13 +4631,11 @@ div.mce-fullscreen {
 	border-width:1px;
 	border-style:solid;
 	border-color:#ccc;
-	transform:scale(.1);
 	transition:transform 100ms ease-in,opacity 150ms ease-in;
 	opacity:0
 }
 .mce-notification.mce-in {
 	opacity:1;
-	transform:scale(1)
 }
 .mce-notification-success {
 	background-color:#dff0d8;
@@ -4705,9 +4800,11 @@ body .mce-abs-layout-item,.mce-abs-end {
 		text-shadow:1px 1px none
 	}
 </xen:if>
-	
+
+.mce-primary.mce-btn-has-text {
+	min-width:50px
+}	
 .mce-primary {
-	min-width:50px;
 	color:{$_mceMiscColor};
 	border:1px solid transparent;
 	border-color:transparent;
@@ -5485,6 +5582,9 @@ i.mce-i-resize {
 	left:0;
 	margin-left:-1px;
 	margin-top:-2px
+}
+.mce-slider-handle:focus {
+	background:#bbb
 }
 .mce-spacer {
 	visibility:hidden

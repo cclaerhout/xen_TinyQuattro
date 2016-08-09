@@ -1,6 +1,8 @@
 <?php
 class Sedo_TinyQuattro_Helper_Editor
 {
+	public static $guiltyTags = array('left','center','right','b','i','u','s','font','color','size','bcolor','justify','indent');
+
 	public static function tagsFixer($content)
 	{
 		$xenOptions = XenForo_Application::get('options');
@@ -21,8 +23,9 @@ class Sedo_TinyQuattro_Helper_Editor
 			'trimTextNodes' => false
 		);
 
-		$tagsToCheck = array_fill_keys(explode(',', $xenOptions->tinyquattro_guilty_tags), array());
+		$tagsToCheck = array_fill_keys(self::$guiltyTags, array());
 		$tagsToCheck['plain'] = array('plainText' => true);
+
 		$miniParser= new Sedo_TinyQuattro_Helper_MiniParser($content, $tagsToCheck, array(), $parserOptions);
 		
 		if($xenOptions->tinyquattro_fixer_tags_limit)
@@ -33,11 +36,6 @@ class Sedo_TinyQuattro_Helper_Editor
 		
 		$content = $miniParser->fixer();
 
-		/*XenForo specific adaptation*/
-			//Fix Blockquote/indent order - working with redactor
-			$content = preg_replace('#(\[SIZE=\d{1,2}\])(\[INDENT\])#i', '$2$1', $content);
-			$content = preg_replace('#(\[/INDENT\])(\[/SIZE\])#i', '$2$1', $content);
-		
 		return $content;
 	}
 }

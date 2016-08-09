@@ -16,7 +16,7 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 	 * Table default skin
 	 */
 	protected $_mceTableDefaultSkin = 'skin1';
-	
+
 	/**
 	 * Xen Options for MCE Table
 	 */
@@ -173,6 +173,9 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 	{
 		$parent = parent::filterFinalOutput($output);
 
+		/*WIP*/
+		//$parent = Sedo_TinyQuattro_Helper_WysiwygHtml::create($parent);
+
 		if(!XenForo_Application::get('options')->get('quattro_parser_bb_to_wysiwyg'))
 		{
 			return $parent;
@@ -189,14 +192,11 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 		//Fix MCE bug #7378
 		$parent = preg_replace('#<br />\s+<br />#', '<br /><br />', $parent);
 
-		//Fix Blockquote/paragraph order
-		$parent = str_replace(array('<blockquote><p>', '</p></blockquote>'), array('<p><blockquote>', '</blockquote></p>'), $parent);
-
 		return $parent;
 	}
 
 	/**
-	 * Extend XenForo Tag align to add jystify option
+	 * Extend XenForo Tag align to add justify option
 	 */
 	public function renderTagAlign(array $tag, array $rendererStates)
 	{
@@ -211,6 +211,68 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 		return $parentOuput;
 	}
 
+	/**
+	 * Extend XenForo Tag indent for tables to match with MCE scheme
+	 */
+	public function renderTagIndent(array $tag, array $rendererStates)
+	{
+		if(!Sedo_TinyQuattro_Helper_Quattro::isEnabled())
+		{
+			return parent::renderTagIndent($tag, $rendererStates);
+		}
+
+		$tagName = $tag['tag'];
+		$tagChildren = $tag['children'];
+		$wasInIndent = false;
+
+		if (isset($tag['option']))
+		{
+			$amount = intval($tag['option']);
+			if ($amount > 10)
+			{
+				$amount = 10;
+			}
+		}
+		else
+		{
+			$amount = 1;
+		}
+
+		$language = XenForo_Visitor::getInstance()->getLanguage();
+		$paddingSide = ($language['text_direction'] == 'RTL' ? 'padding-right' : 'padding-left');
+		$cssStyle = $paddingSide . ': ' . ($amount * 30) . 'px';
+
+		$prepend = "<p style='$cssStyle'>";
+		$append = '</p>';
+
+		$preText = $this->renderSubTree($tag['children'], $rendererStates);
+		
+		$explodePattern = "<break />";//recentXenForo - TO DO : for old 
+		$explodedText = explode($explodePattern, $preText );
+		$wipText = '';
+
+		for($i=0, $iMax = count($explodedText); $i < $iMax; $i++)
+		{
+			$childText = $explodedText[$i];
+
+			if (trim($childText) === '')
+			{
+				$childText = '<br />'; // to check
+			}
+
+			$wipText .= $prepend . $childText . $append;
+		}
+
+		$output = $wipText;
+		
+		if (!$wasInIndent)
+		{
+			$output .= "<break-start />\n"; // to check
+		}
+
+		return $output;
+	}
+	
 	/**
 	 * MCE Quote
 	 */	
@@ -464,7 +526,7 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 
 		$formattedCss = (empty($css)) ? '' : "style='{$css}'";
 		$wysiwygOuput = "<table class='quattro_table {$extraClass}' {$attributes} {$formattedCss} data-skin='{$skin}'>{$content}</table>";
-		
+
 		return $wysiwygOuput;
 	}
 

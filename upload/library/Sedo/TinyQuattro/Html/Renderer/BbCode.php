@@ -18,6 +18,61 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 	protected $_mceFormatTagName = 'format';
 
 	/**
+	 * Original handlers backup
+	 */
+	protected $_mceBackupHandlers = array();
+	
+	public function mceGetOrginalHandlers()
+	{
+		return $this->_mceBackupHandlers;
+	}
+
+	public function mceGetOrginalHandler($key)
+	{
+		if(isset($this->_mceBackupHandlers[$key]))
+		{
+			return $this->_mceBackupHandlers[$key];
+		}
+		
+		return false;
+	}
+
+	public function mceExecuteOriginalHandler($key, $outputText, XenForo_Html_Tag $tag)
+	{
+		$handler = $this->mceGetOrginalHandler($key);
+	
+		if(!$handler)
+		{
+			return $outputText;
+		}
+
+		//no need to redo all the former checks
+		$tagName = $tag->tagName();
+		$preCssOutput = $outputText;
+		
+		if ($tagName && empty($handler['skipCss']))
+		{
+			$outputText = $this->renderCss($tag, $outputText);
+		}
+
+		if (!empty($handler['filterCallback']))
+		{
+			$callback = $handler['filterCallback'];
+			if (is_array($callback) && $callback[0] == '$this')
+			{
+				$callback[0] = $this;
+			}
+			$outputText = call_user_func($callback, $outputText, $tag, $preCssOutput);
+		}
+		else if (isset($handler['wrap']))
+		{
+			$outputText = sprintf($handler['wrap'], $outputText);
+		}
+		
+		return $outputText;
+	}
+
+	/**
 	 * Extend the class constructor to detect the background color css property
 	 * and to detect any table tag and its children tags
 	 */
@@ -26,6 +81,8 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 	{
 		$xenOptions = XenForo_Application::get('options');
 		$this->_quattroEnable = $quattroEnable = Sedo_TinyQuattro_Helper_Quattro::isEnabled();
+
+		$this->_mceBackupHandlers = $this->_handlers;
 		
 		if(is_array($this->_cssHandlers) && Sedo_TinyQuattro_Helper_Quattro::canUseQuattroBbCode('bcolor'))
 		{
@@ -59,12 +116,10 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 		}
 
 		if(	is_array($this->_handlers) 
-			&&
-			$quattroEnable
-			&&
-			$xenOptions->quattro_wysiwyg_quote
-		)
-		{
+			// && $quattroEnable && $xenOptions->quattro_wysiwyg_quote
+	
+		){
+			//Overrides the default blockquote handler
 			$this->_handlers['blockquote'] = array('filterCallback' => array('$this', 'handleTagMceBlockquote'), 'skipCss' => true);
 		}
 
@@ -233,13 +288,34 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 	 */
 	public function handleTagMceBlockquote($text, XenForo_Html_Tag $tag)
 	{
-		$tagName = $tag->tagName();
-
-		if(!$tag->attribute('data-mcequote'))
+		if($tag->attribute('data-mcequote'))
 		{
-			return $text;
+			return $this->_handleTagMceBlockquoteQuotation($text, $tag);
 		}
+	
+		$parent = $this->mceExecuteOriginalHandler('blockquote', $text, $tag);
+
+		return $parent;
 		
+		/* WIP: for reference */
+			/*
+			list($isInsideTable, $tableTag) = $this->currentTagIsUsedInsideTableTag($tag);
+			
+			if(!$isInsideTable)
+			{
+				return $parent;
+			}
+			
+			$parentTag = $tag->parent();
+			$parentTagName = $parentTag->tagName();
+	
+			return $parent;
+			*/
+	}
+
+	protected function _handleTagMceBlockquoteQuotation($text, XenForo_Html_Tag $tag)
+	{
+		$tagName = $tag->tagName();
 		$tagOption = array();
 		
 		if($tag->attribute('data-username'))
@@ -274,9 +350,8 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 		$openTag = ($tagOption) ? '[QUOTE="'.$tagOption.'"]' : '[QUOTE]';
 		$closingTag = '[/QUOTE]';
 		
-		return "{$openTag}{$text}{$closingTag}";
+		return "{$openTag}{$text}{$closingTag}";	
 	}
-
 
 	/**
 	 * Anchor (fake) tag handler
@@ -333,7 +408,7 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 		switch ($tagName)
 		{
 			case 'table': 
-				$text = "\n".$text."\n";
+				$text = "\n".$text."\n";		
 				$outputType = 'normalBB';
 				break;
 			case 'thead':
@@ -379,6 +454,16 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 
 				$posStart = "\n";
 				$outputType = 'specialBB';
+
+				//Manage indent
+				$backupCssHandlers = $this->_cssHandlers;
+				$this->_cssHandlers = array(
+					'padding-left'    => array('$this', 'handleCssPaddingLeft'),
+					'padding-right'   => array('$this', 'handleCssPaddingRight')
+				);
+		
+				$text = $this->renderCss($tag, $text);
+				$this->_cssHandlers = $backupCssHandlers;
 				break;
 		}
 
@@ -386,6 +471,17 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 		{
 			$xtableTag = $this->_mceTableTagName;
 			$text = "[{$xtableTag}{$tagOptions}]{$text}[/{$xtableTag}]";
+
+				//Manage indent [with tables, the indent is managed by margin instead of padding]
+				$backupCssHandlers = $this->_cssHandlers;
+				$this->_cssHandlers += array( //+= ? //check with font
+					'margin-left'    => array('$this', 'handleCssPaddingLeft'),
+					'margin-right'   => array('$this', 'handleCssPaddingRight')
+				);
+				//To check: var_dump($this->_cssHandlers);
+
+				$text = $this->renderCss($tag, $text);
+				$this->_cssHandlers = $backupCssHandlers;
 		}
 		elseif($outputType == 'specialBB')
 		{
@@ -778,7 +874,7 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 		
 		$hexaRgbColorPattern = '/^(rgb\(\s*\d+%?\s*,\s*\d+%?\s*,\s*\d+%?\s*\)|#[a-f0-9]{6}|#[a-f0-9]{3}|[a-z]+)$/i';
 		$twoDigitsMaxPattern = '/^\d{1,2}$/';
-		$sizePxPercenPattern = '/^\d{1,3}(px|%)?$/';
+		$sizePxPercenPattern = '/^\d{1,3}(?:\.\d{1,2})?(px|%)?$/';
 
 		switch ($attribute)
 		{
@@ -900,6 +996,29 @@ class Sedo_TinyQuattro_Html_Renderer_BbCode extends XFCP_Sedo_TinyQuattro_Html_R
 				}
 				break;
 		}
+	}
+
+	public function currentTagIsUsedInsideTableTag(XenForo_Html_Tag $currentTag)
+	{
+		$wipTag = $currentTag;
+		$isInsideTable = false;
+		$tableTag = null;
+		
+		do{
+			$wipParentTag = $wipTag->parent();
+			$wipParentTagName = $wipParentTag->tagName();
+			if($wipParentTagName == 'table')
+			{
+				$isInsideTable = true;
+				$tableTag = $wipParentTag;
+				break;
+			}
+			
+			$wipTag = $wipParentTag;
+		
+		}while($wipTag->parent());
+		
+		return array($isInsideTable, $tableTag);
 	}
 
 	/**

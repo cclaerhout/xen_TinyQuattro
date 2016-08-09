@@ -71,7 +71,7 @@ class Sedo_TinyQuattro_ViewPublic_Editor_ToHtml extends XFCP_Sedo_TinyQuattro_Vi
 
 	protected function _initTagPollution()
 	{
-      		$guiltyTags = array_filter(explode(',', XenForo_Application::get('options')->get('tinyquattro_guilty_tags')));
+      		$guiltyTags = Sedo_TinyQuattro_Helper_Editor::$guiltyTags;
       		
 		$this->protectedTags = "code|php|html|quote"; //To check: why these tags? I forgot / Need an option?
 		

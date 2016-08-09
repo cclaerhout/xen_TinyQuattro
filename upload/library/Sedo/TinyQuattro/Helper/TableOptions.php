@@ -351,13 +351,14 @@ class Sedo_TinyQuattro_Helper_TableOptions
 		}
 
 		$option = trim($option);
-		$regex = '#^(\d{1,3}|@)(%?)x(\d{1,3}|@)(%?)$#';
+		$regex = '#^(\d{1,3}(?:\.\d{1,2})?|@)(%?)x(\d{1,3}(?:\.\d{1,2})?|@)(%?)$#';
 
 		if(preg_match($regex, $option, $match))
 		{
 			$width = $match[1];
 			$widthUnit = (empty($match[2])) ? 'px' : '%';
 			$height = $match[3];
+
 			$heightUnit = (empty($match[4])) ? 'px' : '%';
 
 			if($tagType == 'isMaster')

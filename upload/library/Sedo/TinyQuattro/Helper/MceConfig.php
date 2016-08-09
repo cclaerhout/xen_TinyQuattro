@@ -323,7 +323,8 @@ class Sedo_TinyQuattro_Helper_MceConfig
 			'xen_attach' => "{$attachType},{$attachId},{$attachHash}",
 			'nonbreaking_force_tab' => true,
 			'extended_valid_elements' => 'anchor[id],xformat[name]',
-			//'valid_children' => '+blockquote[font|span],+font[blockquote|span],+span[blockquote]',
+			//'valid_children' => '+font[blockquote|span|table],+span[table],+b[p],+i[p]',
+			//'validate' => false,
 			'style_formats' => $style_formats,
 			'cache_suffix' => Sedo_TinyQuattro_Helper_Quattro::getMceJsVersion('raw')
 		);
