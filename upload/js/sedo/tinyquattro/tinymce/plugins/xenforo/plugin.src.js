@@ -1708,7 +1708,7 @@
 	
 			if(content && content != '&nbsp;'){
 				XenForo.ajax(
-					'index.php?editor/to-html',
+					'index.php?editor/to-html&rte=mce',
 					{ bbCode: this.$bbCodeTextArea.val() },
 					$.proxy(this, 'bbCodeToWysiwygSuccess')
 				);
