@@ -1,5 +1,5 @@
 <?php
-/* Mini Parser BbCodes to Html - v1.4.0 WIP by Sedo - CC by 3.0*/
+/* Mini Parser BbCodes to Html - v1.4.0 WIP - 160816#1 by Sedo - CC by 3.0*/
 class Sedo_TinyQuattro_Helper_MiniParser
 {
 	/**
@@ -837,10 +837,116 @@ class Sedo_TinyQuattro_Helper_MiniParser
 	}
 
 	/* Annexe functions to main ones*/
+	protected $_prevTextAfter = null;
+	protected $_prevTextPos = 0;
+	
+	protected function _getWrappingText($getTextBefore = false)
+	{
+		//The getTextBefore feature is only for reference.
+		
+		$pos = $this->_stringTreePos;
+		$method = 'regex';
+		
+		$delta = $pos - $this->_prevTextPos;
+		$wipTextAfter = ($this->_prevTextAfter) ? $this->_prevTextAfter : $this->_text;
+
+		$textBefore = '';
+		$textAfter = '';
+
+		if($method == 'regex')
+		{
+			if(!$getTextBefore)
+			{
+				//a too high number in {} will trigger an error, so let's split it
+				$regexMax = 5000;
+
+				if($delta <= $regexMax)
+				{
+					$regex = '.{'.$delta.'}';
+				}
+				else
+				{
+					$nRegex = floor($delta/$regexMax);
+					$diffRegex = $delta - ($regexMax*$nRegex);
+					$regex = str_repeat('.{'.$regexMax.'}', $nRegex) . '.{' . $diffRegex . '}';
+				}
+
+				$regex = '#^'.$regex.'#sui';
+				$textAfter = preg_replace($regex, '', $wipTextAfter);
+			}
+			else
+			{
+
+				//a too high number in {} will trigger an error, so let's split it
+				$regexMax = 5000;
+
+				if($pos <= $regexMax)
+				{
+					$regex = '.{'.$pos.'}';
+				}
+				else
+				{
+					$nRegex = floor($pos/$regexMax);
+					$diffRegex = $pos - ($regexMax*$nRegex);
+					$regex = str_repeat('.{'.$regexMax.'}', $nRegex) . '.{' . $diffRegex . '}';
+				}
+
+				$regex = '#^(?<before>'.$regex.')(?<after>.*)$#sui';
+				$textBefore = '';
+				$textAfter = '';
+
+				if(preg_match($regex, $this->_text, $match))
+				{
+					$textBefore = $match['before'];
+					$textAfter = $match['after'];
+				}
+			}
+		}
+		elseif($method == 'mb_substr')
+		{
+			/**
+			 * Problems:
+			 * 1) said as very slow (even if I'm not sure the regex method is faster)
+			 * 2) not in all php installation
+			 **/
+			
+			if($getTextBefore)
+			{
+				$textBefore = mb_substr($this->_text, 0, $pos);
+			}
+			  
+			$textAfter = mb_substr($wipTextAfter, $delta);
+		}
+		elseif($method == 'substr')
+		{
+			/**
+			 * Problem:
+			 * 1) not utf compatible
+			 **/
+
+			//$text = utf8_encode($this->_text); //Worse performance than the two above solutions
+			$text = $this->_text;
+
+			if($getTextBefore)
+			{
+				$textBefore = substr($text, 0, $pos);
+			}
+			
+			$textAfter = substr($wipTextAfter, $delta);
+		}
+
+		$this->_prevTextAfter = $textAfter;
+		$this->_prevTextPos = $pos;
+		
+		return array($textBefore, $textAfter);
+	}
+
+	/***
+	//Former function for reference
 	protected function _getWrappingText($getTextBefore = false)
 	{
 		$pos = $this->_stringTreePos;
-		$method = 'regex';
+		$method = 'substr';
 		
 		$textBefore = '';
 		$textAfter = '';
@@ -881,12 +987,6 @@ class Sedo_TinyQuattro_Helper_MiniParser
 		}
 		elseif($method == 'mb_substr')
 		{
-			/**
-			 * Problems:
-			 * 1) said as very slow (even if I'm not sure the regex method is faster
-			 * 2) not in all php installation
-			 **/
-			
 			if($getTextBefore)
 			{
 				$textBefore = mb_substr($this->_text, 0, $this->_stringTreePos);
@@ -896,21 +996,20 @@ class Sedo_TinyQuattro_Helper_MiniParser
 		}
 		elseif($method == 'substr')
 		{
-			/**
-			 * Problem:
-			 * 1) not utf compatible
-			 **/
+			//$text = utf8_encode($this->_text); //Worse performance than the two above solutions
+			$text = $this->_text;
 
 			if($getTextBefore)
 			{
-				$textBefore = mb_substr($this->_text, 0, $this->_stringTreePos);
+				$textBefore = substr($text, 0, $this->_stringTreePos);
 			}
 			
-			$textAfter = substr($this->_text, $this->_stringTreePos);
+			$textAfter = substr($text, $this->_stringTreePos);
 		}
 		
 		return array($textBefore, $textAfter);
 	}
+	***/
 
 	protected function _pushOpeningTagSuccess($tagName, &$tagInfo)
 	{
