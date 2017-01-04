@@ -1,7 +1,7 @@
 <?php
 class Sedo_TinyQuattro_Helper_Editor
 {
-	public static $guiltyTags = array('left','center','right','b','i','u','s','font','color','size','bcolor','justify','indent');
+	public static $guiltyTags = array('left','center','right','b','i','font','color','size','bcolor','justify','indent');
 
 	public static function tagsFixer($content)
 	{

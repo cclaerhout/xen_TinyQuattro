@@ -1050,7 +1050,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 		/*Plain Text Mode: disable*/
 		if(!empty($tagRules['plainText']) && $tagRules['plainText'] == $tagName)
 		{
-			$this->_plainText = false;
+			$this->_plainTextMode = false;
 		}
 
 		/*Plain Text Mode: disable*/
