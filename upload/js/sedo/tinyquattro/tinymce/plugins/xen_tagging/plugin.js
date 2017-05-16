@@ -72,12 +72,34 @@
 		      		});
 		
 		      		editor.on('keyup', function(e) {
-					var autoCompleteText  = src.getAfterAt();
+		      			var acResults = src.acResults,
+			      			prevent = false;
+		      			
+		      			if (acResults.isVisible()) {
+                            switch (e.keyCode){
+                                case 40: // down
+                                case 38: // up
+                                case 27: // esc
+                                case 13: // enter
+                                    prevent = true;
+                                    break;
+                            }
+                        }
+                        if (!prevent) {
+                            var autoCompleteText  = src.getAfterAt();
+
+                            if (autoCompleteText) {
+                                src.trigger(autoCompleteText);
+                            } else {
+                                acResults.hideResults();
+                            }
+                        }
 		
-		      			if (autoCompleteText)
-		      				src.trigger(autoCompleteText);
-		      			else
-		      				src.hide();
+		      			if (prevent) {
+		      				e.stopPropagation();
+		      				e.stopImmediatePropagation();
+		      				e.preventDefault();
+		      			}
 		      		});
 			});
 	      	},
@@ -137,7 +159,7 @@
 	      			return;
 	      		}
 	
-	      		this.hide();
+	      		//this.hide();
 	      		this.lastAcLookup = name;
 	      		if (name.length > 2 && name.substr(0, 1) != '[')
 	      		{
@@ -202,9 +224,9 @@
 			}
 	
 			var replacementNode = previousNode.splitText(atOffset);
-	
+
 			parentNode.insertBefore(bmNode, replacementNode);
-				
+
 			/*Get the iframe offset (inside the page) & the iframe body offset (inside the iframe), then create the futur offset for results*/
 			var iframeOffset = $iframe.offset(), 
 				bmOffset = $bm.offset(),
@@ -215,13 +237,14 @@
 				
 			/*Remove the bookmark*/
 			removeBookmark();
-	
+
 	      		this.acResults.showResults(
 	      			this.lastAcLookup,
 	      			ajaxData.results,
 	      			$iframe,
 	      			css
 	      		);
+
 	      	},
 	      	hide: function()
 	      	{
