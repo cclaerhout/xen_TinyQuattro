@@ -224,8 +224,7 @@
 			}
 	
 			var replacementNode = previousNode.splitText(atOffset);
-
-			parentNode.insertBefore(bmNode, replacementNode);
+			//parentNode.insertBefore(bmNode, replacementNode);
 
 			/*Get the iframe offset (inside the page) & the iframe body offset (inside the iframe), then create the futur offset for results*/
 			var iframeOffset = $iframe.offset(), 
