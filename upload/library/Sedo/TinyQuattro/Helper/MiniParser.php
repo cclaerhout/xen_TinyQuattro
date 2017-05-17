@@ -2080,7 +2080,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 /**
  * Iterator Class for tags navigation
  */
-if (!class_exists('Sedo_TinyQuattro_Helper_MiniIterator', false))
+if (!class_exists('Sedo_TinyQuattro_Helper_MiniIterator', false)) {
 class Sedo_TinyQuattro_Helper_MiniIterator implements Iterator
 {
 	private $tree = array();
@@ -2685,6 +2685,7 @@ class Sedo_TinyQuattro_Helper_MiniIterator implements Iterator
 
 		return $this->stringDetectedInTree;
 	}
+}
 }
 //Source: http://www.weirdog.com/blog/php/un-parser-html-des-plus-leger.html
 //Zend_Debug::dump($abc);
