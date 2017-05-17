@@ -2080,6 +2080,7 @@ class Sedo_TinyQuattro_Helper_MiniParser
 /**
  * Iterator Class for tags navigation
  */
+if (!class_exists('Sedo_TinyQuattro_Helper_MiniIterator', false))
 class Sedo_TinyQuattro_Helper_MiniIterator implements Iterator
 {
 	private $tree = array();
