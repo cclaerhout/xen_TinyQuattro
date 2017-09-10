@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.7.2" version_id="100" url="https://xenforo.com/community/resources/tinymce-quattro-and-its-wysiwyg-bbcodes.1881/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="sedo_tinymce_quattro" title="TinyMCE Quattro" version_string="2.7.3" version_id="101" url="https://xenforo.com/community/resources/tinymce-quattro-and-its-wysiwyg-bbcodes.1881/" install_callback_class="Sedo_TinyQuattro_Installer" install_callback_method="install" uninstall_callback_class="Sedo_TinyQuattro_Installer" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -2861,7 +2861,7 @@ Instead of disabling this converter, you can enable it by setting the maximum ta
 			cursor: pointer;
 			line-height: 1.6;
 		}]]></template>
-    <template title="tiny_quattro_buttons.css" version_id="98" version_string="2.7.0"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_buttons.css" version_id="100" version_string="2.7.2"><![CDATA[<xen:comment>
 	TINYMCE BUTTONS FOR ALL BROWSERS EXCEPT IE7
 </xen:comment>
 
@@ -3381,11 +3381,20 @@ Instead of disabling this converter, you can enable it by setting the maximum ta
 .mce-i-plus:before {
 	content:"\e93a"
 }
+.mce-i-insert:before {
+	content:"\e93a"
+}
 .mce-i-minus:before {
 	content:"\e939"
 }
 .mce-i-books:before {
 	content:"\e911"
+}
+.mce-i-reload:before {
+	content:"\e906"
+}
+.mce-i-toc:before {
+	content:"\e901"
 }
 .mce-i-checkmark:before {
 	content:"\e033"
@@ -3394,6 +3403,9 @@ Instead of disabling this converter, you can enable it by setting the maximum ta
 	content: "\e033"
 }
 
+.mce-i-insert {
+	font-size:14px
+}
 .mce-i-selected {
 	visibility: hidden;
 }
@@ -3403,7 +3415,7 @@ i.mce-i-backcolor {
 	background: {xen:property tinyquattro_icon_bckg_color};
 }
 ]]></template>
-    <template title="tiny_quattro_buttons_ie7.css" version_id="98" version_string="2.7.0"><![CDATA[<xen:comment>
+    <template title="tiny_quattro_buttons_ie7.css" version_id="100" version_string="2.7.2"><![CDATA[<xen:comment>
 	TINYMCE BUTTONS FOR IE7
 </xen:comment>
 
@@ -3817,11 +3829,20 @@ i.mce-i-backcolor {
 .mce-i-plus {
 	-ie7-icon:"\e93a"
 }
+.mce-i-insert {
+	-ie7-icon:"\e93a"
+}
 .mce-i-minus {
 	-ie7-icon:"\e939"
 }
 .mce-i-books {
 	-ie7-icon:"\e911"
+}
+.mce-i-reload {
+	-ie7-icon:"\e906"
+}
+.mce-i-toc {
+	-ie7-icon:"\e901"
 }
 .mce-i-checkmark {
 	-ie7-icon:"\e033"
@@ -3829,13 +3850,16 @@ i.mce-i-backcolor {
 .mce-i-checkbox,.mce-i-selected {
 	-ie7-icon:"\e033"
 }
+.mce-i-insert {
+	font-size:14px
+}
 .mce-i-selected {
 	visibility:hidden
 }
 .mce-i-backcolor {
 	background: {xen:property tinyquattro_icon_bckg_color}
 }]]></template>
-    <template title="tiny_quattro_common_css.css" version_id="98" version_string="2.7.0"><![CDATA[<xen:set var="$_mcePrimaryDark">{xen:property quattroDark}</xen:set>
+    <template title="tiny_quattro_common_css.css" version_id="100" version_string="2.7.2"><![CDATA[<xen:set var="$_mcePrimaryDark">{xen:property quattroDark}</xen:set>
 <xen:set var="$_mcePrimaryLightish">{xen:property quattroLightish}</xen:set>
 <xen:set var="$_mcePrimaryLight">{xen:property quattroLight}</xen:set>
 <xen:set var="$_mcePrimaryLighter">{xen:property quattroLighter}</xen:set>
@@ -4160,6 +4184,10 @@ div.mce-tinymce-inline {
 	overflow:auto;
 	background:#000
 }
+.mce-imagepanel-bg {
+	position:absolute;
+	background:url('data:image/gif;base64,R0lGODdhDAAMAIABAMzMzP///ywAAAAADAAMAAACFoQfqYeabNyDMkBQb81Uat85nxguUAEAOw==')
+}
 .mce-imagepanel img {
 	position:absolute
 }
@@ -4266,7 +4294,47 @@ div.mce-tinymce-inline {
 .mce-arrow.mce-arrow-center.mce-arrow.mce-arrow-right {
 	margin-left:-14px
 }
-
+.mce-edit-aria-container>.mce-container-body {
+	display:flex
+}
+.mce-edit-aria-container>.mce-container-body .mce-edit-area {
+	flex:1
+}
+.mce-edit-aria-container>.mce-container-body .mce-sidebar>.mce-container-body {
+	display:flex;
+	align-items:stretch;
+	height:100%
+}
+.mce-edit-aria-container>.mce-container-body .mce-sidebar-panel {
+	min-width:250px;
+	max-width:250px;
+	position:relative
+}
+.mce-edit-aria-container>.mce-container-body .mce-sidebar-panel>.mce-container-body {
+	position:absolute;
+	width:100%;
+	height:100%;
+	overflow:auto;
+	top:0;
+	left:0
+}
+.mce-sidebar-toolbar {
+	border:0 solid rgba(0,0,0,0.2);
+	border-left-width:1px
+}
+.mce-sidebar-toolbar .mce-btn.mce-active,.mce-sidebar-toolbar .mce-btn.mce-active:hover {
+	border:1px solid transparent;
+	border-color:transparent;
+	background-color:#2d8ac7
+}
+.mce-sidebar-toolbar .mce-btn.mce-active button,.mce-sidebar-toolbar .mce-btn.mce-active:hover button,.mce-sidebar-toolbar .mce-btn.mce-active button i,.mce-sidebar-toolbar .mce-btn.mce-active:hover button i {
+	color:#fff;
+	text-shadow:1px 1px none
+}
+.mce-sidebar-panel {
+	border:0 solid rgba(0,0,0,0.2);
+	border-left-width:1px
+}
 .mce-container,.mce-container-body {
 	display:block
 }
@@ -4525,6 +4593,9 @@ div.mce-fullscreen {
 }
 .mce-tooltip-nw,.mce-tooltip-sw {
 	margin-left:-14px
+}
+.mce-tooltip-ne,.mce-tooltip-se {
+	margin-left:14px
 }
 .mce-tooltip-n .mce-tooltip-arrow {
 	top:0;
@@ -4959,6 +5030,7 @@ i.mce-i-checkbox {
 	margin:0 0 0 3px
 }
 .mce-combobox {
+	position:relative;
 	display:inline-block;
 	*display:inline;
 	*zoom:1;
@@ -4975,7 +5047,8 @@ i.mce-i-checkbox {
 
 .mce-combobox .mce-btn {
 	border:1px solid {$mceBorderColorMix};
-	border-left:0
+	border-left:0;
+	margin:0
 }
 .mce-combobox button {
 	padding-right:8px;
@@ -4986,6 +5059,51 @@ i.mce-i-checkbox {
 	opacity:.4;
 	filter:alpha(opacity=40);
 	zoom:1
+}
+.mce-combobox .mce-status {
+	position:absolute;
+	right:2px;
+	top:50%;
+	line-height:16px;
+	margin-top:-8px;
+	font-size:12px;
+	width:15px;
+	height:15px;
+	text-align:center;
+	cursor:pointer
+}
+.mce-combobox.mce-has-status input {
+	padding-right:20px
+}
+.mce-combobox.mce-has-open .mce-status {
+	right:37px
+}
+.mce-combobox .mce-status.mce-i-warning {
+	color:#c09853
+}
+.mce-combobox .mce-status.mce-i-checkmark {
+	color:#468847
+}
+.mce-menu.mce-combobox-menu {
+	border-top:0;
+	margin-top:0;
+	max-height:200px
+}
+.mce-menu.mce-combobox-menu .mce-menu-item {
+	padding:4px 6px 4px 4px;
+	font-size:11px
+}
+.mce-menu.mce-combobox-menu .mce-menu-item-sep {
+	padding:0
+}
+.mce-menu.mce-combobox-menu .mce-text {
+	font-size:11px
+}
+.mce-menu.mce-combobox-menu .mce-menu-item-link,.mce-menu.mce-combobox-menu .mce-menu-item-link b {
+	font-size:11px
+}
+.mce-menu.mce-combobox-menu .mce-text b {
+	font-size:11px
 }
 .mce-colorbox i {
 	border:1px solid {$_mcePrimaryLighter};
@@ -5429,6 +5547,24 @@ i.mce-i-checkbox {
 	background-color:{$mceMenuItHvrGradientFallback};
 }
 
+.mce-menu-item-link {
+	color:#093;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap
+}
+.mce-menu-item-link b {
+	color:#093
+}
+.mce-menu-item-ellipsis {
+	display:block;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+	overflow:hidden
+}
+.mce-menu-item:hover *,.mce-menu-item.mce-selected *,.mce-menu-item:focus * {
+	color:white
+}
 div.mce-menu .mce-menu-item-sep,.mce-menu-item-sep:hover {
 	border:0;
 	padding:0;
@@ -5440,7 +5576,30 @@ div.mce-menu .mce-menu-item-sep,.mce-menu-item-sep:hover {
 	cursor:default;
 	filter:none
 }
-
+div.mce-menu .mce-menu-item b {
+	font-weight:bold
+}
+.mce-menu-item-indent-1 {
+	padding-left:20px
+}
+.mce-menu-item-indent-2 {
+	padding-left:35px
+}
+.mce-menu-item-indent-2 {
+	padding-left:35px
+}
+.mce-menu-item-indent-3 {
+	padding-left:40px
+}
+.mce-menu-item-indent-4 {
+	padding-left:45px
+}
+.mce-menu-item-indent-5 {
+	padding-left:50px
+}
+.mce-menu-item-indent-6 {
+	padding-left:55px
+}
 .mce-menu.mce-rtl {
 	direction:rtl
 }
@@ -6711,7 +6870,9 @@ $0]]></replace>
 </xen:if>]]></replace>
     </modification>
   </public_template_modifications>
-  <template_modifications>
+  <bb_code_media_sites/>
+  <bb_codes/>
+    <template_modifications>
     <modification title="RTE Quattro Mobile Option" template_title="account_preferences" execute_order="10" modification_type="preg_replace" callback_class="" callback_method="" description="User field" version_id="4" version_string="1.0.4" active="1">
       <search_value><![CDATA[#([ \t]*)<li>.+?ctrl_enable_rte(?s).+?</li>#i]]></search_value>
       <replace_value><![CDATA[$1<xen:if is="{$xenOptions.quattro_parser_mobile_user_option}">
@@ -6736,7 +6897,5 @@ $0]]></replace_value>
       <search_value><![CDATA[>{$messageHtml}]]></search_value>
       <replace_value><![CDATA[{xen:if '{$mceConfig} AND {$loadQuattro}', ' data-quattro="{xen:escape {xen:helper json, $mceConfig}}"'}>{$messageHtml}]]></replace_value>
     </modification>
-  </template_modifications>   
-  <bb_code_media_sites/>
-  <bb_codes/>
+  </template_modifications> 
 </addon>

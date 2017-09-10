@@ -115,7 +115,7 @@ class Sedo_TinyQuattro_Installer
 
 		if(empty($addon) || $addon['version_id'] < 64)
 		{
-			Sedo_TinyQuattro_Helper_Smilie::cacheMceSmiliesByCategory();
+			//Sedo_TinyQuattro_Helper_Smilie::cacheMceSmiliesByCategory();
 		}
 
 		if(empty($addon) || $addon['version_id'] < 70)
@@ -139,7 +139,9 @@ class Sedo_TinyQuattro_Installer
 				'styleselect' => array(85, 85, 1, 1, 'text')
 			);
 			self::insertButtons($newButtons, 'default');
-		}									
+		}
+		
+		Sedo_TinyQuattro_Helper_Smilie::cacheMceSmiliesByCategory();									
 	}
 
 	public static function insertButtons(array $buttons, $category, $reset = false)
