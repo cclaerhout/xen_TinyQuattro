@@ -310,7 +310,8 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 				}
 			}
 
-			list($firstName, $firstValue) = each($attributes);
+			$firstValue = reset($attributes);
+			$firstName = key($firstValue);
 			if ($firstName && $firstName != 'member')
 			{
 				$source = array('type' => $firstName, 'id' => intval($firstValue));
