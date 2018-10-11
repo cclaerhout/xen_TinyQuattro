@@ -679,7 +679,7 @@ class Sedo_TinyQuattro_BbCode_Formatter_Base extends XFCP_Sedo_TinyQuattro_BbCod
 		**/
 		$content = $parentClass->renderSubTree($tag['children'], $rendererStates);
 
-		if(empty($content) && $content !== 0)
+		if(empty($content) && $content !== 0 && $content !== '0')
 		{
 			//Should not be needed with recent browsers but not sure with old ie
 			$content="&nbsp;";			

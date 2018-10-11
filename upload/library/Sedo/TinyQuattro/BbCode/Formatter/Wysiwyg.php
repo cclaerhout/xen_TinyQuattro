@@ -553,7 +553,7 @@ class Sedo_TinyQuattro_BbCode_Formatter_Wysiwyg extends XFCP_Sedo_TinyQuattro_Bb
 		**/
 		$content = $parentClass->renderSubTree($tag['children'], $rendererStates);
 
-		if(empty($content) && $content !== 0)
+		if(empty($content) && $content !== 0 && $content !== '0')
 		{
 			//Will avoid tags to be "eaten" (MCE does it automatically, not Redactor)
 			$content="&nbsp;";			
